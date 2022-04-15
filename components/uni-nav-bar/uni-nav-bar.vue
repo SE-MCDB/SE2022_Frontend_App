@@ -1,5 +1,7 @@
 <template>
+
 	<view class="uni-navbar">
+		
 		<view class="uni-navbar__content" :class="{'uni-navbar--fixed': !!fixed,'uni-navbar--shadow':!!border,'uni-navbar--border':!!border}" :style="{'background-color':backgroundColor}">
 			<!-- 状态栏 -->
 			<uni-status-bar v-if="statusBar"></uni-status-bar>
@@ -35,6 +37,7 @@
 			<view class="uni-navbar__placeholder-view"></view>
 		</view>
 	</view>
+
 </template>
 
 <script>

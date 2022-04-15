@@ -31,7 +31,27 @@
 					"bounce": "none" //关闭反弹效果
 				}
 			}
-		},{
+		},
+		{
+		    "path" : "pages/platform/platform",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "需求平台",
+		        "enablePullDownRefresh": true,
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"titleSize":"32upx",
+						"buttons": [{
+							"type": "menu",
+							"fontSize":"44upx"
+						}]
+					}
+				}
+		    }
+		},
+		{
 			"path": "pages/paper/paper",
 			"style": {
 				"enablePullDownRefresh": true, //开启下拉刷新功能
@@ -406,6 +426,12 @@
 				"text": "消息",
 				"iconPath": "/static/tabbar/hxiaoxi.png",
 				"selectedIconPath": "/static/tabbar/xiaoxi.png"
+			},
+			{
+				"pagePath": "pages/platform/platform",
+				"text": "平台",
+				"iconPath": "/static/tabbar/platform.png ",
+				"selectedIconPath": "/static/tabbar/platformed.png"
 			},
 			{
 				"pagePath": "pages/home/home",
