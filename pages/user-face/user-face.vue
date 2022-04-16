@@ -287,7 +287,7 @@
 							
 							var tempFacePath = res.tempFilePath;
 							let ans=uni.uploadFile({
-									url:'http://172.16.0.185:8000/api/user/icon',
+									url:'http://localhost:8000/api/user/icon',
 									/*header: {  
 										
 									        'Content-Type': "multipart/form-data",

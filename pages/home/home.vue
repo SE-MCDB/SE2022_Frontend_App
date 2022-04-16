@@ -9,7 +9,7 @@
 		</template>
 		
 		<template v-else>
-			<template v-if="userInfo.type=='0'">
+			<template v-if="userInfo.type!='0'">
 				<!-- 普通用户 -->
 				<view class="u-f-ajc" @tap="openLogin">您目前是普通用户，认证后可体验更多功能</view>
 				<view class="u-f-ajc" @tap="openLogin">专家认证 <view class="icon iconfont icon-jinru"></view></view>
