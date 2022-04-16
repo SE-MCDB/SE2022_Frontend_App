@@ -15,24 +15,7 @@
 				<view class="u-f-ajc" @tap="openLogin">专家认证 <view class="icon iconfont icon-jinru"></view></view>
 				<view class="u-f-ajc" @tap="openLogin">企业认证 <view class="icon iconfont icon-jinru"></view></view>
 			</template>
-			<template v-else-if="userInfo.type=='1'">
-				<!-- 专家认证中 -->
-				<view class="u-f-ajc">专家资格认证中</view>
-			</template>
-			<template v-else-if="userInfo.type=='2'">
-				<!-- 企业认证中 -->
-				<view class="u-f-ajc">企业资格认证中</view>
-			</template>
-			<template v-else-if="userInfo.type=='4'">
-				<!-- 专家用户 -->
-				<view class="u-f-ajc">您已成为专家用户</view>
-							
-			</template>
-			<template v-else-if="userInfo.type=='5'">
-			<!-- 企业用户 -->
-				<view class="u-f-ajc">您已成为企业用户</view>
-							
-			</template>
+			
 			<home-info :homeinfo="homeinfo"></home-info>
 			
 		</template>
@@ -91,6 +74,7 @@
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
+				this.homeinfo.type = this.userInfo.type
 				if (!this.islogin) {
 					this.initDat()
 				}
@@ -111,6 +95,7 @@
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
+				this.homeinfo.type = this.userInfo.type
 				if (!this.islogin) {
 					this.initDat()
 				}
