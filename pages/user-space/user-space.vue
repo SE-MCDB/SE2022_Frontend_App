@@ -122,6 +122,7 @@
 					id:0,
 					job:"",
 					path:"",
+					type:-1,
 				},
 				topicList:[],
 				titleList:[],
@@ -176,6 +177,7 @@
 					this.info.institution=data.institution
 					this.info.isguanzhu = data.is_following;
 					this.info.id = data.id;
+					this.info.type = data.type;
 				}
 			},
 			userActive(){
@@ -195,6 +197,7 @@
 					this.info.institution=data.institution
 					this.info.isguanzhu = data.is_following;
 					this.info.id = data.id;
+					this.info.type = data.type;
 				}
 			},
 			gotoTopic(index){

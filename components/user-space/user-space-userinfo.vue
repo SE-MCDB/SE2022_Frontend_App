@@ -8,6 +8,15 @@
 		</view>
 		<view class="user-space-userinfo-item">
 			<view>个人信息</view>
+			<template v-if="userinfo.type=='0'">
+				<view>身份：普通用户</view>
+			</template>
+			<template v-else-if="userinfo.type=='4'">
+				<view>身份：专家</view>
+			</template>
+			<template v-else-if="userinfo.type=='5'">
+				<view>身份：企业</view>
+			</template>
 			<view>机构：{{userinfo.institution}}</view>
 <!-- 			<view>故乡：{{userinfo.path}}</view> -->
 		</view>
