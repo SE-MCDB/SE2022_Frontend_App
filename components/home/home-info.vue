@@ -1,7 +1,8 @@
 <template>
-	<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
+	<view class="home-info u-f-ac animated fadeIn fast">
+		
 		<image :src="homeinfo.userpic" mode="widthFix" lazy-load></image>
-		<view class="u-f1">
+		<view class="u-f1" @tap="ToUserSpace">
 			<view>{{homeinfo.username}}</view>
 			<template v-if="homeinfo.type=='4'">
 				<view>专家用户</view>
@@ -21,11 +22,27 @@
 			<template v-else>
 				<view>普通用户</view>
 			</template>
-			<view>邮箱: {{homeinfo.email}} </view>
+			<view>{{homeinfo.email}} </view>
 		</view>
+		
 		<view class="icon iconfont icon-jinru"></view>
+		<template v-if="homeinfo.type=='5'">
+		<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
+			企业详情编辑
+			<view class="icon iconfont icon-jinru"></view>
+		</view>
+		</template>
+		<template v-else-if="homeinfo.type=='4'">
+		<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
+			企业详情编辑
+			<view class="icon iconfont icon-jinru"></view>
+		</view>
+		</template>
 	</view>
+	
 </template>
+
+	
 
 <script>
 	export default {
