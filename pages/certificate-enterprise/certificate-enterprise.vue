@@ -158,7 +158,8 @@
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
-			this.userID = data.uid;
+			//this.userID = data.uid;
+			this.userID = this.userInfo.id;
 			console.log('onLoad in certification '+ this.userID)
 		},
 		methods: {
