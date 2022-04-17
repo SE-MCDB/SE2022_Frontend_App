@@ -287,7 +287,7 @@
 							
 							var tempFacePath = res.tempFilePath;
 							let ans=uni.uploadFile({
-									url:'http://localhost:8000/api/user/icon',
+									url:'http://47.94.7.26:8000/api/user/icon',
 									/*header: {  
 										
 									        'Content-Type': "multipart/form-data",
@@ -305,16 +305,16 @@
 									        	this.setUserInfo(userInfo);
 									        }
 											uni.showToast({
-																		icon:'none',
-																		title:'提交成功',
-																		success: (res) => { 
-																			setTimeout(() => { 
-																				uni.navigateBack({ 
-																					delta: 1
-																				})
-																			}, 2000)
-																		}
-																	})
+												icon:'none',
+												title:'提交成功',
+												success: (res) => { 
+													setTimeout(() => { 
+														uni.navigateBack({ 
+															delta: 1
+														})
+													}, 2000)
+												}
+											})
 											
 								}
 							})
