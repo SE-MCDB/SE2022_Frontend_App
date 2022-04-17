@@ -385,6 +385,15 @@
 				"navigationBarTitleText": "我的评论"
 			}
         }
+        ,{
+            "path" : "pages/certificate-enterprise/certificate-enterprise",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"permission": {
 	    "scope.userLocation": {

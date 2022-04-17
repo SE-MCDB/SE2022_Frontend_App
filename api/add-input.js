@@ -4,6 +4,7 @@ export const  getCategory =async () => {
 	let data = await axios.get('category/list')
 	return data
 }
+
 // 图片上传
 export const  uploudFile = async (file) => {
 	let url = await axios.uploudFile("upload/cloud",file)

@@ -44,6 +44,7 @@ export const  getAllList =async () => {
 	return result
 }
 
+//获取已完成需求
 export const  getFinishedNeed =async (data) => {
 	let result = await axios.get(url = 'platform', data = {}, this.data)
 	
@@ -54,6 +55,7 @@ export const  getFinishedNeed =async (data) => {
 	return result
 }
 
+//获取进行中需求
 export const  getProcedingNeed =async (data) => {
 	//TODO:如何传递参数进来
 	let headers = {
@@ -74,6 +76,7 @@ export const  getProcedingNeed =async (data) => {
 	return result
 }
 
+//发布新需求
 export const  postNewNeed =async (data) => {
 	//TODO:如何传递参数进来
 	// let headers = {

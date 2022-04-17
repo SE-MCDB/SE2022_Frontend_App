@@ -71,4 +71,5 @@
 	@import './common/animate.css';
 	/* 公共样式 */
 	@import './common/common.css';
+	@import './static/style/thorui-extend.css';
 </style>

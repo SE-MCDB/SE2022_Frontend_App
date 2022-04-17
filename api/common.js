@@ -12,4 +12,4 @@ export const  giveLike = async (id) => {
 }
 
 
-export const picUrl= "http://114.115.168.211:8000/api/"
+export const picUrl= "http://47.94.7.26:8000/api/"

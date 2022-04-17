@@ -27,14 +27,14 @@
 		
 		<view class="icon iconfont icon-jinru"></view>
 		<template v-if="homeinfo.type=='5'">
-		<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
+		<view class="home-info u-f-ac animated fadeIn fast" @tap="openEnterpriseCertificate">
 			企业详情编辑
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
 		</template>
 		<template v-else-if="homeinfo.type=='4'">
 		<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
-			企业详情编辑
+			专家详情编辑
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
 		</template>
@@ -50,11 +50,16 @@
 			homeinfo:Object
 		},
 		methods:{
+			openEnterpriseCertificate() {
+				uni.navigateTo({
+					url: '../certificate-enterprise/certificate-enterprise',
+				});
+			},
 			ToUserSpace(){
 				uni.navigateTo({
 					url: '../../pages/user-set-userinfo/user-set-userinfo',
 				});
-			}
+			},
 		}
 	}
 </script>
