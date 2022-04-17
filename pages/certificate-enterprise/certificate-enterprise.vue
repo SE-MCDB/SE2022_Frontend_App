@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
 		<view class="tui-status-bar"></view>
-		<view class="tui-page-title">企业认证</view>
+		<view v-if="userInfo.type=='0'" class="tui-page-title">企业认证</view>
+		<view v-else-if="userInfo.type=='5'" class="tui-page-title">企业信息编辑</view>
 		<view class="tui-form">
 
 			<view class="tui-view-input">
@@ -82,7 +83,7 @@
 				<tui-list-cell :hover="false">
 					<view>
 						<view class="thorui-input-title">企业简介</view>
-						<textarea placeholder="请输入企业简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputInstruction"></textarea>
+						<textarea placeholder="请输入企业简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputInstruction" :value="instruction"></textarea>
 						<view class="tui-icon-close" v-show="instruction" @tap="clearInput(4)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -102,8 +103,11 @@
 				</tui-list-cell>
 
 			</view>
-			<view class="tui-btn-box">
+			<view v-if="userInfo.type=='0'" class="tui-btn-box">
 				<tui-button @tap="certificate" :disabledGray="true" :disabled="disabled" :shadow="true" shape="circle">申请认证</tui-button>
+			</view>
+			<view v-else-if="userInfo.type=='5'" class="tui-btn-box">
+				<tui-button @tap="certificate" :disabledGray="true" :disabled="disabled" :shadow="true" shape="circle">提交审核</tui-button>
 			</view>
 			<view class="tui-cell-text">
 				申请认证代表同意
@@ -158,8 +162,20 @@
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
-			this.userID = data.uid;
-			console.log('onLoad in certification '+ this.userID)
+			//this.userID = data.uid;
+			
+			this.userID = this.userInfo.id;
+			if(this.userInfo.enterprise_name){
+				this.name = this.userInfo.enterprise_name;
+				this.address = this.userInfo.enterprise_address;
+				this.website =this.userInfo.enterprise_website;
+				this.instruction =this.userInfo.enterprise_instruction;
+				this.phone =this.userInfo.enterprise_phone;
+				this.legal_representative =this.userInfo.enterprise_legal_representative;
+				this.register_capital =this.userInfo.enterprise_register_capital;
+				this.field =this.userInfo.enterprise_field;
+			}
+			console.log('onLoad in certification '+ this.userID);
 		},
 		methods: {
 			//验证手机号码
