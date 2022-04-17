@@ -24,8 +24,8 @@
 		
 		<!-- 数据 -->
 		<home-data @goToSpace="goToSpace"  :homedata="homedata"></home-data>
-<!-- 		广告位 -->
-<!-- 		<view class="home-adv u-f-ajc animated fadeIn fast">
+		<!--广告位 -->
+		<!--<view class="home-adv u-f-ajc animated fadeIn fast">
 			<image src="../../static/demo/demo20.jpg"  class="guanggao" lazy-load></image>
 		</view> -->
 		<!-- 功能列表
