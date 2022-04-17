@@ -4,8 +4,8 @@ import request from "./request";
 
  // let baseUrl=process.env.NODE_ENV === 'development'?"http://114.115.168.211:8000/api/":"http://114.115.168.211:8000/api/";
 // let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://114.115.168.211:8000/api/":"ws://114.115.168.211:8000/api/";
- let baseUrl=process.env.NODE_ENV === 'development'?"http://localhost:8000/api/":"http://localhost:8000/api/";
-let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://http://localhost:8000/api/":"ws://http://localhost:8000/api";
+ let baseUrl=process.env.NODE_ENV === 'development'?"http://172.16.2.116:8000/api/":"http://172.16.2.116:8000/api/";
+let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://http://172.16.2.116:8000/api/":"ws://http://172.16.2.116:8000/api";
 //可以new多个request来支持多个域名请求
 let $http = new request({
 	//接口请求地址

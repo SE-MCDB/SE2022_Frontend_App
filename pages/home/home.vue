@@ -13,7 +13,7 @@
 				<!-- 普通用户 -->
 				<view class="u-f-ajc" @tap="openLogin">您目前是普通用户，认证后可体验更多功能</view>
 				<view class="u-f-ajc" @tap="openLogin">专家认证 <view class="icon iconfont icon-jinru"></view></view>
-				<view class="u-f-ajc" @tap="openLogin">企业认证 <view class="icon iconfont icon-jinru"></view></view>
+				<view class="u-f-ajc" @tap="openEnterpriseCertificate">企业认证 <view class="icon iconfont icon-jinru"></view></view>
 			</template>
 			<template v-else-if="userInfo.type=='1'">
 				<!-- 专家认证中 -->
@@ -171,6 +171,11 @@
 				uni.navigateTo({
 					url: '../login/login'
 				});
+			},
+			openEnterpriseCertificate() {
+				uni.navigateTo({
+					url: '../certificate-enterprise/certificate-enterprise?uid=' + this.userInfo.id
+				})
 			},
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
