@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<template v-if="userInfo&&!userInfo.id">
+		<template  v-if="userInfo&&!userInfo.id">
 			<!-- 未登录 -->
 			<view class="u-f-ajc">登陆PaperDaily，体验更多功能</view>
 			<!-- 第三方登陆 -->
@@ -9,11 +9,11 @@
 		</template>
 		
 		<template v-else>
-			<template v-if="userInfo.type!='0'">
+			<template v-if="userInfo.type=='0'">
 				<!-- 普通用户 -->
 				<view class="u-f-ajc" @tap="openLogin">您目前是普通用户，认证后可体验更多功能</view>
-				<view class="u-f-ajc" @tap="openLogin">专家认证 <view class="icon iconfont icon-jinru"></view></view>
-				<view class="u-f-ajc" @tap="openEnterpriseCertificate">企业认证 <view class="icon iconfont icon-jinru"></view></view>
+				<view class="u-f-ajc yanse" @tap="openLogin">专家认证 <view class="icon iconfont icon-jinru"></view></view>
+				<view class="u-f-ajc yanse" @tap="openEnterpriseCertificate">企业认证 <view class="icon iconfont icon-jinru"></view></view>
 			</template>
 			
 			<home-info :homeinfo="homeinfo"></home-info>
@@ -202,6 +202,9 @@
 </script>
 
 <style>
+	.yanse{
+		color: #ff0000;
+	}
 	.home-list {
 		padding: 20upx;
 	}
