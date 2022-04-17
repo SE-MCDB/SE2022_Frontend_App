@@ -19,21 +19,8 @@
 			<home-info :homeinfo="homeinfo"></home-info>
 			
 		</template>
-		
-		
-		
 		<!-- 数据 -->
 		<home-data @goToSpace="goToSpace"  :homedata="homedata"></home-data>
-<!-- 		广告位 -->
-<!-- 		<view class="home-adv u-f-ajc animated fadeIn fast">
-			<image src="../../static/demo/demo20.jpg"  class="guanggao" lazy-load></image>
-		</view> -->
-		<!-- 功能列表
-		<view class="home-list">
-			<block v-for="(item,index) in list" :key="index">
-				<home-list-item :userInfo="userInfo" :item="item" :index="index"></home-list-item>
-			</block>
-			<!-- <image src="../../static/images/tabbar/code_gra" mode=""></image> -->
 		</view>
 
 

@@ -4,10 +4,9 @@
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
 		<swiper-item v-for="(items,index) in newslist" :key="index">
 			<!--搜索框-->
-			<scroll-view
-			@scroll="handleScroll"
-			 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
-			 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
+			<scroll-view @scroll = "scroll"
+			 scroll-y="true" class="list" 
+			 :scroll-top="scrollTop" @scrolltoupper="upper" @scrolltolower="lower">
 				<template v-if="items.list.length>0 && tabIndex == 1">
 					<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
 						<block v-for="(item,index1) in items.list" :key="index1">
@@ -21,7 +20,10 @@
 					<no-thing></no-thing>
 				</template>
 				<template v-else>
-					<no-thing></no-thing>
+					<!-- <no-thing></no-thing> -->
+					<scroll-view>
+						<!-- <block v-for="(order, index1) in "> -->
+					</scroll-view>
 				</template>
 			</scroll-view>
 		</swiper-item>
@@ -65,6 +67,10 @@
 				// list 偏移量
 				offset: 0,
 				refreshing: false,
+				scrollTop: 0,
+				old: {
+					scrollTop: 0
+				},
 				tabBars: [{
 						name: "我的",
 						id: "wode",
@@ -169,21 +175,43 @@
 					uni.showToast({title:'已更新',duration:500})
 				}, 200)
 			},
-			loadmore(index) {
+			scroll: function(e) {
+				console.log(e)
+				this.old.scrollTop = e.detail.scrollTop
 			},
-			handleScroll(ev) {
-				const scrollTop = ev.detail.scrollTop;
-				console.log(scrollTop)
-				console.log(this.newslist[this.tabIndex])
-				// 开始位置
-				const start = Math.floor(scrollTop / this.size)
-				this.start = start < 0 ? 0 : start;
-				// 结束位置
-				this.end = this.start + this.remain;
-				// 计算偏移
-				const offset = scrollTop - (scrollTop % this.size) - this.preCount[this.tabIndex] * this.size
-				this.offset = offset < 0 ? 0 : offset;
+			goTop: function(e) {
+				this.scrollTop = this.old.scrollTop
+				this.$nextTick(() => {
+					this.scrollTop = 0
+				});
+				uni.showToast({
+					icon:"none",
+					title:"纵向滚动 scrollTop 值已被修改为 0"
+				})
 			},
+			upper: function(e) {
+				console.log(e)
+			},
+			lower: function(e) {
+				console.log(e)
+			},
+			scroll: function(e) {
+				console.log(e)
+				this.old.scrollTop = e.detail.scrollTop
+			},
+			// handleScroll(ev) {
+			// 	const scrollTop = ev.detail.scrollTop;
+			// 	console.log(scrollTop)
+			// 	// console.log(this.newslist[this.tabIndex])
+			// 	// 开始位置
+			// 	const start = Math.floor(scrollTop / this.size)
+			// 	this.start = start < 0 ? 0 : start;
+			// 	// 结束位置
+			// 	this.end = this.start + this.remain;
+			// 	// 计算偏移
+			// 	const offset = scrollTop - (scrollTop % this.size) - this.preCount[this.tabIndex] * this.size
+			// 	this.offset = offset < 0 ? 0 : offset;
+			// },
 			// tabbar点击事件
 			tabtap(index) {
 				this.tabIndex = index;

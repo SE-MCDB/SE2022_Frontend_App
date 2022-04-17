@@ -39,7 +39,7 @@
 		        "navigationBarTitleText": "需求平台",
 		        "enablePullDownRefresh": true,
 				"app-plus": {
-					"scrollIndicator": "none",
+					"scrollIndicator": "true",
 					"bounce": "none",
 					"titleNView": {
 						"titleSize":"32upx",

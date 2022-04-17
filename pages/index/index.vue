@@ -30,15 +30,6 @@
 							</block> 
 							<load-more :loadtext="items.loadtext"></load-more>
 						</template>
-						
-						<!-- <template v-if="items.list.length>0&& tabIndex == 1">
-							<block v-for="(item,index1) in items.list" :key="index1">
-								<index-list 
-								@likeOrTread="likeOrTread" @opendDetail="opendDetail" @share="share" :item="item" :userInfo="userInfo"
-								 :index="index1"></index-list>
-							</block> 
-							<load-more :loadtext="items.loadtext"></load-more>
-						</template> -->
 						<template v-if="items.list.length>0 && tabIndex == 1">
 							<view class="topic-list">
 								<block v-for="(list,index1) in items.list" :key="index1">
@@ -311,7 +302,7 @@
 			},
 			handleScroll(ev) {
 				const scrollTop = ev.detail.scrollTop;
-				// console.log(scrollTop)
+				console.log(scrollTop)
 				// console.log(this.newslist[this.tabIndex])
 				// 开始位置
 				const start = Math.floor(scrollTop / this.size)

@@ -71,46 +71,9 @@
 			}
 		},
 		methods: {
-			// async giveLike(){
-			// 	if(!this.userInfo.id){
-			// 		this.$http.href("../../pages/login/login")
-			// 		return
-			// 	}
-			// 	if(this.item.is_like){
-			// 		this.item.like_num--
-			// 		await this.$emit("likeOrTread",this.item)
-			// 	}else{
-			// 		this.item.like_num++
-			// 		await this.$emit("likeOrTread",this.item)
-			// 	}
-			// 	this.item.is_like = !this.item.is_like
-			// },
 			opendetail(){
 				// this.$emit("opendDetail",this.item)
 			},
-			// imgdetail(index){
-			// 	uni.previewImage({
-			// 		current:index,
-			// 		urls:this.item.images
-			// 	})
-			// },
-			// onCollect(){
-			// 	let headers = {
-			// 		"Authorization":'Bearer ' + uni.getStorageSync('token')
-			// 	}
-			// 	if(!this.userInfo.id){
-			// 		this.$http.href('../../pages/login/login')
-			// 		return 
-			// 	}
-			// 	if(this.item.is_favor){
-			// 		this.$http.post('Interpretation/'+this.item.id+'/unfavor',{},headers)
-			// 		this.$http.toast("取消收藏!")
-			// 	}else{
-			// 		this.$http.post('Interpretation/'+this.item.id+'/favor',{},headers)
-			// 		this.$http.toast("收藏成功!")
-			// 	}
-			// 	this.item.is_favor = !this.item.is_favor
-			// },
 		}
 	}
 </script>
