@@ -11,7 +11,7 @@
 				@tap="goToInfo"
 				class="icon iconfont user-space-head-btn user-space-margin"
 			>
-				编辑资料
+				修改头像
 			</view>
 			<view
 				v-else

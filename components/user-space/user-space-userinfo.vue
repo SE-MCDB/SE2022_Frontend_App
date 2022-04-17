@@ -7,17 +7,36 @@
 			<view>ID：{{userinfo.id}}</view>
 		</view>
 		<view class="user-space-userinfo-item">
-			<view>个人信息</view>
-			<template v-if="userinfo.type=='0'">
+			<view v-if="userinfo.state=='0'">个人信息</view>
+			<view v-if="userinfo.state=='4'">专家信息</view>
+			<view v-if="userinfo.state=='5'">企业信息</view>
+			<template v-if="userinfo.state=='0'">
 				<view>身份：普通用户</view>
+				
 			</template>
-			<template v-else-if="userinfo.type=='4'">
+			<template v-else-if="userinfo.state=='4'">
 				<view>身份：专家</view>
+				<view>机构：{{userinfo.institution}}</view>
+				<view>机构：{{userinfo.institution}}</view>
+				<view>机构：{{userinfo.institution}}</view>
+				<view>机构：{{userinfo.institution}}</view>
+				<view>机构：{{userinfo.institution}}</view>
 			</template>
-			<template v-else-if="userinfo.type=='5'">
+			<template v-else-if="userinfo.state=='5'">
 				<view>身份：企业</view>
+				<view>企业名称：{{userinfo.enterprise_name}}</view>
+				<view>企业地址：{{userinfo.enterprise_address}}</view>
+				<view>企业官网：{{userinfo.enterprise_website}}</view>
+				<view>联系电话：{{userinfo.enterprise_phone}}</view>
+				<view>法人代表：{{userinfo.enterprise_legal_representative}}</view>
+				<view>注册资本：{{userinfo.enterprise_register_capital}}万元</view>
+				<view>企业领域：{{userinfo.enterprise_field}}</view>
+				<view>企业介绍：{{userinfo.enterprise_instruction}}</view>
 			</template>
-			<view>机构：{{userinfo.institution}}</view>
+			<template v-else>
+				<view>身份：普通用户{{userinfo.state}}</view>
+			</template>
+			
 <!-- 			<view>故乡：{{userinfo.path}}</view> -->
 		</view>
 	</view>
@@ -27,7 +46,8 @@
 	import t from "../../common/time.js";
 	export default {
 		props:{
-			userinfo:Object
+			userinfo:Object,
+			authInfo:Object,
 		},
 		computed:{
 			getRegAge(){

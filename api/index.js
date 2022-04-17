@@ -10,6 +10,7 @@ export const  getTopicList =async () => {
 	}
 	let result = await axios.get('recommend',{},headers)
 	let index = 0
+	console.log(result)
 	if(result&&result.length){
 		result = result.map((item)=>{
 			index = index + 1

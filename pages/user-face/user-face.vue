@@ -284,12 +284,16 @@
 						canvasId: 'myCanvas',
 						success: async (res)=> {
 							// 成功获得地址的地方
+							
 							var tempFacePath = res.tempFilePath;
 							let ans=uni.uploadFile({
-									url:'http://114.115.168.211:8000/api/user/icon',
-									header: {  
+									url:'http://localhost:8000/api/user/icon',
+									/*header: {  
+										
 									        'Content-Type': "multipart/form-data",
-									},
+									},*/
+							
+									
 									filePath:tempFacePath,
 									name:'files',
 									formData:{'user': this.userInfo.id},

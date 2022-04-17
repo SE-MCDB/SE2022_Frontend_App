@@ -123,6 +123,15 @@
 					job:"",
 					path:"",
 					type:-1,
+					state:-1,
+					enterprise_name:"",
+					enterprise_address:"",
+					enterprise_website:"",
+					enterprise_instruction:"",
+					enterprise_phone:"",
+					enterprise_legal_representative:"",
+					enterprise_register_capital:0,
+					enterprise_field:"",
 				},
 				topicList:[],
 				titleList:[],
@@ -178,6 +187,15 @@
 					this.info.isguanzhu = data.is_following;
 					this.info.id = data.id;
 					this.info.type = data.type;
+					this.info.state = data.state;
+					this.info.enterprise_name= data.enterprise_name;
+					this.info.enterprise_address= data.enterprise_address;
+					this.info.enterprise_website= data.enterprise_website;
+					this.info.enterprise_instruction= data.enterprise_instruction;
+					this.info.enterprise_phone= data.enterprise_phone;
+					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
+					this.info.enterprise_register_capital= data.enterprise_register_capital;
+					this.info.enterprise_field= data.enterprise_field;
 				}
 			},
 			userActive(){
@@ -198,6 +216,15 @@
 					this.info.isguanzhu = data.is_following;
 					this.info.id = data.id;
 					this.info.type = data.type;
+					this.info.state = data.state;
+					this.info.enterprise_name= data.enterprise_name;
+					this.info.enterprise_address= data.enterprise_address;
+					this.info.enterprise_website= data.enterprise_website;
+					this.info.enterprise_instruction= data.enterprise_instruction;
+					this.info.enterprise_phone= data.enterprise_phone;
+					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
+					this.info.enterprise_register_capital= data.enterprise_register_capital;
+					this.info.enterprise_field= data.enterprise_field;
 				}
 			},
 			gotoTopic(index){
