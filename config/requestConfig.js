@@ -1,6 +1,4 @@
 import request from "./request";
-// let baseUrl=process.env.NODE_ENV === 'development'?"xxx":"xxx";
-// let socketBaseUrl=process.env.NODE_ENV === 'development'?"xxx":"xxx";
 
 // let baseUrl=process.env.NODE_ENV === 'development'?"http://114.115.168.211:8000/api/":"http://114.115.168.211:8000/api/";
 // let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://114.115.168.211:8000/api/":"ws://114.115.168.211:8000/api/";
