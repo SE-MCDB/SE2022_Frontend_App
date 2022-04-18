@@ -1,31 +1,29 @@
 <template>
 	<view>
+		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
+		</platform-create>
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
 		<swiper-item v-for="(items,index) in newslist" :key="index">
 			<!--搜索框-->
-			<scroll-view @scroll = "scroll"
-			 scroll-y="true" class="list" 
-			 :scroll-top="scrollTop" @scrolltoupper="upper" @scrolltolower="lower">
-				<template v-if="items.list.length>0 && tabIndex == 1">
-					<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
-						<block v-for="(item,index1) in items.list" :key="index1">
-							<need-list 
-							@opendDetail="opendDetail" :item="item" 
-							 :index="index1"></need-list>
-						</block> 
-					<load-more :loadtext="items.loadtext"></load-more>
-				</template>
-				<template v-else-if="items.list.length==0 && tabIndex == 1">
-					<no-thing></no-thing>
-				</template>
-				<template v-else>
-					<!-- <no-thing></no-thing> -->
-					<scroll-view>
-						<!-- <block v-for="(order, index1) in "> -->
-					</scroll-view>
-				</template>
-			</scroll-view>
+			<view v-if="items.list.length>0 && tabIndex == 1">
+				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
+				<scroll-view class="scroll" scroll-y="true">
+					<view v-for="(item,index1) in items.list" :key="index1">
+						<need-list 
+						 :item="item" 
+						 :index="index1"></need-list>
+					</view>
+				</scroll-view>
+				<load-more :loadtext="items.loadtext"></load-more>
+			</view>
+			<!-- <view v-else-if="items.list.length==0 && tabIndex == 1">
+				<no-thing></no-thing>
+			</view> -->
+			<view v-else>
+				<scroll-view>
+				</scroll-view>
+			</view>
 		</swiper-item>
 	</view>
 </template>
@@ -41,6 +39,7 @@
 	import noThing from "@/components/common/no-thing.vue";
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
+	import platformCreate from '@/components/platform/platform-create.vue'
 	import {
 		getAllNeed,
 		postNewNeed
@@ -53,24 +52,17 @@
 			loadMore,
 			noThing,
 			myNavBar,
-			card
+			card,
+			platformCreate
 		},
 		data() {
 			return {
 				swiperheight: 500,
 				tabIndex: 1,
 				shoNo: false,
-				start:0,
-				remain:3,
-				end: 5,
-				size: 400,
-				// list 偏移量
-				offset: 0,
-				refreshing: false,
-				scrollTop: 0,
-				old: {
-					scrollTop: 0
-				},
+				
+				show: false,
+				
 				tabBars: [{
 						name: "我的",
 						id: "wode",
@@ -107,7 +99,16 @@
 			});
 			this.requestData()
 		},
-	
+		
+		// 监听导航按钮点击事件
+		onNavigationBarButtonTap(e) {
+			switch (e.index) {
+				case 0:
+					this.show = true;
+					// this.hidepopup();
+					break;
+			}
+		},
 		
 		methods: {
 			//获取需求数据
@@ -158,26 +159,12 @@
 					return
 				}
 				this.newslist[this.tabIndex].list = items
-				// console.log(this.newslist[this.tabIndex])
 				if (items) {
 					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
 				}else{
 					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
 				}
 				return
-			},
-			async onrefresh() {
-				if (this.refreshing) return;
-				this.refreshing = true;
-				await this.requestData()
-				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
-				}, 200)
-			},
-			scroll: function(e) {
-				console.log(e)
-				this.old.scrollTop = e.detail.scrollTop
 			},
 			goTop: function(e) {
 				this.scrollTop = this.old.scrollTop
@@ -195,24 +182,6 @@
 			lower: function(e) {
 				console.log(e)
 			},
-			scroll: function(e) {
-				console.log(e)
-				this.old.scrollTop = e.detail.scrollTop
-			},
-			// handleScroll(ev) {
-			// 	const scrollTop = ev.detail.scrollTop;
-			// 	console.log(scrollTop)
-			// 	// console.log(this.newslist[this.tabIndex])
-			// 	// 开始位置
-			// 	const start = Math.floor(scrollTop / this.size)
-			// 	this.start = start < 0 ? 0 : start;
-			// 	// 结束位置
-			// 	this.end = this.start + this.remain;
-			// 	// 计算偏移
-			// 	const offset = scrollTop - (scrollTop % this.size) - this.preCount[this.tabIndex] * this.size
-			// 	this.offset = offset < 0 ? 0 : offset;
-			// },
-			// tabbar点击事件
 			tabtap(index) {
 				this.tabIndex = index;
 			},
@@ -224,6 +193,18 @@
 			initNavigation(e) {
 				this.opcity = e.opcity;
 				this.top = e.top;
+			},
+			hidepopup() {
+				this.show = false;
+			},
+			showpopup() {
+				this.show = true;
+			},
+			addneed() {
+				uni.navigateTo({
+					url: '../add-need/need'
+				})
+				this.hidepopup();
 			},
 		}
 	}

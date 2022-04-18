@@ -4,38 +4,13 @@
 			<view class="topic-title" @tap="opendetail">
 				<text style="font-weight: bold;font-size:larger;">{{item.title}}</text>
 			</view>
-			<!-- <view class="author-wrap" @tap="opendetail">
-				<image class="anthor-pic" :src="item.userpic" lazy-load mode="aspectFill"></image>
-				<text class="author-name">{{item.username}}</text>
-			</view> -->
 			<view style="color: #007AFF;" @tap="opendetail">
-				<!-- <template v-for="tag in item.tags">
-					#{{tag.name}}#
-				</template> -->
-				
-				<b>{{item.field}}</b>
+				<text>{{item.field}}</text>
 			</view> 	
 			<view span="4" class="container1" @tap="opendetail">
 			    <text>{{item.description}}</text>
 			</view>		
-			<!-- <view class="topic-active">
-				<view class="active-comm" @tap="onCollect">
-					<tui-icon :name="item.is_favor?'star-fill':'star'" :color="item.is_favor?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
-					<text class="active-text">{{item.is_favor?"取消收藏": "收藏"}}</text>
-				</view>
-				<view class="active-comm" @tap="opendetail">
-					<tui-icon name="community" :size="size" unit="upx"></tui-icon>
-					<text class="active-text">{{item.commentNum==0?"评论": item.commentNum}}</text>
-				</view>
-				<view class="active-comm" @tap="giveLike">
-					<tui-icon :name="item.is_like?'agree-fill': 'agree'" :color="item.is_like?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
-					<text class="active-text">
-						{{item.like_num==0?"点赞": item.like_num}}
-					</text>
-				</view>
-			</view> -->
 		</view>
-
 	</view>
 </template>
 
@@ -54,25 +29,14 @@
 			// userInfo:Object
 		},
 		data() {
-			// return {
-			// 	isguanzhu: this.item.isguanzhu,
-			// 	collect: this.item.collect,
-			// 	size: 48,
-			// 	topicActive:{
-			// 		uid:this.userInfo.id,
-			// 		tid:this.item.id,
-			// 		tuid: this.item.uid,
-			// 		cid:this.item.cid
-					
-			// 	}
-			// }
+			
 			return {
 				
 			}
 		},
 		methods: {
 			opendetail(){
-				// this.$emit("opendDetail",this.item)
+				this.$emit("opendDetail",this.item)
 			},
 		}
 	}

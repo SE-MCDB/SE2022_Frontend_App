@@ -37,16 +37,22 @@
 		    "style" :                                                                                    
 		    {
 		        "navigationBarTitleText": "需求平台",
-		        "enablePullDownRefresh": true,
 				"app-plus": {
-					"scrollIndicator": "true",
+					"scrollIndicator": "none",
 					"bounce": "none",
 					"titleNView": {
 						"titleSize":"32upx",
-						"buttons": [{
-							"type": "menu",
-							"fontSize":"44upx"
-						}]
+						"buttons": [
+							// 右边
+							{
+								"color": "#000000",
+								"colorPressed": "#BBBBBB",
+								"float": "right",
+								"fontSize": "44upx",
+								"fontSrc": "/static/font/icon.ttf",
+								"text": "\ue684"
+							}
+						]
 					}
 				}
 		    }
@@ -355,7 +361,37 @@
 					}
 				}
 			}
-		}, {
+		}, 
+		
+		{
+			"path": "pages/add-need/need",
+			"style": {
+				"navigationBarTitleText": "需求发布",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": true
+					}
+				}
+			}
+		}, 
+		
+		{
+			"path": "pages/need-detail/detail",
+			"style": {
+				"navigationBarTitleText": "详情",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"autoBackButton": true
+					}
+				}
+			}
+		},
+		
+		{
 			"path": "pages/user-collect/user-collect",
 			"style": {}
 		}
