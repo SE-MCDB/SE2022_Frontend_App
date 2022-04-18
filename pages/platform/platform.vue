@@ -25,11 +25,17 @@
 				</scroll-view>
 			</view>
 		</swiper-item>
+		
+		<!-- 需求订单统计 -->
+		<view v-if="tabIndex == 0" >
+			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
+		</view>
 	</view>
 </template>
 
 <script>
 	import needList from "@/components/platform/need-list.vue";
+	import needData from '@/components/platform/need-data.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
 	import myNavBar from "@/components/common/my-nav-bar.vue";
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
@@ -48,6 +54,7 @@
 	export default {
 		components: {
 			needList,
+			needData,
 			swiperTabHead,
 			loadMore,
 			noThing,
@@ -85,6 +92,11 @@
 						list: [],
 						
 					}
+				],
+				needdata:[
+					{ name:"已执行", num:0 },
+					{ name:"待处理", num:0 },
+					{ name:"新请求", num:0 },
 				],
 				
 			}
@@ -151,6 +163,15 @@
 								"field": "后",
 								"state": 0,
 								"emergancy": 0
+							},
+							{
+								"need_id": "3",
+								"title": "世订单次约",
+								"description": "且从几效流切有的风格。场十离程火放积约万少根者国集进。只整地将金阶身或称研进从它府道体查行。第几张族住步条已验被进美老。争强公多说目达平下教质积包电。",
+								"valid_time": "1650471320",
+								"field": "嘿嘿",
+								"state": 0,
+								"emergancy": 0
 							}
 						]
 				if (items && items.length === 0) {
@@ -206,15 +227,75 @@
 				})
 				this.hidepopup();
 			},
+			onShow() {
+				if (this.userInfo.id) {
+					if (!this.islogin) {
+						this.initDat()
+					}
+				} else {
+					this.needdata[0].num = 0
+					this.needdata[1].num = 0
+					this.needdata[2].num = 0
+					this.islogin = false
+				}
+			
+			},
+			async mounted() {
+				this.initDat()
+				if (this.userInfo.id) {
+					if (!this.islogin) {
+						this.initDat()
+					}
+				} else {
+					this.needdata[0].num = 0
+					this.needdata[1].num = 0
+					this.needdata[2].num = 0
+					this.islogin = false
+				}
+			},
+			async initDat() {
+				if (this.userInfo && this.userInfo.id) {
+					let userProfile = await getUserProfile()
+					console.log(userProfile)
+					this.needdata[0].num = userProfile.total_post
+					this.needdata[1].num = userProfile.total_comment
+					this.needdata[2].num = userProfile.total_mycollect
+					this.islogin = true
+				}
+			},
+			//跳转到各种类订单list
+			goToNeedInfo(index) {
+				console.log(index)
+				switch (index) {
+					case 0:
+						this.$http.href('@/pages/user-space/user-space?uid=' + this.userInfo.id)
+						break;
+					case 1:
+						this.$http.href('@/pages/user-comment/user-comment?uid=' + this.userInfo.id)
+						break;
+					case 2:
+						this.$http.href('@/pages/user-collect/user-collect?uid=' + this.userInfo.id)
+						break;
+				}
+			}
 		}
 	}
 </script>
 
 <style>
-	/* 隐藏scroll-view滚动条*/
+	/* 隐藏scroll-view滚动条 */
 	::-webkit-scrollbar {
 		width: 0;
 		height: 0;
 		color: transparent;
+	}
+	/* need数据的style样式 */
+	.need-statistic-data{
+		background: #FFFFFF;
+		position: relative;
+		z-index: 10;
+		border-top-left-radius: 20upx;
+		border-top-right-radius: 20upx;
+		margin-top: -15upx;
 	}
 </style>
