@@ -306,7 +306,7 @@
 					return;
 				} 
 				uni.uploadFile({
-					url: 'http://172.16.2.116:8000/api/enterprise/setinfo',
+					url: 'http://127.0.0.1:8000/api/enterprise/setinfo',
 					files: [{
 						uri: this.business_license,
 						name: 'business_license'
