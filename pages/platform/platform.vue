@@ -5,7 +5,7 @@
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
 		</platform-create>
 		<!--导航栏-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<swiper-item v-for="(items,index) in newslist" :key="index">
 			<!--搜索框-->
 			<view v-if="items.list.length>0 && tabIndex == 1">
@@ -30,7 +30,7 @@
 		
 		<!-- 需求订单统计 -->
 		<view v-if="tabIndex == 0" >
-			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
+			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo"></need-data>
 		</view>
 		</template>
 		<template v-else>

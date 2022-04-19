@@ -1,9 +1,36 @@
 <template>
 	<view>
 		
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33.33%;"></swiper-tab-head>
 		<view v-if="tabIndex == 0">
-			0
+			
+			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+				<template v-slot:body>
+					<view class="tui-default">
+						默认卡片内容部分 slot=>body
+					</view>
+				</template>
+				<template v-slot:footer>
+					<view class="tui-default">
+						默认卡片底部 slot=>footer
+					</view>
+				</template>
+			</tui-card>
+			
+			
+			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+				<template v-slot:body>
+					<view class="tui-default">
+						默认卡片内容部分 slot=>body
+					</view>
+				</template>
+				<template v-slot:footer>
+					<view class="tui-default">
+						默认卡片底部 slot=>footer
+					</view>
+				</template>
+			</tui-card>
+			
 		</view>
 		<view v-else-if="tabIndex == 1">
 			1
@@ -21,6 +48,8 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
+	import tuiCard from "@/components/thorui/tui-card/tui-card"
+	
 	export default {
 		data(){
 			
@@ -42,13 +71,33 @@
 						page: 1
 					},
 				],
+					
+				a:{
+					img: {
+							url: this.userInfo.userpic,
+							circle:true,
+						},
+					title: {
+							text: 'CSDN云计算',
+						},
+					tag: {
+							text: '1小时前',
+						},
+					header: {
+							bgcolor: '#55ff7f',
+							line: true,
+						},
+				},
 			}
 		},
+		
 		components:{
 			swiperTabHead,
+			tuiCard,
 		},
 		props:{
 			needdata:Array,
+			userInfo:Object,
 		},
 		onShow(){
 			
@@ -63,6 +112,9 @@
 			goToNeed(index){
 				console.log(index)
 				this.$emit("goToNeedInfo",index)
+			},
+			print(){
+				console.log("success");
 			},
 		}
 	}
