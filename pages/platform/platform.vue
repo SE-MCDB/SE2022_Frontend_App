@@ -50,6 +50,12 @@
 		getAllNeed,
 		postNewNeed
 	} from '@/api/platform.js'
+	import {
+		mapState
+	} from 'vuex'
+	import {
+		getUserProfile,
+	} from "@/api/home.js"
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -61,6 +67,9 @@
 			myNavBar,
 			card,
 			platformCreate
+		},
+		computed: {
+			...mapState(['userInfo'])
 		},
 		data() {
 			return {
@@ -268,13 +277,23 @@
 				console.log(index)
 				switch (index) {
 					case 0:
-						this.$http.href('@/pages/user-space/user-space?uid=' + this.userInfo.id)
+						console.log(this.userInfo);
+						uni.navigateTo({
+							url: '../user-space/user-space?uid=' + this.userInfo.id
+						});
+						
 						break;
 					case 1:
-						this.$http.href('@/pages/user-comment/user-comment?uid=' + this.userInfo.id)
+						uni.navigateTo({
+							url: '../user-comment/user-comment?uid=' + this.userInfo.id
+						});
+						
 						break;
 					case 2:
-						this.$http.href('@/pages/user-collect/user-collect?uid=' + this.userInfo.id)
+						uni.navigateTo({
+							url: '../user-collect/user-collect?uid=' + this.userInfo.id
+						});
+						
 						break;
 				}
 			}
