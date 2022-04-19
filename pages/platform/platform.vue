@@ -227,19 +227,19 @@
 				})
 				this.hidepopup();
 			},
-			onShow() {
-				if (this.userInfo.id) {
-					if (!this.islogin) {
-						this.initDat()
-					}
-				} else {
-					this.needdata[0].num = 0
-					this.needdata[1].num = 0
-					this.needdata[2].num = 0
-					this.islogin = false
-				}
+			// onShow() {
+			// 	if (this.userInfo.id) {
+			// 		if (!this.islogin) {
+			// 			this.initDat()
+			// 		}
+			// 	} else {
+			// 		this.needdata[0].num = 0
+			// 		this.needdata[1].num = 0
+			// 		this.needdata[2].num = 0
+			// 		this.islogin = false
+			// 	}
 			
-			},
+			// },
 			async mounted() {
 				this.initDat()
 				if (this.userInfo.id) {
