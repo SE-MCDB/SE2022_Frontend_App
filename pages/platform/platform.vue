@@ -6,8 +6,7 @@
 		</platform-create>
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
-		<swiper-item v-for="(items,index) in newslist" :key="index">
-			<!--搜索框-->
+		<!-- <swiper-item v-for="(items,index) in newslist" :key="index">
 			<view v-if="items.list.length>0 && tabIndex == 1">
 				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
 				<scroll-view class="scroll" scroll-y="true">
@@ -17,19 +16,21 @@
 						 :index="index1"></need-list>
 					</view>
 				</scroll-view>
-				<load-more :loadtext="items.loadtext"></load-more>
 			</view>
-			<!-- <view v-else-if="items.list.length==0 && tabIndex == 1">
-				<no-thing></no-thing>
-			</view> -->
 			<view v-else>
 				<scroll-view>
 				</scroll-view>
 			</view>
-		</swiper-item>
-		
+		</swiper-item> -->
+		<view v-if="tabIndex == 1 ">
+			<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
+			<view v-for="(item, index) in items" :key="index">
+				<need-list :item="item" :index="index">
+				</need-list>
+			</view>
+		</view>
 		<!-- 需求订单统计 -->
-		<view v-if="tabIndex == 0" >
+		<view v-else-if="tabIndex == 0" >
 			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
 		</view>
 		</template>
@@ -84,7 +85,7 @@
 				swiperheight: 500,
 				tabIndex: 1,
 				shoNo: false,
-				
+				items: [],
 				show: false,
 				
 				tabBars: [{
@@ -98,18 +99,18 @@
 						page: 1
 					},
 				],
-				newslist: [{
-						loadtext: "没有更多数据了",
-						id: "wode",
-						list: []
-					},
-					{
-						loadtext: "没有更多数据了",
-						id: "faxian",
-						list: [],
+				// newslist: [{
+				// 		loadtext: "没有更多数据了",
+				// 		id: "wode",
+				// 		list: []
+				// 	},
+				// 	{
+				// 		loadtext: "没有更多数据了",
+				// 		id: "faxian",
+				// 		list: [],
 						
-					}
-				],
+				// 	}
+				// ],
 				needdata:[
 					{ name:"已执行", num:0 },
 					{ name:"待处理", num:0 },
@@ -140,7 +141,6 @@
 			switch (e.index) {
 				case 0:
 					this.show = true;
-					// this.hidepopup();
 					break;
 			}
 		},
@@ -150,7 +150,6 @@
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
 				let type = this.tabBars[this.tabIndex].id;
-				let items;
 				// try {
 				// 	if(this.tabIndex===1){
 				// 		items = await getAllNeed()
@@ -160,7 +159,7 @@
 				// 	console.log(e)
 				// 	// return
 				// }
-				items = [
+				this.items = [
 							{
 								"need_id": "0",
 								"title": "也县它直则力",
@@ -198,18 +197,6 @@
 								"emergancy": 0
 							}
 						]
-				if (items && items.length === 0) {
-					this.tabBars[this.tabIndex].page = page
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
-					return
-				}
-				this.newslist[this.tabIndex].list = items
-				if (items) {
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
-				}else{
-					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
-				}
-				return
 			},
 			openLogin() {
 				uni.navigateTo({

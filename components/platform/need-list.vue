@@ -29,7 +29,6 @@
 			// userInfo:Object
 		},
 		data() {
-			
 			return {
 				
 			}
