@@ -15,13 +15,15 @@
 </template>
 
 <script>
+	
 	import uniFav from '@/components/uni-fav/uni-fav.vue'
 	import {
 		picUrl
 	} from "@/api/common.js";
 	export default {
 		components:{
-			uniFav
+			uniFav,
+			
 		},
 		props:{
 			item:Object,
