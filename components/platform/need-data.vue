@@ -12,7 +12,7 @@
 	//关于需求平台各类型需求订单主界面的样式
 	export default {
 		props:{
-			needdata:Array
+			needdata:Array,
 		},
 		methods:{
 			goToNeed(index){
