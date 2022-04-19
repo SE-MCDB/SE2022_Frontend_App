@@ -1,5 +1,7 @@
 <template>
+
 	<view>
+		<template v-if="userInfo&&userInfo.id">
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
 		</platform-create>
 		<!--导航栏-->
@@ -30,6 +32,11 @@
 		<view v-if="tabIndex == 0" >
 			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
 		</view>
+		</template>
+		<template v-else>
+			<view class="u-f-ajc">登陆PaperDaily，体验更多功能</view>
+			<view class="u-f-ajc" @tap="openLogin">账号密码登陆 <view class="icon iconfont icon-jinru"></view></view>
+		</template>
 	</view>
 </template>
 
@@ -73,6 +80,7 @@
 		},
 		data() {
 			return {
+				islogin: false,
 				swiperheight: 500,
 				tabIndex: 1,
 				shoNo: false,
@@ -112,6 +120,7 @@
 		},
 		
 		onLoad() {
+			console.log(this.userInfo)
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100)
@@ -123,6 +132,11 @@
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
+			if (!this.userInfo.id) {
+				uni.navigateTo({
+					url: '../login/login',
+				});
+			}
 			switch (e.index) {
 				case 0:
 					this.show = true;
@@ -130,6 +144,7 @@
 					break;
 			}
 		},
+		
 		
 		methods: {
 			//获取需求数据
@@ -195,6 +210,11 @@
 					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
 				}
 				return
+			},
+			openLogin() {
+				uni.navigateTo({
+					url: '../login/login'
+				});
 			},
 			goTop: function(e) {
 				this.scrollTop = this.old.scrollTop

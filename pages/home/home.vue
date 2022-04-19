@@ -57,6 +57,7 @@
 			...mapState(['userInfo'])
 		},
 		onShow() {
+			
 			if (this.userInfo.id) {
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
@@ -72,6 +73,10 @@
 				this.islogin = false
 			}
 
+		},
+		onLoad(){
+			if(this.userInfo&&!this.userInfo.id)
+			console.log(this.userInfo)
 		},
 		created() {
 
@@ -163,7 +168,9 @@
 					this.islogin = true
 				}
 			},
-			
+			print(){
+				console.log(this.userInfo.id);
+			},
 			goToSpace(index) {
 				// if(this.userInfo.id){
 				// 	this.$http.href('../login/login')
