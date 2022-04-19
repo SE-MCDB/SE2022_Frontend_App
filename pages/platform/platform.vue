@@ -5,23 +5,12 @@
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
 		</platform-create>
 		<!--导航栏-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<!-- <swiper-item v-for="(items,index) in newslist" :key="index">
-			<view v-if="items.list.length>0 && tabIndex == 1">
-				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
-				<scroll-view class="scroll" scroll-y="true">
-					<view v-for="(item,index1) in items.list" :key="index1">
-						<need-list 
-						 :item="item" 
-						 :index="index1"></need-list>
-					</view>
-				</scroll-view>
-			</view>
-			<view v-else>
-				<scroll-view>
-				</scroll-view>
-			</view>
-		</swiper-item> -->
+=======
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
+		<swiper-item v-for="(items,index) in newslist" :key="index">
+			<!--搜索框-->
 		<view v-if="tabIndex == 1 ">
 			<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
 			<view v-for="(item, index) in items" :key="index">
