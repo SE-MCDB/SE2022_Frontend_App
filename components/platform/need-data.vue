@@ -6,10 +6,10 @@
 		<!-- bar1:已完成 -->
 		<view v-if="tabIndex == 0">	
 		
-			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
+			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				
 				<template v-slot:body>
-					<tui-bubble-popup  :show ="show" :mask="false" position="fixed" direction="bottom" @close="closeshow" translateX="200px">
+					<tui-bubble-popup  :show ="show" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
 							<view class="tui-menu-item" @click="temp(item.id)">菜单一</view>
 							<view class="tui-menu-item">菜单二</view>
 							<view class="tui-menu-item">菜单三</view>
@@ -20,8 +20,8 @@
 					</view>
 				</template>
 				<template v-slot:footer>
-					<view class="tui-default">
-						Finished-默认卡片底部 slot=>footer
+					<view class="tui-default" @click="print">
+						更多选项↓
 					</view>
 				</template>
 				
@@ -209,4 +209,5 @@
 	font-size: 32upx;
 	color: #333333;
 }
+
 </style>
