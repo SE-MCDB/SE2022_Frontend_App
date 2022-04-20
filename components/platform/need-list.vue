@@ -1,13 +1,13 @@
 <template>
 	<view class="container"> 
-		<view class="item-list">
-			<view class="topic-title" @tap="opendetail">
+		<view class="item-list" @tap="openDetail">
+			<view class="topic-title">
 				<text style="font-weight: bold;font-size:larger;">{{item.title}}</text>
 			</view>
-			<view style="color: #007AFF;" @tap="opendetail">
+			<view style="color: #007AFF;" >
 				<text>{{item.field}}</text>
 			</view> 	
-			<view span="4" class="container1" @tap="opendetail">
+			<view span="4" class="container1">
 			    <text>{{item.description}}</text>
 			</view>		
 		</view>
@@ -15,28 +15,30 @@
 </template>
 
 <script>
+	
 	import uniFav from '@/components/uni-fav/uni-fav.vue'
 	import {
 		picUrl
 	} from "@/api/common.js";
 	export default {
 		components:{
-			uniFav
+			uniFav,
+			
 		},
 		props:{
 			item:Object,
 			index:Number,
-			// userInfo:Object
+			userInfo:Object,
 		},
 		data() {
-			
 			return {
 				
 			}
 		},
 		methods: {
-			opendetail(){
-				this.$emit("opendDetail",this.item)
+			openDetail(){
+				this.$emit("openDetail",this.item)
+				console.log("------------------need-list")
 			},
 		}
 	}

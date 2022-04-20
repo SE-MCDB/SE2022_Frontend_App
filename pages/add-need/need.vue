@@ -6,56 +6,73 @@
 				</uni-card>
 			</view>
 			<view class="need-form">
-				<form @submit="formSubmit" @reset="formReset">
+				<form @submit="submit" @reset="reset">
 					<uni-section title="需求标题" subTitle="为您的需求总结一个标题" type="line" padding>
-						<uni-easyinput errorMessage v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
+						<uni-easyinput v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
 					</uni-section>
 					<uni-section title="需求描述" subTitle="详细描述您的需求" type="line" padding>
 						<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 					</uni-section>
 					<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
-						<uni-easyinput type="digit" v-model="money" placeholder="请输入内容" @input="inputMoney"></uni-easyinput>
+						<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
+						
 					</uni-section>
-					<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
+					<!-- <uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
 						<tui-datetime ref="start_time" @confirm="changeStart" v-model="start_time" :type="1">
 						</tui-datetime>
 					</uni-section>
 					<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
 						<tui-datetime ref="end_time" @confirm="changeEnd" v-model="valid_time" :type="1">
 						</tui-datetime>
+					</uni-section> -->
+					<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
+						<view class="date-set">
+							<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
+						</view>
+					</uni-section>
+					<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
+						<view class="date-set">
+							<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
+						</view>
 					</uni-section>
 					<uni-section title="关键词" subTitle="请为您的需求添加几个关键词" type="line" padding>
 						<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
 					</uni-section>
 					<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
-						<!-- <tui-picker :show="show" :pickerData="field_items" @hide="hide" @change="inputField">
-						</tui-picker> -->
-						<picker @change="inputField" :value="index" :range="field_items">
-							<view class="uni-input">{{field_items[index]}}</view>
-						</picker>
+						<view class="uni-list">
+							<view class="uni-list-cell">
+								<view class="uni-list-cell-left">
+									当前选择
+								</view>
+								<view class="uni-list-cell-db">
+									<picker @change="inputField" :value="index" :range="field_items">
+										<view class="uni-input">{{field_items[index]}}</view>
+									</picker>
+								</view>
+							</view>
+						</view>
 					</uni-section>
 					<uni-section title="地址" subTitle="请为您的需求添加地址" type="line" padding>
 						<uni-easyinput v-model="address" placeholder="请输入需求地址" @input="inputAddress"></uni-easyinput>
 					</uni-section>
-					<uni-section title="紧急程度" subTitle="请为您的需求进行紧急估量" type="line" padding>
-						<view class="uni-list">
-							<radio-group @change="radioChange">
-								<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in emergencyItems" :key="item.value">
-									<view>
-										<radio :value="item.value" :checked="index === emergency" />
-									</view>
-									<view>{{item.name}}</view>
-								</label>
-							</radio-group>
-						</view>
-					</uni-section>
+					<uni-section title="紧急程度" subTitle="请为您的需求进行紧急估量" type="line" padding></uni-section>
+					<view class="uni-list">
+						<radio-group @change="radioChange">
+							<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in emergencyItems" :key="item.value">
+								<view>
+									<radio :value="item.value" :checked="index === emergency" />
+								</view>
+								<view>{{item.name}}</view>
+							</label>
+						</radio-group>
+					</view>
 					<uni-section title="预估人数" subTitle="为您的需求商定所需人数" type="line" padding>
 						<uni-easyinput type="digit" v-model="predict" placeholder="请输入内容" @input="inputPredict"></uni-easyinput>
 					</uni-section>
 					
 					<view class="uni-btn-v">
-						<button form-type="submit">Submit</button>
-						<button type="default" form-type="reset">Reset</button>
+						<button type="primary" form-type="submit">提交</button>
+						<button type="default" form-type="reset">清除</button>
 					</view>
 				</form>
 			</view>
@@ -66,18 +83,19 @@
 		mapMutations,
 		mapState
 	} from 'vuex';
-	import uniCard from '@/components/uni_modules/uni-card/components/uni-card/uni-card.vue'
-	import uniEasyinput from '@/components/uni_modules/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
+	import {
+		addneed
+	} from '@/api/add-need.js'
+	import uniCard from '@/components/uni_easyinput/uni-card/components/uni-card/uni-card.vue'
+	import uniEasyinput from '@/components/uni_easyinput/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
-	import tuiDatetime from '@/components/thorui/tui-datetime/tui-datetime.vue'
-	// import tuiPicker from "@/components/thorui/tui-picker/tui-picker"
+	import uniDatetimePicker from '@/components/uni_datetime_picker/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue'
 	export default {
 		components:{
 			uniCard,
 			uniEasyinput,
 			uniSection,
-			tuiDatetime,
-			// tuiPicker
+			uniDatetimePicker
 		},
 		data() {
 			return {
@@ -85,32 +103,66 @@
 				title: '',
 				description: '',
 				money: '',
-				start_time: '',
-				valid_time: '',
+				start_time: '2023-04-19 21:41:32',
+				end_time: '',
 				key_word: '',
-				field: '',
+				field: 0,
 				address: '',
 				state: 0,
 				emergency: '',
-				predict: '',
+				predict: 0,
+				real: 0,
 				index: 0,
 				field_items: [
-					"计算机", "美术"
+					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
 				],
 				emergencyItems: [
 					{
 						value: '0',
-						name: '非紧急'
+						name: '低'
 					},
 					{
 						value: '1',
-						name: '紧急'
+						name: '中'
+					},
+					{
+						value: '2',
+						name: '高'
 					}
 				]
 			};
 		},
+		watch: {
+			datetimesingle(newval) {
+				console.log('单选:', this.datetimesingle);
+			},
+			range(newval) {
+				console.log('范围选:', this.range);
+			},
+			datetimerange(newval) {
+				console.log('范围选:', this.datetimerange);
+			}
+		},
+		mounted() {
+			setTimeout(() => {
+				this.datetimesingle = Date.now() - 2 * 24 * 3600 * 1000
+				this.single = '2021-2-12'
+				// this.range = ['2021-03-1', '2021-4-28']
+				this.datetimerange = ["2021-07-08 0:01:10", "2021-08-08 23:59:59"]
+				// this.start = '2021-07-10'
+				// this.end = '2021-07-20'
+			}, 3000)
+		},
+		computed:{
+			...mapState(['userInfo'])
+		},
+		onLoad(data) {
+			//this.userID = data.uid;
+			
+			this.company_id = this.userInfo.id;
+			console.log('onLoad in certification '+ this.userID);
+		},
 		methods: {
-			//验证手机号码
 			back() {
 				uni.navigateBack();
 			},
@@ -126,42 +178,56 @@
 			show: function(e) {
 				this.$refs.start_time.show();
 			},
-			changeStart: function(e) {
-				this.start_time = e.result;
+			changeLogStart(e) {
+				console.log('----changeStartTime事件:', e);
 			},
-			// show: function(e) {
-			// 	this.$refs.end_time.show();
-			// },
-			changeEnd: function(e) {
-				this.valid_time = e.result;
+			changeLogEnd(e) {
+				console.log('----changeEndTime事件:', e);
 			},
  			inputKeyword(e) {
-				this.key_word = e.detail.split(" ");
+				this.key_word = e.detail
 			},
 			inputField(e) {
-				this.field = e.detail;
+				this.index = e.detail.value;
+				console.log(this.index)
+				this.field = this.index
 			},
 			inputRegisterCapital(e) {
 				this.register_capital = e.detail;
 			},
-			inputField(e) {
-				this.field = e.detail;
-			},
 			inputAddress(e) {
 				this.address = e.detail;
 			},
+			inputPredict(e) {
+				this.predict = e.detail;
+			},
 			radioChange: function(evt) {
-				for (let i = 0; i < this.items.length; i++) {
-					if (this.items[i].value === evt.detail.value) {
+				for (let i = 0; i < this.emergencyItems.length; i++) {
+					if (this.emergencyItems[i].value === evt.detail.value) {
 						this.emergency = i;
 						break;
 					}
 				}
 			},
-			Submit: function(e) {
-				
+			async submit() {
+				let data = {
+					"company_id": this.company_id,
+					"title": this.title,
+					"description": this.description,
+					"money": this.money,
+					"start_time": this.start_time,
+					"end_time": this.end_time,
+					"key_word": this.key_word,
+					"field": this.field,
+					"address": this.address,
+					"state": this.state,
+					"emergency": this.emergency,
+					"predict": this.predict,
+					"real": this.real
+				}
+				let result = await addneed(data)
 			},
-			Reset: function(e) {
+			reset: function(e) {
 				
 			}
 		}
@@ -252,5 +318,9 @@
 				margin-top: 80rpx;
 			}
 		}
+	}
+	.date-set {
+		background-color: #fff;
+		padding: 10px;
 	}
 </style>

@@ -1,35 +1,31 @@
 <template>
+
 	<view>
-		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
-		</platform-create>
+		<template v-if="userInfo&&userInfo.id">
+		
+		<!--右上角创建需求-->
+		<platform-create :show="show" @hide="hidepopup" @addneed="addneed"></platform-create>
+		
 		<!--导航栏-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap"></swiper-tab-head>
-		<swiper-item v-for="(items,index) in newslist" :key="index">
-			<!--搜索框-->
-			<view v-if="items.list.length>0 && tabIndex == 1">
-				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
-				<scroll-view class="scroll" scroll-y="true">
-					<view v-for="(item,index1) in items.list" :key="index1">
-						<need-list 
-						 :item="item" 
-						 :index="index1"></need-list>
-					</view>
-				</scroll-view>
-				<load-more :loadtext="items.loadtext"></load-more>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
+		<!--搜索框-->
+		<view v-if="tabIndex == 1 ">
+			<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
+			<view v-for="(item, index) in items" :key="index">
+				<need-list :item="item" :index="index" @openDetail="openDetail">
+				</need-list>
 			</view>
-			<!-- <view v-else-if="items.list.length==0 && tabIndex == 1">
-				<no-thing></no-thing>
-			</view> -->
-			<view v-else>
-				<scroll-view>
-				</scroll-view>
-			</view>
-		</swiper-item>
+		</view>
 		
 		<!-- 需求订单统计 -->
-		<view v-if="tabIndex == 0" >
-			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
+		<view v-else-if="tabIndex == 0" >
+			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo"></need-data>
 		</view>
+		</template>
+		<template v-else>
+			<view class="u-f-ajc">登陆PaperDaily，体验更多功能</view>
+			<view class="u-f-ajc" @tap="openLogin">账号密码登陆 <view class="icon iconfont icon-jinru"></view></view>
+		</template>
 	</view>
 </template>
 
@@ -50,6 +46,12 @@
 		getAllNeed,
 		postNewNeed
 	} from '@/api/platform.js'
+	import {
+		mapState
+	} from 'vuex'
+	import {
+		getUserProfile,
+	} from "@/api/home.js"
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -62,12 +64,16 @@
 			card,
 			platformCreate
 		},
+		computed: {
+			...mapState(['userInfo'])
+		},
 		data() {
 			return {
+				islogin: false,
 				swiperheight: 500,
 				tabIndex: 1,
 				shoNo: false,
-				
+				items: [],
 				show: false,
 				
 				tabBars: [{
@@ -81,18 +87,6 @@
 						page: 1
 					},
 				],
-				newslist: [{
-						loadtext: "没有更多数据了",
-						id: "wode",
-						list: []
-					},
-					{
-						loadtext: "没有更多数据了",
-						id: "faxian",
-						list: [],
-						
-					}
-				],
 				needdata:[
 					{ name:"已执行", num:0 },
 					{ name:"待处理", num:0 },
@@ -103,105 +97,61 @@
 		},
 		
 		onLoad() {
+			console.log(this.userInfo)
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100)
 					this.swiperheight = height;
 				}
 			});
+			console.log("-------------------Requesting")
 			this.requestData()
+			console.log("-------------------Request Success")
 		},
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
+			if (!this.userInfo.id) {
+				uni.navigateTo({
+					url: '../login/login',
+				});
+			}
 			switch (e.index) {
 				case 0:
 					this.show = true;
-					// this.hidepopup();
 					break;
 			}
 		},
+		
 		
 		methods: {
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
 				let type = this.tabBars[this.tabIndex].id;
-				let items;
-				// try {
-				// 	if(this.tabIndex===1){
-				// 		items = await getAllNeed()
-				// 	}
-				// 	console.log(items)
-				// } catch (e) {
-				// 	console.log(e)
-				// 	// return
-				// }
-				items = [
-							{
-								"need_id": "0",
-								"title": "也县它直则力",
-								"description": "越角保类感太是接放林向育便省话候。具造育西只支积当书本志达示。八并他规究打有口采发外治主美你行。争历有复切根流八参元素受复报置之。会造油合然器亲王许张知话体称达八。习解极们切这构月火证文器就工头效命。",
-								"valid_time": "1650031320",
-								"field": "力",
-								"state": 1,
-								"emergancy": 0
-							},
-							{
-								"need_id": "1",
-								"title": "定由值节教保",
-								"description": "心儿红器交七花再你及利建己龙越十对实。党时七际意除养月前压中运回展着。况当天条约南样你三了离解压思认。支权些实技习电样克美却根交报容但发。验型六经系深眼满当温作始展。红称单究志指须会必严导关习展团放。",
-								"valid_time": "1650031320",
-								"field": "才",
-								"state": 0,
-								"emergancy": 0
-							},
-							{
-								"need_id": "2",
-								"title": "世亲压次约",
-								"description": "且从几效流切有规造但题义解务阶。场十离程火放积约万少根者国集进。只整地将金阶身或称研进从它府道体查行。第几张族住步条已验被进美老。争强公多说目达平下教质积包电。",
-								"valid_time": "1650031320",
-								"field": "后",
-								"state": 0,
-								"emergancy": 0
-							},
-							{
-								"need_id": "3",
-								"title": "世订单次约",
-								"description": "且从几效流切有的风格。场十离程火放积约万少根者国集进。只整地将金阶身或称研进从它府道体查行。第几张族住步条已验被进美老。争强公多说目达平下教质积包电。",
-								"valid_time": "1650471320",
-								"field": "嘿嘿",
-								"state": 0,
-								"emergancy": 0
-							}
-						]
-				if (items && items.length === 0) {
-					this.tabBars[this.tabIndex].page = page
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
+				try {
+					if(this.tabIndex === 1){
+						let items = await getAllNeed()
+						console.log("items.length is:" + items.length)
+						this.items = items
+						console.log("this.items.length is:" + this.items.length)
+					}
+					// console.log(items)
+				} catch (e) {
+					
+					console.log(e)
 					return
 				}
-				this.newslist[this.tabIndex].list = items
-				if (items) {
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
-				}else{
-					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
-				}
-				return
 			},
-			goTop: function(e) {
-				this.scrollTop = this.old.scrollTop
-				this.$nextTick(() => {
-					this.scrollTop = 0
+			openLogin() {
+				uni.navigateTo({
+					url: '../login/login'
 				});
-				uni.showToast({
-					icon:"none",
-					title:"纵向滚动 scrollTop 值已被修改为 0"
+			},
+			openDetail(item) {
+				console.log("-----------------------------------openDetail")
+				uni.navigateTo({
+					url: '../need-detail/detail?id=' + item.need_id
 				})
-			},
-			upper: function(e) {
-				console.log(e)
-			},
-			lower: function(e) {
-				console.log(e)
 			},
 			tabtap(index) {
 				this.tabIndex = index;
@@ -227,19 +177,19 @@
 				})
 				this.hidepopup();
 			},
-			onShow() {
-				if (this.userInfo.id) {
-					if (!this.islogin) {
-						this.initDat()
-					}
-				} else {
-					this.needdata[0].num = 0
-					this.needdata[1].num = 0
-					this.needdata[2].num = 0
-					this.islogin = false
-				}
+			// onShow() {
+			// 	if (this.userInfo.id) {
+			// 		if (!this.islogin) {
+			// 			this.initDat()
+			// 		}
+			// 	} else {
+			// 		this.needdata[0].num = 0
+			// 		this.needdata[1].num = 0
+			// 		this.needdata[2].num = 0
+			// 		this.islogin = false
+			// 	}
 			
-			},
+			// },
 			async mounted() {
 				this.initDat()
 				if (this.userInfo.id) {
@@ -268,13 +218,23 @@
 				console.log(index)
 				switch (index) {
 					case 0:
-						this.$http.href('@/pages/user-space/user-space?uid=' + this.userInfo.id)
+						console.log(this.userInfo);
+						uni.navigateTo({
+							url: '../user-space/user-space?uid=' + this.userInfo.id
+						});
+						
 						break;
 					case 1:
-						this.$http.href('@/pages/user-comment/user-comment?uid=' + this.userInfo.id)
+						uni.navigateTo({
+							url: '../user-comment/user-comment?uid=' + this.userInfo.id
+						});
+						
 						break;
 					case 2:
-						this.$http.href('@/pages/user-collect/user-collect?uid=' + this.userInfo.id)
+						uni.navigateTo({
+							url: '../user-collect/user-collect?uid=' + this.userInfo.id
+						});
+						
 						break;
 				}
 			}
