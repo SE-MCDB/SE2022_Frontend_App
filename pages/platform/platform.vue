@@ -2,13 +2,13 @@
 
 	<view>
 		<template v-if="userInfo&&userInfo.id">
-		<platform-create :show="show" @hide="hidepopup" @addneed="addneed">
-		</platform-create>
+		
+		<!--右上角创建需求-->
+		<platform-create :show="show" @hide="hidepopup" @addneed="addneed"></platform-create>
+		
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
-		
-		
-		
+		<!--搜索框-->
 		<view v-if="tabIndex == 1 ">
 			<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
 			<view v-for="(item, index) in items" :key="index">
@@ -16,9 +16,10 @@
 				</need-list>
 			</view>
 		</view>
+		
 		<!-- 需求订单统计 -->
 		<view v-else-if="tabIndex == 0" >
-			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
+			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo"></need-data>
 		</view>
 		</template>
 		<template v-else>
