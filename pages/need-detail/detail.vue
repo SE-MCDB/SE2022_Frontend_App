@@ -1,48 +1,8 @@
 <template>
-	<view class="detail">
-		<detail-info @goToUserInfo="goToUserInfo"
-			@likeOrTread="likeOrTread"
-		   :userInfo="userInfo" @comSubimt="comSubimt" :item="detail" :created_by="created_by"></detail-info>
-
-		<view class="u-comment-title" :maskState="maskState">最新评论 {{comment.count}}</view>
-		<view class="uni-comment u-comment">
-			<block v-for="(item,index) in comment.list" :key="index">
-				<comment-list @comSubimt="comSubimt" @comDelete="comDelete" :userInfo="userInfo" :item="item" :index="index"></comment-list>
-			</block>
-			<template v-if="comment.list.length==0">
-				<view>还没有评论,快来说两句~</view>
-			</template>
-		</view>
-
-		<view style="height: 120upx;"></view>
-
-		<!-- 输入框 -->
-		<!-- <user-chat-bottom @submit="submit"></user-chat-bottom> -->
-		<!-- <t-rt-popup :itemList="itemList" ref="rtBubble" @click="itemClick"></t-rt-popup> -->
-		<!-- 分享 -->
-		<!-- <more-share :show="shareshow" @togle="togle"></more-share> -->
-		<pl-comment ref="plComment" :maskState="maskState" @toggleState="toggleState" :placeholder="placeText" @pubComment="pubComment"></pl-comment>
-	</view>
+	
 </template>
 
 <script>
-	import detailInfo from "../../components/detail/detail-info.vue";
-	import plComment from "../../components/ygc-comment/ygc-comment.vue";
-	import time from "../../common/time.js";
-	import commentList from "../../components/detail/comment-list.vue";
-	import userChatBottom from "../../components/user-chat/user-chat-bottom.vue";
-	import moreShare from "../../components/common/more-share.vue";
-	import tRtPopup from '@/components/views/t-rt-popup/t-rt-popup';
-	import {
-		getTopicDetail,
-		pushHistory,
-		delComment,
-		addComment,
-		getCommentList
-	} from "@/api/detail.js";
-	import {
-		giveLike
-	} from '@/api/common.js'
 	import {
 		mapState,
 		mapMutations
@@ -51,12 +11,10 @@
 	var graceRichText = require("../../components/common/richText.js");
 	export default {
 		components: {
-			tRtPopup,
-			detailInfo,
-			commentList,
-			userChatBottom,
-			moreShare,
-			plComment
+		},
+		props:{
+			item:Object,
+			userInfo:Object,
 		},
 		data() {
 			return {

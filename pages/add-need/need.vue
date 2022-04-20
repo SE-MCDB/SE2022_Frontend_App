@@ -6,7 +6,7 @@
 				</uni-card>
 			</view>
 			<view class="need-form">
-				<form @submit="formSubmit" @reset="formReset">
+				<form @submit="submit" @reset="reset">
 					<uni-section title="需求标题" subTitle="为您的需求总结一个标题" type="line" padding>
 						<uni-easyinput v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
 					</uni-section>
@@ -14,7 +14,8 @@
 						<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 					</uni-section>
 					<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
-						<uni-easyinput type="digit" v-model="money" placeholder="请输入内容" @input="inputMoney"></uni-easyinput>
+						<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
+						
 					</uni-section>
 					<!-- <uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
 						<tui-datetime ref="start_time" @confirm="changeStart" v-model="start_time" :type="1">
@@ -70,8 +71,8 @@
 					</uni-section>
 					
 					<view class="uni-btn-v">
-						<button type="primary" form-type="submit" @tap="submit">提交</button>
-						<button type="default" form-type="reset" @tap="reset">清除</button>
+						<button type="primary" form-type="submit">提交</button>
+						<button type="default" form-type="reset">清除</button>
 					</view>
 				</form>
 			</view>
@@ -82,18 +83,19 @@
 		mapMutations,
 		mapState
 	} from 'vuex';
+	import {
+		addneed
+	} from '@/api/add-need.js'
 	import uniCard from '@/components/uni_easyinput/uni-card/components/uni-card/uni-card.vue'
 	import uniEasyinput from '@/components/uni_easyinput/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
 	import uniDatetimePicker from '@/components/uni_datetime_picker/uni-datetime-picker/components/uni-datetime-picker/uni-datetime-picker.vue'
-	// import tuiPicker from "@/components/thorui/tui-picker/tui-picker"
 	export default {
 		components:{
 			uniCard,
 			uniEasyinput,
 			uniSection,
 			uniDatetimePicker
-			// tuiPicker
 		},
 		data() {
 			return {
@@ -104,23 +106,28 @@
 				start_time: '2023-04-19 21:41:32',
 				end_time: '',
 				key_word: '',
-				field: '',
+				field: 0,
 				address: '',
 				state: 0,
 				emergency: '',
-				predict: '',
+				predict: 0,
+				real: 0,
 				index: 0,
 				field_items: [
-					"计算机", "美术"
+					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
 				],
 				emergencyItems: [
 					{
 						value: '0',
-						name: '非紧急'
+						name: '低'
 					},
 					{
 						value: '1',
-						name: '紧急'
+						name: '中'
+					},
+					{
+						value: '2',
+						name: '高'
 					}
 				]
 			};
@@ -146,6 +153,15 @@
 				// this.end = '2021-07-20'
 			}, 3000)
 		},
+		computed:{
+			...mapState(['userInfo'])
+		},
+		onLoad(data) {
+			//this.userID = data.uid;
+			
+			this.company_id = this.userInfo.id;
+			console.log('onLoad in certification '+ this.userID);
+		},
 		methods: {
 			back() {
 				uni.navigateBack();
@@ -169,12 +185,12 @@
 				console.log('----changeEndTime事件:', e);
 			},
  			inputKeyword(e) {
-				this.key_word = e.detail.split(" ");
+				this.key_word = e.detail
 			},
 			inputField(e) {
 				this.index = e.detail.value;
 				console.log(this.index)
-				this.field = this.field_items[this.index]
+				this.field = this.index
 			},
 			inputRegisterCapital(e) {
 				this.register_capital = e.detail;
@@ -193,9 +209,23 @@
 					}
 				}
 			},
-			submit: function(e) {
-				let data = []
-				
+			async submit() {
+				let data = {
+					"company_id": this.company_id,
+					"title": this.title,
+					"description": this.description,
+					"money": this.money,
+					"start_time": this.start_time,
+					"end_time": this.end_time,
+					"key_word": this.key_word,
+					"field": this.field,
+					"address": this.address,
+					"state": this.state,
+					"emergency": this.emergency,
+					"predict": this.predict,
+					"real": this.real
+				}
+				let result = await addneed(data)
 			},
 			reset: function(e) {
 				

@@ -6,28 +6,22 @@ import {
 } from './common.js'
 
 export const  getAllNeed =async () => {
+	console.log("getAllNeed")
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
-	let result = await axios.get(url = 'platform', data = {}, headers)
+	// console.log("-----------------------is waiting")
 	
+	let result = await axios.get('need/all', {}, headers)
+	console.log("before result:" + result)
+	result = result.data
+	// console.log("-----------------------waiting end")
 	//result 参照接口文档
-	if(result&&result.length){
-		result = result.data
-		// result = result.map((item)=>{
-		// 	index = index + 1
-		// 	return{
-		// 		"need_id": item.need_id,
-		// 		"title": item.title,
-		// 		"description": item.description,
-		// 		"valid_time": item.valid_time,
-		// 		"field": item.field,
-		// 		"state": item.state,
-		// 		"emergancy": item.emergancy
-		// 		"index": index
-		// 	}
-		// })
-	}
+	// if(result&&result.length){
+	// 	result = result.data
+	// 	console.log(result)
+	// } 
+	console.log("result is:" + result)
 	return result
 }
 
