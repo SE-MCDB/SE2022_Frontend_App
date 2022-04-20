@@ -14,7 +14,7 @@
 							<view class="tui-menu-item">菜单二</view>
 							<view class="tui-menu-item">菜单三</view>
 					</tui-bubble-popup>
-					<view class="tui-default">
+					<view class="tui-default" @click="print(item.id)">
 						我是主体
 						
 					</view>
@@ -153,12 +153,13 @@
 			},
 			print(id){
 				if(this.show[id]==true){
-					this.show[id] = false;
+					this.show.splice(id,1,false);
+					
 				}
 				else{
-					this.show[id] = true;
+					this.show.splice(id,1,true);
 				}
-				console.log("success");
+				console.log(id+"success "+this.show[id]);
 			},
 			initData(){
 				this.datalist1 = [];	//已完成
