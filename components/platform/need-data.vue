@@ -5,18 +5,15 @@
 		
 		<!-- bar1:已完成 -->
 		<view v-if="tabIndex == 0">	
-		
 			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
-				
 				<template v-slot:body>
 					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
-							<view class="tui-menu-item" @click="temp(item.id)">菜单一</view>
-							<view class="tui-menu-item">菜单二</view>
-							<view class="tui-menu-item">菜单三</view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
 					</tui-bubble-popup>
 					<view class="tui-default" @click="print(item.id)">
 						我是主体
-						
 					</view>
 				</template>
 				<template v-slot:footer>
@@ -24,41 +21,46 @@
 						更多选项↓
 					</view>
 				</template>
-				
 			</tui-card>
 		</view>
 		
 		<!-- bar2:进行中 -->
 		<view v-else-if="tabIndex == 1">
-			
 			<tui-card v-for="item in datalist2" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
-				
 				<template v-slot:body>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
+					</tui-bubble-popup>
 					<view class="tui-default">
 						Doing-默认卡片内容部分 slot=>body
 					</view>
 				</template>
 				<template v-slot:footer>
-					<view class="tui-default">
-						
-						Doing-默认卡片底部 slot=>footer
+					<view class="tui-default" @click="print(item.id)">
+						Doing-更多选项↓
 					</view>
 				</template>
 			</tui-card>
-			
 		</view>
 		
 		<!-- bar3:待处理 -->
 		<view v-else>
 			<tui-card v-for="item in datalist3" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
 				<template v-slot:body>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
+							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
+					</tui-bubble-popup>
 					<view class="tui-default">
 						Todo-默认卡片内容部分 slot=>body
 					</view>
 				</template>
 				<template v-slot:footer>
-					<view class="tui-default">
-						Todo-默认卡片底部 slot=>footer
+					<view class="tui-default" @click="print(item.id)">
+						Todo-更多选项↓
 					</view>
 				</template>
 			</tui-card>
