@@ -4,7 +4,8 @@
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33.33%;"></swiper-tab-head>
 		<view v-if="tabIndex == 0">
 			
-			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+			<!--卡片栏-->
+			<tui-card :image="card.img" :title="card.title" :tag="card.tag" :header="card.header" @click="goToOrderDetail">
 				<template v-slot:body>
 					<view class="tui-default">
 						默认卡片内容部分 slot=>body
@@ -18,7 +19,8 @@
 			</tui-card>
 			
 			
-			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+			<!--卡片栏-->
+			<tui-card :image="card.img" :title="card.title" :tag="card.tag" :header="card.header" @click="goToOrderDetail">
 				<template v-slot:body>
 					<view class="tui-default">
 						默认卡片内容部分 slot=>body
@@ -71,22 +73,29 @@
 						page: 1
 					},
 				],
-					
-				a:{
-					//OYK: userpic is undefined?
-					 img: {
-					 		url: this.userInfo.userpic,
-					 		circle:true,
-					 	},
+
+				card:{
+					//OYK: userpic is undefined? [fixed!]
+					img: {
+							url: this.userInfo.userpic,
+							// width: 80,
+							// height: 80,
+							circle:true,
+						},
 					title: {
 							text: 'CSDN云计算',
+							color: '#a8a8a8',
+							size: 34,
 						},
 					tag: {
 							text: '1小时前',
+							text: '9小时前',
+							color: '#ed3f14',
+							size: 26,
 						},
 					header: {
-							bgcolor: '#55ff7f',
-							line: true,
+							bgcolor: '#f7f7f7',
+							line: true,	//是否去掉底部线条
 						},
 				},
 			}
