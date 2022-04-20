@@ -7,10 +7,9 @@
 		<view v-if="tabIndex == 0">	
 			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				<template v-slot:body>
-					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 查看详情 </view>
+							
 					</tui-bubble-popup>
 					<view class="tui-default" @click="print(item.id)">
 						我是主体
@@ -26,12 +25,15 @@
 		
 		<!-- bar2:进行中 -->
 		<view v-else-if="tabIndex == 1">
-			<tui-card v-for="item in datalist2" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
+			<tui-card v-for="item in datalist2" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				<template v-slot:body>
-					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 
+							查看详情 
+							
+							</view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 完成订单 </view>
+							
 					</tui-bubble-popup>
 					<view class="tui-default">
 						Doing-默认卡片内容部分 slot=>body
@@ -47,20 +49,20 @@
 		
 		<!-- bar3:待处理 -->
 		<view v-else>
-			<tui-card v-for="item in datalist3" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
+			<tui-card v-for="item in datalist3" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				<template v-slot:body>
-					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单一 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单二 </view>
-							<view class="tui-menu-item" @click="print(item.id)"> 菜单三 </view>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 接受 </view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 拒绝 </view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 查看详情 </view>
 					</tui-bubble-popup>
 					<view class="tui-default">
-						Todo-默认卡片内容部分 slot=>body
+						默认卡片内容部分 slot=>body
 					</view>
 				</template>
 				<template v-slot:footer>
 					<view class="tui-default" @click="print(item.id)">
-						Todo-更多选项↓
+						更多选项↓
 					</view>
 				</template>
 			</tui-card>
@@ -78,6 +80,7 @@
 	import tuiCard from "@/components/thorui/tui-card/tui-card"
 	import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
 	import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
+	import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
 	export default {
 		data(){
 			
@@ -118,6 +121,7 @@
 			tuiCard,
 			tuiSwipeAction,
 			tuiBubblePopup,
+			tuiIcon,
 		},
 		props:{
 			needdata:Array,
@@ -213,5 +217,11 @@
 	font-size: 32upx;
 	color: #333333;
 }
-
+.tui-menu-item{
+	size:400upx;
+}
+.u-f-ac{
+	font-size:30upx;
+	text-align: center;
+}
 </style>
