@@ -5,10 +5,18 @@
 		
 		<!-- bar1:已完成 -->
 		<view v-if="tabIndex == 0">	
+		
 			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
+				
 				<template v-slot:body>
+					<tui-bubble-popup  :show ="show" :mask="false" position="fixed" direction="bottom" @close="closeshow" translateX="200px">
+							<view class="tui-menu-item" @click="temp(item.id)">菜单一</view>
+							<view class="tui-menu-item">菜单二</view>
+							<view class="tui-menu-item">菜单三</view>
+					</tui-bubble-popup>
 					<view class="tui-default">
-						Finished-默认卡片内容部分 slot=>body
+						我是主体
+						
 					</view>
 				</template>
 				<template v-slot:footer>
@@ -16,12 +24,15 @@
 						Finished-默认卡片底部 slot=>footer
 					</view>
 				</template>
+				
 			</tui-card>
 		</view>
 		
 		<!-- bar2:进行中 -->
 		<view v-else-if="tabIndex == 1">
+			
 			<tui-card v-for="item in datalist2" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header" @click="print">
+				
 				<template v-slot:body>
 					<view class="tui-default">
 						Doing-默认卡片内容部分 slot=>body
@@ -29,10 +40,12 @@
 				</template>
 				<template v-slot:footer>
 					<view class="tui-default">
+						
 						Doing-默认卡片底部 slot=>footer
 					</view>
 				</template>
 			</tui-card>
+			
 		</view>
 		
 		<!-- bar3:待处理 -->
@@ -61,11 +74,13 @@
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
 	import tuiCard from "@/components/thorui/tui-card/tui-card"
-	
+	import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
+	import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
 	export default {
 		data(){
 			
 			return{
+				show: false,
 				tabIndex: 0,
 				tabBars: [
 					{
@@ -84,12 +99,23 @@
 						page: 1
 					},
 				],
+				actions:[
+					{
+						name:"删除",
+						color: '#fff',
+						fontsize: 30, //单位rpx
+						width: 70, //单位px
+						background: '#FD3B31',
+					}
+				],
 			}
 		},
 		
 		components:{
 			swiperTabHead,
 			tuiCard,
+			tuiSwipeAction,
+			tuiBubblePopup,
 		},
 		props:{
 			needdata:Array,
@@ -106,13 +132,15 @@
 			this.initData();
 		},
 		beforeMount(){
-			this.initData();
+			
 		},
 		mounted(){
-			console.log("init");
-			this.initData();
+			
 		},
 		methods:{
+			temp(id){
+				console.log(id);
+			},
 			tabtap(index) {
 				this.tabIndex = index;
 			},
@@ -120,7 +148,16 @@
 				console.log(index)
 				this.$emit("goToNeedInfo",index)
 			},
+			closeshow(){
+				this.show=false;
+			},
 			print(){
+				if(this.show==true){
+					this.show = false;
+				}
+				else{
+					this.show = true;
+				}
 				console.log("success");
 			},
 			initData(){
