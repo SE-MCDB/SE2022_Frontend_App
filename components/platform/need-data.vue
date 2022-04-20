@@ -4,7 +4,7 @@
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33.33%;"></swiper-tab-head>
 		<view v-if="tabIndex == 0">
 			
-			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print" :header="a.header">
 				<template v-slot:body>
 					<view class="tui-default">
 						默认卡片内容部分 slot=>body
@@ -18,7 +18,7 @@
 			</tui-card>
 			
 			
-			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print">
+			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" @click="print">
 				<template v-slot:body>
 					<view class="tui-default">
 						默认卡片内容部分 slot=>body
@@ -73,7 +73,7 @@
 				],
 					
 				a:{
-					//OYK: userpic is undefined?
+					
 					 img: {
 					 		url: this.userInfo.userpic,
 					 		circle:true,
@@ -85,10 +85,13 @@
 							text: '1小时前',
 						},
 					header: {
-							bgcolor: '#55ff7f',
+							bgcolor: '#55ffff',
 							line: true,
 						},
 				},
+				datalist1:[
+					
+				],
 			}
 		},
 		
@@ -106,8 +109,17 @@
 		onLoad(){
 			console.log(this.userInfo.userpic);
 		},
+		
+		created(){
+			this.initData();
+		},
+		beforeMount(){
+			this.initData();
+		},
 		mounted(){
-			console.log(this.userInfo);
+			console.log("init");
+			this.initData();
+			
 		},
 		methods:{
 			tabtap(index) {
@@ -120,6 +132,42 @@
 			print(){
 				console.log("success");
 			},
+			initData(){
+				if(this.userInfo && this.userInfo.id){
+					this.datalist1=[];
+					for(var i=1;i<=5;i++){
+					let a={
+					id:1,
+					img: {
+					 		url: this.userInfo.userpic,
+					 		circle:true,
+					 	},
+					title: {
+							text: 'CSDN云计算',
+						},
+					tag: {
+							text: i,
+						},
+					header: {
+							bgcolor: '#55ffff',
+							line: true,
+						}};
+					
+					this.datalist1.push(a);
+					}
+					/*this.datalist1[0].img.url=this.userInfo.userpic;
+					this.datalist1[0].title.text="sb";
+					this.datalist1[0].tag.text="sb";
+					
+					this.datalist1[1].img.url=this.userInfo.userpic;
+					this.datalist1[1].title.text="sb";
+					this.datalist1[1].tag.text="sb";*/
+				}
+				else{
+					this.datalist1=[];
+					
+				}
+			}
 		}
 	}
 </script>
