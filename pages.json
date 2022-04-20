@@ -430,6 +430,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/certificate-expert/certificate-expert",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"permission": {
 	    "scope.userLocation": {
