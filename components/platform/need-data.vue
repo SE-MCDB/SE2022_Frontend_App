@@ -80,9 +80,14 @@
 					 	},
 					title: {
 							text: 'CSDN云计算',
+							color: '#a8a8a8',
+							size: 34,
 						},
 					tag: {
 							text: '1小时前',
+							text: '9小时前',
+							color: '#ed3f14',
+							size: 26,
 						},
 					header: {
 							bgcolor: '#55ffff',
