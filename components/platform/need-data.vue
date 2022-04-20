@@ -56,18 +56,18 @@
 			return{
 				tabIndex: 0,
 				tabBars: [{
-						name: "已执行",
-						id: "yizhixing",
+						name: "已完成",
+						id: "yiwancheng",
+						page: 1
+					},
+					{
+						name: "进行中",
+						id: "jinxingzhong",
 						page: 1
 					},
 					{
 						name: "待处理",
 						id: "daichuli",
-						page: 1
-					},
-					{
-						name: "新请求",
-						id: "xinqingqiu",
 						page: 1
 					},
 				],
@@ -85,7 +85,7 @@
 						},
 					tag: {
 							text: '1小时前',
-							text: '9小时前',
+							
 							color: '#ed3f14',
 							size: 26,
 						},
@@ -140,6 +140,7 @@
 			initData(){
 				if(this.userInfo && this.userInfo.id){
 					this.datalist1=[];
+					
 					for(var i=1;i<=5;i++){
 					let a={
 					id:1,
@@ -160,6 +161,7 @@
 					
 					this.datalist1.push(a);
 					}
+					
 					/*this.datalist1[0].img.url=this.userInfo.userpic;
 					this.datalist1[0].title.text="sb";
 					this.datalist1[0].tag.text="sb";
