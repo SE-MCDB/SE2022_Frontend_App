@@ -9,7 +9,7 @@
 			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				
 				<template v-slot:body>
-					<tui-bubble-popup  :show ="show" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="200px" translateY="32px">
 							<view class="tui-menu-item" @click="temp(item.id)">菜单一</view>
 							<view class="tui-menu-item">菜单二</view>
 							<view class="tui-menu-item">菜单三</view>
@@ -20,7 +20,7 @@
 					</view>
 				</template>
 				<template v-slot:footer>
-					<view class="tui-default" @click="print">
+					<view class="tui-default" @click="print(item.id)">
 						更多选项↓
 					</view>
 				</template>
@@ -80,7 +80,7 @@
 		data(){
 			
 			return{
-				show: false,
+				show:[],
 				tabIndex: 0,
 				tabBars: [
 					{
@@ -151,12 +151,12 @@
 			closeshow(){
 				this.show=false;
 			},
-			print(){
-				if(this.show==true){
-					this.show = false;
+			print(id){
+				if(this.show[id]==true){
+					this.show[id] = false;
 				}
 				else{
-					this.show = true;
+					this.show[id] = true;
 				}
 				console.log("success");
 			},
@@ -168,8 +168,9 @@
 				
 				if(this.userInfo && this.userInfo.id){
 					for(var i=1;i<=10;i++){
+						this.show[i]=false;
 						let a={
-							id:1,
+							id:i,
 							img: {
 								url: this.userInfo.userpic,
 								circle:true,
