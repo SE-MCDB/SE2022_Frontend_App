@@ -20,7 +20,7 @@
 		</view>
 		<!-- 需求订单统计 -->
 		<view v-else-if="tabIndex == 0" >
-			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata"></need-data>
+			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo"></need-data>
 		</view>
 		</template>
 		<template v-else>

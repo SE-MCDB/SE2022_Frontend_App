@@ -74,10 +74,10 @@
 					
 				a:{
 					//OYK: userpic is undefined?
-					// img: {
-					// 		url: this.userInfo.userpic,
-					// 		circle:true,
-					// 	},
+					 img: {
+					 		url: this.userInfo.userpic,
+					 		circle:true,
+					 	},
 					title: {
 							text: 'CSDN云计算',
 						},
@@ -101,10 +101,13 @@
 			userInfo:Object,
 		},
 		onShow(){
-			
+			console.log(this.userInfo.userpic);
 		},
 		onLoad(){
-			
+			console.log(this.userInfo.userpic);
+		},
+		mounted(){
+			console.log(this.userInfo);
 		},
 		methods:{
 			tabtap(index) {
