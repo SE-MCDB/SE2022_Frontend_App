@@ -10,17 +10,9 @@ export const  getAllNeed =async () => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
-	// console.log("-----------------------is waiting")
-	
 	let result = await axios.get('need/all', {}, headers)
 	console.log("before result:" + result)
 	result = result.data
-	// console.log("-----------------------waiting end")
-	//result 参照接口文档
-	// if(result&&result.length){
-	// 	result = result.data
-	// 	console.log(result)
-	// } 
 	console.log("result is:" + result)
 	return result
 }
