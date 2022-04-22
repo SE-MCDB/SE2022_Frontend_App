@@ -368,7 +368,7 @@
 					return;
 				} 
 				uni.uploadFile({
-					url: 'http://172.16.1.251:8000/api/expert/setinfo',
+					url: 'http://122.9.14.73:8000/api/expert/setinfo',
 					files: [{
 						uri: this.scholar_ID,
 						name: 'scholar_ID'
