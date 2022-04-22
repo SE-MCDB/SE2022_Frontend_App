@@ -33,7 +33,7 @@
 		</view>
 		</template>
 		<template v-else-if="homeinfo.type=='4'">
-		<view class="home-info u-f-ac animated fadeIn fast" @tap="ToUserSpace">
+		<view class="home-info u-f-ac animated fadeIn fast" @tap="openExpertCertificate">
 			专家详情编辑
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
@@ -55,9 +55,9 @@
 					url: '../certificate-enterprise/certificate-enterprise',
 				});
 			},
-			ToUserSpace(){
+			openExpertCertificate(){
 				uni.navigateTo({
-					url: '../../pages/user-set-userinfo/user-set-userinfo',
+					url: '../../pages/certificate-expert/certificate-expert',
 				});
 			},
 		}

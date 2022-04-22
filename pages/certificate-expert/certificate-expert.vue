@@ -204,7 +204,7 @@
 					this.scholar_ID && this.scholar_profile) {
 					bool = false;
 				}
-				return false;
+				return bool;
 			},
 			...mapState(['userInfo'])
 		},
@@ -368,7 +368,7 @@
 					return;
 				} 
 				uni.uploadFile({
-					url: 'http://172.16.1.251:8000/api/expert/setinfo',
+					url: 'http://122.9.14.73:8000/api/expert/setinfo',
 					files: [{
 						uri: this.scholar_ID,
 						name: 'scholar_ID'
@@ -390,7 +390,7 @@
 						this.back();
 					},
 					fail: (err) => {
-						console.log("认证失败");
+						console.log(err);
 					}
 				})
 				return;
