@@ -217,7 +217,7 @@
 				this.organization = this.userInfo.expert_organization;
 				this.field = this.userInfo.expert_field;
 				this.scholar_profile = this.userInfo.expert_scholarprofile;
-				this.phone = this.userInfo.exper_phone;
+				this.phone = this.userInfo.expert_phone;
 			}
 			console.log('onLoad in certification '+ this.userID);
 		},

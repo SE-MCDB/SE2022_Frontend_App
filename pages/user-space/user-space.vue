@@ -173,7 +173,6 @@
 				let data = await getUserInfo({"user_id":id});
 				let topicList = await getTopicListByUid(id);
 				this.topicList = topicList
-
 				if("id" in data){
 					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
 					this.spacedata[1].num = data.total_follow
@@ -196,6 +195,11 @@
 					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
 					this.info.enterprise_register_capital= data.enterprise_register_capital;
 					this.info.enterprise_field= data.enterprise_field;
+					this.info.expert_name = data.expert_name;
+					this.info.expert_organization = data.expert_organization;
+					this.info.expert_field = data.expert_field;
+					this.info.expert_shcolarprofile = data.expert_shcolarprofile;
+					this.info.expert_phone = data.expert_phone;
 				}
 			},
 			userActive(){
