@@ -198,7 +198,7 @@
 					this.info.expert_name = data.expert_name;
 					this.info.expert_organization = data.expert_organization;
 					this.info.expert_field = data.expert_field;
-					this.info.expert_shcolarprofile = data.expert_shcolarprofile;
+					this.info.expert_scholarprofile = data.expert_scholarprofile;
 					this.info.expert_phone = data.expert_phone;
 				}
 			},

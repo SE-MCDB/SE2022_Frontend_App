@@ -19,7 +19,7 @@
 				<view>姓名：{{userinfo.expert_name}}</view>
 				<view>所属机构：{{userinfo.expert_organization}}</view>
 				<view>擅长领域：{{userinfo.expert_field}}</view>
-				<view>个人简介：{{userinfo.expert_shcolarprofile}}</view>
+				<view>个人简介：{{userinfo.expert_scholarprofile}}</view>
 				<view>电话：{{userinfo.expert_phone}}</view>
 			</template>
 			<template v-else-if="userinfo.state=='5'">
