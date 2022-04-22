@@ -121,6 +121,19 @@
 			console.log("-------------------Request Success")
 		},
 		
+		onShow() {
+			console.log(this.userInfo)
+			// uni.getSystemInfo({
+			// 	success: (res) => {
+			// 		let height = res.windowHeight - uni.upx2px(100)
+			// 		this.swiperheight = height;
+			// 	}
+			// });
+			console.log("-------------------Requesting")
+			this.requestData()
+			console.log("-------------------Request Success")
+		},
+		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {

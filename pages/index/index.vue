@@ -332,6 +332,7 @@
 				}
 			},
 			opendDetail(item) {
+				console.log("before jump to the detailed value, the id is " + item.id)
 				uni.navigateTo({
 					url: '../../pages/detail/detail?id=' + item.id,
 				});

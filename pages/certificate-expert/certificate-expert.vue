@@ -1,8 +1,8 @@
 <template>
 	<view class="container">
 		<view class="tui-status-bar"></view>
-		<view v-if="userInfo.type=='0'" class="tui-page-title">企业认证</view>
-		<view v-else-if="userInfo.type=='5'" class="tui-page-title">企业信息编辑</view>
+		<view v-if="userInfo.type=='0'" class="tui-page-title">专家认证</view>
+		<view v-else-if="userInfo.type=='4'" class="tui-page-title">专家信息编辑</view>
 		<view class="tui-form">
 			<view class="tui-view-input">
 			
@@ -16,8 +16,8 @@
 
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="home" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="name" placeholder="请输入企业名称" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputName" />
+						<tui-icon name="people" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="name" placeholder="请输入真实姓名" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputName" />
 						<view class="tui-icon-close" v-show="name" @tap="clearInput(1)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -25,79 +25,80 @@
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="location" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="address" placeholder="请输入企业地址"  placeholder-class="tui-phcolor" type="text"
-						 maxlength="36" @input="inputAddress" />
-						<view class="tui-icon-close" v-show="address" @tap="clearInput(2)">
+						<tui-icon name="card" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="ID_num" placeholder="请输入身份证" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputID_num" />
+						<view class="tui-icon-close" v-show="ID_num" @tap="clearInput(2)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
 					</view>
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="explore" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="website" placeholder="请输入企业网站" placeholder-class="tui-phcolor" type="text"
-						 maxlength="36" @input="inputWebsite" />
-						<view class="tui-icon-close" v-show="website" @tap="clearInput(3)">
+						<tui-icon name="mobile" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="phone" placeholder="请输入电话号码" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
+						<view class="tui-icon-close" v-show="phone" @tap="clearInput(3)">
+							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
+						</view>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell :hover="false">
+					<view>
+						<view class="thorui-input-title">擅长领域</view>
+						<checkbox-group @change="getSelectedInfo">
+							<label v-for="(item,index) in checkboxItems" :key="index">
+									<view class="thorui-align__center">
+										<checkbox :checked="item.checked" :value="item.value" color="#f8683c" borderColor="#999">
+										</checkbox>
+										<text class="tui-text">{{item.name}}</text>
+									</view>
+							</label>
+						</checkbox-group>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
+					<view class="tui-cell-input">
+						<tui-icon name="strategy" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="paper" placeholder="请输入一篇发表的论文全称(知兔可查)" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPaper" />
+						<view class="tui-icon-close" v-show="paper" @tap="clearInput(4)">
+							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
+						</view>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
+					<view class="tui-cell-input">
+						<tui-icon name="strategy" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="patent" placeholder="请输入一篇发表的专刊全称(知兔可查)" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPatent" />
+						<view class="tui-icon-close" v-show="patent" @tap="clearInput(5)">
+							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
+						</view>
+					</view>
+				</tui-list-cell>
+				<tui-list-cell>
+					<view class="thorui-input-title">(论文和专刊至少选择一项填写)</view>
+					</tui-list-cell>
+				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
+					<view class="tui-cell-input">
+						<tui-icon name="home" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="organization" placeholder="请输入工作单位" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputOrganization" />
+						<view class="tui-icon-close" v-show="organization" @tap="clearInput(6)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
 					</view>
 				</tui-list-cell>
 				
-				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-					<view class="tui-cell-input">
-						<tui-icon name="mobile" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="phone" placeholder="请输入联系电话" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
-						<view class="tui-icon-close" v-show="phone" @tap="clearInput(5)">
-							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
-						</view>
-					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-					<view class="tui-cell-input">
-						<tui-icon name="people" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="legal_representative" placeholder="请输入法定代表人" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputLegalRepresentative" />
-						<view class="tui-icon-close" v-show="legal_representative" @tap="clearInput(6)">
-							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
-						</view>
-					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-					<view class="tui-cell-input">
-						<tui-icon name="wallet" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="register_capital" placeholder="请输入注册资本" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputRegisterCapital" />
-						<view class="tui-icon-close" v-show="register_capital" @tap="clearInput(7)">
-							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
-						</view>
-					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
-					<view class="tui-cell-input">
-						<tui-icon name="shop" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="field" placeholder="请输入主营业务" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputField" />
-						<view class="tui-icon-close" v-show="field" @tap="clearInput(8)">
+				
+				<tui-list-cell :hover="false">
+					<view>
+						<view class="thorui-input-title">个人简介</view>
+						<textarea placeholder="请输入个人简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputScholar_Profile" :value="scholar_profile"></textarea>
+						<view class="tui-icon-close" v-show="scholar_profile" @tap="clearInput(7)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
 					</view>
 				</tui-list-cell>
 				<tui-list-cell :hover="false">
 					<view>
-						<view class="thorui-input-title">企业简介</view>
-						<textarea placeholder="请输入企业简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputInstruction" :value="instruction"></textarea>
-						<view class="tui-icon-close" v-show="instruction" @tap="clearInput(4)">
-							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
-						</view>
-					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="false" unlined="">
-					<view>
-						<view class="thorui-input-title">营业执照</view>
-						<upload-license @getLicense="getLicensePath"></upload-license>
-					</view>
-				</tui-list-cell>
-				<tui-list-cell :hover="false">
-					<view>
-						<view class="thorui-input-title">法人身份证</view>
+						<view class="thorui-input-title">身份证照片</view>
 						<uploadID @getIDpic="getIDPath"></uploadID>
 					</view>
 				</tui-list-cell>
@@ -106,7 +107,7 @@
 			<view v-if="userInfo.type=='0'" class="tui-btn-box">
 				<tui-button @tap="certificate" :disabledGray="true" :disabled="disabled" :shadow="true" shape="circle">申请认证</tui-button>
 			</view>
-			<view v-else-if="userInfo.type=='5'" class="tui-btn-box">
+			<view v-else-if="userInfo.type=='4'" class="tui-btn-box">
 				<tui-button @tap="certificate" :disabledGray="true" :disabled="disabled" :shadow="true" shape="circle">提交审核</tui-button>
 			</view>
 			<view class="tui-cell-text">
@@ -138,26 +139,72 @@
 			return {
 				userID: '',
 				name: '',
-				address: '',
-				website: '',
-				instruction: '',
+				ID_num: '',
 				phone: '',
-				legal_representative: '',
-				register_capital: '',
+				paper: '',
+				patent: '',
+				organization: '',
 				field: '',
-				business_license: '',
-				legal_person_ID: '',
+				scholar_ID: '',
+				scholar_profile: '',
+				selectedItems: [],
+				checkboxItems:[{
+					name: '信息技术',
+					value: '0',
+					checked: false,
+				},
+				{
+					name: '装备制造',
+					value: '1',
+					checked: false,
+				},
+				{
+					name: '新材料',
+					value: '2',
+					checked: false,
+				},
+				{
+					name: '新能源',
+					value: '3',
+					checked: false,
+				},
+				{
+					name: '节能环保',
+					value: '4',
+					checked: false,
+				},
+				{
+					name: '生物医药',
+					value: '5',
+					checked: false,
+				},
+				{
+					name: '科学创意',
+					value: '6',
+					checked: false,
+				},
+				{
+					name: '检测检验',
+					value: '7',
+					checked: false,
+				},
+				{
+					name: '其他',
+					value: '8',
+					checked: false,
+				},
+				]
 			};
 		},
 		computed:{
 			disabled: function() {
 				let bool = true;
-				if (this.userID && this.name && this.address && this.website &&
-					this.instruction && this.phone && this.legal_representative &&
-					this.register_capital && this.field && this.business_license && this.legal_person_ID) {
+				if (this.userID &&this.name && (this.paper || this.patent) &&
+					this.organization && this.ID_num &&
+					this.scholar_ID && this.scholar_profile) {
 					bool = false;
 				}
-				return bool;
+				return false;
 			},
 			...mapState(['userInfo'])
 		},
@@ -165,15 +212,12 @@
 			//this.userID = data.uid;
 			
 			this.userID = this.userInfo.id;
-			if(this.userInfo.enterprise_name){
-				this.name = this.userInfo.enterprise_name;
-				this.address = this.userInfo.enterprise_address;
-				this.website =this.userInfo.enterprise_website;
-				this.instruction =this.userInfo.enterprise_instruction;
-				this.phone =this.userInfo.enterprise_phone;
-				this.legal_representative =this.userInfo.enterprise_legal_representative;
-				this.register_capital =this.userInfo.enterprise_register_capital;
-				this.field =this.userInfo.enterprise_field;
+			if(this.userInfo.expert_name){
+				this.name = this.userInfo.expert_name;
+				this.organization = this.userInfo.expert_organization;
+				this.field = this.userInfo.expert_field;
+				this.scholar_profile = this.userInfo.expert_scholarprofile;
+				this.phone = this.userInfo.exper_phone;
 			}
 			console.log('onLoad in certification '+ this.userID);
 		},
@@ -185,54 +229,45 @@
 			inputName(e) {
 				this.name = e.detail.value;
 			},
-			inputAddress(e) {
-				this.address = e.detail.value;
+			inputPaper(e) {
+				this.paper = e.detail.value;
 			},
-			inputWebsite(e) {
-				this.website = e.detail.value;
+			inputPatent(e) {
+				this.patent = e.detail.value;
 			},
-			inputInstruction(e) {
-				this.instruction = e.detail.value;
-			},
-			inputPhone(e) {
-				this.phone = e.detail.value;
-			},
-			inputLegalRepresentative(e) {
-				this.legal_representative = e.detail.value;
-			},
-			inputRegisterCapital(e) {
-				this.register_capital = e.detail.value;
+			inputOrganization(e) {
+				this.organization = e.detail.value;
 			},
 			inputField(e) {
 				this.field = e.detail.value;
 			},
-			inputBusinessLisence(e) {
-				this.business_license = e.detail.value;
+			inputID_num(e) {
+				this.ID_num = e.detail.value;
 			},
-			inputLegalPersonID(e) {
-				this.legal_person_ID = e.detail.value;
+			inputScholar_ID(e) {
+				this.scholar_ID = e.detail.value;
+			},
+			inputScholar_Profile(e) {
+				this.scholar_profile = e.detail.value;
+			},
+			inputPhone(e) {
+				this.phone = e.detail.value;
 			},
 			clearInput(type) {
 				if (type == 1) {
 					this.name = '';
 				} else if(type == 2) {
-					this.address = '';
+					this.ID_num = '';
 				}else if (type == 3) {
-					this.website = '';
-				} else if (type == 4) {
-					this.instruction = '';
-				} else if (type == 5) {
 					this.phone = '';
+				} else if (type == 4) {
+					this.paper = '';
+				} else if (type == 5) {
+					this.patent = '';
 				} else if (type == 6) {
-					this.legal_representative = '';
+					this.organization = '';
 				} else if (type == 7) {
-					this.register_capital = '';
-				} else if (type == 8) {
-					this.field = '';
-				} else if (type == 9) {
-					this.business_license = '';
-				} else if (type == 10) {
-					this.legal_person_ID = '';
+					this.scholar_profile = '';
 				}
 			},
 			protocol() {
@@ -240,91 +275,114 @@
 			},
 			getIDPath(val) {
 				if (val.length > 0) {
-					this.legal_person_ID = val[0];
+					this.scholar_ID = val[0];
 				} else {
-					this.legal_person_ID = '';
+					this.scholar_ID = '';
 				}
 				console.log("IDPath!")
-				console.log(this.legal_person_ID);
+				console.log(this.scholar_ID);
 			},
-			getLicensePath(val) {
-				if (val.length > 0) {
-					this.business_license = val[0];
+			getSelectedInfo(e) {
+				console.log(e.detail.value);
+				this.selectedItems = e.detail.value;
+			},
+			checkID() {
+				if (this.scholar_ID.length != 18) {
+					return true;
 				} else {
-					this.legal_person_ID = '';
+					return false;
 				}
-				console.log("License Path!")
-				console.log(this.business_license);
 			},
-			// async toCertificate() {
-			// 	console.log("certification begins");
-			// 	let data = await enterprise_certificate({
-					// id: this.userID,
-					// name: this.name,
-					// address: this.address,
-					// website: this.website,
-					// instruction: this.instruction,
-					// phone: this.phone,
-					// legal_representative: this.legal_representative,
-					// register_capital: this.register_capital,
-					// field: this.field,
-					// business_license: this.business_license,
-					// legal_person_ID: this.legal_person_ID,
-			// })
-			// }
+			getFieldString() {
+				let string = [];
+				for (let i = 0; i < this.checkboxItems.length; i++) {
+					string.push("0");
+				}
+				console.log("string is " + string);
+				for (let i = 0; i < this.selectedItems.length; i++) {
+					console.log("seledted " + this.selectedItems[i])
+					string[this.selectedItems[i]] = "1";
+				}
+				console.log("string is " + string);
+				let str = '';
+				for (let i = 0; i < string.length; i++) {
+					str = str + string[i];
+				}
+				this.field = str;
+			},
+			checkFiledString() {
+				if (this.selectedItems.length == 0) {
+					return true;
+				}
+				return false;
+			},
 			validate() {
 				let rules = [{
 					name: "phone",
 					rule: ["isMobile"],
 					msg: ["请输入正确手机号"]
-				}];
+				},
+				{	
+					name: "scholar_ID",
+					rule: ["required"],
+					msg: ["请输入身份证号"],
+					validator: [{
+						msg: "请输入正确身份号码",
+						method: this.checkID
+					}]
+				},
+				{
+					name: "field",
+					rule: ["required"],
+					msg: ["请至少选择一个领域"],
+					validator: [{
+						msg: "请至少选择一个领域",
+						method: this.checkFieldString
+					}]
+				}
+				];
 				let formData = {
-					id: this.userID,
+					userID: this.userID,
 					name: this.name,
-					address: this.address,
-					website: this.website,
-					instruction: this.instruction,
-					phone: this.phone,
-					legal_representative: this.legal_representative,
-					register_capital: this.register_capital,
+					paper: this.paper,
+					patent: this.patent,
+					organization: this.organization,
 					field: this.field,
-					business_license: this.business_license,
-					legal_person_ID: this.legal_person_ID
+					ID_num: this.ID_num,
+					scholar_ID: this.scholar_ID,
+					scholar_profile: this.scholar_profile,
+					phone: this.phone,
 				};
 				let checkRes = form.validation(formData, rules);
 				return checkRes;
 			},
 			certificate() {
 				console.log("认证开始！")
+				this.getFieldString();
 				let checkRes = this.validate();
 				if (checkRes) {
 					uni.showToast({
 						title: checkRes,
 						icon: "none"
 					});
-					console.log("手机号不正确，认证失败");
 					return;
 				} 
 				uni.uploadFile({
-					url: 'http://122.9.14.73:8000/api/enterprise/setinfo',
+					url: 'http://172.16.1.251:8000/api/expert/setinfo',
 					files: [{
-						uri: this.business_license,
-						name: 'business_license'
-					},
-					{
-						uri: this.legal_person_ID,
-						name: 'legal_person_ID'
+						uri: this.scholar_ID,
+						name: 'scholar_ID'
 					}],
 					formData:{
 						'id': this.userID,
 						'name': this.name,
-						'address': this.address,
-						'website': this.website,
-						'instruction': this.instruction,
+						'ID_num': this.ID_num,
 						'phone': this.phone,
-						'legal_representative': this.legal_representative,
-						'register_capital': this.register_capital,
+						'paper': this.paper,
+						'patent': this.patent,
+						'organization': this.organization,
 						'field': this.field,
+						'scholar_profile': this.scholar_profile
 					},
 					success: (uploadFileRes) => {
 						console.log(uploadFileRes.data);

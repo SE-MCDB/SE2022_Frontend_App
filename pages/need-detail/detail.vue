@@ -6,8 +6,9 @@
 					<view class="common-list-r-time">
 						{{field_items[item.field]}}
 					</view>
-					<view class="common-list-right" style="color: red">
-						{{emergencyItems[item.emergency].name}}
+					<!-- 异步问题 -->
+					<view class="common-list-right" style="color: red" v-if="emergencyItems[item.emergency]">
+						紧急程度:{{emergencyItems[item.emergency].name}}
 					</view>
 				</view>
 				<view>
@@ -60,10 +61,6 @@
 	export default {
 		components: {
 		},
-		props:{
-			item:Object,
-			userInfo:Object,
-		},
 		data() {
 			return {
 				field_items: [
@@ -82,16 +79,17 @@
 						value: '2',
 						name: '高'
 					}
-				]
+				],
+				item: []
 			}
 		},
 		onLoad(data) {
-			// try {
-			// 	this.initData(data.id)
-			// } catch (e) {
+			console.log("data should be:" + data + " and id should be:" + data.id)
+			try {
+				this.initData(data.id)
+			} catch (e) {
 
-			// }
-			this.item = data
+			}
 		},
 		onShow(){
 			try {
@@ -108,15 +106,14 @@
 			...mapState(['userInfo'])
 		},
 		methods: {
-			// 初始化数据
-			// async initData(id) {
-			// 	// 修改窗口标题
-			// 	uni.setNavigationBarTitle({
-			// 		title: "详情"
-			// 	});
-			// 	let detail = await getNeedDetail(id)
-			// 	this.item = detail
-			// },
+			//初始化数据
+			async initData(id) {
+				uni.setNavigationBarTitle({
+					title: "需求详情"
+				});
+				let detail = await getNeedDetail(id)
+				this.item = detail
+			},
 			formatRichText (html) {
 							// 去掉img标签里的style、width、height属性
 							let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
@@ -141,14 +138,5 @@
 </script>
 
 <style>
-	/* 评论 */
-	.u-comment {
-		padding: 0 20upx;
-	}
-
-	.u-comment-title {
-		padding: 20upx;
-		font-size: 30upx;
-		font-weight: bold;
-	}
+	
 </style>

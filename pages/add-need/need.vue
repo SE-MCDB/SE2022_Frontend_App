@@ -203,44 +203,28 @@
 			validate: function(data) {
 				let validate_answer = true
 				if (data.title === '') {
-					this.uni.showToast({
-						title: '请输入需求标题！'
-					})
+					this.$http.toast("请输入需求标题！")
 					validate_answer = false
 				} else if (data.description === '') {
-					this.uni.showToast({
-						title: '请对需求输入具体描述！'
-					})
+					this.$http.toast("请对需求输入具体描述！")
 					validate_answer = false
 				} else if (data.money === '') {
-					this.uni.showToast({
-						title: '请描述金额！'
-					})
+					this.$http.toast("请输入资金！")
 					validate_answer = false
 				} else if (data.start_time === '' || data.end_time === '' || data.start_time.compare(data.end_time) <= 0) {
-					this.uni.showToast({
-						title: '请输入正确的时间'
-					})
+					this.$http.toast("请输入正确的时间！")
 					validate_answer = false
 				} else if (!isKeyword(data.key_word)) {
-					this.uni.showToast({
-						title: '请按照格式输入关键词！'
-					})
+					this.$http.toast("请按照格式输入！")
 					validate_answer = false
 				} else if (data.address === '') {
-					this.uni.showToast({
-						title: '请输入正确的地址'
-					})
+					this.$http.toast("请输入正确的地址！")
 					validate_answer = false
 				} else if (data.emergency === '') {
-					this.uni.showToast({
-						title: '请评定需求紧急程度！'
-					})
+					this.$http.toast("请评定紧急程度！")
 					validate_answer = false
 				} else if (data.predict === '0' || data.predict === 0) {
-					this.uni.showToast({
-						title: '预估人数必须大于0！'
-					})
+					this.$http.toast("预估人数必须大于0！")
 					validate_answer = false
 				}
 				return validate_answer
@@ -265,7 +249,7 @@
 					"predict": this.predict,
 					"real": this.real
 				}
-				let validate_answer = validate(data)
+				let validate_answer = this.validate(data)
 				if (validate_answer) {
 					let result = await addneed(data)
 					if (result&&result.code) {

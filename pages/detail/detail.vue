@@ -77,7 +77,6 @@
 					},
 					{
 						title: '分享',
-						icon: 'partake'
 					}
 				],
 				detail: {},
@@ -89,7 +88,7 @@
 			}
 		},
 		onLoad(data) {
-			
+			console.log("data is:" + data + " and data.id is:" + data.id)
 			try {
 				this.initData(data.id)
 			} catch (e) {
@@ -170,7 +169,7 @@
 					...this.topicActive,
 					title:this.item.title,
 					username:this.item.username,
-					userpic:this.item.userpic
+					// userpic:this.item.userpic
 				})
 				this.collect = !this.collect
 			},

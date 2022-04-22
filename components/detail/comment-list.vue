@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<view class="uni-comment-list" :class="{'u-comment-list-child':(item.parentId>0)}">
-			<view class="uni-comment-face"><image :src="item.userpic" mode="widthFix"></image></view>
+		<!-- 	<view class="uni-comment-face"><image :src="item.userpic" mode="widthFix"></image></view> -->
 			<view class="uni-comment-body">
 				<view class="uni-comment-top">
 					<text>{{item.username}}</text>

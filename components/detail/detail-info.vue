@@ -7,7 +7,7 @@
 			<view>
 				<view class="u-f-ac u-f-jsb">
 					<view class="common-list-l" @tap="goToUserInfo(item)">
-						<image :src="item.userpic" class="com-img" lazy-load></image>
+						<!-- <image :src="item.userpic" class="com-img" lazy-load></image> -->
 						<view class="u-f-ac dre">
 							<text class="author-name">{{created_by.username}} </text>
 						</view>

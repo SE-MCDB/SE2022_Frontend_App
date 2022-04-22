@@ -2,41 +2,70 @@
 	<view>
 		
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33.33%;"></swiper-tab-head>
-		<view v-if="tabIndex == 0">
-			
-			<tui-card :image="a.img" :title="a.title" :tag="a.tag" @click="print" :header="a.header">
+		
+		<!-- bar1:已完成 -->
+		<view v-if="tabIndex == 0">	
+			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
 				<template v-slot:body>
-					<view class="tui-default">
-						默认卡片内容部分 slot=>body
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 查看详情 </view>
+							
+					</tui-bubble-popup>
+					<view class="tui-default" @click="print(item.id)">
+						我是主体
 					</view>
 				</template>
 				<template v-slot:footer>
-					<view class="tui-default">
-						默认卡片底部 slot=>footer
+					<view class="tui-default" @click="print(item.id)">
+						更多选项↓
 					</view>
 				</template>
 			</tui-card>
-			
-			
-			<tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" @click="print">
-				<template v-slot:body>
-					<view class="tui-default">
-						默认卡片内容部分 slot=>body
-					</view>
-				</template>
-				<template v-slot:footer>
-					<view class="tui-default">
-						默认卡片底部 slot=>footer
-					</view>
-				</template>
-			</tui-card>
-			
 		</view>
+		
+		<!-- bar2:进行中 -->
 		<view v-else-if="tabIndex == 1">
-			1
+			<tui-card v-for="item in datalist2" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
+				<template v-slot:body>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 
+							查看详情 
+							
+							</view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 完成订单 </view>
+							
+					</tui-bubble-popup>
+					<view class="tui-default">
+						Doing-默认卡片内容部分 slot=>body
+					</view>
+				</template>
+				<template v-slot:footer>
+					<view class="tui-default" @click="print(item.id)">
+						Doing-更多选项↓
+					</view>
+				</template>
+			</tui-card>
 		</view>
+		
+		<!-- bar3:待处理 -->
 		<view v-else>
-			2
+			<tui-card v-for="item in datalist3" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
+				<template v-slot:body>
+					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 接受 </view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 拒绝 </view>
+							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 查看详情 </view>
+					</tui-bubble-popup>
+					<view class="tui-default">
+						默认卡片内容部分 slot=>body
+					</view>
+				</template>
+				<template v-slot:footer>
+					<view class="tui-default" @click="print(item.id)">
+						更多选项↓
+					</view>
+				</template>
+			</tui-card>
 		</view>
 	</view>
 	
@@ -49,15 +78,24 @@
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
 	import tuiCard from "@/components/thorui/tui-card/tui-card"
-	
+	import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
+	import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
+	import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
 	export default {
 		data(){
 			
 			return{
+				show:[],
 				tabIndex: 0,
-				tabBars: [{
-						name: "已执行",
-						id: "yizhixing",
+				tabBars: [
+					{
+						name: "已完成",
+						id: "yiwancheng",
+						page: 1
+					},
+					{
+						name: "进行中",
+						id: "jinxingzhong",
 						page: 1
 					},
 					{
@@ -65,37 +103,15 @@
 						id: "daichuli",
 						page: 1
 					},
-					{
-						name: "新请求",
-						id: "xinqingqiu",
-						page: 1
-					},
 				],
-					
-				a:{
-					
-					 img: {
-					 		url: this.userInfo.userpic,
-					 		circle:true,
-					 	},
-					title: {
-							text: 'CSDN云计算',
-							color: '#a8a8a8',
-							size: 34,
-						},
-					tag: {
-							text: '1小时前',
-							text: '9小时前',
-							color: '#ed3f14',
-							size: 26,
-						},
-					header: {
-							bgcolor: '#55ffff',
-							line: true,
-						},
-				},
-				datalist1:[
-					
+				actions:[
+					{
+						name:"删除",
+						color: '#fff',
+						fontsize: 30, //单位rpx
+						width: 70, //单位px
+						background: '#FD3B31',
+					}
 				],
 			}
 		},
@@ -103,6 +119,9 @@
 		components:{
 			swiperTabHead,
 			tuiCard,
+			tuiSwipeAction,
+			tuiBubblePopup,
+			tuiIcon,
 		},
 		props:{
 			needdata:Array,
@@ -119,14 +138,15 @@
 			this.initData();
 		},
 		beforeMount(){
-			this.initData();
+			
 		},
 		mounted(){
-			console.log("init");
-			this.initData();
 			
 		},
 		methods:{
+			temp(id){
+				console.log(id);
+			},
 			tabtap(index) {
 				this.tabIndex = index;
 			},
@@ -134,43 +154,52 @@
 				console.log(index)
 				this.$emit("goToNeedInfo",index)
 			},
-			print(){
-				console.log("success");
+			closeshow(){
+				this.show=false;
 			},
-			initData(){
-				if(this.userInfo && this.userInfo.id){
-					this.datalist1=[];
-					for(var i=1;i<=5;i++){
-					let a={
-					id:1,
-					img: {
-					 		url: this.userInfo.userpic,
-					 		circle:true,
-					 	},
-					title: {
-							text: 'CSDN云计算',
-						},
-					tag: {
-							text: i,
-						},
-					header: {
-							bgcolor: '#55ffff',
-							line: true,
-						}};
+			print(id){
+				if(this.show[id]==true){
+					this.show.splice(id,1,false);
 					
-					this.datalist1.push(a);
-					}
-					/*this.datalist1[0].img.url=this.userInfo.userpic;
-					this.datalist1[0].title.text="sb";
-					this.datalist1[0].tag.text="sb";
-					
-					this.datalist1[1].img.url=this.userInfo.userpic;
-					this.datalist1[1].title.text="sb";
-					this.datalist1[1].tag.text="sb";*/
 				}
 				else{
-					this.datalist1=[];
-					
+					this.show.splice(id,1,true);
+				}
+				console.log(id+"success "+this.show[id]);
+			},
+			initData(){
+				this.datalist1 = [];	//已完成
+				this.datalist2 = [];	//进行中
+				this.datalist3 = [];	//待处理
+				this.randIdPool = ["CSDN云社区", "Zhihu小管家", "微博Bot", "Siri"]
+				
+				if(this.userInfo && this.userInfo.id){
+					for(var i=1;i<=10;i++){
+						this.show[i]=false;
+						let a={
+							id:i,
+							img: {
+								url: this.userInfo.userpic,
+								circle:true,
+							},
+							title: {
+								text: this.randIdPool[Math.floor(Math.random() * this.randIdPool.length)],
+								size: 34,
+							},
+							tag: {
+								text: parseInt(Math.random()*(23+1),10)+"小时前",
+								color: '#ed3f14',
+								size: 26,
+							},
+							header: {
+								bgcolor: '#f7f7f7',
+								line: true,
+							},
+						};
+						Math.random() < 0.5 ? this.datalist1.push(a): 1;
+						Math.random() < 0.5 ? this.datalist2.push(a): 1;
+						Math.random() < 0.5 ? this.datalist3.push(a): 1;
+					}
 				}
 			}
 		}
@@ -187,5 +216,12 @@
 .need-data>view>view{
 	font-size: 32upx;
 	color: #333333;
+}
+.tui-menu-item{
+	size:400upx;
+}
+.u-f-ac{
+	font-size:30upx;
+	text-align: center;
 }
 </style>

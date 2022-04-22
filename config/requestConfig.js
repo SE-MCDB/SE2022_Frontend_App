@@ -3,8 +3,8 @@ import request from "./request";
 // let baseUrl=process.env.NODE_ENV === 'development'?"http://127.0.0.1:8000/api/":"http://127.0.0.1:8000/api/";
 // let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://127.0.0.1:8000/api/":"ws://127.0.0.1:8000/api/";
 
-let baseUrl=process.env.NODE_ENV === 'development'?"http://172.16.2.129:8000/api/":"http://172.16.2.129:8000/api/";
-let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://172.16.2.129:8000/api/":"ws://172.16.2.129:8000/api/";
+let baseUrl=process.env.NODE_ENV === 'development'?"http://122.9.14.73:8000/api/":"http://122.9.14.73:8000/api/";
+let socketBaseUrl=process.env.NODE_ENV === 'development'?"ws://122.9.14.73:8000/api/":"ws://122.9.14.73:8000/api/";
 //可以new多个request来支持多个域名请求
 
 //let picUrl = "http://127.0.0.1:8000/api/"	统一管理，也许可替代api/common.js
