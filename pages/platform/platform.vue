@@ -1,31 +1,43 @@
 <template>
-
 	<view>
-		<template v-if="userInfo&&userInfo.id">
+	<template v-if="userInfo&&userInfo.id">
 		
 		<!--右上角创建需求-->
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed"></platform-create>
 		
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
-		<!--搜索框-->
-		<view v-if="tabIndex == 1 ">
-			<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
-			<view v-for="(item, index) in items" :key="index">
-				<need-list :item="item" :index="index" @openDetail="openDetail">
-				</need-list>
+		<scroll-view
+		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
+		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
+			<!--搜索框-->
+			<view v-if="tabIndex == 1 ">
+				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
+				<view v-for="(item, index) in items" :key="index">
+					<need-list :item="item" :index="index" @openDetail="openDetail">
+					</need-list>
+				</view>
 			</view>
-		</view>
-		
-		<!-- 需求订单统计 -->
-		<view v-else-if="tabIndex == 0" >
-			<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo"></need-data>
-		</view>
-		</template>
-		<template v-else>
-			<view class="u-f-ajc">登陆PaperDaily，体验更多功能</view>
-			<view class="u-f-ajc" @tap="openLogin">账号密码登陆 <view class="icon iconfont icon-jinru"></view></view>
-		</template>
+			
+			<!-- 需求订单统计 -->
+			<view v-else-if="tabIndex == 0" >
+				<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo">
+					
+				</need-data>
+			</view>
+			<template v-else>
+				<view class="u-f-ajc">
+					登陆PaperDaily，体验更多功能
+				</view>
+				<view class="u-f-ajc" @tap="openLogin">
+					账号密码登陆 
+					<view class="icon iconfont icon-jinru">
+						
+					</view>
+				</view>
+			</template>
+		</scroll-view>
+	</template>
 	</view>
 </template>
 
@@ -75,7 +87,7 @@
 				shoNo: false,
 				items: [],
 				show: false,
-				
+				refreshing: false,
 				tabBars: [{
 						name: "我的",
 						id: "wode",
@@ -104,6 +116,19 @@
 					this.swiperheight = height;
 				}
 			});
+			console.log("-------------------Requesting")
+			this.requestData()
+			console.log("-------------------Request Success")
+		},
+		
+		onShow() {
+			console.log(this.userInfo)
+			// uni.getSystemInfo({
+			// 	success: (res) => {
+			// 		let height = res.windowHeight - uni.upx2px(100)
+			// 		this.swiperheight = height;
+			// 	}
+			// });
 			console.log("-------------------Requesting")
 			this.requestData()
 			console.log("-------------------Request Success")
@@ -153,6 +178,15 @@
 					url: '../need-detail/detail?id=' + item.need_id
 				})
 			},
+			async onrefresh() {
+				if (this.refreshing) return;
+				this.refreshing = true;
+				await this.requestData()
+				setTimeout(() => {
+					this.refreshing = false;
+					uni.showToast({title:'已更新',duration:500})
+				}, 200)
+			},
 			tabtap(index) {
 				this.tabIndex = index;
 			},
@@ -177,19 +211,6 @@
 				})
 				this.hidepopup();
 			},
-			// onShow() {
-			// 	if (this.userInfo.id) {
-			// 		if (!this.islogin) {
-			// 			this.initDat()
-			// 		}
-			// 	} else {
-			// 		this.needdata[0].num = 0
-			// 		this.needdata[1].num = 0
-			// 		this.needdata[2].num = 0
-			// 		this.islogin = false
-			// 	}
-			
-			// },
 			async mounted() {
 				this.initDat()
 				if (this.userInfo.id) {

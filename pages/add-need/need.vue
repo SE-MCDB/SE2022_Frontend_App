@@ -15,16 +15,7 @@
 					</uni-section>
 					<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
 						<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
-						
 					</uni-section>
-					<!-- <uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
-						<tui-datetime ref="start_time" @confirm="changeStart" v-model="start_time" :type="1">
-						</tui-datetime>
-					</uni-section>
-					<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
-						<tui-datetime ref="end_time" @confirm="changeEnd" v-model="valid_time" :type="1">
-						</tui-datetime>
-					</uni-section> -->
 					<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
 						<view class="date-set">
 							<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
@@ -103,14 +94,14 @@
 				title: '',
 				description: '',
 				money: '',
-				start_time: '2023-04-19 21:41:32',
+				start_time: '',
 				end_time: '',
 				key_word: '',
 				field: 0,
 				address: '',
 				state: 0,
 				emergency: '',
-				predict: 0,
+				predict: '',
 				real: 0,
 				index: 0,
 				field_items: [
@@ -209,6 +200,39 @@
 					}
 				}
 			},
+			validate: function(data) {
+				let validate_answer = true
+				if (data.title === '') {
+					this.$http.toast("请输入需求标题！")
+					validate_answer = false
+				} else if (data.description === '') {
+					this.$http.toast("请对需求输入具体描述！")
+					validate_answer = false
+				} else if (data.money === '') {
+					this.$http.toast("请输入资金！")
+					validate_answer = false
+				} else if (data.start_time === '' || data.end_time === '' || data.start_time.compare(data.end_time) <= 0) {
+					this.$http.toast("请输入正确的时间！")
+					validate_answer = false
+				} else if (!isKeyword(data.key_word)) {
+					this.$http.toast("请按照格式输入！")
+					validate_answer = false
+				} else if (data.address === '') {
+					this.$http.toast("请输入正确的地址！")
+					validate_answer = false
+				} else if (data.emergency === '') {
+					this.$http.toast("请评定紧急程度！")
+					validate_answer = false
+				} else if (data.predict === '0' || data.predict === 0) {
+					this.$http.toast("预估人数必须大于0！")
+					validate_answer = false
+				}
+				return validate_answer
+			},
+			isKeyword: function(key_word) {
+				let mPattern = /^([\u4e00-\u9fa5])+(\s[\u4e00-\u9fa5])*/
+				return mPattern.test(key_word)
+			},
 			async submit() {
 				let data = {
 					"company_id": this.company_id,
@@ -225,10 +249,31 @@
 					"predict": this.predict,
 					"real": this.real
 				}
-				let result = await addneed(data)
+				let validate_answer = this.validate(data)
+				if (validate_answer) {
+					let result = await addneed(data)
+					if (result&&result.code) {
+						this.$http.toast("需求创建失败！")
+					} else {
+						this.$http.toast("需求创建成功！")
+						this.back()
+					}
+				}
 			},
 			reset: function(e) {
-				
+				this.title = '',
+				this.description = '',
+				this.money = '',
+				this.start_time = '',
+				this.end_time = '',
+				this.key_word = '',
+				this.field = 0,
+				this.address = '',
+				this.state = 0,
+				this.emergency = '',
+				this.predict = '',
+				this.real = 0,
+				this.index = 0
 			}
 		}
 	};

@@ -11,7 +11,6 @@ export const addneed = async (data) => {
 	// console.log(result)
 	if (result&&result.code) {
 		console.log(result.error_msg);
-		result = {}
 	}
 	return result
 }

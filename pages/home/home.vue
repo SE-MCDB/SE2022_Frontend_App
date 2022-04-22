@@ -21,7 +21,7 @@
 		</template>
 		<!-- 数据 -->
 		<home-data @goToSpace="goToSpace"  :homedata="homedata"></home-data>
-		</view>
+		<!-- </view> -->
 
 
 	</view>
