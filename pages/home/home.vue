@@ -63,6 +63,7 @@
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				this.homeinfo.type = this.userInfo.type
+				console.log(this.homeinfo.type)
 				if (!this.islogin) {
 					this.initDat()
 				}
