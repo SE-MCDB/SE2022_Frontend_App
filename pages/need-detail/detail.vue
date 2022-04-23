@@ -1,47 +1,47 @@
 <template>
-	<view class="common-list u-f animated fadeIn fast">
-			<view class="common-list-r">
+	<view class="need-detail-list">
+			<view class="need-detail-list">
 				<view class="topic-title">
-					<text style="font-weight: bold;font-size:x-large;">{{item.title}}</text>
-					<view class="common-list-r-time">
+					<text>{{item.title}}</text>
+					<!-- 异步问题 -->
+					<span class="need-detail-list-right" v-if="emergencyItems[item.emergency]">
+						{{emergencyItems[item.emergency].name}}紧急
+					</span>
+					<view class="need-detail-list-field">
 						{{field_items[item.field]}}
 					</view>
-					<!-- 异步问题 -->
-					<view class="common-list-right" style="color: red" v-if="emergencyItems[item.emergency]">
-						紧急程度:{{emergencyItems[item.emergency].name}}
-					</view>
 				</view>
-				<view>
+				<view class="topic-title-level-2">
+					<text>相关信息</text>
 				</view>
-				<view>
-					<view class="common-list-r-time">
-						{{item.enterprise_name}}
+				<tui-list-view class="need-detail-info">
+					<view class="need-detail-list-enterprise">
+						发布企业：<text style="float: right;">{{item.enterprise_name}}-{{item.address}}</text>
 					</view>
-					<view class="common-list-r-time">
-						开始时间：{{item.start_time}}
+					<view class="need-detail-list-time">
+						开始时间：<text style="float: right; color: #0081FF;">{{item.start_time}}</text>
 					</view>
-					<view class="common-list-r-time">
-						结束时间：{{item.end_time}}
+					<view class="need-detail-list-time">
+						结束时间：<text style="float: right; color: #0081FF">{{item.end_time}}</text>
 					</view>
-					<view>
-						已接收<view style="color: #FF0000;">{{item.real}}/{{item.predict}}</view>
+					<view class="need-detail-list-people">
+						接收人数 <text style="float: right; color: #FF0000;">{{item.real}}/{{item.predict}}</text>
 					</view>
-					<view>
-						金额:{{item.money}}
+					<view class="need-detail-list-money">
+						金额:<text style="float: right; color:orange;">{{item.money}}</text>
 					</view>
+				</tui-list-view>
+				<view class="topic-title-level-2">
+					<text>需求描述</text>
 				</view>
-				
-				<view>
+				<view class="need-detail-list-describe">
 					<rich-text v-html="item.description"></rich-text>
 				</view>
 				
-				<view>
-					{{item.address}}
-				</view>
 			</view>
 			
-			<view>
-				<tui-button type="primary">
+			<view >
+				<tui-button type="primary" class="need-detail-button">
 					联系企业
 				</tui-button>
 			</view>
@@ -56,10 +56,15 @@
 	import {
 		getNeedDetail
 	} from "@/api/need-detail.js"
-	
+	import tuiCard from '@/components/thorui/tui-card/tui-card.vue'
+	import tuiListView from '@/components/thorui/tui-list-view/tui-list-view'
+	import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell'
 	var graceRichText = require("../../components/common/richText.js");
 	export default {
 		components: {
+			tuiCard,
+			tuiListView,
+			tuiListCell
 		},
 		data() {
 			return {
@@ -138,5 +143,53 @@
 </script>
 
 <style>
-	
+	.topic-title {
+		font-weight: bold;
+		font-size:x-large;
+	}
+	.topic-title-level-2 {
+		font-weight: bold;
+		font-size:large;
+	}
+	.need-detail-list {
+		padding: 15upx;
+		min-height: 1080upx;
+		bottom: 0upx!important;
+	}
+	.need-detail-list-right {
+		float: right;
+		color: #0081FF;
+		font-size: medium;
+		padding-top: 15upx;
+	}
+	.need-detail-list-field {
+		margin: 10upx;
+		border-radius: 20upx;
+		border-style: solid;
+		border-width: 3upx;
+		text-align: center;
+		max-width: 20%;
+		border-color: #0081FF;
+		color: #0081FF;
+		background-color: white;
+		font-family: "SimSun ";
+	}
+	.need-detail-info {
+		margin: 15upx;
+		border-radius: 20upx;
+		border-style: none;
+		background-color: #F9F9F9;
+		border-width: 3upx;
+	};
+	.need-detail-list-describe {
+		
+	}
+	.need-detail-button {
+		width:80%;
+		display: flex;
+		align-items: center;
+		justify-content: center; 
+		font-size:30upx;
+		bottom: 0upx;
+	};
 </style>

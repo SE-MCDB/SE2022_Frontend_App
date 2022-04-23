@@ -11,6 +11,10 @@
 				<view class="icon iconfont icon-qingchu"></view> 
 				清除列表
 			</view> -->
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="manageneed">
+				<view class="icon iconfont icon-sousuo"></view> 
+				需求管理
+			</view>
 		</view>
 	</view>
 </template>
@@ -26,6 +30,9 @@
 			},
 			addneed(){
 				this.$emit('addneed');
+			},
+			manageneed() {
+				this.$emit('manageneed');
 			}
 		}
 	}

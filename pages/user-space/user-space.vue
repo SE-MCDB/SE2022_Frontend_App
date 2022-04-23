@@ -140,7 +140,7 @@
 					{ name:"关注", num:0 },
 					{ name:"粉丝", num:0 },
 				],
-				tabIndex:0,
+				tabIndex:1,
 				tabBars:[
 					{ name:"论文解读",id:"lunwenjiedu" },
 					{ name:"主页",id:"zhuye" },

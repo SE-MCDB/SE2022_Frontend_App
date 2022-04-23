@@ -2,9 +2,6 @@
 	<view>
 	<template v-if="userInfo&&userInfo.id">
 		
-		<!--右上角创建需求-->
-		<platform-create :show="show" @hide="hidepopup" @addneed="addneed" @manageneed="manageneed"></platform-create>
-		
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view
@@ -12,8 +9,7 @@
 		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
-				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
-				<view v-for="(item, index) in items" :key="index">
+				<view v-for="(item, index) in unfinisheditems" :key="index">
 					<need-list :item="item" :index="index" @openDetail="openDetail">
 					</need-list>
 				</view>
@@ -21,9 +17,10 @@
 			
 			<!-- 需求订单统计 -->
 			<view v-else-if="tabIndex == 0" >
-				<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo">
-					
-				</need-data>
+				<view v-for="(item, index) in finisheditems" :key="index">
+					<need-list :item="item" :index="index" @openDetail="openDetail">
+					</need-list>
+				</view>
 			</view>
 			<template v-else>
 				<view class="u-f-ajc">
@@ -64,6 +61,10 @@
 	import {
 		getUserProfile,
 	} from "@/api/home.js"
+	import {
+		manageFinishedNeed,
+		manageUnfinishedNeed
+	} from "@/api/manage-need.js"
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -83,26 +84,22 @@
 			return {
 				islogin: false,
 				swiperheight: 500,
-				tabIndex: 1,
+				tabIndex: 0,
 				shoNo: false,
-				items: [],
+				unfinisheditems: [],
+				finisheditems: [],
 				show: false,
 				refreshing: false,
 				tabBars: [{
-						name: "我的",
+						name: "已完成",
 						id: "wode",
 						page: 1
 					},
 					{
-						name: "发现",
+						name: "未完成",
 						id: "faxian",
 						page: 1
 					},
-				],
-				needdata:[
-					{ name:"已执行", num:0 },
-					{ name:"待处理", num:0 },
-					{ name:"新请求", num:0 },
 				],
 				
 			}
@@ -123,12 +120,6 @@
 		
 		onShow() {
 			console.log(this.userInfo)
-			// uni.getSystemInfo({
-			// 	success: (res) => {
-			// 		let height = res.windowHeight - uni.upx2px(100)
-			// 		this.swiperheight = height;
-			// 	}
-			// });
 			console.log("-------------------Requesting")
 			this.requestData()
 			console.log("-------------------Request Success")
@@ -155,14 +146,18 @@
 				let type = this.tabBars[this.tabIndex].id;
 				try {
 					if(this.tabIndex === 1){
-						let items = await getAllNeed()
-						console.log("items.length is:" + items.length)
-						this.items = items
-						console.log("this.items.length is:" + this.items.length)
+						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
+						console.log("items.length is:" + unfinisheditems.length)
+						this.unfinisheditems = unfinisheditems
+						console.log("this.items.length is:" + this.unfinisheditems.length)
+					} else {
+						let finisheditems = await manageFinishedNeed(this.userInfo.id)
+						console.log("items.length is:" + finisheditems.length)
+						this.finisheditems = finisheditems
+						console.log("this.items.length is:" + this.finisheditems.length)
 					}
 					// console.log(items)
 				} catch (e) {
-					
 					console.log(e)
 					return
 				}
@@ -188,7 +183,9 @@
 				}, 200)
 			},
 			tabtap(index) {
+				console.log("change index to " + index);
 				this.tabIndex = index;
+				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			// 滑动事件
 			tabChange(e) {
@@ -204,18 +201,6 @@
 			},
 			showpopup() {
 				this.show = true;
-			},
-			addneed() {
-				uni.navigateTo({
-					url: '../add-need/need'
-				})
-				this.hidepopup();
-			},
-			manageneed() {
-				uni.navigateTo({
-					url: '../manage-need/manage-need'
-				})
-				this.hidepopup();
 			},
 			async mounted() {
 				this.initDat()
@@ -240,31 +225,6 @@
 					this.islogin = true
 				}
 			},
-			//跳转到各种类订单list
-			goToNeedInfo(index) {
-				console.log(index)
-				switch (index) {
-					case 0:
-						console.log(this.userInfo);
-						uni.navigateTo({
-							url: '../user-space/user-space?uid=' + this.userInfo.id
-						});
-						
-						break;
-					case 1:
-						uni.navigateTo({
-							url: '../user-comment/user-comment?uid=' + this.userInfo.id
-						});
-						
-						break;
-					case 2:
-						uni.navigateTo({
-							url: '../user-collect/user-collect?uid=' + this.userInfo.id
-						});
-						
-						break;
-				}
-			}
 		}
 	}
 </script>

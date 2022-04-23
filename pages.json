@@ -378,6 +378,20 @@
 		}, 
 		
 		{
+			"path": "pages/manage-need/manage-need",
+			"style": {
+				"navigationBarTitleText": "需求管理",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": true
+					}
+				}
+			}
+		}, 
+		
+		{
 			"path": "pages/need-detail/detail",
 			"style": {
 				"navigationBarTitleText": "详情",

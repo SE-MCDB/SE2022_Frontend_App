@@ -1,15 +1,39 @@
 <template>
 	<view class="container"> 
 		<view class="item-list" @tap="openDetail">
-			<view class="topic-title">
-				<text style="font-weight: bold;font-size:larger;">{{item.title}}</text>
-			</view>
-			<view style="color: #007AFF;" >
-				<text>{{item.field}}</text>
+			<view span="1">
+				<text class="topic-title">{{item.title}}</text>
+				<text class="topic-field">{{item.field}}</text>
+				<view v-if="emergencyItems" class="container-emergency">
+					<view v-if="item.emergency === '2'" style="color: #007AFF">
+						{{emergencItems[item.emergency].name}}
+					</view>
+					<view v-else-if="item.emergency === '1'" style="color: orange">
+						{{emergencyItems[item.emergency].name}}
+					</view>
+					<view v-else style="color: red">
+						{{emergencyItems[item.emergency].name}}
+					</view>
+				</view>
 			</view> 	
-			<view span="4" class="container1">
-			    <text>{{item.description}}</text>
-			</view>		
+			<view span="3" class="container1">
+			    <text class="container1_text">{{item.description}}</text>
+			</view>	
+			
+			<view span="1" class="container-detail">
+				<text class="container-detail-money">
+					价格估计:{{item.money}}
+				</text>
+				<text class="container-detail-people">
+					已招募:<span style="color:red">{{item.real}}/{{item.predict}}</span>
+				</text>
+			</view>
+			<view class="divider">
+			
+			</view>
+			<view class="container-time">
+				截止时间:{{item.end_time}}
+			</view>
 		</view>
 	</view>
 </template>
@@ -32,8 +56,27 @@
 		},
 		data() {
 			return {
-				
+				field_items: [
+					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+				],
+				emergencyItems: [
+					{
+						value: '0',
+						name: '低'
+					},
+					{
+						value: '1',
+						name: '中'
+					},
+					{
+						value: '2',
+						name: '高'
+					}
+				],
 			}
+		},
+		onLoad() {
+			
 		},
 		methods: {
 			openDetail(){
@@ -54,87 +97,67 @@
 	background-color: #F9F9F9;
 	padding: 0 20upx ;
 }
-.author-wrap{
-	display: flex;
-	height: 90upx;
-	align-items: center;
-	overflow: hidden;
-}
-.anthor-pic{
-	width: 60upx;
-	height: 60upx;
-	margin-right: 20upx;
-	border-radius: 50%;
-	
-}
-.topic-text{
-	margin-bottom: 10upx;
-}
-.topic-active{
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 0 20upx;
-	height: 100upx;
-	line-height: 100upx;
-}
-.active-comm{
-	display: flex;
-	align-items: center;
-	color: #666666;
-}
-.active-text{
-	margin-left: 10upx;
-}
-.author-wrap .author-name{
-	font-weight: 700;
-}
-
 .item-list{
 	background-color: #FFFFFF;
 	box-sizing: border-box;
 	width: 100%;
-	min-height: 300upx;
+	min-height: 200upx;
 	border-radius: 20upx;
 	margin-bottom: 25upx;
 	padding: 14upx;
 }
-.image-view-n{
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
+.topic-title {
+	font-weight: bold;
+	font-size:larger;
+	max-width: 75%;
 }
-.image-view-n >image{
-	width: 220upx;
-	height: 220upx;
-	border-radius: 10upx;
-	/* margin-right: 10upx; */
-	margin-bottom: 10upx;
+.topic-field {
+	color: blue;
+	font-size:medium;
+	border-radius: dotted;
+	border-color: blue;
+	max-width: 10%;
+	padding-left: 10%;
 }
-.image-view-2{
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: start;
-}
-.image-view-2 >image{
-	width: 220upx;
-	height: 220upx;
-	border-radius: 10upx;
-	margin-right: 10upx;
-	margin-bottom: 10upx;
-}
-.image-view-1{
-	display: flex;
-	justify-content: flex-start;
-}
-
 .container1 {
-        padding: 10px;
+    padding: 10px;
+	background-color: #F7F7F9;
+	border-radius: 20upx;
+}
+.container1-text {
+	  display: -webkit-box;
+	  overflow: hidden;
+	  text-overflow: ellipsis;
+	  word-wrap: break-word;
+	  white-space: normal !important;
+	  -webkit-line-clamp: 2;
+	  -webkit-box-orient: vertical;
+}
+.container-emergency {
+	font-weight: bold;
+	font-size: medium;
+	float: right;
+}
+.container-detail {
+	border-color: #F7F7F9;
+	border-radius: 20upx;
+	padding: 15upx;
+}
+.container-detail-people {
+	border-color: #F7F7F9;
+	border-radius: 20upx;
+	padding-left: 50%;
+	padding-top: 10upx;
+}
+.divider {
+	max-height: 3upx;
+	padding: 10upx;
+	background-color: #F7F7F9;
+	border-radius: 20upx;
+}
+.container-time {
+	padding: 15upx;
+	color: blue;
 }
 
-#editor {
-        width: 100%;
-        height: 300px;
-        background-color: #CCCCCC;
-}
 </style>
