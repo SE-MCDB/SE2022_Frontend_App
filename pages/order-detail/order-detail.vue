@@ -5,7 +5,7 @@
 			<tui-icon name="order" :size="40" unit="rpx" margin="60" color="#00007f"></tui-icon>
 			订单编号：
 		</tui-list-cell>
-		<tui-list-cell :size="30" :hover="false">
+		<tui-list-cell :size="30" :hover="false" backgroundColor="#d3d3d3">
 			{{item.order_id}}
 		</tui-list-cell>
 		
@@ -13,7 +13,7 @@
 			<tui-icon name="notice" :size="40" unit="rpx" margin="60" color="#ff5500"></tui-icon>
 			订单状态：
 		</tui-list-cell>
-		<tui-list-cell :size="30" :hover="false" class=cell>
+		<tui-list-cell :size="30" :hover="false" class=cell backgroundColor="#d3d3d3">
 			{{item.state}}
 		</tui-list-cell>
 		
@@ -21,7 +21,7 @@
 			<tui-icon name="alarm" :size="40" unit="rpx" margin="60"></tui-icon>
 			订单创建时间：
 		</tui-list-cell>
-		<tui-list-cell :size="30" :hover="false" class=cell>
+		<tui-list-cell :size="30" :hover="false" class=cell backgroundColor="#d3d3d3">
 			{{item.create_time}}
 		</tui-list-cell>
 		
@@ -29,7 +29,7 @@
 			<tui-icon name="alarm-fill" :size="40" unit="rpx" margin="60"></tui-icon>
 			订单结束时间：
 		</tui-list-cell>
-		<tui-list-cell :size="30" :hover="false" class=cell>
+		<tui-list-cell :size="30" :hover="false" class=cell backgroundColor="#d3d3d3">
 			{{item.end_time}}
 		</tui-list-cell>
 		<tui-list-cell :size="40" :hover="false" >
@@ -45,7 +45,7 @@
 			企业名称：{{item.need.enterprise_name}}
 		</tui-list-cell>
 		<tui-list-cell :size="40" :hover="true" :arrow="true" @click=goToNeed(item.need.need_id)>
-			<tui-icon name="nodata" :size="40" unit="rpx" margin="60" color="#ff0000"></tui-icon>
+			<tui-icon name="nodata" :size="40" unit="rpx" margin="60" color="#65bdff"></tui-icon>
 			需求详情：{{item.need.title}}
 		</tui-list-cell>
 	</view>
