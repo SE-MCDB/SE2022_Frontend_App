@@ -380,7 +380,7 @@
 		{
 			"path": "pages/need-detail/detail",
 			"style": {
-				"navigationBarTitleText": "详情",
+				"navigationBarTitleText": "需求详情",
 				"app-plus": {
 					"scrollIndicator": "none",
 					"bounce": "none",
@@ -390,6 +390,21 @@
 				}
 			}
 		},
+		{
+			"path": "pages/order-detail/order-detail",
+			"style": {
+				"enablePullDownRefresh": true,
+				"navigationBarTitleText": "订单详情",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"bounce": "none",
+					"titleNView": {
+						"autoBackButton": true
+					}
+				}
+			}
+		},
+		
 		
 		{
 			"path": "pages/user-collect/user-collect",
