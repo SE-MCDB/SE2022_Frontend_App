@@ -29,7 +29,7 @@
 				<view>企业官网：{{userinfo.enterprise_website}}</view>
 				<view>联系电话：{{userinfo.enterprise_phone}}</view>
 				<view>法人代表：{{userinfo.enterprise_legal_representative}}</view>
-				<view>注册资本：{{userinfo.enterprise_register_capital}}万元</view>
+				<view>注册资本：{{userinfo.enterprise_register_capital/10000}}万元</view>
 				<view>企业领域：{{userinfo.enterprise_field}}</view>
 				<view>企业介绍：{{userinfo.enterprise_instruction}}</view>
 			</template>
