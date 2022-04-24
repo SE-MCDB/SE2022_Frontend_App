@@ -1,6 +1,30 @@
 <template>
 	<view>
-		
+		<template v-if="userInfo.type=='0'">
+			<tui-button @click="openmenu" :size="28" :plain="true">需求名称</tui-button>
+			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="0rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
+				<tui-list-cell :hover="false" :arrow="false" backgroundColor="#dcdcdc" @click="">
+					<tui-icon name="order"></tui-icon>
+						发起订单
+				</tui-list-cell>
+				
+			</tui-bubble-popup>
+			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+				
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="">
+					<tui-icon name="search"></tui-icon>
+						查看需求
+				</tui-list-cell>
+			</tui-bubble-popup>
+		</template>
+		<template v-else-if="userInfo.type=='4'">
+		<tui-button @click="openmenu">需求名称</tui-button>
+		<tui-bubble-popup :show="show" :mask="false" position="absolute" width="500rpx" translateY="10rpx" triangleTop="-20rpx">
+				<view class="tui-menu-item">菜单一</view>
+				<view class="tui-menu-item">菜单二</view>
+				<view class="tui-menu-item">菜单三</view>
+		</tui-bubble-popup>
+		</template>
 		<scroll-view id="scrollview" scroll-y :scroll-top="scrollTop" 
 		:scroll-with-animation="true"
 		refresher-enabled
@@ -52,10 +76,12 @@
 				cId:0,
 				socket:null,
 				fid: undefined,
-				isShow:false
+				isShow:false,
+				show:true,
 
 			};
 		},
+		
 		onShow() {
 			this.isShow = true
 		},
@@ -65,7 +91,9 @@
 			this.setMsgPage(1)
 		},
 		// 监听下拉刷新
-		
+		onPullDownRefresh(){
+			this.initdata()
+		},
 		async onLoad(data) {
 			if(data.index){
 				this.setIndex(parseInt(data.index))
@@ -144,6 +172,7 @@
 				try {
 					const res = uni.getSystemInfoSync();
 					this.style.contentH=res.windowHeight - uni.upx2px(120);
+					uni.stopPullDownRefresh();
 				} catch (e) { }
 			},
 			scrollTopHandle(){
@@ -184,7 +213,13 @@
 					})
 				}
 			},
-
+			openmenu(){
+				if(this.show){
+					this.show=false;
+				}else{
+					this.show=true;
+				}
+			},
 			goToUserInfo(item){
 				uni.navigateTo({
 					url:'../../pages/user-space/user-space?uid='+this.chatList[this.msgIndex].fid

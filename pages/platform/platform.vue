@@ -5,7 +5,7 @@
 		<!--右上角创建需求-->
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed" @manageneed="manageneed"></platform-create>
 		
-		<!--导航栏-->
+		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view
 		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
@@ -25,15 +25,15 @@
 					
 				</need-data>
 			</view>
+			
+			<!-- 未登录状态 -->
 			<template v-else>
 				<view class="u-f-ajc">
 					登陆PaperDaily，体验更多功能
 				</view>
 				<view class="u-f-ajc" @tap="openLogin">
 					账号密码登陆 
-					<view class="icon iconfont icon-jinru">
-						
-					</view>
+					<view class="icon iconfont icon-jinru"></view>
 				</view>
 			</template>
 		</scroll-view>
