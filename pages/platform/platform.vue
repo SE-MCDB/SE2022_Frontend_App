@@ -100,9 +100,10 @@
 					},
 				],
 				needdata:[
-					{ name:"已执行", num:0 },
+					{ name:"全部", num:0 },
 					{ name:"待处理", num:0 },
-					{ name:"新请求", num:0 },
+					{ name:"进行中", num:0 },
+					{ name:"已完成", num:0 },
 				],
 				
 			}
