@@ -3,7 +3,7 @@
 		<view class="item-list" @tap="openDetail">
 			<view span="1">
 				<text class="topic-title">{{item.title}}</text>
-				<text class="topic-field">{{item.field}}</text>
+				<text class="topic-field">({{field_items[item.field]}})</text>
 				<view v-if="emergencyItems" class="container-emergency">
 					<view v-if="item.emergency === '2'" style="color: #007AFF">
 						{{emergencItems[item.emergency].name}}
