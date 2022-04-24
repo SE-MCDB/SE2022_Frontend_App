@@ -35,6 +35,10 @@
 				截止时间:{{item.end_time}}
 			</view>
 		</view>
+		<view v-if="edit">
+			<button type="default" @click="editneed">编辑需求</button>
+			<button type="default" @click="goToRecommend">专家推荐</button>
+		</view>
 	</view>
 </template>
 
@@ -53,6 +57,7 @@
 			item:Object,
 			index:Number,
 			userInfo:Object,
+			edit:Number
 		},
 		data() {
 			return {
@@ -83,6 +88,10 @@
 				this.$emit("openDetail",this.item)
 				console.log("------------------need-list")
 			},
+			editneed() {
+				this.$emit("editneed", this.item)
+				console.log("------------------edit-need")
+			}
 		}
 	}
 </script>
@@ -159,5 +168,11 @@
 	padding: 15upx;
 	color: blue;
 }
+button {
+		float: left;
+		width: 50%;
+		text-align: center;
+		font-size: small;
+	}
 
 </style>

@@ -7,9 +7,7 @@ export const  manageUnfinishedNeed =async (id) => {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.get('user/' + id + "/need/proceeding", {}, headers)
-	console.log("before result:" + result)
 	result = result.data
-	console.log("result is:" + result)
 	return result
 }
 
@@ -19,9 +17,6 @@ export const  manageFinishedNeed =async (id) => {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.get('user/' + id + "/need/finished", {}, headers)
-	console.log("before result:" + result)
 	result = result.data
-	console.log("result is:" + result)
-	
 	return result
 }

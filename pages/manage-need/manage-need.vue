@@ -10,7 +10,7 @@
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
-					<need-list :item="item" :index="index" @openDetail="openDetail">
+					<need-list :item="item" :index="index" @openDetail="openDetail" :edit="1" @editneed="editneed">
 					</need-list>
 				</view>
 			</view>
@@ -51,10 +51,6 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
-	import {
-		getAllNeed,
-		postNewNeed
-	} from '@/api/platform.js'
 	import {
 		mapState
 	} from 'vuex'
@@ -147,14 +143,10 @@
 				try {
 					if(this.tabIndex === 1){
 						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
-						console.log("items.length is:" + unfinisheditems.length)
 						this.unfinisheditems = unfinisheditems
-						console.log("this.items.length is:" + this.unfinisheditems.length)
 					} else {
 						let finisheditems = await manageFinishedNeed(this.userInfo.id)
-						console.log("items.length is:" + finisheditems.length)
 						this.finisheditems = finisheditems
-						console.log("this.items.length is:" + this.finisheditems.length)
 					}
 					// console.log(items)
 				} catch (e) {
@@ -172,6 +164,15 @@
 				uni.navigateTo({
 					url: '../need-detail/detail?id=' + item.need_id
 				})
+			},
+			editneed(item) {
+				console.log("------------------------------------rewrite need")
+				uni.navigateTo({
+					url: '../edit-need/edit-need?id=' + item.need_id
+				})
+			},
+			goToRecommend() {
+				
 			},
 			async onrefresh() {
 				if (this.refreshing) return;
@@ -224,7 +225,7 @@
 					this.needdata[2].num = userProfile.total_mycollect
 					this.islogin = true
 				}
-			},
+			}
 		}
 	}
 </script>

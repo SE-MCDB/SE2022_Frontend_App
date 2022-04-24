@@ -6,17 +6,17 @@
 				</uni-card>
 			</view>
 			<view class="need-form">
-				<form @submit="submit" @reset="reset">
-					<uni-section title="需求标题" subTitle="为您的需求总结一个标题" type="line" padding>
+				<form @submit="update" @reset="reset">
+					<uni-section title="需求标题" subTitle="修改您的需求标题" type="line" padding>
 						<uni-easyinput v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
 					</uni-section>
-					<uni-section title="需求描述" subTitle="详细描述您的需求" type="line" padding>
+					<uni-section title="需求描述" subTitle="修改您的需求描述" type="line" padding>
 						<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 					</uni-section>
-					<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
+					<uni-section title="需求经费" subTitle="修改您的需求价格" type="line" padding>
 						<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
 					</uni-section>
-					<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
+					<!-- <uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
 						<view class="date-set">
 							<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
 						</view>
@@ -25,11 +25,11 @@
 						<view class="date-set">
 							<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
 						</view>
-					</uni-section>
-					<uni-section title="关键词" subTitle="请为您的需求添加几个关键词" type="line" padding>
+					</uni-section> -->
+					<uni-section title="关键词" subTitle="修改您的关键词" type="line" padding>
 						<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
 					</uni-section>
-					<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
+					<uni-section title="领域" subTitle="修改您的需求范畴" type="line" padding>
 						<view class="uni-list">
 							<view class="uni-list-cell">
 								<view class="uni-list-cell-left">
@@ -43,10 +43,10 @@
 							</view>
 						</view>
 					</uni-section>
-					<uni-section title="地址" subTitle="请为您的需求添加地址" type="line" padding>
+					<uni-section title="地址" subTitle="修改您的需求地址" type="line" padding>
 						<uni-easyinput v-model="address" placeholder="请输入需求地址" @input="inputAddress"></uni-easyinput>
 					</uni-section>
-					<uni-section title="紧急程度" subTitle="请为您的需求进行紧急估量" type="line" padding></uni-section>
+					<uni-section title="紧急程度" subTitle="修改您的紧急程度" type="line" padding></uni-section>
 					<view class="uni-list">
 						<radio-group @change="radioChange">
 							<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in emergencyItems" :key="item.value">
@@ -57,13 +57,13 @@
 							</label>
 						</radio-group>
 					</view>
-					<uni-section title="预估人数" subTitle="为您的需求商定所需人数" type="line" padding>
+					<uni-section title="预估人数" subTitle="修改您的所需人数" type="line" padding>
 						<uni-easyinput type="digit" v-model="predict" placeholder="请输入内容" @input="inputPredict"></uni-easyinput>
 					</uni-section>
 					
 					<view class="uni-btn-v">
-						<button type="primary" form-type="submit">提交</button>
-						<button type="default" form-type="reset">清除</button>
+						<button type="primary" form-type="submit">更新</button>
+						<!-- <button type="default" form-type="reset">清除</button> -->
 					</view>
 				</form>
 			</view>
@@ -75,8 +75,11 @@
 		mapState
 	} from 'vuex';
 	import {
-		addneed
-	} from '@/api/add-need.js'
+		editneed
+	} from '@/api/edit-need.js'
+	import {
+		getNeedDetail
+	} from '@/api/need-detail.js'
 	import uniCard from '@/components/uni_easyinput/uni-card/components/uni-card/uni-card.vue'
 	import uniEasyinput from '@/components/uni_easyinput/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
@@ -90,6 +93,7 @@
 		},
 		data() {
 			return {
+				need_id: '',
 				company_id: '',
 				title: '',
 				description: '',
@@ -123,17 +127,6 @@
 				]
 			};
 		},
-		watch: {
-			datetimesingle(newval) {
-				console.log('单选:', this.datetimesingle);
-			},
-			range(newval) {
-				console.log('范围选:', this.range);
-			},
-			datetimerange(newval) {
-				console.log('范围选:', this.datetimerange);
-			}
-		},
 		mounted() {
 			setTimeout(() => {
 				this.datetimesingle = Date.now() - 2 * 24 * 3600 * 1000
@@ -148,12 +141,46 @@
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
-			//this.userID = data.uid;
+			console.log("edit-need id is:" + data.id)
+			console.log("-------------------Requesting")
+			this.initData(data.id)
+			console.log("-------------------Request Success")
+		},
+		onShow(){
+			try {
+				this.initData(this.detail.id)
+			} catch (e) {
 			
-			this.company_id = this.userInfo.id;
-			console.log('onLoad in certification '+ this.userID);
+			}
 		},
 		methods: {
+			async initData(id) {
+				// uni.setNavigationBarTitle({
+				// 	title: "需求详情"
+				// });
+				let data = await getNeedDetail(id)
+				console.log("------------------------------------------------")
+				console.log("------------------------------------------------")
+				// console.log("data is" + data)
+				this.company_id = this.userInfo.id;
+				this.need_id = id;
+				console.log('onLoad in certification '+ this.userID);
+				this.title =  data.title;
+				this.description = data.description;
+				this.money = data.money;
+				this.start_time = data.start_time;
+				this.end_time = data.end_time;
+				this.key_word = data.key_word;
+				this.field = data.field;
+				this.address = data.address;
+				this.emergency = data.emergency;
+				this.predict = data.predict;
+				this.real = data.real;
+				this.index = this.field;
+				console.log("title is" + this.title)
+				console.log("description is" + this.description)
+				console.log("money is" + this.money)
+			},
 			back() {
 				uni.navigateBack();
 			},
@@ -182,9 +209,6 @@
 				this.index = e.detail.value;
 				console.log(this.index)
 				this.field = this.index
-			},
-			inputRegisterCapital(e) {
-				this.register_capital = e.detail;
 			},
 			inputAddress(e) {
 				this.address = e.detail;
@@ -233,9 +257,9 @@
 				let mPattern = /^([\u4e00-\u9fa5])+(\s[\u4e00-\u9fa5])*/
 				return mPattern.test(key_word)
 			},
-			async submit() {
+			async update() {
 				let data = {
-					"company_id": this.company_id,
+					// "company_id": this.company_id,
 					"title": this.title,
 					"description": this.description,
 					"money": this.money,
@@ -244,37 +268,24 @@
 					"key_word": this.key_word,
 					"field": this.field,
 					"address": this.address,
-					"state": this.state,
+					// "state": this.state,
 					"emergency": this.emergency,
 					"predict": this.predict,
-					"real": this.real
+					// "real": this.real
 				}
+				let company_id = this.company_id
+				let need_id = this.need_id
 				let validate_answer = this.validate(data)
 				if (validate_answer) {
-					let result = await addneed(data)
+					let result = await editneed(company_id, need_id, data)
 					if (result&&result.code) {
-						this.$http.toast("需求创建失败！")
+						this.$http.toast("需求更新失败！")
 					} else {
-						this.$http.toast("需求创建成功！")
+						this.$http.toast("需求更新成功！")
 						this.back()
 					}
 				}
 			},
-			reset: function(e) {
-				this.title = '',
-				this.description = '',
-				this.money = '',
-				this.start_time = '',
-				this.end_time = '',
-				this.key_word = '',
-				this.field = 0,
-				this.address = '',
-				this.state = 0,
-				this.emergency = '',
-				this.predict = '',
-				this.real = 0,
-				this.index = 0
-			}
 		}
 	};
 </script>
