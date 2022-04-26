@@ -66,7 +66,9 @@
 		},
 		data() {
 			return {
-				item:{},
+				item:{
+					need:{},
+				},
 			}
 		},
 		onLoad(data) {

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<tui-button @click="openmenu" :size="28" :plain="true">
+		<tui-button v-if="need&& need.need_id" @click="openmenu" :size="28" :plain="true">
 			
 		需求标题：{{this.need.title}}
 		
@@ -18,7 +18,7 @@
 			<view v-if="order.order_id==0">
 			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="createOrderAndRefresh()">
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="createOrderAndRefresh()">
 					<tui-icon name="order"></tui-icon>
 						发起订单
 				</tui-list-cell>
@@ -132,7 +132,9 @@
 				fid: undefined,
 				isShow:false,
 				show:false,
-				need:{},
+				need:{
+					need_id:0,
+				},
 				order:{
 					order_id:0,
 					state:undefined,
@@ -143,6 +145,7 @@
 		
 		onShow() {
 			this.isShow = true
+			
 			
 		},
 		beforeDestroy() {
@@ -209,12 +212,13 @@
 			
 		},
 
-		async onReady() {
+		onReady() {
 			
 			this.getdata();
 			this.initdata();
 			this.pageToBottom(true);
 			this.initorder();
+			this.initdata();
 			//this.refresh()
 		},
 		
@@ -235,10 +239,13 @@
 			'setMsgPage',
 			'addChatMessage','addNoreadMessage']),
 			// 初始化参数
-			initdata(){
+			async initdata(){
 				try {
 					const res = uni.getSystemInfoSync();
-					this.style.contentH=res.windowHeight - uni.upx2px(200);
+					let t = 200
+					//if(this.need.need_id==0)t=120
+					this.style.contentH=res.windowHeight - uni.upx2px(t);
+					//console.log(this.need.need_id)
 					uni.stopPullDownRefresh();
 				} catch (e) { }
 			},
@@ -286,7 +293,13 @@
 					
 					};
 					let temp1= await getContact(temp)
-					this.need = await getNeedDetail(temp1.need_id)
+					if(temp1)
+						this.need = await getNeedDetail(temp1.need_id)
+					else{
+						this.need={
+							need_id:0,
+						}
+					}
 				}else if(this.userInfo.type==4){
 					let temp={
 						enterprise_id:this.fid,
@@ -294,7 +307,15 @@
 					
 					};
 					let temp1= await getContact(temp)
-					this.need = await getNeedDetail(temp1.need_id)
+					//console.log("order:"+!this.temp1)
+					if(temp1)
+						this.need = await getNeedDetail(temp1.need_id)
+					else{
+						this.need={
+							need_id:0,
+						}
+					}
+					//console.log("order:"+this.need!=undefined)
 				}
 				let temp={
 					enterprise_id:this.fid,
@@ -302,8 +323,14 @@
 					need_id:this.need.need_id,
 				};
 				let temp1 = await getOrder(temp)
+				if(temp1.order_id!=0)
 				this.order = await getOrderDetail(temp1.order_id)
-				console.log("order:"+this.order.state)
+				else{
+					this.order.state=undefined
+					this.order.order_id=0
+				}
+				
+				//console.log("order:"+this.need && this.need.need_id!=0)
 			},
 			async sendm(data){
 				this.submit(data)
@@ -347,7 +374,7 @@
 				}
 			},
 			openmenu(){
-				console.log("open")
+				
 				if(this.show){
 					this.show=false;
 				}else{
@@ -376,7 +403,7 @@
 				})
 			},
 			// 获取聊天数据
-			async getdata(){
+			getdata(){
 				// 从服务器获取到的数据
 				if( this.chatList.length==0){
 					return
