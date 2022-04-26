@@ -34,7 +34,7 @@
 				<view>企业介绍：{{userinfo.enterprise_instruction}}</view>
 			</template>
 			<template v-else>
-				<view>身份：普通用户{{userinfo.state}}</view>
+				<view>身份：普通用户</view>
 			</template>
 			
 <!-- 			<view>故乡：{{userinfo.path}}</view> -->

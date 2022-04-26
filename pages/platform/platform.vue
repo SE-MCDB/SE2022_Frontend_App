@@ -1,6 +1,6 @@
 <template>
 	<view>
-	<template v-if="userInfo&&userInfo.id">
+	<template v-if="userInfo&&userInfo.id&&(userInfo.type=='4'||userInfo.type=='5'||userInfo.type=='0')">
 		
 		<!--右上角创建需求-->
 		<platform-create :show="show" @hide="hidepopup" @addneed="addneed" @manageneed="manageneed"></platform-create>
@@ -27,16 +27,23 @@
 			</view>
 			
 			<!-- 未登录状态 -->
-			<template v-else>
-				<view class="u-f-ajc">
-					登陆PaperDaily，体验更多功能
-				</view>
-				<view class="u-f-ajc" @tap="openLogin">
-					账号密码登陆 
-					<view class="icon iconfont icon-jinru"></view>
-				</view>
-			</template>
+			
 		</scroll-view>
+	</template>
+	<template v-else-if="!userInfo.id">
+		<view class="u-f-ajc">
+			登陆PaperDaily，体验更多功能
+		</view>
+		<view class="u-f-ajc" @tap="openLogin">
+			账号密码登陆 
+			<view class="icon iconfont icon-jinru"></view>
+		</view>
+	</template>
+	<template v-else>
+		<view class="u-f-ajc">
+			请先进行企业或专家认证
+		</view>
+		
 	</template>
 	</view>
 </template>
@@ -123,7 +130,7 @@
 		},
 		
 		onShow() {
-			console.log(this.userInfo)
+			console.log(this.userInfo.type)
 			// uni.getSystemInfo({
 			// 	success: (res) => {
 			// 		let height = res.windowHeight - uni.upx2px(100)

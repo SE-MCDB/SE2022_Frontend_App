@@ -4,6 +4,18 @@ import{
 	picUrl,
 } from '@/api/common.js'
 
+//清洗result格式的函数
+function purifyKeys(item){
+	return {
+		key: item.order_id,								//订单id，用于vue前端设置key
+		ename: item.need.enterprise_name,				//企业名称
+		description: item.need.enterprise_description,	//企业描述
+		headpic: picUrl + item.need.enterprise_pic,		//企业头像url地址
+		title: item.need.title,							//需求名称
+		time: item.end_time,							//时间
+	}
+}
+
 // 获得已经完成的订单
 export const getFinishedOrder = async (uid) => {
 	console.log("getFinishedOrder")
@@ -13,12 +25,7 @@ export const getFinishedOrder = async (uid) => {
 	//清洗数据格式
 	if(result && result.length){
 		result = result.map((item)=>{
-			return {
-				ename: item.need.enterprise_name,			//企业名称
-				description: item.need.title,				//企业描述
-				headpic: picUrl + item.need.enterprise_pic,	//企业头像url地址
-				time: item.end_time,						//时间
-			}
+			return purifyKeys(item)
 		})
 	}
 	//否则返回空值
@@ -34,12 +41,7 @@ export const getCooperatingOrder = async (uid) => {
 	//清洗数据格式
 	if(result && result.length){
 		result = result.map((item)=>{
-			return {
-				ename: item.need.enterprise_name,			//企业名称
-				description: item.need.title,				//企业描述
-				headpic: picUrl + item.need.enterprise_pic,	//企业头像url地址
-				time: item.end_time,						//时间
-			}
+			return purifyKeys(item)
 		})
 	}
 	//否则返回空值
@@ -55,12 +57,7 @@ export const getPendingOrder = async (uid) => {
 	//清洗数据格式
 	if(result && result.length){
 		result = result.map((item)=>{
-			return {
-				ename: item.need.enterprise_name,			//企业名称
-				description: item.need.title,				//企业描述
-				headpic: picUrl + item.need.enterprise_pic,	//企业头像url地址
-				time: item.end_time,						//时间
-			}
+			return purifyKeys(item)
 		})
 	}
 	//否则返回空值
@@ -76,12 +73,7 @@ export const getAllOrder = async (uid) => {
 	//清洗数据格式
 	if(result && result.length){
 		result = result.map((item)=>{
-			return {
-				ename: item.need.enterprise_name,			//企业名称
-				description: item.need.title,				//企业描述
-				headpic: picUrl + item.need.enterprise_pic,	//企业头像url地址
-				time: item.end_time,						//时间
-			}
+			return purifyKeys(item)
 		})
 	}
 	//否则返回空值

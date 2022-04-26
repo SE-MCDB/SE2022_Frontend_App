@@ -12,8 +12,8 @@
 			<template v-if="userInfo.type=='0'">
 				<!-- 普通用户 -->
 				<view class="u-f-ajc" @tap="openLogin">您目前是普通用户，认证后可体验更多功能</view>
-				<view class="u-f-ajc yanse" @tap="openExpertCertificate">专家认证 <view class="icon iconfont icon-jinru"></view></view>
-				<view class="u-f-ajc yanse" @tap="openEnterpriseCertificate">企业认证 <view class="icon iconfont icon-jinru"></view></view>
+				<tui-button size="30" height="70rpx" @click="openExpertCertificate" :plain="true" type="blue">专家认证 <tui-icon name="arrowright" size="30" :bold="true"></tui-icon></tui-button>
+				<tui-button size="30" height="70rpx" @click="openEnterpriseCertificate" :plain="true" type="green">企业认证 <tui-icon name="arrowright" size="30" :bold="true"></tui-icon></tui-button>
 			</template>
 			
 			<home-info :homeinfo="homeinfo"></home-info>
@@ -57,13 +57,13 @@
 			...mapState(['userInfo'])
 		},
 		onShow() {
-			
+			console.log(this.userInfo.email)
 			if (this.userInfo.id) {
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				this.homeinfo.type = this.userInfo.type
-				console.log(this.homeinfo.type)
+				
 				if (!this.islogin) {
 					this.initDat()
 				}
@@ -73,11 +73,12 @@
 				this.homedata[2].num = 0
 				this.islogin = false
 			}
-
 		},
 		onLoad(){
+			
 			if(this.userInfo&&!this.userInfo.id)
 			console.log(this.userInfo)
+			
 		},
 		created() {
 
@@ -138,9 +139,9 @@
 					});
 				}
 			} else {
-					uni.navigateTo({
-						url: '../login/login',
-					});
+				uni.navigateTo({
+					url: '../login/login',
+				});
 			}
 
 		},
@@ -178,24 +179,17 @@
 				console.log(this.userInfo.id);
 			},
 			goToSpace(index) {
-				// if(this.userInfo.id){
-				// 	this.$http.href('../login/login')
-				// }
 				switch (index) {
-
 					case 0:
-							this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
+						this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
 						break;
 					case 1:
 						// this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
-
 						break;
 					case 2:
 						this.$http.href('../../pages/user-collect/user-collect?uid=' + this.userInfo.id)
 						break;
-
 				}
-
 			}
 		}
 	}

@@ -8,7 +8,7 @@
 		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">	
 			<uni-section title="全部订单" type="line" >
-				<uni-card v-for="item in datalist1" :title="item.ename" 
+				<uni-card v-for="item in datalist1" :key="item.key" :title="item.ename" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
@@ -54,7 +54,7 @@
 		<!-- bar2:待处理 -->
 		<view v-else-if="tabIndex == 1">	
 			<uni-section title="待处理订单" type="line" >
-				<uni-card v-for="item in datalist2" :title="item.ename" 
+				<uni-card v-for="item in datalist2" :key="item.key" :title="item.ename" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
@@ -76,7 +76,7 @@
 		<!--bar3:进行中 -->
 		<view v-else-if="tabIndex == 2">
 			<uni-section title="进行中订单" type="line" >
-				<uni-card v-for="item in datalist3" :title="item.ename"
+				<uni-card v-for="item in datalist3" :key="item.key" :title="item.ename"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
@@ -101,7 +101,7 @@
 		<!-- bar4:已完成 -->
 		<view v-else>
 			<uni-section title="已完成订单" type="line" >
-				<uni-card v-for="item in datalist4" :title="item.ename"
+				<uni-card v-for="item in datalist4" :key="item.key" :title="item.ename"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->

@@ -2,7 +2,7 @@
 	<view class="home-info u-f-ac animated fadeIn fast">
 		
 		<image :src="homeinfo.userpic" mode="widthFix" lazy-load></image>
-		<view class="u-f1" @tap="ToUserSpace">
+		<view class="u-f1" @tap="goToSpace">
 			<view>{{homeinfo.username}}</view>
 			<template v-if="homeinfo.type=='4'">
 				<view>专家用户</view>
@@ -50,6 +50,11 @@
 			homeinfo:Object
 		},
 		methods:{
+			goToSpace(){
+				uni.navigateTo({
+					url: '../user-set-userinfo/user-set-userinfo',
+				});
+			},
 			openEnterpriseCertificate() {
 				uni.navigateTo({
 					url: '../certificate-enterprise/certificate-enterprise',
@@ -57,7 +62,7 @@
 			},
 			openExpertCertificate(){
 				uni.navigateTo({
-					url: '../../pages/certificate-expert/certificate-expert',
+					url: '../certificate-expert/certificate-expert',
 				});
 			},
 		}
