@@ -15,3 +15,11 @@ export const  getNeedDetail =async (id) => {
 	// console.log("result is:" + result)
 	return result
 }
+export const  createContact = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.post("need/contact",data,headers)
+	console.log(result.error_msg)
+	return result
+}

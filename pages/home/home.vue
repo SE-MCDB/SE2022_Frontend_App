@@ -44,7 +44,8 @@
 		webUrl
 	} from '../../common/config.js'
 	import {
-		mapState
+		mapState,
+		mapMutations
 	} from 'vuex'
 	export default {
 		components: {
@@ -59,6 +60,7 @@
 		onShow() {
 			console.log(this.userInfo.email)
 			if (this.userInfo.id) {
+				
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
@@ -76,9 +78,12 @@
 		},
 		onLoad(){
 			
-			if(this.userInfo&&!this.userInfo.id)
-			console.log(this.userInfo)
 			
+			
+			
+		},
+		onReady() {
+			this.initDat()
 		},
 		created() {
 
@@ -146,6 +151,7 @@
 
 		},
 		methods: {
+			...mapMutations(['setUserInfo']),
 			openLogin() {
 				uni.navigateTo({
 					url: '../login/login'
@@ -164,11 +170,16 @@
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
 					let userProfile = await getUserProfile()
-					console.log(userProfile)
+					
+					let temp = this.userInfo
+					temp.type = userProfile.type
+					this.setUserInfo(temp)
+					console.log(this.userInfo.type)
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
 					this.homeinfo.total_collect = userProfile.total_mycollect
 					this.homeinfo.email = userProfile.email
+					this.homeinfo.type = userProfile.type
 					this.homedata[0].num = userProfile.total_post
 					this.homedata[1].num = userProfile.total_comment
 					this.homedata[2].num = userProfile.total_mycollect

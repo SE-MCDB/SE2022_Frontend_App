@@ -5,9 +5,9 @@
 		需求标题：{{this.need.title}}
 		
 		</tui-button>
-		<template v-if="userInfo.type!='0'">
+		<template v-if="userInfo.type=='5' && need">
 			
-			<view v-if="userInfo.type==0">
+			
 			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="0rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
 				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToNeedDetail(need.need_id)">
 					<tui-icon name="search"></tui-icon>
@@ -15,26 +15,28 @@
 				</tui-list-cell>
 				
 			</tui-bubble-popup>
-			<tui-bubble-popup v-show="1" :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+			<view v-if="order.order_id==0">
+			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="createOrderAndRefresh()">
 					<tui-icon name="order"></tui-icon>
 						发起订单
 				</tui-list-cell>
 			</tui-bubble-popup>
-			
-			<tui-bubble-popup v-show="0" :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+			</view>
+			<view v-if="order.order_id!=0">
+			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(1)">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(order.order_id)">
 					<tui-icon name="search"></tui-icon>
 						查看订单
 						
 				</tui-list-cell>
 			</tui-bubble-popup>
-			
 			</view>
+			
 		</template>
-		<template v-else-if="userInfo.type=='0'">
+		<template v-else-if="userInfo.type=='4' && need">
 			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="0rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
 				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToNeedDetail(need.need_id)">
 					<tui-icon name="search"></tui-icon>
@@ -42,16 +44,18 @@
 				</tui-list-cell>
 				
 			</tui-bubble-popup>
+			<template v-if="order.order_id!=0">
 			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(1)">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(order.order_id)">
 					<tui-icon name="search"></tui-icon>
 						查看订单
 						
 				</tui-list-cell>
 			</tui-bubble-popup>
+			<view v-if="order.state==0">
 			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="120rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
-				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="">
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="acceptOrderAndRefresh()">
 					<tui-icon name="check"></tui-icon>
 						接受订单
 				</tui-list-cell>
@@ -59,12 +63,14 @@
 			</tui-bubble-popup>
 			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="120rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="">
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="rejectOrderAndRefresh()">
 					<tui-icon name="shut"></tui-icon>
 						拒绝订单
 						
 				</tui-list-cell>
 			</tui-bubble-popup>
+			</view>
+			</template>
 		</template>
 		<scroll-view id="scrollview" scroll-y :scroll-top="scrollTop" 
 		:scroll-with-animation="true"
@@ -92,7 +98,8 @@
 	import time from "../../common/time.js";
 	import userChatList from "../../components/user-chat/user-chat-list.vue";
 	import {mapState,mapMutations,mapGetters} from 'vuex'
-	import {pushMessage, createChat, getChat} from '@/api/user-chat.js'
+	import {pushMessage, createChat, getChat, getContact,getOrder,createOrder} from '@/api/user-chat.js'
+	import {acceptOrder,rejectOrder} from '@/api/platform/order.js'
 	import {picUrl} from '@/api/common.js'
 	import Vue from 'vue'
 	import {
@@ -126,17 +133,23 @@
 				isShow:false,
 				show:false,
 				need:{},
-				order:{},
+				order:{
+					order_id:0,
+					state:undefined,
+				},
+				timer:null,
 			};
 		},
 		
 		onShow() {
 			this.isShow = true
+			
 		},
 		beforeDestroy() {
 			this.isShow = false
 			this.setIndex(-1)
 			this.setMsgPage(1)
+			this.clear();
 		},
 		// 监听下拉刷新
 		onPullDownRefresh(){
@@ -192,16 +205,19 @@
 				this.cId = this.chatList[data.index].id
 			}
 			
-			this.need= await getNeedDetail(1)
-			console.log(this.need.need_id)
+			this.initorder()
+			
 		},
 
-		onReady() {
+		async onReady() {
+			
 			this.getdata();
 			this.initdata();
 			this.pageToBottom(true);
 			this.initorder();
+			//this.refresh()
 		},
+		
 		watch:{
 			currentChatMsgs(old){
 				if(this.triggered){
@@ -222,12 +238,75 @@
 			initdata(){
 				try {
 					const res = uni.getSystemInfoSync();
-					this.style.contentH=res.windowHeight - uni.upx2px(120);
+					this.style.contentH=res.windowHeight - uni.upx2px(200);
 					uni.stopPullDownRefresh();
 				} catch (e) { }
 			},
-			initorder(){
-				
+			refresh(){
+				this.timer = setInterval(() => {
+				      setTimeout(this.trym, 0)
+				    }, 1000*5)
+			},
+			createOrderAndRefresh(){
+				if(this.userInfo.type==5){
+					let temp={
+						enterprise_id:this.userInfo.id,
+						expert_id:this.fid,
+						need_id:this.need.need_id,
+					};
+					
+					createOrder(temp)
+				}else if(this.userInfo.type==4){
+					let temp={
+						enterprise_id:this.fid,
+						expert_id:this.userInfo.id,
+						need_id:this.need.need_id,
+					};
+					
+					createOrder(temp)
+				}
+				this.initorder()
+				this.sendm("我已向您发起订单，需求名为："+this.need.title)
+			},
+			acceptOrderAndRefresh(){
+				acceptOrder(this.userInfo.id,this.order.order_id)
+				this.initorder()
+				this.sendm("我已接受您的订单，需求名为："+this.need.title)
+			},
+			rejectOrderAndRefresh(){
+				rejectOrder(this.userInfo.id,this.order.order_id)
+				this.initorder()
+				this.sendm("我已拒绝您的订单，需求名为："+this.need.title)
+			},
+			async initorder(){
+				if(this.userInfo.type==5){
+					let temp={
+						enterprise_id:this.userInfo.id,
+						expert_id:this.fid,
+					
+					};
+					let temp1= await getContact(temp)
+					this.need = await getNeedDetail(temp1.need_id)
+				}else if(this.userInfo.type==4){
+					let temp={
+						enterprise_id:this.fid,
+						expert_id:this.userInfo.id,
+					
+					};
+					let temp1= await getContact(temp)
+					this.need = await getNeedDetail(temp1.need_id)
+				}
+				let temp={
+					enterprise_id:this.fid,
+					expert_id:this.userInfo.id,
+					need_id:this.need.need_id,
+				};
+				let temp1 = await getOrder(temp)
+				this.order = await getOrderDetail(temp1.order_id)
+				console.log("order:"+this.order.state)
+			},
+			async sendm(data){
+				this.submit(data)
 			},
 			scrollTopHandle(){
 				if (this.triggered) {
@@ -268,11 +347,16 @@
 				}
 			},
 			openmenu(){
+				console.log("open")
 				if(this.show){
 					this.show=false;
 				}else{
 					this.show=true;
 				}
+			},
+			clear(){
+				clearInterval(this.timer); //清除计时器
+				this.timer = null; //设置为null
 			},
 			goToUserInfo(item){
 				uni.navigateTo({
@@ -336,6 +420,7 @@
 					}
 				this.addChatMessage(obj)
 				this.pageToBottom(true);
+				
 			}
 		}
 	}

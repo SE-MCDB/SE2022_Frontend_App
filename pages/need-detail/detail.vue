@@ -41,7 +41,7 @@
 			</view>
 			
 			<view >
-				<tui-button type="primary" class="need-detail-button">
+				<tui-button type="primary" class="need-detail-button" @click="contact()">
 					联系企业
 				</tui-button>
 			</view>
@@ -54,7 +54,8 @@
 		mapMutations
 	} from "vuex"
 	import {
-		getNeedDetail
+		getNeedDetail,
+		createContact
 	} from "@/api/need-detail.js"
 	import tuiCard from '@/components/thorui/tui-card/tui-card.vue'
 	import tuiListView from '@/components/thorui/tui-list-view/tui-list-view'
@@ -137,6 +138,18 @@
 							// img标签添加style属性：max-width:100%;height:auto
 							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"');
 							return newContent;
+			},
+			contact(){
+				let temp={
+					enterprise_id:this.item.enterprise_id,
+					expert_id:this.userInfo.id,
+					need_id:this.item.need_id,
+				};
+				let s =createContact(temp)
+				console.log(temp)
+				uni.navigateTo({
+					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
+				})
 			},
 		}
 	}

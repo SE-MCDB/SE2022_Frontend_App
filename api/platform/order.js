@@ -84,9 +84,12 @@ export const getAllOrder = async (uid) => {
 /****** 以下为专家操作 *****/
 
 // 接受某订单
-export const acceptOrder = async (uid) => {
-	console.log("getAllOrder")
-	let result = await axios.get('user/' + uid + '/order/' + id + 'accept')
+export const acceptOrder = async (uid,id) => {
+	console.log("getacceptOrder")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.post('user/' + uid + '/order/' + id + '/accept',{},headers)
 	
 	
 	
@@ -98,9 +101,12 @@ export const acceptOrder = async (uid) => {
 }
 
 // 拒绝某订单
-export const rejectOrder = async (uid) => {
-	console.log("getAllOrder")
-	let result = await axios.get('user/' + uid + '/order/' + id + 'refuse')		//为啥不叫reject？？好别扭
+export const rejectOrder = async (uid,id) => {
+	console.log("getrejectOrder")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.post('user/' + uid + '/order/' + id + '/refuse',{},headers)		//为啥不叫reject？？好别扭
 	
 	
 	

@@ -4,14 +4,65 @@ import {
 	picUrl
 } from './common.js'
 
+export const  getContact = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	//console.log(data)
+	let result = await axios.get("need/get_contact",data,headers)
+	//console.log("getContact "+result.error_msg)
+	return result
+}
 
+export const  getOrder = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	//console.log(data)
+	let result = await axios.get("order/get",data,headers)
+	//console.log("getOrder "+result.order_id)
+	return result
+}
 
+export const createOrder = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	
+	console.log(data)
+	let result = await axios.post("order",data,headers)
+	console.log("createOrder "+result.error_msg)
+	return result
+}
+/*
+export const acceptOrder = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	
+	//console.log(data)
+	let result = await axios.post("order",data,headers)
+	//console.log("createOrder "+result.error_msg)
+	return result
+}
+
+export const refuseOrder = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	
+	//console.log(data)
+	let result = await axios.post("order",data,headers)
+	//console.log("createOrder "+result.error_msg)
+	return result
+}
+*/
 export const pushMessage = async (data) => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	axios.setLoading(false);
-	console.log(data)
+	
 	let result = await axios.post("chat/push",data,headers)
 	axios.setLoading(true);
 	return result
