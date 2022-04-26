@@ -57,13 +57,13 @@
 			...mapState(['userInfo'])
 		},
 		onShow() {
-			
+			console.log(this.userInfo.email)
 			if (this.userInfo.id) {
 				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				this.homeinfo.type = this.userInfo.type
-				console.log(this.homeinfo.type)
+				
 				if (!this.islogin) {
 					this.initDat()
 				}
@@ -76,8 +76,10 @@
 
 		},
 		onLoad(){
+			
 			if(this.userInfo&&!this.userInfo.id)
 			console.log(this.userInfo)
+			
 		},
 		created() {
 
