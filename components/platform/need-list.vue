@@ -35,7 +35,7 @@
 				截止时间:{{item.end_time}}
 			</view>
 		</view>
-		<view v-if="edit">
+		<view v-if="edit" class="container-edit">
 			<button type="primary" @click="editneed">编辑需求</button>
 			<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
 					class="button-text error-text">删除需求</text></button>
@@ -177,6 +177,9 @@
 .container-time {
 	padding: 15upx;
 	color: blue;
+}
+.container-edit {
+	margin: 10upx;
 }
 button {
 		float: left;
