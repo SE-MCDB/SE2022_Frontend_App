@@ -246,9 +246,9 @@
 					this.islogin = true
 				}
 			},
-			// async signIn(){
-			// 	this.$http.href("../../pages/search-need/search-need")
-			// },
+			async signIn(){
+				this.$http.href("@/pages/search-need/search-need")
+			},
 			//跳转到各种类订单list
 			goToNeedInfo(index) {
 				console.log(index)
@@ -258,19 +258,16 @@
 						uni.navigateTo({
 							url: '../user-space/user-space?uid=' + this.userInfo.id
 						});
-						
 						break;
 					case 1:
 						uni.navigateTo({
 							url: '../user-comment/user-comment?uid=' + this.userInfo.id
 						});
-						
 						break;
 					case 2:
 						uni.navigateTo({
 							url: '../user-collect/user-collect?uid=' + this.userInfo.id
 						});
-						
 						break;
 				}
 			}
