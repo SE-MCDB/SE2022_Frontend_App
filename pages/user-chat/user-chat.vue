@@ -1,29 +1,70 @@
 <template>
 	<view>
-		<template v-if="userInfo.type=='0'">
-			<tui-button @click="openmenu" :size="28" :plain="true">需求名称</tui-button>
+		<tui-button @click="openmenu" :size="28" :plain="true">
+			
+		需求标题：{{this.need.title}}
+		
+		</tui-button>
+		<template v-if="userInfo.type!='0'">
+			
+			<view v-if="userInfo.type==0">
 			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="0rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
-				<tui-list-cell :hover="false" :arrow="false" backgroundColor="#dcdcdc" @click="">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToNeedDetail(need.need_id)">
+					<tui-icon name="search"></tui-icon>
+						查看需求
+				</tui-list-cell>
+				
+			</tui-bubble-popup>
+			<tui-bubble-popup v-show="1" :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+				
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="">
 					<tui-icon name="order"></tui-icon>
 						发起订单
+				</tui-list-cell>
+			</tui-bubble-popup>
+			
+			<tui-bubble-popup v-show="0" :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+				
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(1)">
+					<tui-icon name="search"></tui-icon>
+						查看订单
+						
+				</tui-list-cell>
+			</tui-bubble-popup>
+			
+			</view>
+		</template>
+		<template v-else-if="userInfo.type=='0'">
+			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="0rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToNeedDetail(need.need_id)">
+					<tui-icon name="search"></tui-icon>
+						查看需求
 				</tui-list-cell>
 				
 			</tui-bubble-popup>
 			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="0rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
 				
-				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="">
+				<tui-list-cell :hover="true" :arrow="true" backgroundColor="#dcdcdc" @click="goToOrderDetail(1)">
 					<tui-icon name="search"></tui-icon>
-						查看需求
+						查看订单
+						
 				</tui-list-cell>
 			</tui-bubble-popup>
-		</template>
-		<template v-else-if="userInfo.type=='4'">
-		<tui-button @click="openmenu">需求名称</tui-button>
-		<tui-bubble-popup :show="show" :mask="false" position="absolute" width="500rpx" translateY="10rpx" triangleTop="-20rpx">
-				<view class="tui-menu-item">菜单一</view>
-				<view class="tui-menu-item">菜单二</view>
-				<view class="tui-menu-item">菜单三</view>
-		</tui-bubble-popup>
+			<tui-bubble-popup :show="show" :mask="true" position="absolute" width="370rpx" translateY="120rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="">
+					<tui-icon name="check"></tui-icon>
+						接受订单
+				</tui-list-cell>
+				
+			</tui-bubble-popup>
+			<tui-bubble-popup :show="show" :mask="false" position="absolute" width="370rpx" translateY="120rpx" translateX="380rpx" triangleTop="-20rpx" borderWidth="0" @close="openmenu()">
+				
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="">
+					<tui-icon name="shut"></tui-icon>
+						拒绝订单
+						
+				</tui-list-cell>
+			</tui-bubble-popup>
 		</template>
 		<scroll-view id="scrollview" scroll-y :scroll-top="scrollTop" 
 		:scroll-with-animation="true"
@@ -54,6 +95,12 @@
 	import {pushMessage, createChat, getChat} from '@/api/user-chat.js'
 	import {picUrl} from '@/api/common.js'
 	import Vue from 'vue'
+	import {
+		getOrderDetail
+	} from "@/api/order-detail.js"
+	import {
+		getNeedDetail
+	} from "@/api/need-detail.js"
 	export default {
 		components:{
 			userChatBottom,
@@ -78,7 +125,8 @@
 				fid: undefined,
 				isShow:false,
 				show:false,
-
+				need:{},
+				order:{},
 			};
 		},
 		
@@ -143,13 +191,16 @@
 				this.fid = this.chatList[data.index].fid
 				this.cId = this.chatList[data.index].id
 			}
-	
+			
+			this.need= await getNeedDetail(1)
+			console.log(this.need.need_id)
 		},
 
 		onReady() {
 			this.getdata();
 			this.initdata();
 			this.pageToBottom(true);
+			this.initorder();
 		},
 		watch:{
 			currentChatMsgs(old){
@@ -174,6 +225,9 @@
 					this.style.contentH=res.windowHeight - uni.upx2px(120);
 					uni.stopPullDownRefresh();
 				} catch (e) { }
+			},
+			initorder(){
+				
 			},
 			scrollTopHandle(){
 				if (this.triggered) {
@@ -223,6 +277,18 @@
 			goToUserInfo(item){
 				uni.navigateTo({
 					url:'../../pages/user-space/user-space?uid='+this.chatList[this.msgIndex].fid
+				})
+			},
+			goToNeedDetail(item){
+				
+				uni.navigateTo({
+					url:'../need-detail/detail?id='+item
+				})
+			},
+			goToOrderDetail(item){
+				
+				uni.navigateTo({
+					url:'../order-detail/order-detail?id='+item
 				})
 			},
 			// 获取聊天数据
