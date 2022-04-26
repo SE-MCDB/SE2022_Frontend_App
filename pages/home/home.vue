@@ -12,8 +12,8 @@
 			<template v-if="userInfo.type=='0'">
 				<!-- 普通用户 -->
 				<view class="u-f-ajc" @tap="openLogin">您目前是普通用户，认证后可体验更多功能</view>
-				<view class="u-f-ajc yanse" @tap="openExpertCertificate">专家认证 <view class="icon iconfont icon-jinru"></view></view>
-				<view class="u-f-ajc yanse" @tap="openEnterpriseCertificate">企业认证 <view class="icon iconfont icon-jinru"></view></view>
+				<tui-button size="30" height="70rpx" @click="openExpertCertificate" :plain="true" type="blue">专家认证 <tui-icon name="arrowright" size="30" :bold="true"></tui-icon></tui-button>
+				<tui-button size="30" height="70rpx" @click="openEnterpriseCertificate" :plain="true" type="green">企业认证 <tui-icon name="arrowright" size="30" :bold="true"></tui-icon></tui-button>
 			</template>
 			
 			<home-info :homeinfo="homeinfo"></home-info>
