@@ -53,7 +53,6 @@
 		},
 		methods:{
 			...mapMutations(['setUserInfo','setChatList'])
-					
 		}
 	}
 </script>

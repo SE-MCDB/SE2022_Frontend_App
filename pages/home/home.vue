@@ -73,7 +73,6 @@
 				this.homedata[2].num = 0
 				this.islogin = false
 			}
-
 		},
 		onLoad(){
 			
@@ -140,9 +139,9 @@
 					});
 				}
 			} else {
-					uni.navigateTo({
-						url: '../login/login',
-					});
+				uni.navigateTo({
+					url: '../login/login',
+				});
 			}
 
 		},
@@ -180,24 +179,17 @@
 				console.log(this.userInfo.id);
 			},
 			goToSpace(index) {
-				// if(this.userInfo.id){
-				// 	this.$http.href('../login/login')
-				// }
 				switch (index) {
-
 					case 0:
-							this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
+						this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
 						break;
 					case 1:
 						// this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
-
 						break;
 					case 2:
 						this.$http.href('../../pages/user-collect/user-collect?uid=' + this.userInfo.id)
 						break;
-
 				}
-
 			}
 		}
 	}
