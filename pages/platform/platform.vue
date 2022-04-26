@@ -156,9 +156,7 @@
 				try {
 					if(this.tabIndex === 1){
 						let items = await getAllNeed()
-						console.log("items.length is:" + items.length)
 						this.items = items
-						console.log("this.items.length is:" + this.items.length)
 					}
 					// console.log(items)
 				} catch (e) {
