@@ -20,3 +20,21 @@ export const  manageFinishedNeed =async (id) => {
 	result = result.data
 	return result
 }
+
+export const deleteNeed =async (company_id, id) => {
+	console.log("deleteNeed")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.delete('user/' + company_id + "/need/" + id, {}, headers)
+	return result
+}
+
+export const endNeed =async (company_id, id) => {
+	console.log("endNeed")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.post('user/' + company_id + "/need/" + id + "/finish", {}, headers)
+	return result
+}

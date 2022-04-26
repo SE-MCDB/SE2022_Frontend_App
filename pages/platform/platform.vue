@@ -12,7 +12,7 @@
 		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
-				<myNavBar v-if = "tabIndex == 1" @signIn="signIn"></myNavBar>
+				<myNavBarNeed v-if = "tabIndex == 1" @signIn="signIn"></myNavBarNeed>
 				<view v-for="(item, index) in items" :key="index">
 					<need-list :item="item" :index="index" @openDetail="openDetail">
 					</need-list>
@@ -45,7 +45,7 @@
 	import needList from "@/components/platform/need-list.vue";
 	import needData from '@/components/platform/need-data.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
-	import myNavBar from "@/components/common/my-nav-bar.vue";
+	import myNavBarNeed from "@/components/common/my-nav-bar-need.vue";
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '@/components/list-card/list-card-1.vue'
 	import loadMore from "@/components/common/load-more.vue";
@@ -72,7 +72,7 @@
 			swiperTabHead,
 			loadMore,
 			noThing,
-			myNavBar,
+			myNavBarNeed,
 			card,
 			platformCreate
 		},
@@ -239,6 +239,9 @@
 					this.islogin = true
 				}
 			},
+			// async signIn(){
+			// 	this.$http.href("../../pages/search-need/search-need")
+			// },
 			//跳转到各种类订单list
 			goToNeedInfo(index) {
 				console.log(index)

@@ -33,3 +33,15 @@ export const searchTopicList = async (page=1,key='',author='') => {
 	}
 	return result
 }
+
+export const  searchNeedList =async (text) => {
+	console.log(text)
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.get('need/search?key_word=' + text , {}, headers)
+	if (result && result.code) {
+		console.log("search_error")
+	}
+	return result.data
+}

@@ -11,9 +11,9 @@
 									<view class="tui-search-text">请输入搜索关键字</view>
 								</view>
 								<!-- <view class="tui-notice-box" @tap="skipToSearch(3)">
-									<tui-icon name="add" color="#FFE933" :size="64"></tui-icon> -->
-									<!-- <tui-badge type="danger" absolute :scaleRatio="0.8" top="16rpx">1</tui-badge> -->
-								<!-- </view> -->
+									<tui-icon name="add" color="#FFE933" :size="64"></tui-icon>
+									<tui-badge type="danger" absolute :scaleRatio="0.8" top="16rpx">1</tui-badge>
+								</view> -->
 							</view>
 						</tui-navigation-bar>
 				</template>
@@ -47,8 +47,8 @@
 						this.$emit("signIn")
 					break;
 					case 2:
-						console.log("error")
-						this.$http.href("../../pages/search/search",false)
+						console.log("search-need????")
+						this.$http.href('../../pages/search-need/search-need')
 					break;
 					case 3:
 						this.$http.href("../../pages/add-input/add-input")
@@ -181,3 +181,4 @@
 		padding-top: 50upx;
 	}
 </style>
+

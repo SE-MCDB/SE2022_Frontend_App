@@ -138,6 +138,39 @@
 				}
 			}
 		}, {
+			"path": "pages/search-need/search-need",
+			"style": {
+				"enablePullDownRefresh": true,
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": false,
+						// 搜索框配置
+						"searchInput": {
+							"align": "center",
+							"backgroundColor": "#F7F7F7",
+							"borderRadius": "8upx",
+							"placeholder": "搜索",
+							"placeholderColor": "#CCCCCC",
+							"disabled": false
+						},
+						//配置按钮
+						"buttons": [
+							// 右边
+							{
+								"color": "#000000",
+								"colorPressed": "#BBBBBB",
+								"float": "right",
+								"fontSize": "32upx",
+								"text": "取消"
+							}
+						]
+					}
+				}
+			}
+		}, 
+		{
 			"path": "pages/add-input/add-input",
 			"style": {
 				"app-plus": {

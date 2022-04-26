@@ -10,7 +10,7 @@
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
-					<need-list :item="item" :index="index" @openDetail="openDetail" :edit="1" @editneed="editneed">
+					<need-list :item="item" :index="index" @openDetail="openDetail" :edit="1" @editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
 					</need-list>
 				</view>
 			</view>
@@ -34,6 +34,15 @@
 				</view>
 			</template>
 		</scroll-view>
+		
+		
+		<view>
+			<!-- 提示窗示例 -->
+			<uni-popup ref="alertDialog" type="dialog">
+				<uni-popup-dialog :type="msgType" confirmText="同意" cancelText="关闭" title="提示" :content="msg" @confirm="dialogConfirm(msgType)"
+					@close="dialogClose"></uni-popup-dialog>
+			</uni-popup>
+		</view>
 	</template>
 	</view>
 </template>
@@ -51,6 +60,8 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
+	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
+	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
 	import {
 		mapState
 	} from 'vuex'
@@ -59,7 +70,9 @@
 	} from "@/api/home.js"
 	import {
 		manageFinishedNeed,
-		manageUnfinishedNeed
+		manageUnfinishedNeed,
+		deleteNeed,
+		endNeed
 	} from "@/api/manage-need.js"
 	import Vue from 'vue'
 	export default {
@@ -71,7 +84,9 @@
 			noThing,
 			myNavBar,
 			card,
-			platformCreate
+			platformCreate,
+			uniPopup,
+			uniPopupDialog
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -86,6 +101,9 @@
 				finisheditems: [],
 				show: false,
 				refreshing: false,
+				msg: '',
+				msgType: 'success',
+				resolveId: '',
 				tabBars: [{
 						name: "已完成",
 						id: "wode",
@@ -110,6 +128,7 @@
 				}
 			});
 			console.log("-------------------Requesting")
+			this.msg = ''
 			this.requestData()
 			console.log("-------------------Request Success")
 		},
@@ -170,6 +189,56 @@
 				uni.navigateTo({
 					url: '../edit-need/edit-need?id=' + item.need_id
 				})
+			},
+			deleteneed(item) {
+				console.log('???')
+				this.msgType = 'error'
+				this.resolveId = item.need_id
+				this.msg = '确认删除需求吗？此操作无法复原'
+				this.$refs.alertDialog.open()
+				console.log("------------------------------------ready to delete need")
+			},
+			endneed(item) {
+				this.msgType = 'warn'
+				this.resolveId = item.need_id
+				this.msg = '确认结束需求吗？此操作无法复原'
+				this.$refs.alertDialog.open()
+				console.log("------------------------------------ready to end need")
+			},
+			dialogConfirm(type) {
+				console.log('点击确认')
+				// this.messageText = `点击确认了 ${this.msgType} 窗口`
+				// this.$refs.message.open()
+				if (type === 'warn') {
+					this.end()
+				} else if (type === 'error') {
+					this.delete()
+				}
+			},
+			async end() {
+				if (this.resolveId) {
+					try {
+						let result = await endNeed(this.userInfo.id, this.resolveId)
+					} catch (e) {
+						console.log(e)
+						return
+					}
+				}
+				this.onrefresh()
+			},
+			async delete() {
+				if (this.resolveId) {
+					try {
+						let result = await deleteNeed(this.userInfo.id, this.resolveId)
+					} catch (e) {
+						console.log(e)
+						return
+					}
+				}
+				this.onrefresh()
+			},
+			dialogClose() {
+				console.log('点击关闭')
 			},
 			goToRecommend() {
 				

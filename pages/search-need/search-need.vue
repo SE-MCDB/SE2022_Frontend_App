@@ -2,12 +2,8 @@
 		<view class="search-view">
 			<template v-if="list.length>0">
 				<block v-for="(item,index) in list" :key="index">
-					<index-list 
-						@likeOrTread="likeOrTread"
-						@share="share"
-						@opendDetail="opendDetail"
-						:userInfo="userInfo"
-						:item="item" :index="index"></index-list>
+					<need-list :item="item" :index="index" @openDetail="openDetail">
+					</need-list>
 				</block>
 				<load-more :loadtext="loadtext"></load-more>
 			</template>
@@ -18,17 +14,14 @@
 </template>
 
 <script>
-	import indexList from "../../components/index/index-list.vue";
 	import noThing from "../../components/common/no-thing.vue";
 	import loadMore from "../../components/common/load-more.vue";
-	import {searchTopicList} from '@/api/search.js'
-	import {
-		giveLike
-	} from '@/api/common.js'
+	import {searchNeedList} from '@/api/search.js'
+	import needList from "@/components/platform/need-list.vue";
 	import {mapState} from 'vuex'
 	export default {
 		components:{
-			indexList,
+			needList,
 			noThing,
 			loadMore
 		},
@@ -82,7 +75,7 @@
 					return
 				}
 				try{
-					data = await searchTopicList(this.page+1,this.searchtext,'')
+					data = await searchNeedList(this.searchtext)
 					console.log(data)
 					if(data.length===0){
 						this.issearch=true;
@@ -97,23 +90,12 @@
 					console.log(e)
 					return 
 				}
-
 			},
-			async likeOrTread(data) {
-				giveLike(data.id)
-				if(data.is_like){
-					this.$http.toast("你已取消点赞!")
-				}else{
-					this.$http.toast("点赞成功!")
-				}
-			},
-			share() {
-				this.$http.toast("敬请期待~")
-			},
-			opendDetail(item) {
+			openDetail(item) {
+				console.log("-----------------------------------openDetail")
 				uni.navigateTo({
-					url: '../../pages/detail/detail?id=' + item.id,
-				});
+					url: '../need-detail/detail?id=' + item.need_id
+				})
 			},
 			// 上拉加载
 			 loadmore(){
@@ -122,7 +104,6 @@
 				this.loadtext="加载中...";
 				// 获取数据
 				this.getdata()
-				
 			},
 		}
 	}

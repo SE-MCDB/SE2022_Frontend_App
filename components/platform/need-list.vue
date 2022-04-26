@@ -36,8 +36,12 @@
 			</view>
 		</view>
 		<view v-if="edit">
-			<button type="default" @click="editneed">编辑需求</button>
-			<button type="default" @click="goToRecommend">专家推荐</button>
+			<button type="primary" @click="editneed">编辑需求</button>
+			<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
+					class="button-text error-text">删除需求</text></button>
+			<button class="button popup-warn" @click="endneed('warn')"><text
+					class="button-text warn-text">结束需求</text></button>
+			<button type="primary" @click="goToRecommend">专家推荐</button>
 		</view>
 	</view>
 </template>
@@ -80,17 +84,23 @@
 				],
 			}
 		},
-		onLoad() {
-			
-		},
+		
 		methods: {
 			openDetail(){
 				this.$emit("openDetail",this.item)
-				console.log("------------------need-list")
+				console.log("------------------openDetail")
 			},
-			editneed() {
+			editneed(type) {
 				this.$emit("editneed", this.item)
 				console.log("------------------edit-need")
+			},
+			deleteneed(type) {
+				this.$emit("deleteneed", this.item)
+				console.log("------------------delete-need")
+			},
+			endneed() {
+				this.$emit("endneed", this.item)
+				console.log("------------------end-need")
 			}
 		}
 	}
@@ -170,7 +180,7 @@
 }
 button {
 		float: left;
-		width: 50%;
+		width: 25%;
 		text-align: center;
 		font-size: small;
 	}
