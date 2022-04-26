@@ -77,7 +77,7 @@
 				socket:null,
 				fid: undefined,
 				isShow:false,
-				show:true,
+				show:false,
 
 			};
 		},

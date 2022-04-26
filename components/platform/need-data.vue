@@ -1,14 +1,22 @@
 <template>
 	<view>
-		<!-- 顶端三栏导航-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33.33%;"></swiper-tab-head>
+		<!-- <tui-modal :show="modal"  title="警告" content="确定拒绝订单吗？"></tui-modal> -->
 		
-		<!-- bar1:已完成/全部 -->
+		<!-- 顶端多栏导航-->
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:25%;"></swiper-tab-head>
+		
+		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">	
 			<uni-section title="全部订单" type="line" >
-				<uni-card v-for="item in datalist1" :title="item.title" :sub-title="item.subtitle" :extra="item.extra" :thumbnail="item.img" @click="onClick">
+				<uni-card v-for="item in datalist1" :title="item.ename" 
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
+					
+					
+					<!-- todo：根据订单类型修改显示样式 -->
+					
+					
 					<view slot="actions" class="card-actions no-border">
 						<view class="card-actions-item" @click.stop="actionsClick('分享')">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="redo" size="18" color="#999"></uni-icons>
@@ -42,13 +50,34 @@
 				</template>
 			</tui-card> -->
 		</view>
+		
+		<!-- bar2:待处理 -->
+		<view v-else-if="tabIndex == 1">	
+			<uni-section title="待处理订单" type="line" >
+				<uni-card v-for="item in datalist2" :title="item.ename" 
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
+					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
+					<!-- 底部功能组件 -->
+					<view slot="actions" class="card-actions no-border">
+						<view class="card-actions-item" @click.stop="actionsClick('拒绝订单')">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">拒绝订单</text>
+						</view>
+						<view class="card-actions-item" @click.stop="actionsClick('接受订单')">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">接受订单</text>
+						</view>
+					</view>
+				</uni-card>
+			</uni-section>
+		</view>
 
 		
-		<!--bar2:进行中 -->
-		<view v-else-if="tabIndex == 1">
+		<!--bar3:进行中 -->
+		<view v-else-if="tabIndex == 2">
 			<uni-section title="进行中订单" type="line" >
-				<uni-card v-for="item in datalist2" :title="item.title" :sub-title="item.subtitle" :extra="item.extra" :thumbnail="item.img" 
-				@click="onClick">
+				<uni-card v-for="item in datalist3" :title="item.ename"
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border">
@@ -69,20 +98,25 @@
 			</uni-section>
 		</view>
 		
-		<!-- bar3:待处理 -->
+		<!-- bar4:已完成 -->
 		<view v-else>
-			<uni-section title="待处理订单" type="line" >
-				<uni-card v-for="item in datalist3" :title="item.title" :sub-title="item.subtitle" :extra="item.extra" :thumbnail="item.img" @click="onClick">
+			<uni-section title="已完成订单" type="line" >
+				<uni-card v-for="item in datalist4" :title="item.ename"
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="onClick">
 					<text class="uni-body">这是一个带头像和双标题的基础卡片</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border">
-						<view class="card-actions-item" @click.stop="actionsClick('拒绝订单')">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
-							<text class="card-actions-item-text">拒绝订单</text>
+						<view class="card-actions-item" @click.stop="actionsClick('分享')">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="redo" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">分享</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('接受订单')">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
-							<text class="card-actions-item-text">接受订单</text>
+						<view class="card-actions-item" @click.stop="actionsClick('评价')">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">评价</text>
+						</view>
+						<view class="card-actions-item" @click.stop="actionsClick('再来一单')">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="cart" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">再来一单</text>
 						</view>
 					</view>
 				</uni-card>
@@ -99,35 +133,48 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
+	
 	import tuiCard from "@/components/thorui/tui-card/tui-card"
 	import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
 	import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
 	import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
 	
+	import tuiModal from "@/components/thorui/tui-modal/tui-modal"	//提示窗
+	import tuiAlert from "@/components/thorui/tui-alert/tui-alert"	//提示窗
+	
+	import {
+		getFinishedOrder,
+		getCooperatingOrder,
+		getPendingOrder,
+		getAllOrder,
+		acceptOrder,
+		rejectOrder,
+	} from '@/api/platform/order.js'
+	
 	export default {
 		data(){
 			return{
 				show:[],
-				tabIndex: 0,
+				tabIndex: 1,
 				tabBars: [
 					{
 						name: "全部",
 						id: "quanbu",
 						page: 1
 					},
-					// {
-					// 	name: "已完成",
-					// 	id: "yiwancheng",
-					// 	page: 1
-					// },
+					{
+						name: "待处理",
+						id: "daichuli",
+						page: 1
+					},
 					{
 						name: "进行中",
 						id: "jinxingzhong",
 						page: 1
 					},
 					{
-						name: "待处理",
-						id: "daichuli",
+						name: "已完成",
+						id: "yiwancheng",
 						page: 1
 					},
 				],
@@ -149,6 +196,7 @@
 			tuiSwipeAction,
 			tuiBubblePopup,
 			tuiIcon,
+			tuiModal,
 		},
 		props:{
 			needdata:Array,
@@ -197,53 +245,68 @@
 				}
 				console.log(id+"success "+this.show[id]);
 			},
-			initData(){
-				this.datalist1 = [];	//已完成 全部
-				this.datalist2 = [];	//进行中
-				this.datalist3 = [];	//待处理
-				this.randIdPool = ["CSDN云社区", "Zhihu小管家", "微博Bot", "Siri"]
+			// initData(){
+			// 	this.datalist1 = [];	//已完成 全部
+			// 	this.datalist2 = [];	//进行中
+			// 	this.datalist3 = [];	//待处理
+			// 	this.randIdPool = ["CSDN云社区", "Zhihu小管家", "微博Bot", "Siri"]
 				
-				if(this.userInfo && this.userInfo.id){
-					for(var i=1;i<=10;i++){
-						this.show[i]=false;
-						let a={
-							// id:i,
-							// img: {
-							// 	url: this.userInfo.userpic,
-							// 	circle:true,
-							// },
-							// title: {
-							// 	text: this.randIdPool[Math.floor(Math.random() * this.randIdPool.length)],
-							// 	size: 34,
-							// },
-							// tag: {
-							// 	text: parseInt(Math.random()*(23+1),10)+"小时前",
-							// 	color: '#ed3f14',
-							// 	size: 26,
-							// },
-							// header: {
-							// 	bgcolor: '#f7f7f7',
-							// 	line: true,
-							// },
+			// 	if(this.userInfo && this.userInfo.id){
+			// 		for(var i=1;i<=10;i++){
+			// 			this.show[i]=false;
+			// 			let a={
+			// 				// id:i,
+			// 				// img: {
+			// 				// 	url: this.userInfo.userpic,
+			// 				// 	circle:true,
+			// 				// },
+			// 				// title: {
+			// 				// 	text: this.randIdPool[Math.floor(Math.random() * this.randIdPool.length)],
+			// 				// 	size: 34,
+			// 				// },
+			// 				// tag: {
+			// 				// 	text: parseInt(Math.random()*(23+1),10)+"小时前",
+			// 				// 	color: '#ed3f14',
+			// 				// 	size: 26,
+			// 				// },
+			// 				// header: {
+			// 				// 	bgcolor: '#f7f7f7',
+			// 				// 	line: true,
+			// 				// },
 							
-							id:i,
-							img: this.userInfo.userpic,
-							title: this.randIdPool[Math.floor(Math.random() * this.randIdPool.length)],
-							extra: parseInt(Math.random()*(23+1),10)+"小时前",
-						};
-						Math.random() < 0.5 ? this.datalist1.push(a): 1;
-						Math.random() < 0.5 ? this.datalist2.push(a): 1;
-						Math.random() < 0.5 ? this.datalist3.push(a): 1;
-					}
-				}
+			// 				id:i,
+			// 				img: this.userInfo.userpic,
+			// 				title: this.randIdPool[Math.floor(Math.random() * this.randIdPool.length)],
+			// 				extra: parseInt(Math.random()*(23+1),10)+"小时前",
+			// 			};
+			// 			Math.random() < 0.5 ? this.datalist1.push(a): 1;
+			// 			Math.random() < 0.5 ? this.datalist2.push(a): 1;
+			// 			Math.random() < 0.5 ? this.datalist3.push(a): 1;
+			// 		}
+			// 	}
+			// },
+			
+			async initData(){	//需要加async/await, 否则接口返回为一个Promise类型
+				this.datalist1 = [];	//全部
+				this.datalist2 = [];	//待处理
+			 	this.datalist3 = [];	//进行中
+				this.datalist4 = [];	//已完成
+
+				this.datalist1 = await getAllOrder(this.userInfo.id)
+				this.datalist2 = await getPendingOrder(this.userInfo.id)
+				this.datalist3 = await getCooperatingOrder(this.userInfo.id)
+				this.datalist4 = await getFinishedOrder(this.userInfo.id)
 			},
-			actionsClick(str){
+			
+			async actionsClick(str){
 				switch(str){
 					case "拒绝订单":
 						console.log(str)
+						await acceptOrder(this.userInfo.id)
 						break;
 					case "接受订单":
 						console.log(str)
+						await rejectOrder(this.userInfo.id)
 						break;
 					case "分享":
 						console.log(str)

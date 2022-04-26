@@ -109,6 +109,9 @@
 			return {
 				ifOnShow: false,//首先设置ifOnShow不然会一直循环刷新
 				show:false,
+				field_items: [
+					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+				],
 				info:{
 					currentId: -1,
 					bgimg:1,
@@ -194,13 +197,35 @@
 					this.info.enterprise_phone= data.enterprise_phone;
 					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
 					this.info.enterprise_register_capital= data.enterprise_register_capital;
-					this.info.enterprise_field= data.enterprise_field;
+					this.info.enterprise_field = data.enterprise_field;
 					this.info.expert_name = data.expert_name;
 					this.info.expert_organization = data.expert_organization;
 					this.info.expert_field = data.expert_field;
 					this.info.expert_scholarprofile = data.expert_scholarprofile;
 					this.info.expert_phone = data.expert_phone;
 				}
+				if (this.info.expert_field) {
+					let str = '';
+					let s = this.info.expert_field;
+					for (let i = 0; i < s.length; i++) {
+						if (s[i] == '1') {
+							str = str + this.field_items[i] + " ";
+						}
+					}
+					this.info.expert_field = str;
+				}
+				
+			},
+			getFiled(data) {
+				let str = '';
+				for (let i = 0; i < data.expert_field.length; i++) {
+					console.log(data.expert_filed[i]);
+					// if (data.expert_filed[i] == '1') {
+					// 	str = str + this.field_items[i] + " ";
+					// }
+				}
+				console.log("get field " + str);
+				return str;
 			},
 			userActive(){
 				this.info.isguanzhu = !this.info.isguanzhu
@@ -229,6 +254,11 @@
 					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
 					this.info.enterprise_register_capital= data.enterprise_register_capital;
 					this.info.enterprise_field= data.enterprise_field;
+					this.info.expert_name = data.expert_name;
+					this.info.expert_organization = data.expert_organization;
+					this.info.expert_field = data.expert_field;
+					this.info.expert_scholarprofile = data.expert_scholarprofile;
+					this.info.expert_phone = data.expert_phone;
 				}
 			},
 			gotoTopic(index){
