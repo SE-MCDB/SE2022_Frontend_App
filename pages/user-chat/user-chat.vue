@@ -262,25 +262,25 @@
 				    }, 1000*5)
 			},
 			createOrderAndRefresh(){
-				if(this.userInfo.type==5){
+				if(this.userInfo.type == 5){	//5 = 专家
 					let temp={
-						enterprise_id:this.userInfo.id,
-						expert_id:this.fid,
-						need_id:this.need.need_id,
+						enterprise_id: this.userInfo.id,
+						expert_id: this.fid,
+						need_id: this.need.need_id,
 					};
 					
 					createOrder(temp)
-				}else if(this.userInfo.type==4){
+				}else if(this.userInfo.type == 4){	//4 = 企业
 					let temp={
-						enterprise_id:this.fid,
-						expert_id:this.userInfo.id,
-						need_id:this.need.need_id,
+						enterprise_id: this.fid,
+						expert_id: this.userInfo.id,
+						need_id: this.need.need_id,
 					};
 					
 					createOrder(temp)
 				}
 				this.initorder()
-				this.sendm("我已向您发起订单，需求名为："+this.need.title)
+				this.sendm("我已向您发起订单，需求名为：" + this.need.title)
 			},
 			acceptOrderAndRefresh(){
 				acceptOrder(this.userInfo.id,this.order.order_id)

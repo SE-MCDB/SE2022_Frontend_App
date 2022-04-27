@@ -5,7 +5,7 @@ import {
 	picUrl
 } from './common.js'
 
-export const  getNeedDetail =async (id) => {
+export const getNeedDetail = async(id) => {
 	console.log("id is" + id)
 	console.log("getNeedDetail")
 	let headers = {
@@ -15,11 +15,11 @@ export const  getNeedDetail =async (id) => {
 	// console.log("result is:" + result)
 	return result
 }
-export const  createContact = async (data) => {
+export const createContact = async(data) => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
-	let result = await axios.post("need/contact",data,headers)
+	let result = await axios.post("need/contact", data, headers)
 	console.log(result.error_msg)
 	return result
 }

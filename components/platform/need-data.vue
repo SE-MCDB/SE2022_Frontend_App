@@ -9,28 +9,67 @@
 		<view v-if="tabIndex == 0">	
 			<uni-section title="全部订单" type="line" >
 				<uni-card v-for="(item, index) in datalist1" :key="index" :title="item.ename" 
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item.order_id)">
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
 					
+					<!-- state = 0, 待接受 -->
+					<view v-if="item.state == 0" slot="actions" class="card-actions no-border">
+						<!-- 4 = 企业， 5 = 专家 -->
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">拒绝订单</text>
+						</view>
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('接受订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">接受订单</text>
+						</view>
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('联系企业', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">联系企业</text>
+						</view>
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('催促专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="notification" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">催促专家</text>
+						</view>
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('联系专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">联系专家</text>
+						</view>
+					</view>
 					
-					<!-- todo：根据订单类型修改显示样式 -->
+					<!-- state = 1, 正在合作中 -->
+					<view v-else-if="item.state == 1" slot="actions" class="card-actions no-border">
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="medal" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">完成订单</text>
+						</view>
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('放弃订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="link" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">放弃订单</text>
+						</view>
+						<view class="card-actions-item" @click.stop="actionsClick('帮助', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="help" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">帮助</text>
+						</view>
+					</view>
 					
-					
-					<view slot="actions" class="card-actions no-border">
-						<view class="card-actions-item" @click.stop="actionsClick('分享', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+					<!-- state = 2+3, 已拒绝+已结束 -->
+					<view v-else slot="actions" class="card-actions no-border">
+						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="redo" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('评价', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="cart" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">再来一单</text>
 						</view>
 					</view>
+					
 				</uni-card>
 			</uni-section>
 			<!-- <tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
@@ -55,19 +94,33 @@
 		<view v-else-if="tabIndex == 1">	
 			<uni-section title="待处理订单" type="line" >
 				<uni-card v-for="(item, index) in datalist2" :key="index" :title="item.ename"
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item.order_id)">
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border">
-						<view class="card-actions-item" @click.stop="actionsClick('拒绝订单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<!-- 4 = 企业， 5 = 专家 -->
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">拒绝订单</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('接受订单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('接受订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">接受订单</text>
 						</view>
+						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('联系企业', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">联系企业</text>
+						</view>
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('催促专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="notification" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">催促专家</text>
+						</view>
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('联系专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<text class="card-actions-item-text">联系专家</text>
+						</view>
 					</view>
+					
 				</uni-card>
 			</uni-section>
 		</view>
@@ -77,19 +130,19 @@
 		<view v-else-if="tabIndex == 2">
 			<uni-section title="进行中订单" type="line" >
 				<uni-card v-for="(item, index) in datalist3" :key="index" :title="item.ename"
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item.order_id)">
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border">
-						<view class="card-actions-item" @click.stop="actionsClick('完成订单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="medal" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">完成订单</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('放弃订单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('放弃订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="link" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">放弃订单</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('帮助', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('帮助', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="help" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">帮助</text>
 						</view>
@@ -102,19 +155,19 @@
 		<view v-else>
 			<uni-section title="已完成订单" type="line" >
 				<uni-card v-for="(item, index) in datalist4" :key="index" :title="item.ename" 
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item.order_id)">
+					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border">
-						<view class="card-actions-item" @click.stop="actionsClick('分享', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="redo" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('评价', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item.order_id)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="cart" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">再来一单</text>
 						</view>
@@ -142,6 +195,7 @@
 	import tuiModal from "@/components/thorui/tui-modal/tui-modal"	//提示窗
 	import tuiAlert from "@/components/thorui/tui-alert/tui-alert"	//提示窗
 	
+	//订单相关函数
 	import {
 		getFinishedOrder,
 		getCooperatingOrder,
@@ -151,9 +205,16 @@
 		rejectOrder,
 	} from '@/api/platform/order.js'
 	
+	//需要用contact函数
+	import {
+		createContact
+	} from "@/api/need-detail.js"
+	
 	export default {
 		data(){
-			return{
+			return {
+				EXPERT: 4,
+				ENTERPRISE: 5,	//usertype的常量
 				show:[],
 				tabIndex: 1,
 				tabBars: [
@@ -199,8 +260,8 @@
 			tuiModal,
 		},
 		props:{
-			needdata:Array,
-			userInfo:Object,
+			needdata: Array,
+			userInfo: Object,
 			//item:Object,	//关于odrder_list信息
 		},
 		onShow(){
@@ -306,45 +367,68 @@
 				this.datalist4 = await getFinishedOrder(this.userInfo.id)
 			},
 			
-			async actionsClick(str, order_id){
-				switch(str){
+			async actionsClick(str, item){
+				let order_id = item.order_id
+				switch(str) {
 					case "拒绝订单":
-						console.log(str)
 						await acceptOrder(this.userInfo.id, order_id)
+						console.log(str)
 						break;
 					case "接受订单":
-						console.log(str)
 						await rejectOrder(this.userInfo.id, order_id)
+						console.log(str)
+						break;
+					case "联系企业": 
+					case "联系专家":
+						console.log(str)
+						this.contact(item)
 						break;
 					case "分享":
 						console.log(str)
-						uni.showToast({title:'分享成功！',duration:500})
+						uni.showToast({title:'分享成功！', duration:500})
 						break;
 					case "评价":
 						console.log(str)
-						uni.showToast({title:'评价成功！',duration:500})
+						uni.showToast({title:'评价成功！', duration:500})
 						break;
 					case "再来一单":
 						console.log(str)
-						uni.showToast({title:'已反馈！',duration:500})
+						uni.showToast({title:'已反馈！', duration:500})
 						break;
 					case "完成订单":
 						console.log(str)
-						uni.showToast({title:'???',duration:500})
+						uni.showToast({title:'???', duration:500})
 						break;
 					case "放弃订单":
 						console.log(str)
-						uni.showToast({title:'???',duration:500})
+						uni.showToast({title:'???', duration:500})
 						break;
 					case "帮助":
 						console.log(str)
-						uni.showToast({title:'已解决！',duration:500})
-						break;	
+						uni.showToast({title:'已解决！', duration:500})
+						break;
+					case "催促专家":
+						console.log(str)
+						uni.showToast({title:'已发送提醒！', duration:500})
+						break;
 					default:
 						break;
 				}
 			},
 			
+			//跳转到联系对方聊天窗口
+			contact(item) {
+				if(this.userInfo.type == this.EXPERT) {
+					//自己是企业，则联系专家
+					let contact_id = item.entp_id
+				} else {
+					let contact_id = item.exp_id
+				}
+
+				uni.navigateTo({
+					url:'../user-chat/user-chat?fid=' + this.contact_id
+				})
+			},
 
 		}
 	}

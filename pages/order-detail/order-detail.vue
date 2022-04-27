@@ -115,10 +115,13 @@
 							this.item.state = "正在合作中"
 							break;
 						case 2:
-							this.item.state = "待接受"
+							this.item.state = "已拒绝"
+							break;
+						case 3:
+							this.item.state = "已结束"
 							break;
 						default:
-							this.item.state = "已结束"
+							this.item.state = "未知状态"
 							break;
 					}
 
