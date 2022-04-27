@@ -432,9 +432,9 @@
 				})
 			},
 			// 获取聊天数据
-			getdata(){
+			getdata() {
 				// 从服务器获取到的数据
-				if( this.chatList.length==0){
+				if(this.chatList.length == 0){
 					return
 				}
 			},

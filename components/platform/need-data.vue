@@ -420,13 +420,15 @@
 			contact(item) {
 				if(this.userInfo.type == this.EXPERT) {
 					//自己是企业，则联系专家
-					let contact_id = item.entp_id
+					var contact_id = item.entp_id	//不能用let!否则传不出 {} 区域
 				} else {
-					let contact_id = item.exp_id
+					var contact_id = item.exp_id
 				}
+				
+				//console.log("Cid = ", contact_id)
 
 				uni.navigateTo({
-					url:'../user-chat/user-chat?fid=' + this.contact_id
+					url:'../user-chat/user-chat?fid=' + contact_id
 				})
 			},
 

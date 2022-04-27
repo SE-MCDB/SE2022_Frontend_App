@@ -10,12 +10,12 @@ import {
 Vue.use(Vuex)
 Vuex.createLogger()
 /**
- * 		userInfo: 用户信息
-		chatList: 聊天列表
-		msgPage:1,	消息的索引
-		msgIndex:-1, 聊天界面索引
-		currentChat: 当前聊天信息
-		selTitle: 发布动态选择的标题
+	userInfo: 用户信息
+	chatList: 聊天列表
+	msgPage:1,	消息的索引
+	msgIndex:-1, 聊天界面索引
+	currentChat: 当前聊天信息
+	selTitle: 发布动态选择的标题
  */
 const store = new Vuex.Store({
 	state: {
@@ -90,17 +90,15 @@ const store = new Vuex.Store({
 		},
 		addChatMessage(state, obj) {
 			state.chatList[state.msgIndex].message = obj.message	
-			let len=state.chatList[state.msgIndex].messages.length
-			if(len == 0){
+			let len = state.chatList[state.msgIndex].messages.length
+			if(len == 0) {
 				obj.gstime=time.gettime.getChatTime(obj.gstime,0)
-			}else{
+			} else {
 				obj.gstime=time.gettime.getChatTime(obj.gstime,state.chatList[state.msgIndex].messages[len-1].created_at)
 			}
 			state.chatList[state.msgIndex].time = obj.time
-			state.chatList[state.msgIndex].afterTime = +new Date(obj.sendTime)
+			state.chatList[state.msgIndex].afterTime = + new Date(obj.sendTime)
 			state.chatList[state.msgIndex].messages.push(obj)
-			
-
 		},
 		sortChatList(state) {
 			state.chatList.sort((a, b) => {
