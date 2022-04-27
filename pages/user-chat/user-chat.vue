@@ -34,6 +34,13 @@
 				</tui-list-cell>
 			</tui-bubble-popup>
 			</view>
+			<tui-bubble-popup v-if="order.order_id!=0 && order.state==1" :show="show" :mask="true" position="absolute" width="370rpx" translateY="120rpx" triangleTop="-50rpx" borderWidth="0" @close="openmenu()">
+				<tui-list-cell :hover="true" :arrow="false" backgroundColor="#dcdcdc" @click="accomplishOrderAndRefresh()">
+					<tui-icon name="check"></tui-icon>
+						完成订单
+				</tui-list-cell>
+				
+			</tui-bubble-popup>
 			
 		</template>
 		<template v-else-if="userInfo.type=='4' && need">
@@ -99,7 +106,7 @@
 	import userChatList from "../../components/user-chat/user-chat-list.vue";
 	import {mapState,mapMutations,mapGetters} from 'vuex'
 	import {pushMessage, createChat, getChat, getContact,getOrder,createOrder} from '@/api/user-chat.js'
-	import {acceptOrder,rejectOrder} from '@/api/platform/order.js'
+	import {acceptOrder,rejectOrder,accomplishOrder} from '@/api/platform/order.js'
 	import {picUrl} from '@/api/common.js'
 	import Vue from 'vue'
 	import {
@@ -284,6 +291,28 @@
 				rejectOrder(this.userInfo.id,this.order.order_id)
 				this.initorder()
 				this.sendm("我已拒绝您的订单，需求名为："+this.need.title)
+			},
+			accomplishOrderAndRefresh(){
+				if(this.userInfo.type==5){
+					let temp={
+						enterprise_id:this.userInfo.id,
+						expert_id:this.fid,
+						need_id:this.need.need_id,
+					};
+					
+					accomplishOrder(temp.enterprise_id,this.order.order_id)
+				}else if(this.userInfo.type==4){
+					let temp={
+						enterprise_id:this.fid,
+						expert_id:this.userInfo.id,
+						need_id:this.need.need_id,
+					};
+					
+					accomplishOrder(temp.enterprise_id,this.order.order_id)
+				}
+				
+				this.initorder()
+				this.sendm("我们的订单已完成，需求名为："+this.need.title)
 			},
 			async initorder(){
 				if(this.userInfo.type==5){

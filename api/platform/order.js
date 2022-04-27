@@ -118,13 +118,13 @@ export const rejectOrder = async (uid,id) => {
 }
 
 export const accomplishOrder = async (uid,id) => {
-	console.log("getrejectOrder")
+	console.log("getaccomplishOrder")
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.post('user/' + uid + '/order/' + id + '/finish',{},headers)		//为啥不叫reject？？好别扭
 	
-	
+	console.log(result.error_msg)
 	
 	//todo 是否操作成功？
 	
