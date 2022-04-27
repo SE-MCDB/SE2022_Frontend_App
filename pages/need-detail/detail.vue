@@ -40,7 +40,7 @@
 				
 			</view>
 			
-			<view >
+			<view v-if="userInfo.type==4">
 				<tui-button type="primary" class="need-detail-button" @click="contact()">
 					联系企业
 				</tui-button>
