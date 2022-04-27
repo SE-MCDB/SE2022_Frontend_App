@@ -1,14 +1,17 @@
 <template>
 	<view>
-		<!-- <tui-modal :show="modal"  title="警告" content="确定拒绝订单吗？"></tui-modal> -->
-		
+
 		<!-- 顶端多栏导航-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:25%;"></swiper-tab-head>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:25%;">
+
+		</swiper-tab-head>
+		
+		
 		
 		<!-- bar1:全部 -->
-		<view v-if="tabIndex == 0">	
+		<view v-if="tabIndex == 0">
 			<uni-section title="全部订单" type="line" >
-				<uni-card v-for="(item, index) in datalist1" :key="index" :title="item.ename" 
+				<uni-card v-for="(item, index) in datalist1" :key="index" :title="item.entp_name" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
@@ -93,7 +96,7 @@
 		<!-- bar2:待处理 -->
 		<view v-else-if="tabIndex == 1">	
 			<uni-section title="待处理订单" type="line" >
-				<uni-card v-for="(item, index) in datalist2" :key="index" :title="item.ename"
+				<uni-card v-for="(item, index) in datalist2" :key="index" :title="item.entp_name"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
@@ -129,7 +132,7 @@
 		<!--bar3:进行中 -->
 		<view v-else-if="tabIndex == 2">
 			<uni-section title="进行中订单" type="line" >
-				<uni-card v-for="(item, index) in datalist3" :key="index" :title="item.ename"
+				<uni-card v-for="(item, index) in datalist3" :key="index" :title="item.entp_name"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
@@ -154,7 +157,7 @@
 		<!-- bar4:已完成 -->
 		<view v-else>
 			<uni-section title="已完成订单" type="line" >
-				<uni-card v-for="(item, index) in datalist4" :key="index" :title="item.ename" 
+				<uni-card v-for="(item, index) in datalist4" :key="index" :title="item.entp_name" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
@@ -187,10 +190,10 @@
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
 	
-	import tuiCard from "@/components/thorui/tui-card/tui-card"
-	import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
-	import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
-	import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
+	//import tuiCard from "@/components/thorui/tui-card/tui-card"
+	//import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
+	//import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
+	//import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
 	
 	import tuiModal from "@/components/thorui/tui-modal/tui-modal"	//提示窗
 	import tuiAlert from "@/components/thorui/tui-alert/tui-alert"	//提示窗
@@ -253,11 +256,11 @@
 		
 		components:{
 			swiperTabHead,
-			tuiCard,
-			tuiSwipeAction,
-			tuiBubblePopup,
-			tuiIcon,
-			tuiModal,
+			// tuiCard,
+			// tuiSwipeAction,
+			// tuiBubblePopup,
+			// tuiIcon,
+			// tuiModal,
 		},
 		props:{
 			needdata: Array,
@@ -309,9 +312,9 @@
 			},
 			
 			//打开订单详情
-			openOrderDetail(order_id){
-				console.log("click for order detail. id = "+ order_id)
-				this.$emit("openOrderDetail", order_id)
+			openOrderDetail(orderItem){
+				console.log("click for order detail. id = "+ orderItem.order_id)
+				this.$emit("openOrderDetail", orderItem.order_id)
 			},
 			
 			// initData(){

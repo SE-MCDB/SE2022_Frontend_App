@@ -8,11 +8,15 @@ import{
 function purifyKeys(item){
 	let purified_result =  {
 		order_id: item.order_id,						//订单id
+		//state: item.state,								//订单状态
+		//ctime: item.create_time,						//订单创建时间
+		//etime: item.end_time,							//订单结束时间
 		entp_id: item.need.enterprise_id,				//企业id
-		ename: item.need.enterprise_name,				//企业名称
+		entp_name: item.need.enterprise_name,			//企业名称
 		description: item.need.enterprise_description,	//企业描述
 		headpic: picUrl + item.need.enterprise_pic,		//企业头像url地址
 		exp_id: item.expert_id,							//专家id
+		//exp_name: item.expert_name,						//专家姓名
 		title: item.need.title,							//需求名称
 		time: item.end_time,							//时间
 	}
