@@ -17,7 +17,7 @@
 					<!-- 底部功能组件 -->
 					
 					<!-- state = 0, 待接受 -->
-					<view v-if="item.state == 0" slot="actions" class="card-actions no-border">
+					<view v-if="item.state == 0" slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<!-- 4 = 企业， 5 = 专家 -->
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
@@ -42,7 +42,7 @@
 					</view>
 					
 					<!-- state = 1, 正在合作中 -->
-					<view v-else-if="item.state == 1" slot="actions" class="card-actions no-border">
+					<view v-else-if="item.state == 1" slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="medal" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">完成订单</text>
@@ -58,7 +58,7 @@
 					</view>
 					
 					<!-- state = 2+3, 已拒绝+已结束 -->
-					<view v-else slot="actions" class="card-actions no-border">
+					<view v-else slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="redo" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
@@ -100,7 +100,7 @@
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
-					<view slot="actions" class="card-actions no-border">
+					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<!-- 4 = 企业， 5 = 专家 -->
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
@@ -136,7 +136,7 @@
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
-					<view slot="actions" class="card-actions no-border">
+					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="medal" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">完成订单</text>
@@ -161,7 +161,7 @@
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
 					<!-- 底部功能组件 -->
-					<view slot="actions" class="card-actions no-border">
+					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="redo" size="18" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
