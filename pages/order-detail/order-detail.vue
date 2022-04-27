@@ -74,7 +74,6 @@
 		onLoad(data) {
 			console.log("data should be:" + data + " and id should be:" + data.id)
 			try {
-				
 				this.initData(data.id)
 			} catch (e) {
 
@@ -102,23 +101,30 @@
 			async initData(id) {
 				console.log(id)
 				if(id){
-				uni.setNavigationBarTitle({
-					title: "订单详情"
-				});
-				let detail = await getOrderDetail(id)
-				this.item = detail
-				if(detail.state==1){
-					this.item.state="正在合作中"
-				}else if(detail.state==0){
-					this.item.state="待接受"
-				}else if(detail.state==2){
-					this.item.state="已拒绝"
-				}else{
-					this.item.state="已结束"
-				}
-				if(!detail.end_time){
-					this.item.end_time="未结束"
-				}
+					uni.setNavigationBarTitle({
+						title: "订单详情"
+					});
+					let detail = await getOrderDetail(id)
+					this.item = detail
+					
+					switch(detail.state){
+						case 0:
+							this.item.state = "待接受"
+							break;
+						case 1:
+							this.item.state = "正在合作中"
+							break;
+						case 2:
+							this.item.state = "待接受"
+							break;
+						default:
+							this.item.state = "已结束"
+							break;
+					}
+
+					if(!detail.end_time) {
+						this.item.end_time="未结束"
+					}
 				}
 				else{
 					console.log(id)
@@ -137,7 +143,6 @@
 					url:'../need-detail/detail?id='+id
 				})
 			},
-			
 		}
 	}
 </script>
@@ -149,5 +154,4 @@
 			
 		}
 	}
-	
 </style>

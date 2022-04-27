@@ -6,14 +6,21 @@ import{
 
 //清洗result格式的函数
 function purifyKeys(item){
-	return {
-		key: item.order_id,								//订单id，用于vue前端设置key
+	let purified_result =  {
+		order_id: item.order_id,						//订单id
 		ename: item.need.enterprise_name,				//企业名称
 		description: item.need.enterprise_description,	//企业描述
 		headpic: picUrl + item.need.enterprise_pic,		//企业头像url地址
 		title: item.need.title,							//需求名称
 		time: item.end_time,							//时间
 	}
+	if(purified_result.description == "undefined" || purified_result.description == null || purified_result.description ==""){
+		purified_result.description = "Lux et veritas"
+	}
+	if(purified_result.time == "undefined" || purified_result.time == null || purified_result.time ==""){
+		purified_result.time = "今天"
+	}
+	return purified_result
 }
 
 // 获得已经完成的订单

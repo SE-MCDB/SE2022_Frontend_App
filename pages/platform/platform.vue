@@ -21,7 +21,7 @@
 			
 			<!-- 需求订单统计 -->
 			<view v-else-if="tabIndex == 0" >
-				<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo">
+				<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo" @openOrderDetail="openOrderDetail">
 					
 				</need-data>
 			</view>
@@ -179,9 +179,15 @@
 				});
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
+				//console.log("-----------------------------------openDetail")
 				uni.navigateTo({
 					url: '../need-detail/detail?id=' + item.need_id
+				})
+			},
+			openOrderDetail(order_id) {
+				console.log("openOrderDetail")
+				uni.navigateTo({
+					url: '../order-detail/order-detail?id=' + order_id
 				})
 			},
 			async onrefresh() {
