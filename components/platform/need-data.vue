@@ -275,9 +275,15 @@
 			this.initData();
 		},
 		beforeMount(){
-			this.initData();
+			
 		},
 		mounted(){
+			
+		},
+		beforeUpdate(){
+			
+		},
+		updated() {
 			this.initData();
 		},
 		methods:{
