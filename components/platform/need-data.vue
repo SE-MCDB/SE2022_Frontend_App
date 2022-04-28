@@ -275,18 +275,19 @@
 			this.initData();
 		},
 		beforeMount(){
-			
+			this.initData();
 		},
 		mounted(){
-			
+			this.initData();
 		},
 		methods:{
 			temp(id){
 				console.log(id);
 			},
 			tabtap(index) {
+				
 				this.tabIndex = index;
-				this.initData()
+				//this.initData()
 			},
 			goToNeed(index){
 				console.log(index)
