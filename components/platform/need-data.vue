@@ -266,10 +266,10 @@
 			//item:Object,	//关于odrder_list信息
 		},
 		onShow(){
-			console.log(this.userInfo.userpic);
+			console.log("onshow");
 		},
 		onLoad(){
-			console.log(this.userInfo.userpic);
+			console.log("onload");
 		},
 		created(){
 			this.initData();
@@ -286,6 +286,7 @@
 			},
 			tabtap(index) {
 				this.tabIndex = index;
+				this.initData()
 			},
 			goToNeed(index){
 				console.log(index)
@@ -369,6 +370,7 @@
 			},
 			
 			async actionsClick(str, item){
+				
 				let order_id = item.order_id
 				switch(str) {
 					case "拒绝订单":
