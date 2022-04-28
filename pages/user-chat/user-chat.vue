@@ -346,14 +346,26 @@
 					}
 					//console.log("order:"+this.need!=undefined)
 				}
-				let temp={
-					enterprise_id:this.fid,
-					expert_id:this.userInfo.id,
-					need_id:this.need.need_id,
-				};
+				
+				let temp
+				if(this.userInfo.type==4){
+					temp={
+						enterprise_id:this.fid,
+						expert_id:this.userInfo.id,
+						need_id:this.need.need_id,
+					};
+				}else{
+					temp={
+						enterprise_id:this.userInfo.id,
+						expert_id:this.fid,
+						need_id:this.need.need_id,
+					}
+				}
 				let temp1 = await getOrder(temp)
-				if(temp1.order_id!=0)
-				this.order = await getOrderDetail(temp1.order_id)
+				console.log(temp1)
+				if(temp1.order_id>0){
+					this.order = await getOrderDetail(temp1.order_id)
+				}
 				else{
 					this.order.state=undefined
 					this.order.order_id=0
