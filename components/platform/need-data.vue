@@ -6,8 +6,6 @@
 
 		</swiper-tab-head>
 		
-		
-		
 		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">
 			<uni-section title="全部订单" type="line" >
@@ -386,6 +384,12 @@
 						console.log(str)
 						this.contact(item)
 						break;
+					case "帮助":
+						uni.navigateTo({
+							url:'../feedback/feedback'
+						})
+						console.log(str)
+						break;
 					case "分享":
 						console.log(str)
 						uni.showToast({title:'分享成功！', duration:500})
@@ -405,10 +409,6 @@
 					case "放弃订单":
 						console.log(str)
 						uni.showToast({title:'???', duration:500})
-						break;
-					case "帮助":
-						console.log(str)
-						uni.showToast({title:'已解决！', duration:500})
 						break;
 					case "催促专家":
 						console.log(str)
