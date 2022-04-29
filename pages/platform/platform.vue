@@ -8,8 +8,7 @@
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view
-		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
-		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
+		 scroll-y class="list">
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
 				<myNavBarNeed v-if = "tabIndex == 1" @signIn="signIn"></myNavBarNeed>
@@ -156,6 +155,10 @@
 			}
 		},
 		
+		onPullDownRefresh() {
+			this.onrefresh()
+			uni.stopPullDownRefresh()
+		},
 		
 		methods: {
 			//获取需求数据
@@ -192,6 +195,7 @@
 			},
 			async onrefresh() {
 				if (this.refreshing) return;
+				console.log("here is refreshing!!!")
 				this.refreshing = true;
 				await this.requestData()
 				setTimeout(() => {
