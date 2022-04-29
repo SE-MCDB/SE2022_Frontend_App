@@ -54,7 +54,8 @@
 							}
 						]
 					}
-				}
+				},
+				"enablePullDownRefresh": true
 		    }
 		},
 		{
