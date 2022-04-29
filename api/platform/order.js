@@ -64,7 +64,7 @@ export const getCooperatingOrder = async (uid) => {
 // 获得待处理的订单
 export const getPendingOrder = async (uid) => {
 	console.log("getPendingOrder")
-	let result = await axios.get('user/' + uid + '/order/cooperating')
+	let result = await axios.get('user/' + uid + '/order/pending')
 	result = result.data
 	
 	//清洗数据格式
@@ -80,7 +80,8 @@ export const getPendingOrder = async (uid) => {
 // 获得全部订单
 export const getAllOrder = async (uid) => {
 	console.log("getAllOrder")
-	let result = await axios.get('user/' + uid + '/order/cooperating')
+	let result = await axios.get('user/' + uid + '/order/all')
+	console.log(result)
 	result = result.data
 	
 	//清洗数据格式

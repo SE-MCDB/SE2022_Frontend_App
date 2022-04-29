@@ -217,7 +217,7 @@
 				EXPERT: 4,
 				ENTERPRISE: 5,	//usertype的常量
 				show:[],
-				tabIndex: 1,
+				tabIndex: 0,
 				tabBars: [
 					{
 						name: "全部",
@@ -371,6 +371,7 @@
 				this.datalist4 = [];	//已完成
 
 				this.datalist1 = await getAllOrder(this.userInfo.id)
+				
 				this.datalist2 = await getPendingOrder(this.userInfo.id)
 				this.datalist3 = await getCooperatingOrder(this.userInfo.id)
 				this.datalist4 = await getFinishedOrder(this.userInfo.id)
