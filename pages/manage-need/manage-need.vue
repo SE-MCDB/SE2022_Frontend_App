@@ -10,7 +10,9 @@
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
-					<need-list :item="item" :index="index" @openDetail="openDetail" :edit="1" @editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? experList : []"
+					@goToRecommend="goToRecommend" @openDetail="openDetail" :edit="1" @contact="contact"
+					@editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
 					</need-list>
 				</view>
 			</view>
@@ -72,7 +74,8 @@
 		manageFinishedNeed,
 		manageUnfinishedNeed,
 		deleteNeed,
-		endNeed
+		endNeed,
+		expertRecommend
 	} from "@/api/manage-need.js"
 	import Vue from 'vue'
 	export default {
@@ -104,6 +107,8 @@
 				msg: '',
 				msgType: 'success',
 				resolveId: '',
+				resolveIndex: -1,
+				expertList: '',
 				tabBars: [{
 						name: "已完成",
 						id: "wode",
@@ -191,7 +196,6 @@
 				})
 			},
 			deleteneed(item) {
-				console.log('???')
 				this.msgType = 'error'
 				this.resolveId = item.need_id
 				this.msg = '确认删除需求吗？此操作无法复原'
@@ -204,6 +208,23 @@
 				this.msg = '确认结束需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
 				console.log("------------------------------------ready to end need")
+			},
+			goToRecommend(msg) {
+				let item = msg[0]
+				let index = msg[1]
+				let result = this.recommend(item)
+				if (!(result&& result.code)) {
+					this.expertList = result.data
+					if (this.resolveIndex === index) {
+						this.resolveIndex = -1
+					} else {
+						this.resolveIndex = index
+					}
+				}
+			},
+			contact(msg) {
+				console.log(msg[0] + ' ' + msg[1])
+				this.contactExpert(msg[0], msg[1])
 			},
 			dialogConfirm(type) {
 				console.log('点击确认')
@@ -237,11 +258,18 @@
 				}
 				this.onrefresh()
 			},
+			async recommend(item) {
+				let id = item.need_id
+				try {
+					let result = await expertRecommend(id)
+					return result
+				} catch (e) {
+					console.log(e)
+					return
+				}
+			},
 			dialogClose() {
 				console.log('点击关闭')
-			},
-			goToRecommend() {
-				
 			},
 			async onrefresh() {
 				if (this.refreshing) return;
@@ -294,7 +322,19 @@
 					this.needdata[2].num = userProfile.total_mycollect
 					this.islogin = true
 				}
-			}
+			},
+			contactExpert(item, expert){
+				let temp={
+					expert_id:expert.id,
+					enterprise_id:this.userInfo.id,
+					need_id:this.item.need_id,
+				};
+				let s =createContact(temp)
+				console.log(temp)
+				uni.navigateTo({
+					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
+				})
+			},
 		}
 	}
 </script>

@@ -38,3 +38,12 @@ export const endNeed =async (company_id, id) => {
 	let result = await axios.post('user/' + company_id + "/need/" + id + "/finish", {}, headers)
 	return result
 }
+
+export const expertRecommend =async (id) => {
+	console.log("expertRecommend")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.get('user/need/' + id + '/expert_recommend', {}, headers)
+	return result
+}
