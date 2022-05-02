@@ -113,6 +113,7 @@
 					username: this.userInfo ? this.userInfo.username : "",
 					totalnum: 0,
 					todaynum: 0,
+					type: 0,
 				},
 				homedata: [
 					// { name:"话题", num:0 },
