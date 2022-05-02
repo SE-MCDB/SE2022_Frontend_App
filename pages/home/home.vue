@@ -23,17 +23,15 @@
 		<home-data @goToSpace="goToSpace" :homedata="homedata"></home-data>
 		<!-- </view> -->
 		
-		<uni-section title="设置" type="circle">
-			<uni-list :border="false">
-				<!-- <uni-list-item title="列表左侧带略缩图" note="列表描述信息" showArrow
-					thumb="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png"
-					thumb-size="base" rightText="默认" /> -->
-					
-				<uni-list-item :show-extra-icon="true" showArrow :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享会员"/>
-				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="feedbackIcon" title="帮助与反馈" />
-				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="aboutIcon" title="关于" />
+		<uni-section title="探索" type="circle">
+			<uni-list :border="false">					
+				<uni-list-item :show-extra-icon="true" showArrow :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享首单补贴"/>
+				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="feedbackIcon" title="帮助与反馈" link to="/pages/feedback/feedback" @click="onClick"/>
+				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="aboutIcon" title="关于" link to="/pages/aboutus/aboutus" @click="onClick" />
 			</uni-list>
 		</uni-section>
+		
+		<button class="user-set-btn" type="primary" @tap="showActive">退出登陆</button>
 		
 
 	</view>
@@ -228,12 +226,24 @@
 						this.$http.href('../../pages/user-collect/user-collect?uid=' + this.userInfo.id)
 						break;
 				}
-			}
+			},
+			/* goToFeedback(){
+				console.log("click Feedback!")
+				uni.navigateTo({
+					url: '../feedback/feedback',
+				});
+				//不用，有一个link to="xx"可处理
+			}, */
+			onClick(){
+				
+			},
 		}
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	@import "../../common/form.css";	//引入主题色
+	
 	.yanse{
 		color: #ff0000;
 	}

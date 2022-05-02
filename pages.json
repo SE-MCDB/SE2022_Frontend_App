@@ -526,6 +526,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/aboutus/aboutus",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"permission": {
 	    "scope.userLocation": {
