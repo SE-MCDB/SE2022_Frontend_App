@@ -20,9 +20,21 @@
 			
 		</template>
 		<!-- 数据 -->
-		<home-data @goToSpace="goToSpace"  :homedata="homedata"></home-data>
+		<home-data @goToSpace="goToSpace" :homedata="homedata"></home-data>
 		<!-- </view> -->
-
+		
+		<uni-section title="设置" type="circle">
+			<uni-list :border="false">
+				<!-- <uni-list-item title="列表左侧带略缩图" note="列表描述信息" showArrow
+					thumb="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/460d46d0-4fcc-11eb-8ff1-d5dcf8779628.png"
+					thumb-size="base" rightText="默认" /> -->
+					
+				<uni-list-item :show-extra-icon="true" showArrow :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享会员"/>
+				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="feedbackIcon" title="帮助与反馈" />
+				<uni-list-item :border="false" :show-extra-icon="true" showArrow :extra-icon="aboutIcon" title="关于" />
+			</uni-list>
+		</uni-section>
+		
 
 	</view>
 </template>
@@ -129,6 +141,21 @@
 						num: 0
 					},
 				],
+				inviteIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'gift-filled'
+				},
+				feedbackIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'help-filled'
+				},
+				aboutIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'gear'
+				},
 			};
 		},
 		// 监听下拉刷新
