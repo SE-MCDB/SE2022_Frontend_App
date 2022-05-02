@@ -371,12 +371,20 @@
 				this.datalist2 = [];	//待处理
 			 	this.datalist3 = [];	//进行中
 				this.datalist4 = [];	//已完成
-
-				this.datalist1 = await getAllOrder(this.userInfo.id)
-				
-				this.datalist2 = await getPendingOrder(this.userInfo.id)
-				this.datalist3 = await getCooperatingOrder(this.userInfo.id)
-				this.datalist4 = await getFinishedOrder(this.userInfo.id)
+				switch (this.tabIndex) {
+					case 0:
+						this.datalist1 = await getAllOrder(this.userInfo.id)
+						break;
+					case 1:
+						this.datalist2 = await getPendingOrder(this.userInfo.id)
+						break
+					case 2:
+						this.datalist3 = await getCooperatingOrder(this.userInfo.id)
+						break
+					case 3:
+						this.datalist4 = await getFinishedOrder(this.userInfo.id)
+						break
+				}
 			},
 			
 			async actionsClick(str, item){

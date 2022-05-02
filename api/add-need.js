@@ -13,3 +13,15 @@ export const addneed = async (data) => {
 	}
 	return result
 }
+
+export const saveneed = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.post('need/save/', data, headers)
+	// console.log(result)
+	if (result&&result.code) {
+		console.log(result.error_msg);
+	}
+	return result
+}
