@@ -43,6 +43,29 @@
 					class="button-text warn-text">结束需求</text></button>
 			<button type="primary" @click="goToRecommend">专家推荐</button>
 		</view>
+		
+		<view v-if="showExpert" class="container-expert">
+			<view v-for="(expert, index) in expertList" :key="index">
+				<view>
+					<text>{{expert.name}}</text>
+					<text>{{expert.phone}}</text>
+				</view>
+				<view>
+					{{expert.organization}}
+				</view>
+				<view>
+					{{expert.profile}}
+				</view>
+				<view>
+					{{expert.paper}}
+				</view>
+				<view>
+					<button type="primary" @click="contact(expert)">
+						联系专家
+					</button>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -61,7 +84,18 @@
 			item:Object,
 			index:Number,
 			userInfo:Object,
-			edit:Number
+			edit: {
+				type:Number,
+				default: 0
+			},
+			expertList: {
+				type: Array,
+				default: ()=>[]
+			},
+			showExpert: {
+				type: Boolean,
+				default: false,
+			}
 		},
 		data() {
 			return {
@@ -101,6 +135,13 @@
 			endneed() {
 				this.$emit("endneed", this.item)
 				console.log("------------------end-need")
+			},
+			goToRecommend() {
+				this.$emit("goToRecommend", this.item, this.index)
+				console.log("------------------goToRecommend")
+			},
+			contact(expert) {
+				this.$emit("contact", this.item, expert)
 			}
 		}
 	}

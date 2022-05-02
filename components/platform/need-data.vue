@@ -18,23 +18,23 @@
 					<view v-if="item.state == 0" slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<!-- 4 = 企业， 5 = 专家 -->
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+							<uni-icons type="closeempty" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">拒绝订单</text>
 						</view>
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('接受订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
+							<uni-icons type="checkmarkempty" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">接受订单</text>
 						</view>
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('联系企业', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatboxes" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">联系企业</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('催促专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="notification" size="18" color="#999"></uni-icons>
+							<uni-icons type="notification" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">催促专家</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('联系专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatboxes" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">联系专家</text>
 						</view>
 					</view>
@@ -42,15 +42,15 @@
 					<!-- state = 1, 正在合作中 -->
 					<view v-else-if="item.state == 1" slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="medal" size="18" color="#999"></uni-icons>
+							<uni-icons type="medal" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">完成订单</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('放弃订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="link" size="18" color="#999"></uni-icons>
+							<uni-icons type="link" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">放弃订单</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('帮助', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="help" size="18" color="#999"></uni-icons>
+							<uni-icons type="help" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">帮助</text>
 						</view>
 					</view>
@@ -58,15 +58,15 @@
 					<!-- state = 2+3, 已拒绝+已结束 -->
 					<view v-else slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="redo" size="18" color="#999"></uni-icons>
+							<uni-icons type="redo" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatbubble" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="cart" size="18" color="#999"></uni-icons>
+							<uni-icons type="cart" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">再来一单</text>
 						</view>
 					</view>
@@ -101,23 +101,23 @@
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<!-- 4 = 企业， 5 = 专家 -->
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('拒绝订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="closeempty" size="18" color="#999"></uni-icons>
+							<uni-icons type="closeempty" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">拒绝订单</text>
 						</view>
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('接受订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="checkmarkempty" size="18" color="#999"></uni-icons>
+							<uni-icons type="checkmarkempty" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">接受订单</text>
 						</view>
 						<view v-if="userInfo.type == EXPERT" class="card-actions-item" @click.stop="actionsClick('联系企业', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatboxes" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">联系企业</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('催促专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="notification" size="18" color="#999"></uni-icons>
+							<uni-icons type="notification" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">催促专家</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('联系专家', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatboxes" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatboxes" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">联系专家</text>
 						</view>
 					</view>
@@ -136,15 +136,15 @@
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="medal" size="18" color="#999"></uni-icons>
+							<uni-icons type="medal" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">完成订单</text>
 						</view>
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('放弃订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="link" size="18" color="#999"></uni-icons>
+							<uni-icons type="link" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">放弃订单</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('帮助', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="help" size="18" color="#999"></uni-icons>
+							<uni-icons type="help" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">帮助</text>
 						</view>
 					</view>
@@ -161,15 +161,15 @@
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="redo" size="18" color="#999"></uni-icons>
+							<uni-icons type="redo" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="chatbubble" size="18" color="#999"></uni-icons>
+							<uni-icons type="chatbubble" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
 						<view class="card-actions-item" @click.stop="actionsClick('再来一单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
-							<uni-icons type="cart" size="18" color="#999"></uni-icons>
+							<uni-icons type="cart" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">再来一单</text>
 						</view>
 					</view>
@@ -267,9 +267,11 @@
 		},
 		onShow(){
 			console.log("onshow");
+			this.initData();
 		},
 		onLoad(){
 			console.log("onload");
+			this.initData();
 		},
 		created(){
 			this.initData();
