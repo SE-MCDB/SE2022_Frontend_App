@@ -48,6 +48,8 @@
 			<tui-icon name="nodata" :size="40" unit="rpx" margin="60" color="#65bdff"></tui-icon>
 			需求详情：{{item.need.title}}
 		</tui-list-cell>
+		<tui-button type="green" v-show="userInfo.type==4" @click=contact(item.need.enterprise_id)>联系企业</tui-button>
+		<tui-button type="green" v-show="userInfo.type==5" @click=contact(item.expert_id)>联系专家</tui-button>
 	</view>
 </template>
 
@@ -59,6 +61,9 @@
 	import {
 		getOrderDetail
 	} from "@/api/order-detail.js"
+	import {
+		createContact
+	} from "@/api/need-detail.js"
 	
 	
 	export default {
@@ -144,6 +149,17 @@
 				console.log("jumpneed"+id)
 				uni.navigateTo({
 					url:'../need-detail/detail?id='+id
+				})
+			},
+			contact(id){
+				let item={
+					expert_id:this.item.expert_id,
+					enterprise_id:this.item.need.enterprise_id,
+					need_id:this.item.need.need_id,
+				}
+				createContact(item)
+				uni.navigateTo({
+					url:'../user-chat/user-chat?fid='+id
 				})
 			},
 		}

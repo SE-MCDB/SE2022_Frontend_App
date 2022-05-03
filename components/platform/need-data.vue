@@ -407,6 +407,8 @@
 						console.log(str)
 						break;
 					case "联系企业": 
+						
+						
 					case "联系专家":
 						console.log(str)
 						this.contact(item)
@@ -454,9 +456,14 @@
 				} else {
 					var contact_id = item.exp_id
 				}
-				
+				let temp={
+					enterprise_id:item.entp_id,
+					expert_id:item.exp_id,
+					need_id:item.need_id,
+				}
+				//console.log("contact:"+item.need_id)
 				//console.log("Cid = ", contact_id)
-
+				createContact(temp)
 				uni.navigateTo({
 					url:'../user-chat/user-chat?fid=' + contact_id
 				})

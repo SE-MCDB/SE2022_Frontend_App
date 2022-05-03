@@ -19,6 +19,7 @@ function purifyKeys(item){
 		//exp_name: item.expert_name,						//专家姓名
 		title: item.need.title,							//需求名称
 		time: item.end_time,							//时间
+		need_id: item.need.need_id
 	}
 	if(purified_result.description == "undefined" || purified_result.description == null || purified_result.description ==""){
 		purified_result.description = "Lux et veritas"
