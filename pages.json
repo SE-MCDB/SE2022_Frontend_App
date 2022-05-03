@@ -46,11 +46,12 @@
 							// 右边
 							{
 								"color": "#000000",
-								"colorPressed": "#BBBBBB",
+								"colorPressed": "#FFFFFF",
 								"float": "right",
-								"fontSize": "44upx",
+								"fontSize": "50upx",
 								"fontSrc": "/static/font/icon.ttf",
-								"text": "\ue684"
+								"text": "\ue684",
+								"fontWeight":"bold"
 							}
 						]
 					}

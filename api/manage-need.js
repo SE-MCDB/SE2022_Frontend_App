@@ -21,6 +21,16 @@ export const  manageFinishedNeed =async (id) => {
 	return result
 }
 
+export const  manageUnissuedNeed =async (id) => {
+	console.log("manageUnissuedNeed")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.get('user/' + id + "/need/save", {}, headers)
+	result = result.data
+	return result
+}
+
 export const deleteNeed =async (company_id, id) => {
 	console.log("deleteNeed")
 	let headers = {
@@ -44,6 +54,20 @@ export const expertRecommend =async (id) => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
-	let result = await axios.get('user/need/' + id + '/expert_recommend', {}, headers)
+	let result = await axios.get('need/' + id + '/expert_recommend', {}, headers)
+	if (result && result.code) {
+		console.log("error!")
+	}
+	console.log("result is:" + result)
+	console.log("result is:" + result.data.length)
+	return result
+}
+
+export const transformNeed =async (id) => {
+	console.log("tranformNeed")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.get('user/need/' + id + '/tranform', {}, headers)
 	return result
 }

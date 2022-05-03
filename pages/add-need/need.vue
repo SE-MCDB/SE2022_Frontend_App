@@ -62,7 +62,8 @@
 					</uni-section>
 					
 					<view class="uni-btn-v">
-						<button type="primary" form-type="submit">提交</button>
+						<button type="primary" form-type="submit">保存并发布</button>
+						<button type="primary" @click="saveNeed">保存</button>
 						<button type="default" form-type="reset">清除</button>
 					</view>
 				</form>
@@ -75,7 +76,8 @@
 		mapState
 	} from 'vuex';
 	import {
-		addneed
+		addneed,
+		saveneed
 	} from '@/api/add-need.js'
 	import uniCard from '@/components/uni_easyinput/uni-card/components/uni-card/uni-card.vue'
 	import uniEasyinput from '@/components/uni_easyinput/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
@@ -274,6 +276,33 @@
 				this.predict = '',
 				this.real = 0,
 				this.index = 0
+			},
+			async saveNeed() {
+				let data = {
+					"company_id": this.company_id,
+					"title": this.title,
+					"description": this.description,
+					"money": this.money,
+					"start_time": this.start_time,
+					"end_time": this.end_time,
+					"key_word": this.key_word,
+					"field": this.field,
+					"address": this.address,
+					"state": this.state,
+					"emergency": this.emergency,
+					"predict": this.predict,
+					"real": this.real
+				}
+				let validate_answer = this.validate(data)
+				if (validate_answer) {
+					let result = await saveneed(data)
+					if (result&&result.code) {
+						this.$http.toast("需求保存失败！")
+					} else {
+						this.$http.toast("需求保存成功！")
+						this.back()
+					}
+				}
 			}
 		}
 	};
@@ -367,5 +396,8 @@
 	.date-set {
 		background-color: #fff;
 		padding: 10px;
+	}
+	button {
+		margin: 20upx;
 	}
 </style>

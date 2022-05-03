@@ -11,6 +11,10 @@
 						{{field_items[item.field]}}
 					</view>
 				</view>
+				<view span="1">
+					<text>关键词描述：</text>
+					<text class="topic-keyword">{{item.key_word}}</text>
+				</view>	
 				<view class="topic-title-level-2">
 					<text>相关信息</text>
 				</view>
@@ -28,7 +32,7 @@
 						接收人数 <text style="float: right; color: #FF0000;">{{item.real}}/{{item.predict}}</text>
 					</view>
 					<view class="need-detail-list-money">
-						金额:<text style="float: right; color:orange;">{{item.money}}</text>
+						经费:<text style="float: right;">{{item.money}}千元</text> 
 					</view>
 				</tui-list-view>
 				<view class="topic-title-level-2">
@@ -163,6 +167,14 @@
 	.topic-title-level-2 {
 		font-weight: bold;
 		font-size:large;
+	}
+	.topic-keyword {
+		color: orange;
+		font-size:smaller;
+		border-radius: dotted;
+		border-color: orange;
+		max-width: 10%;
+		padding-left: 1%;
 	}
 	.need-detail-list {
 		padding: 15upx;

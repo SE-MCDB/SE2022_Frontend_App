@@ -6,6 +6,7 @@ export const  getTopicDetail =async (id) => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
+	if (id === undefined) return false
 	let detail = await axios.get('Interpretation/'+ id,{},headers)
 	// if(detail.images==null||detail.images==''){
 	// 	detail.images = []

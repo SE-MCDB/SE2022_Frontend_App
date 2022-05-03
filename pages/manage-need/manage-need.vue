@@ -3,16 +3,25 @@
 	<template v-if="userInfo&&userInfo.id">
 		
 		<!--导航栏-->
-		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
+		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33%;"></swiper-tab-head>
 		<scroll-view
 		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
 		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
 			<!--搜索框-->
 			<view v-if="tabIndex == 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
-					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? experList : []"
-					@goToRecommend="goToRecommend" @openDetail="openDetail" :edit="1" @contact="contact"
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? expertList : []"
+					@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="1" @contact="contact(arguments)"
 					@editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
+					</need-list>
+				</view>
+			</view>
+			
+			<view v-if="tabIndex == 2 ">
+				<view v-for="(item, index) in unissueditems" :key="index">
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? expertList : []"
+					@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="2" @contact="contact(arguments)"
+					@editneed="editneed" @deleteneed="deleteneed" @issue="issue">
 					</need-list>
 				</view>
 			</view>
@@ -73,10 +82,15 @@
 	import {
 		manageFinishedNeed,
 		manageUnfinishedNeed,
+		manageUnissuedNeed,
 		deleteNeed,
 		endNeed,
-		expertRecommend
+		expertRecommend,
+		transformNeed
 	} from "@/api/manage-need.js"
+	import {
+		createContact
+	} from "@/api/need-detail.js"
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -102,13 +116,14 @@
 				shoNo: false,
 				unfinisheditems: [],
 				finisheditems: [],
+				unissueditems: [],
 				show: false,
 				refreshing: false,
 				msg: '',
 				msgType: 'success',
 				resolveId: '',
 				resolveIndex: -1,
-				expertList: '',
+				expertList: [],
 				tabBars: [{
 						name: "已完成",
 						id: "wode",
@@ -119,6 +134,11 @@
 						id: "faxian",
 						page: 1
 					},
+					{
+						name: "未发布",
+						id: "weifabu",
+						page: 1
+					}
 				],
 				
 			}
@@ -168,9 +188,12 @@
 					if(this.tabIndex === 1){
 						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
 						this.unfinisheditems = unfinisheditems
-					} else {
+					} else if (this.tabIndex === 0){
 						let finisheditems = await manageFinishedNeed(this.userInfo.id)
 						this.finisheditems = finisheditems
+					} else {
+						let unissueditems = await manageUnissuedNeed(this.userInfo.id)
+						this.unissueditems = unissueditems
 					}
 					// console.log(items)
 				} catch (e) {
@@ -209,18 +232,31 @@
 				this.$refs.alertDialog.open()
 				console.log("------------------------------------ready to end need")
 			},
+			async issue(item) {
+				console.log("issue")
+				try {
+					let result = await transformNeed(item.need_id)
+				} catch (e) {
+					console.log(e)
+					return 
+				}
+				this.onrefresh()
+			},
 			goToRecommend(msg) {
 				let item = msg[0]
 				let index = msg[1]
-				let result = this.recommend(item)
-				if (!(result&& result.code)) {
-					this.expertList = result.data
-					if (this.resolveIndex === index) {
-						this.resolveIndex = -1
-					} else {
-						this.resolveIndex = index
-					}
-				}
+				this.recommend(item, index)
+				// console.log("length is " + result.length)
+				// if (!(result&& result.code)) {
+				// 	this.expertList = result.data
+				// 	// console.log(this.expertList.length)
+				// 	if (this.resolveIndex === index) {
+				// 		this.resolveIndex = -1
+				// 	} else {
+				// 		this.resolveIndex = index
+				// 	}
+				// 	// console.log("father is:" + this.expertList.length)
+				// }
 			},
 			contact(msg) {
 				console.log(msg[0] + ' ' + msg[1])
@@ -258,11 +294,18 @@
 				}
 				this.onrefresh()
 			},
-			async recommend(item) {
+			async recommend(item, index) {
 				let id = item.need_id
 				try {
 					let result = await expertRecommend(id)
-					return result
+					this.expertList = result.data
+					console.log(this.expertList.length)
+					if (this.resolveIndex === index) {
+						this.resolveIndex = -1
+					} else {
+						this.resolveIndex = index
+					}
+					// return result
 				} catch (e) {
 					console.log(e)
 					return
@@ -327,12 +370,12 @@
 				let temp={
 					expert_id:expert.id,
 					enterprise_id:this.userInfo.id,
-					need_id:this.item.need_id,
+					need_id:item.need_id,
 				};
 				let s =createContact(temp)
 				console.log(temp)
 				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
+					url:'../user-chat/user-chat?fid='+item.enterprise_id
 				})
 			},
 		}

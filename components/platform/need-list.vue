@@ -1,7 +1,7 @@
 <template>
 	<view class="container"> 
-		<view class="item-list" @tap="openDetail">
-			<view span="1">
+		<view class="item-list">
+			<view span="1" @tap="openDetail">
 				<text class="topic-title">{{item.title}}</text>
 				<text class="topic-field">({{field_items[item.field]}})</text>
 				<view v-if="emergencyItems" class="container-emergency">
@@ -15,14 +15,19 @@
 						{{emergencyItems[item.emergency].name}}
 					</view>
 				</view>
-			</view> 	
-			<view span="3" class="container1">
+			</view> 
+			<view span="1" @tap="openDetail">
+				<text>关键词描述：</text>
+				<text class="topic-keyword">{{item.key_word}}</text>
+			</view>	
+			<view span="3" class="container1" @tap="openDetail">
 			    <text class="container1_text">{{item.description}}</text>
 			</view>	
 			
 			<view span="1" class="container-detail">
 				<text class="container-detail-money">
-					价格估计:{{item.money}}
+					经费:{{item.money}}千元
+					
 				</text>
 				<text class="container-detail-people">
 					已招募:<span style="color:red">{{item.real}}/{{item.predict}}</span>
@@ -34,38 +39,92 @@
 			<view class="container-time">
 				截止时间:{{item.end_time}}
 			</view>
+			<view v-if="edit === 1" class="container-edit">
+				<button type="primary" @click="editneed">编辑</button>
+				<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
+						class="button-text error-text">删除</text></button>
+				<button class="button popup-warn" @click="endneed('warn')"><text
+						class="button-text warn-text">结束</text></button>
+				<button type="primary" @click="goToRecommend">找专家</button>
+				<view v-if="showExpert" class="container-expert">
+					<view v-for="(expert, index) in expertList" :key="index">
+						<view class="divider"></view>
+						<view class="container-expert-info">
+							<text class="author-name"> {{expert.name}}</text>
+							<text class="afflite">{{expert.organization}}</text>
+							<text class="phone">{{expert.phone}}</text>
+						</view>
+						<view class="container-expert-profile">
+							<text>个人简介:</text>
+							<text>{{expert.profile}}</text>
+						</view>
+						<view class="container-expert-paper">
+							<text>相关论文:</text>
+							<text>{{expert.paper}}</text>
+						</view>
+						<view class="container-expert-button">
+							<button type="primary" @click="contact(expert)">
+								联系专家
+							</button>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view v-else-if="edit === 2" class="container-edit">
+				<button type="primary" @click="editneed">编辑需求</button>
+				<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
+						class="button-text error-text">删除需求</text></button>
+				<button class="button popup-warn" @click="issue"><text
+						class="button-text warn-text">发布需求</text></button>
+				<button type="primary" @click="goToRecommend">专家推荐</button>
+				
+			</view>
+			<view v-else>
+			</view>
 		</view>
-		<view v-if="edit" class="container-edit">
+		<!-- <view v-if="edit === 1" class="container-edit">
 			<button type="primary" @click="editneed">编辑需求</button>
 			<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
 					class="button-text error-text">删除需求</text></button>
 			<button class="button popup-warn" @click="endneed('warn')"><text
 					class="button-text warn-text">结束需求</text></button>
 			<button type="primary" @click="goToRecommend">专家推荐</button>
-		</view>
-		
-		<view v-if="showExpert" class="container-expert">
-			<view v-for="(expert, index) in expertList" :key="index">
-				<view>
-					<text>{{expert.name}}</text>
-					<text>{{expert.phone}}</text>
-				</view>
-				<view>
-					{{expert.organization}}
-				</view>
-				<view>
-					{{expert.profile}}
-				</view>
-				<view>
-					{{expert.paper}}
-				</view>
-				<view>
-					<button type="primary" @click="contact(expert)">
-						联系专家
-					</button>
+			<view v-if="showExpert" class="container-expert">
+				<view v-for="(expert, index) in expertList" :key="index">
+					<view class="divider"></view>
+					<view class="container-expert-info">
+						<text class="author-name"> {{expert.name}}</text>
+						<text class="afflite">{{expert.organization}}</text>
+						<text class="phone">{{expert.phone}}</text>
+					</view>
+					<view class="container-expert-profile">
+						<text>个人简介:</text>
+						<text>{{expert.profile}}</text>
+					</view>
+					<view class="container-expert-paper">
+						<text>相关论文:</text>
+						<text>{{expert.paper}}</text>
+					</view>
+					<view class="container-expert-button">
+						<button type="primary" @click="contact(expert)">
+							联系专家
+						</button>
+					</view>
 				</view>
 			</view>
+		</view> -->
+		
+		<!-- <view v-else-if="edit === 2" class="container-edit">
+			<button type="primary" @click="editneed">编辑需求</button>
+			<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
+					class="button-text error-text">删除需求</text></button>
+			<button class="button popup-warn" @click="issue"><text
+					class="button-text warn-text">发布需求</text></button>
+			<button type="primary" @click="goToRecommend">专家推荐</button>
+			
 		</view>
+		<view v-else>
+		</view> -->
 	</view>
 </template>
 
@@ -136,9 +195,15 @@
 				this.$emit("endneed", this.item)
 				console.log("------------------end-need")
 			},
+			issue() {
+				this.$emit("issue", this.item)
+				console.log("------------------issue")
+			},
 			goToRecommend() {
 				this.$emit("goToRecommend", this.item, this.index)
 				console.log("------------------goToRecommend")
+				console.log(this.showExpert)
+				console.log(this.expertList.length)
 			},
 			contact(expert) {
 				this.$emit("contact", this.item, expert)
@@ -179,6 +244,14 @@
 	max-width: 10%;
 	padding-left: 10%;
 }
+.topic-keyword {
+	color: orange;
+	font-size:smaller;
+	border-radius: dotted;
+	border-color: orange;
+	max-width: 10%;
+	padding-left: 1%;
+}
 .container1 {
     padding: 10px;
 	background-color: #F7F7F9;
@@ -206,14 +279,14 @@
 .container-detail-people {
 	border-color: #F7F7F9;
 	border-radius: 20upx;
-	padding-left: 50%;
+	padding-left: 40%;
 	padding-top: 10upx;
 }
 .divider {
-	max-height: 3upx;
-	padding: 10upx;
+	max-height: 0upx;
+	padding: 5upx;
 	background-color: #F7F7F9;
-	border-radius: 20upx;
+	border-radius:10upx;
 }
 .container-time {
 	padding: 15upx;
@@ -222,9 +295,41 @@
 .container-edit {
 	margin: 10upx;
 }
+.container-expert {
+	
+}
+.afflite{
+	padding-left: 30upx;
+	color: orange;
+	font-size: small;
+}
+.container-expert-info {
+	padding: 10upx;
+}
+.phone {
+	float: right;
+}
+.author-name {
+	float:left
+}
+.container-expert-paper {
+	padding: 10upx;
+	font-size: small;
+	font-weight: 200;
+	border: solid #0A98D5 dotted;
+	border-radius: 20upx;
+}
+.container-expert-profile {
+	padding: 10upx;
+	font-size: small;
+	font-weight: 200;
+	border: solid #0A98D5 20upx 20upx 20upx 20upx;
+	border-radius: 20upx;
+}
 button {
 		float: left;
-		width: 25%;
+		width: 23%;
+		margin-right: 2%;
 		text-align: center;
 		font-size: small;
 	}
