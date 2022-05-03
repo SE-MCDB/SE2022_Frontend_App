@@ -5,14 +5,14 @@
 				<text class="topic-title">{{item.title}}</text>
 				<text class="topic-field">({{field_items[item.field]}})</text>
 				<view v-if="emergencyItems" class="container-emergency">
-					<view v-if="item.emergency === '2'" style="color: #007AFF">
-						{{emergencItems[item.emergency].name}}
+					<view v-if="item.emergency === '2'" :style="{color: yanse}">
+						{{emergencItems[item.emergency].name}}紧急
 					</view>
-					<view v-else-if="item.emergency === '1'" style="color: orange">
-						{{emergencyItems[item.emergency].name}}
+					<view v-else-if="item.emergency === '1'" :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
 					</view>
-					<view v-else style="color: red">
-						{{emergencyItems[item.emergency].name}}
+					<view v-else :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
 					</view>
 				</view>
 			</view> 
@@ -201,6 +201,7 @@
 						name: '高'
 					}
 				],
+				yanse: this.item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'
 			}
 		},
 		

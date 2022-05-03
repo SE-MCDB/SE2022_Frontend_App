@@ -5,8 +5,7 @@
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33%;"></swiper-tab-head>
 		<scroll-view
-		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
-		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
+		 scroll-y class="list">
 			<!--搜索框-->
 			<view v-if="tabIndex === 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
@@ -177,6 +176,11 @@
 					this.show = true;
 					break;
 			}
+		},
+		
+		onPullDownRefresh() {
+			this.onrefresh()
+			uni.stopPullDownRefresh()
 		},
 		
 		
