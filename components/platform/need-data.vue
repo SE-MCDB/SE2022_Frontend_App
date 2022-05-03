@@ -6,6 +6,11 @@
 
 		</swiper-tab-head>
 		
+		<!-- 分享订单弹窗 -->
+		<uni-popup ref="shareLink" type="share">
+			<uni-popup-share title="分享到" @select="select"></uni-popup-share>
+		</uni-popup>
+		
 		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">
 			<!-- 若无返回数据，展示无订单界面 -->
@@ -180,7 +185,6 @@
 			</uni-section>
 		</view>
 	</view>
-	
 	
 </template>
 
@@ -406,9 +410,7 @@
 						await rejectOrder(this.userInfo.id, order_id)
 						console.log(str)
 						break;
-					case "联系企业": 
-						
-						
+					case "联系企业": 	//与专家case二合一	
 					case "联系专家":
 						console.log(str)
 						this.contact(item)
@@ -421,7 +423,7 @@
 						break;
 					case "分享":
 						console.log(str)
-						uni.showToast({title:'分享成功！', duration:500})
+						this.$refs.shareLink.open('center')
 						break;
 					case "评价":
 						console.log(str)
