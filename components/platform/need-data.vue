@@ -249,6 +249,10 @@
 						background: '#FD3B31',
 					}
 				],
+				datalist1:[],	//全部
+				datalist2:[],	//待处理
+				datalist3:[],	//进行中
+				datalist4:[],	//已完成
 			}
 		},
 		
@@ -265,37 +269,36 @@
 			userInfo: Object,
 			//item:Object,	//关于odrder_list信息
 		},
-		onShow(){
+		onShow(){		//页面加载,一个页面只会调用一次
 			console.log("onshow");
-			this.initData();
+			this.refreshData();
 		},
-		onLoad(){
+		onLoad(){		//页面显示,每次打开页面都会调用一次
 			console.log("onload");
-			this.initData();
+			this.refreshData();
 		},
 		created(){
-			this.initData();
+			this.refreshData();
 		},
 		beforeMount(){
 			
 		},
 		mounted(){
-			
+						
 		},
 		beforeUpdate(){
 			
 		},
 		updated() {
-			this.initData();
+			//this.refreshData();	万万不可刷新！否则就永远loading了
 		},
 		methods:{
 			temp(id){
 				console.log(id);
 			},
 			tabtap(index) {
-				
 				this.tabIndex = index;
-				//this.initData()
+				this.refreshData()
 			},
 			goToNeed(index){
 				console.log(index)
@@ -366,24 +369,22 @@
 			// 	}
 			// },
 			
-			async initData(){	//需要加async/await, 否则接口返回为一个Promise类型
-				this.datalist1 = [];	//全部
-				this.datalist2 = [];	//待处理
-			 	this.datalist3 = [];	//进行中
-				this.datalist4 = [];	//已完成
+			async refreshData(){	//需要加async/await, 否则接口返回为一个Promise类型
 				switch (this.tabIndex) {
 					case 0:
 						this.datalist1 = await getAllOrder(this.userInfo.id)
 						break;
 					case 1:
 						this.datalist2 = await getPendingOrder(this.userInfo.id)
-						break
+						break;
 					case 2:
 						this.datalist3 = await getCooperatingOrder(this.userInfo.id)
-						break
+						break;
 					case 3:
 						this.datalist4 = await getFinishedOrder(this.userInfo.id)
-						break
+						break;
+					default:
+						break;
 				}
 			},
 			
