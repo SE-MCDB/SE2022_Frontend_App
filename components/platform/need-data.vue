@@ -11,6 +11,13 @@
 			<uni-popup-share title="分享到" @select="select"></uni-popup-share>
 		</uni-popup>
 		
+		
+		<!-- 接受、拒绝订单的二次提示 -->
+		<uni-popup ref="confirmOperation" type="dialog">
+			<uni-popup-dialog type="warn" cancelText="取消" confirmText="确定" title="警告" content="确认吗？此操作将不可更改" 
+				@confirm="operationConfirm"	@close="operationClose"></uni-popup-dialog>
+		</uni-popup>
+		
 		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">
 			<!-- 若无返回数据，展示无订单界面 -->
@@ -213,6 +220,7 @@
 		getAllOrder,
 		acceptOrder,
 		rejectOrder,
+		accomplishOrder,
 	} from '@/api/platform/order.js'
 	
 	//需要用contact函数
@@ -223,6 +231,9 @@
 	export default {
 		data(){
 			return {
+				curOperation: '',	//二次确认，当前的操作类型
+				order_id: '',
+								
 				EXPERT: 4,
 				ENTERPRISE: 5,	//usertype的常量
 				show:[],
@@ -399,18 +410,9 @@
 			},
 			
 			async actionsClick(str, item){
-				
 				let order_id = item.order_id
 				switch(str) {
-					case "拒绝订单":
-						await acceptOrder(this.userInfo.id, order_id)
-						console.log(str)
-						break;
-					case "接受订单":
-						await rejectOrder(this.userInfo.id, order_id)
-						console.log(str)
-						break;
-					case "联系企业": 	//与专家case二合一	
+					case "联系企业": 	//与专家case二合一
 					case "联系专家":
 						console.log(str)
 						this.contact(item)
@@ -425,6 +427,28 @@
 						console.log(str)
 						this.$refs.shareLink.open('center')
 						break;
+					case "拒绝订单":
+						this.curOperation = "reject"
+						this.order_id = order_id
+						this.$refs.confirmOperation.open()
+						console.log(str)
+						break;
+					case "接受订单":
+						this.curOperation = "accept"
+						this.order_id = order_id
+						this.$refs.confirmOperation.open()
+						console.log(str)
+						break;
+					case "完成订单":
+						this.curOperation = "accomplish"
+						this.order_id = order_id
+						this.$refs.confirmOperation.open()
+						console.log(str)
+						break;
+					case "放弃订单":
+						console.log(str)
+						uni.showToast({title:'施工中...', duration:500})
+						break;
 					case "评价":
 						console.log(str)
 						uni.showToast({title:'评价成功！', duration:500})
@@ -433,14 +457,7 @@
 						console.log(str)
 						uni.showToast({title:'已反馈！', duration:500})
 						break;
-					case "完成订单":
-						console.log(str)
-						uni.showToast({title:'???', duration:500})
-						break;
-					case "放弃订单":
-						console.log(str)
-						uni.showToast({title:'???', duration:500})
-						break;
+					
 					case "催促专家":
 						console.log(str)
 						uni.showToast({title:'已发送提醒！', duration:500})
@@ -476,6 +493,36 @@
 				//console.log("in needdata.")
 				this.$emit("goToExplore")
 			},
+			
+			//确认操作
+			async operationConfirm(){
+				switch(this.curOperation){
+					case "reject":	//拒绝订单
+						await rejectOrder(this.userInfo.id, this.order_id)
+						uni.showToast({title:'操作成功！', duration:500})
+						break;
+					case "accept":	//接受订单
+						await acceptOrder(this.userInfo.id, this.order_id)
+						uni.showToast({title:'操作成功！', duration:500})
+						break;
+					case "accomplish":	//完成订单
+						await accomplishOrder(this.userInfo.id, this.order_id)
+						uni.showToast({title:'操作成功！', duration:500})
+						break;
+					case "abandon":	//放弃订单
+						uni.showToast({title:'施工中...', duration:500})
+						break;
+				}
+				// TODO 做一些其他的事情，手动执行 close 才会关闭对话框
+				// ...
+				this.$refs.confirmOperation.close()
+			},
+			//关闭提示框
+			operationClose(){
+				// TODO 做一些其他的事情，before-close 为true的情况下，手动执行 close 才会关闭对话框
+				// ...
+				this.$refs.confirmOperation.close()
+			}
 		}
 	}
 </script>
