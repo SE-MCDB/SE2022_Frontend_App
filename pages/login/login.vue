@@ -68,7 +68,10 @@
 
 <script>
 	import {
-		mapMutations
+		mapMutations,
+		mapState,
+		mapGetters,
+		mapActions,
 	} from 'vuex'
 	import {
 		sendLoginCode,
@@ -76,12 +79,20 @@
 		userLoginCode,
 		login,
 	} from '@/api/login.js'
-	
+	import {
+		getChatList,
+		deleteChat,
+		updateChat,
+		createSocket,
+		readChatMsg
+	} from '@/api/paper.js'
 	import{
 		picUrl
 	} from '@/api/common.js'
 	export default {
 		computed: {
+			...mapState(['chatList', 'msgIndex', 'userInfo']),
+			...mapGetters(['currentChatMsgs']),
 			disabled: function() {
 				let bool = true;
 				if (this.mobile && this.password) {
@@ -110,7 +121,18 @@
 			}, 0);
 		},
 		methods: {
-			...mapMutations(['setUserInfo']),
+			...mapMutations([
+				'setChatList',
+				'setIndex',
+				'delChatList',
+				'updateMsg',
+				'addChatList',
+				'sortChatList',
+				'addChatMessage',
+				'addNoreadMessage',
+				'setUserInfo',
+			]),
+			
 			// 验证手机号码
 			isPhone(phone) {
 				let mPattern = /^1[34578]\d{9}$/;
@@ -204,6 +226,13 @@
 				uni.setStorageSync('refresh_token',data.refresh_token)
 				data.userInfo.userpic=picUrl+data.userInfo.userpic
 				this.setUserInfo(data.userInfo);
+				//调用聊天记录
+				let token=uni.getStorageSync('token')
+				let chatList = await getChatList(this.userInfo)
+				this.setChatList(chatList);
+				this.sortChatList()
+				uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+				
 				uni.switchTab({
 					url: '/pages/home/home'
 				});
