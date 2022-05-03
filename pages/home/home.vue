@@ -31,7 +31,7 @@
 			</uni-list>
 		</uni-section>
 		
-		<button class="user-set-btn" type="primary" @tap="showActive">退出登陆</button>
+		<button class="user-set-btn" type="primary" @tap="showActive" v-show="false">退出登陆</button>
 		
 
 	</view>
