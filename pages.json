@@ -582,7 +582,7 @@
 			{
 				"pagePath": "pages/platform/platform",
 				"text": "平台",
-				"iconPath": "/static/tabbar/platform.png ",
+				"iconPath": "/static/tabbar/platform.png",
 				"selectedIconPath": "/static/tabbar/platformed.png"
 			},
 			{
