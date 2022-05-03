@@ -423,7 +423,8 @@
 					"titleNView": {
 						"autoBackButton": true
 					}
-				}
+				},
+				"enablePullDownRefresh": true
 			}
 		}, 
 		

@@ -48,8 +48,8 @@
 				baseFormData: {
 					name: '',
 					email: '',
-					sex: 2,
-					qtype: [5],
+					sex: '',
+					qtype: [0],		//默认选择第几项,空表示不选
 					description: '',
 					datetimesingle: Date(),
 				},

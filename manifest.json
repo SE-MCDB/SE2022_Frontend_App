@@ -1,6 +1,6 @@
 {
     "name" : "PaperDaily",
-    "appid" : "__UNI__7637B43",
+    "appid" : "__UNI__A16FEDA",
     "description" : "科研社交APP",
     "versionName" : "1.0.0",
     "versionCode" : 1,
@@ -81,13 +81,7 @@
             "ios" : {},
             /* ios打包配置 */
             "sdkConfigs" : {
-                "oauth" : {
-                    "weixin" : {
-                        "appid" : "wx6a6464ba2c0725ae",
-                        "appsecret" : "ba49783802965e1e94eba5c7b14d935d",
-                        "UniversalLinks" : ""
-                    }
-                },
+                "oauth" : {},
                 "share" : {},
                 "speech" : {},
                 "ad" : {}
@@ -134,7 +128,7 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         "usingComponents" : true,
-        "appid" : "wx6a6464ba2c0725ae",
+        "appid" : "",
         "setting" : {
             "urlCheck" : true,
             "es6" : true

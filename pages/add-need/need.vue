@@ -288,7 +288,7 @@
 					"key_word": this.key_word,
 					"field": this.field,
 					"address": this.address,
-					"state": this.state,
+					"state": 2,
 					"emergency": this.emergency,
 					"predict": this.predict,
 					"real": this.real

@@ -5,21 +5,20 @@
 		<!--导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:33%;"></swiper-tab-head>
 		<scroll-view
-		 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
-		 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
+		 scroll-y class="list">
 			<!--搜索框-->
-			<view v-if="tabIndex == 1 ">
+			<view v-if="tabIndex === 1 ">
 				<view v-for="(item, index) in unfinisheditems" :key="index">
-					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? expertList : []"
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 1" :expertList="resolveIndex === index && tabIndex === 1 ? expertList : []"
 					@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="1" @contact="contact(arguments)"
 					@editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
 					</need-list>
 				</view>
 			</view>
 			
-			<view v-if="tabIndex == 2 ">
+			<view v-else-if="tabIndex === 2 ">
 				<view v-for="(item, index) in unissueditems" :key="index">
-					<need-list :item="item" :index="index" :showExpert="resolveIndex === index" :expertList="resolveIndex === index ? expertList : []"
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 2" :expertList="resolveIndex === index && tabIndex === 2 ? expertList : []"
 					@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="2" @contact="contact(arguments)"
 					@editneed="editneed" @deleteneed="deleteneed" @issue="issue">
 					</need-list>
@@ -27,7 +26,7 @@
 			</view>
 			
 			<!-- 需求订单统计 -->
-			<view v-else-if="tabIndex == 0" >
+			<view v-else-if="tabIndex === 0" >
 				<view v-for="(item, index) in finisheditems" :key="index">
 					<need-list :item="item" :index="index" @openDetail="openDetail">
 					</need-list>
@@ -179,6 +178,11 @@
 			}
 		},
 		
+		onPullDownRefresh() {
+			this.onrefresh()
+			uni.stopPullDownRefresh()
+		},
+		
 		
 		methods: {
 			//获取需求数据
@@ -194,6 +198,7 @@
 					} else {
 						let unissueditems = await manageUnissuedNeed(this.userInfo.id)
 						this.unissueditems = unissueditems
+						console.log(this.unissueditems.length)
 					}
 					// console.log(items)
 				} catch (e) {
@@ -235,7 +240,7 @@
 			async issue(item) {
 				console.log("issue")
 				try {
-					let result = await transformNeed(item.need_id)
+					let result = await transformNeed(this.userInfo.id, item.need_id)
 				} catch (e) {
 					console.log(e)
 					return 
@@ -299,13 +304,15 @@
 				try {
 					let result = await expertRecommend(id)
 					this.expertList = result.data
-					
-					console.log(this.expertList[0].id)
+					// console.log(this.expertList.length)
+					// console.log(this.expertList[0].id)
+					console.log(this.tabIndex)
 					if (this.resolveIndex === index) {
 						this.resolveIndex = -1
 					} else {
 						this.resolveIndex = index
 					}
+					console.log(this.resolveIndex)
 					// return result
 				} catch (e) {
 					console.log(e)
@@ -327,11 +334,13 @@
 			tabtap(index) {
 				console.log("change index to " + index);
 				this.tabIndex = index;
+				this.resolveIndex = -1
 				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			// 滑动事件
 			tabChange(e) {
 				this.tabIndex = e.detail.current;
+				this.resolveIndex = -1
 				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			initNavigation(e) {

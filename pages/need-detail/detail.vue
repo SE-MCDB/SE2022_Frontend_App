@@ -5,7 +5,16 @@
 					<text>{{item.title}}</text>
 					<!-- 异步问题 -->
 					<span class="need-detail-list-right" v-if="emergencyItems[item.emergency]">
-						{{emergencyItems[item.emergency].name}}紧急
+						<view v-if="item.emergency === '2'" :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
+							{{emergencItems[item.emergency].name}}紧急
+						</view>
+						<view v-else-if="item.emergency === '1'" :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
+							{{emergencyItems[item.emergency].name}}紧急
+						</view>
+						<view v-else :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
+							{{emergencyItems[item.emergency].name}}紧急
+						</view>
+						<!-- {{emergencyItems[item.emergency].name}}紧急 -->
 					</span>
 					<view class="need-detail-list-field">
 						{{field_items[item.field]}}

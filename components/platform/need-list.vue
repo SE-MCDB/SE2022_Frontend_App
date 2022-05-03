@@ -5,14 +5,14 @@
 				<text class="topic-title">{{item.title}}</text>
 				<text class="topic-field">({{field_items[item.field]}})</text>
 				<view v-if="emergencyItems" class="container-emergency">
-					<view v-if="item.emergency === '2'" style="color: #007AFF">
-						{{emergencItems[item.emergency].name}}
+					<view v-if="item.emergency === '2'" :style="{color: yanse}">
+						{{emergencItems[item.emergency].name}}紧急
 					</view>
-					<view v-else-if="item.emergency === '1'" style="color: orange">
-						{{emergencyItems[item.emergency].name}}
+					<view v-else-if="item.emergency === '1'" :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
 					</view>
-					<view v-else style="color: red">
-						{{emergencyItems[item.emergency].name}}
+					<view v-else :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
 					</view>
 				</view>
 			</view> 
@@ -46,38 +46,64 @@
 				<button class="button popup-warn" @click="endneed('warn')"><text
 						class="button-text warn-text">结束</text></button>
 				<button type="primary" @click="goToRecommend">找专家</button>
-				<view v-if="showExpert" class="container-expert">
+				<view v-if="showExpert && edit === 1" class="container-expert">
 					<view v-for="(expert, index) in expertList" :key="index">
 						<view class="divider"></view>
-						<view class="container-expert-info">
-							<text class="author-name"> {{expert.name}}</text>
-							<text class="afflite">{{expert.organization}}</text>
-							<text class="phone">{{expert.phone}}</text>
-						</view>
-						<view class="container-expert-profile">
-							<text>个人简介:</text>
-							<text>{{expert.profile}}</text>
-						</view>
-						<view class="container-expert-paper">
-							<text>相关论文:</text>
-							<text>{{expert.paper}}</text>
+						<view class="left">
+							<view class="container-expert-info">
+								<text class="author-name"> {{expert.name}}</text>
+								<text class="afflite">{{expert.organization}}</text>
+								<text class="phone">tel:{{expert.phone}}</text>
+							</view>
+							<view class="container-expert-profile">
+								<text>个人简介:</text>
+								<text>{{expert.profile}}</text>
+							</view>
+							<view class="container-expert-paper">
+								<text>相关论文:</text>
+								<text>{{expert.paper}}</text>
+							</view>
 						</view>
 						<view class="container-expert-button">
-							<button type="primary" @click="contact(expert)">
-								联系专家
+							<button type="default" @click="contact(expert)" class="container-expert-button">
+								咨询
 							</button>
 						</view>
 					</view>
 				</view>
 			</view>
 			<view v-else-if="edit === 2" class="container-edit">
-				<button type="primary" @click="editneed">编辑需求</button>
-				<button type="warn" class="button popup-error" @click="deleteneed('error')"><text
-						class="button-text error-text">删除需求</text></button>
-				<button class="button popup-warn" @click="issue"><text
-						class="button-text warn-text">发布需求</text></button>
-				<button type="primary" @click="goToRecommend">专家推荐</button>
-				
+				<button type="primary" @click="editneed" class="mybutton">编辑</button>
+				<button type="warn" class="mybutton" @click="deleteneed('error')"><text
+						class="button-text error-text">删除</text></button>
+				<button class="mybutton" @click="issue"><text
+						class="button-text warn-text">发布</text></button>
+				<button type="primary" @click="goToRecommend" class="mybutton">找专家</button>
+				<view v-if="showExpert && edit === 2" class="container-expert">
+					<view v-for="(expert, index) in expertList" :key="index">
+						<view class="divider"></view>
+						<view class="left">
+							<view class="container-expert-info">
+								<text class="author-name"> {{expert.name}}</text>
+								<text class="afflite">{{expert.organization}}</text>
+								<text class="phone">tel:{{expert.phone}}</text>
+							</view>
+							<view class="container-expert-profile">
+								<text>个人简介:</text>
+								<text>{{expert.profile}}</text>
+							</view>
+							<view class="container-expert-paper">
+								<text>相关论文:</text>
+								<text>{{expert.paper}}</text>
+							</view>
+						</view>
+						<view class="container-expert-button">
+							<button type="default" @click="contact(expert)" class="container-expert-button">
+								咨询
+							</button>
+						</view>
+					</view>
+				</view>
 			</view>
 			<view v-else>
 			</view>
@@ -175,6 +201,7 @@
 						name: '高'
 					}
 				],
+				yanse: this.item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'
 			}
 		},
 		
@@ -289,6 +316,10 @@
 	background-color: #F7F7F9;
 	border-radius:10upx;
 }
+.left {
+	width: 75%;
+	float: left;
+}
 .container-time {
 	padding: 15upx;
 	color: blue;
@@ -334,5 +365,7 @@ button {
 		text-align: center;
 		font-size: small;
 	}
-
+.container-expert-button {
+	margin-top: 60upx;
+}
 </style>
