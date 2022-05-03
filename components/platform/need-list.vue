@@ -206,6 +206,7 @@
 				console.log(this.expertList.length)
 			},
 			contact(expert) {
+				console.log("expert:"+expert.expert_id)
 				this.$emit("contact", this.item, expert)
 			}
 		}

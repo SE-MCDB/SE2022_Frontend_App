@@ -299,7 +299,8 @@
 				try {
 					let result = await expertRecommend(id)
 					this.expertList = result.data
-					console.log(this.expertList.length)
+					
+					console.log(this.expertList[0].id)
 					if (this.resolveIndex === index) {
 						this.resolveIndex = -1
 					} else {
@@ -368,14 +369,14 @@
 			},
 			contactExpert(item, expert){
 				let temp={
-					expert_id:expert.id,
+					expert_id:expert.expert_id,
 					enterprise_id:this.userInfo.id,
 					need_id:item.need_id,
 				};
 				let s =createContact(temp)
 				console.log(temp)
 				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+item.enterprise_id
+					url:'../user-chat/user-chat?fid='+expert.expert_id
 				})
 			},
 		}
