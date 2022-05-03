@@ -7,22 +7,21 @@
 		
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
-		<scroll-view
-		 scroll-y class="list">
-			<!--搜索框-->
-			<view v-if="tabIndex == 1 ">
+		<scroll-view scroll-y class="list">
+			<!-- 需求平台-我的 -->
+			<view v-if="tabIndex == 0" >
+				<need-data :needdata="needdata" :userInfo="userInfo" @goToExplore="goToExplore" @goToNeedInfo="goToNeedInfo" @openOrderDetail="openOrderDetail">
+					
+				</need-data>
+			</view>
+		 
+			<!--需求平台-发现-->
+			<view v-else-if="tabIndex == 1 ">
 				<myNavBarNeed v-if = "tabIndex == 1" @signIn="signIn"></myNavBarNeed>
 				<view v-for="(item, index) in items" :key="index">
 					<need-list :item="item" :index="index" @openDetail="openDetail">
 					</need-list>
 				</view>
-			</view>
-			
-			<!-- 需求订单统计 -->
-			<view v-else-if="tabIndex == 0" >
-				<need-data @goToNeedInfo="goToNeedInfo" :needdata="needdata" :userInfo="userInfo" @openOrderDetail="openOrderDetail">
-					
-				</need-data>
 			</view>
 			
 			<!-- 未登录状态 -->
@@ -280,7 +279,12 @@
 						});
 						break;
 				}
-			}
+			},
+			//去逛逛
+			goToExplore(){
+				console.log("tabindex change to 1.")
+				this.tabIndex = 1
+			},
 		}
 	}
 </script>

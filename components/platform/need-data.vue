@@ -8,7 +8,12 @@
 		
 		<!-- bar1:全部 -->
 		<view v-if="tabIndex == 0">
-			<uni-section title="全部订单" type="line" >
+			<!-- 若无返回数据，展示无订单界面 -->
+			<view v-if="datalist1.length == 0">
+				<no-order @goToExplore="goToExplore"></no-order>
+			</view>
+			
+			<uni-section v-else title="全部订单" type="line" >
 				<uni-card v-for="(item, index) in datalist1" :key="index" :title="item.entp_name" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
 					<text class="uni-body">{{item.title}}</text>
@@ -70,29 +75,17 @@
 							<text class="card-actions-item-text">再来一单</text>
 						</view>
 					</view>
-					
 				</uni-card>
 			</uni-section>
-			<!-- <tui-card v-for="item in datalist1" :image="item.img" :title="item.title" :tag="item.tag" :header="item.header">
-				<template v-slot:body>
-					<tui-bubble-popup  :show ="show[item.id]" :mask="false" position="absolute" direction="bottom" @close="closeshow" translateX="0px" translateY="50px">
-							<view class="tui-menu-item u-f-ac" @click="print(item.id)"> 查看详情 </view>
-							
-					</tui-bubble-popup>
-					<view class="tui-default" @click="print(item.id)">
-						我是主体
-					</view>
-				</template>
-				<template v-slot:footer>
-					<view class="tui-default" @click="print(item.id)">
-						更多选项↓
-					</view>
-				</template>
-			</tui-card> -->
 		</view>
 		
 		<!-- bar2:待处理 -->
-		<view v-else-if="tabIndex == 1">	
+		<view v-else-if="tabIndex == 1">
+			<!-- 若无返回数据，展示无订单界面 -->
+			<view v-if="datalist2.length == 0">
+				<no-order @goToExplore="goToExplore"></no-order>
+			</view>
+			
 			<uni-section title="待处理订单" type="line" >
 				<uni-card v-for="(item, index) in datalist2" :key="index" :title="item.entp_name"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
@@ -129,6 +122,11 @@
 		
 		<!--bar3:进行中 -->
 		<view v-else-if="tabIndex == 2">
+			<!-- 若无返回数据，展示无订单界面 -->
+			<view v-if="datalist3.length == 0">
+				<no-order @goToExplore="goToExplore"></no-order>
+			</view>
+			
 			<uni-section title="进行中订单" type="line" >
 				<uni-card v-for="(item, index) in datalist3" :key="index" :title="item.entp_name"
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
@@ -154,6 +152,11 @@
 		
 		<!-- bar4:已完成 -->
 		<view v-else>
+			<!-- 若无返回数据，展示无订单界面 -->
+			<view v-if="datalist4.length == 0">
+				<no-order @goToExplore="goToExplore"></no-order>
+			</view>
+			
 			<uni-section title="已完成订单" type="line" >
 				<uni-card v-for="(item, index) in datalist4" :key="index" :title="item.entp_name" 
 					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
@@ -196,6 +199,8 @@
 	import tuiModal from "@/components/thorui/tui-modal/tui-modal"	//提示窗
 	import tuiAlert from "@/components/thorui/tui-alert/tui-alert"	//提示窗
 	
+	import noOrder from "@/components/common/no-order.vue";	//无订单
+	
 	//订单相关函数
 	import {
 		getFinishedOrder,
@@ -217,7 +222,7 @@
 				EXPERT: 4,
 				ENTERPRISE: 5,	//usertype的常量
 				show:[],
-				tabIndex: 0,
+				tabIndex: 1,	//默认进“待处理”界面
 				tabBars: [
 					{
 						name: "全部",
@@ -258,6 +263,7 @@
 		
 		components:{
 			swiperTabHead,
+			noOrder,
 			// tuiCard,
 			// tuiSwipeAction,
 			// tuiBubblePopup,
@@ -455,7 +461,12 @@
 					url:'../user-chat/user-chat?fid=' + contact_id
 				})
 			},
-
+			
+			//去逛逛
+			goToExplore(){
+				//console.log("in needdata.")
+				this.$emit("goToExplore")
+			},
 		}
 	}
 </script>
