@@ -4,6 +4,21 @@
 			<view span="1" @tap="openDetail">
 				<text class="topic-title">{{item.title}}</text>
 				<text class="topic-field">({{field_items[item.field]}})</text>
+				<!-- <view v-if="emergencyItems" class="container-emergency">
+					<view v-if="item.emergency === '2'" :style="{color: yanse}">
+						{{emergencItems[item.emergency].name}}紧急
+					</view>
+					<view v-else-if="item.emergency === '1'" :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
+					</view>
+					<view v-else :style="{color: yanse}">
+						{{emergencyItems[item.emergency].name}}紧急
+					</view>
+				</view> -->
+			</view> 
+			<view span="1" @tap="openDetail">
+				<text>关键词描述：</text>
+				<text class="topic-keyword">{{item.key_word}}</text>
 				<view v-if="emergencyItems" class="container-emergency">
 					<view v-if="item.emergency === '2'" :style="{color: yanse}">
 						{{emergencItems[item.emergency].name}}紧急
@@ -15,10 +30,6 @@
 						{{emergencyItems[item.emergency].name}}紧急
 					</view>
 				</view>
-			</view> 
-			<view span="1" @tap="openDetail">
-				<text>关键词描述：</text>
-				<text class="topic-keyword">{{item.key_word}}</text>
 			</view>	
 			<view span="3" class="container1" @tap="openDetail">
 			    <text class="container1_text">{{item.description}}</text>
