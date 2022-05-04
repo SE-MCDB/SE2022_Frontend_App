@@ -4,7 +4,6 @@
 		
 		<!--右上角创建需求-->
 		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageneed="manageneed"></platform-create>
-		
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view scroll-y class="list">
@@ -86,6 +85,7 @@
 		},
 		data() {
 			return {
+				swiperheight: 500,
 				islogin: false,
 				swiperheight: 500,
 				tabIndex: 1,

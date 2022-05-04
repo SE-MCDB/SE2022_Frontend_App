@@ -45,7 +45,6 @@
 			</template>
 		</scroll-view>
 		
-		
 		<view>
 			<!-- 提示窗示例 -->
 			<uni-popup ref="alertDialog" type="dialog">
