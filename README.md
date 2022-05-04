@@ -51,6 +51,10 @@ npm run build:h5
 - [`apk`](https://github.com/SE-mcdb/SE2022_Frontend_App/releases/)
 - [`spoc.uno`](http://spoc.uno)
 
-## LICENSE
+## Reference
+
+[HFB APP](https://github.com/CNLHB/ssk-hfb)
+
+## License
 
 [MIT](./LICENSE)
