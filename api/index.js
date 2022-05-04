@@ -4,35 +4,40 @@ import time from '../common/time.js';
 import {
 	picUrl
 } from './common.js'
-export const  getTopicList =async () => {
+
+//获取 首页-热榜
+export const getTopicList = async () => {
+	console.log("getTopicList OK.")
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
-	let result = await axios.get('recommend',{},headers)
+	let result = await axios.get('recommend', {}, headers)
 	let index = 0
-	console.log(result)
-	if(result&&result.length){
+	
+	if(result && result.length){
 		result = result.map((item)=>{
 			index = index + 1
 			return{
 				"createTime": time.gettime.gettime(item.created_at),
 				"content": item.title,
-				"id":item.id,
-				"userpic": picUrl+item.userpic,
-				"username" : item.created_by.username,
-				"index": index
+				"id": item.id,
+				"userpic": picUrl + item.userpic,
+				"username": item.created_by.username,
+				"index": index,
 			}
 		})
 	}
 	return result
 }
 
-export const  getRecommendList =async () => {
+//获取 首页-推荐
+export const getRecommendList = async () => {
+	console.log("getRecommendList OK.")
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.get('Interpretation/popup',{},headers)
-	if(result&&result.length){
+	if(result && result.length){
 		result = result.map((item)=>{
 			return{
 				"created_at": time.gettime.gettime(item.created_at),

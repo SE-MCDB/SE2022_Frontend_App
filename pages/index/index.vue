@@ -11,42 +11,68 @@
 		<!-- #endif -->
 		<myNavBar @signIn="signIn"></myNavBar>
 		<!-- <tui-fab bgColor="#FFE933" :width="98" :height="98" :bottom="150" :right="50" @click="publish"></tui-fab> -->
+		
+		<!-- "推荐-热榜"滑动tabbar -->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap">
 		</swiper-tab-head>
-		<view class="uni-tab-bar">
-			<swiper class="swiper-box" :style="{height:swiperheight+'px'}"
-			 :current="tabIndex" @change="tabChange">
-				<swiper-item v-for="(items,index) in newslist" :key="index">
+		
+		<!-- 导致chrome不兼容的罪魁祸首 -->
+		<!-- <view class="uni-tab-bar">
+			<!-- 单个文章内的上下滑块功能 -->
+			<!-- <swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" >
+				<!-- <swiper-item v-for="(items,index) in newslist" :key="index"> -->
+				<!-- <swiper-item >
 					<scroll-view 
 					@scroll="handleScroll"
 					 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
 					 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
-						<!-- 图文列表 -->
-						<template v-if="items.list.length>0 && tabIndex == 0">
-							<block v-for="(item,index1) in items.list" :key="index1">
+						
+						<!-- 推荐：图文列表 -->
+						<!-- <template v-if="recommendList.list.length > 0 && tabIndex == 0">
+							<block v-for="(item, index1) in recommendList.list" :key="index1">
 								<index-list 
 								@likeOrTread="likeOrTread" @opendDetail="opendDetail" @share="share" :item="item" :userInfo="userInfo"
 								 :index="index1"></index-list>
 							</block> 
-							<load-more :loadtext="items.loadtext"></load-more>
+							<load-more :loadtext="recommendList.loadtext"></load-more>
 						</template>
-						<template v-if="items.list.length>0 && tabIndex == 1">
+						
+						<!-- 热榜 -->
+						<!-- <template v-if="hotList.list.length > 0 && tabIndex == 1">
 							<view class="topic-list">
-								<block v-for="(list,index1) in items.list" :key="index1">
+								<block v-for="(list, index1) in hotList.list" :key="index1">
 									<card @opendDetail="opendDetail" :cardinfo="list" :index="index1"></card>
 								</block>
 							</view>
 						</template>
 						
 						<template v-if="shoNo">
-							<!-- 无内容默认 -->
+							无内容默认 
 							<no-thing></no-thing>
 						</template>
 					</scroll-view>
 				</swiper-item>
 			</swiper>
-		</view>
-
+		</view> -->
+		
+		<!-- 推荐：图文列表 -->
+		<template v-if="recommendList.list.length > 0 && tabIndex == 0">
+			<block v-for="(item, index1) in recommendList.list" :key="index1">
+				<index-list 
+				@likeOrTread="likeOrTread" @opendDetail="opendDetail" @share="share" :item="item" :userInfo="userInfo"
+				 :index="index1"></index-list>
+			</block> 
+			<load-more :loadtext="recommendList.loadtext"></load-more>
+		</template>
+		
+		<!-- 热榜 -->
+		<template v-if="hotList.list.length > 0 && tabIndex == 1">
+			<view class="topic-list">
+				<block v-for="(list, index1) in hotList.list" :key="index1">
+					<card @opendDetail="opendDetail" :cardinfo="list" :index="index1"></card>
+				</block>
+			</view>
+		</template>
 
 		<!--底部分享弹窗-->
 		<tui-bottom-popup :show="popupShow" @close="popup">
@@ -115,7 +141,7 @@
 			noThing,
 			uniCalendar,
 			myNavBar,
-			card
+			card,
 		},
 		data() {
 			return {
@@ -180,58 +206,80 @@
 						list: []
 					},
 				],
-
-
+				recommendList: {
+					loadtext: "没有更多数据了",
+					id: "recommend",
+					list: []
+				},
+				hotList: {
+					loadtext: "没有更多数据了",
+					id: "hotList",
+					list: []
+				},
 			}
 		},
-		onLoad() {
+		onShow() {		//页面加载,一个页面只会调用一次
+			console.log("index-onShow()")
+			this.requestData()
+		},
+		onLoad() {		//页面显示,每次打开页面都会调用一次
+			console.log("index-onLoad()")
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100)
 					this.swiperheight = height;
 				}
 			});
-			this.requestData()
-		},
-		onShow() {
-			// this.requestData()
+			//this.requestData() 不能刷新，防止点进文章再出来跳飞了
 		},
 		computed: {
 			...mapState(['userInfo']),
 			// 预留项
-			preCount() {
-				return this.newslist.map(item=>{
+			preCount(list) {
+				return list.map(item=>{
 					return Math.min(this.start, this.remain);
 				})
 			},
-			nextCount() {
-				return this.newslist.map(item=>{
+			nextCount(list) {
+				return list.map(item=>{
 					return Math.min(item.list.length - this.end, this.remain);
 				})
 			},
-			newsVlist(){
-				return this.newslist.map((item,index)=>{
-					const start = this.start - this.preCount[index];
-					const end = this.end + this.nextCount[index];
-					console.log(start, end)
-					item.list =  item.list.slice(start, end);
-					return item
-				})
-			}
+			// newsVlist(){
+			// 	return this.recommendList.map((item,index)=>{
+			// 		const start = this.start - this.preCount(this.recommendList)[index];
+			// 		const end = this.end + this.nextCount(this.recommendList)[index];
+			// 		console.log(start, end)
+			// 		item.list = item.list.slice(start, end);
+			// 		return item
+			// 	})
+			// },
+			// Hot(){
+			// 	return this.hotList.map((item,index)=>{
+			// 		const start = this.start - this.preCount(this.hotList)[index];
+			// 		const end = this.end + this.nextCount(this.hotList)[index];
+			// 		console.log(start, end)
+			// 		item.list =  item.list.slice(start, end);
+			// 		return item
+			// 	})
+			// },
 		},
 		
 		methods: {
-			async requestData(GoPage, Gotype) {
+			// async requestData(GoPage, Gotype) {
+			async requestData() {
 				// let currentPage = GoPage || this.tabBars[this.tabIndex].page;
 				let type = this.tabBars[this.tabIndex].id;
 				let items;
+				//let curList = this.tabIndex == 0 ? this.recommendList: this.hotList
+				
 				try {
-					if(this.tabIndex===1){
-						items = await getTopicList()
-					}else{
+					if(this.tabIndex == 0){
 						items = await getRecommendList()
+					} else {
+						items = await getTopicList()
 					}
-					console.log(items)
+					//console.log(items)
 				} catch (e) {
 					console.log(e)
 					return
@@ -239,7 +287,13 @@
 				
 				if (items && items.length === 0) {
 					this.tabBars[this.tabIndex].page = page
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
+					// this.newslist[this.tabIndex].loadtext = "没有更多数据了"
+					if(this.tabIndex == 0){
+						this.recommendList.loadtext = "没有更多数据了"
+					} else {
+						this.hotList.loadtext = "没有更多数据了"
+					}
+					
 					return
 				}
 				// this.tabBars[this.tabIndex].page = page
@@ -248,11 +302,30 @@
 				// }else{
 				// 	this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.concat(items)
 				// }
-				this.newslist[this.tabIndex].list = items
+				
+				if(this.tabIndex == 0){
+					this.recommendList.list = items
+					console.log("rec赋值成功!")
+				} else {
+					this.hotList.list = items
+					console.log("hot赋值成功!")
+				}
+				
+				
+				// this.newslist[this.tabIndex].list.splice(indexOfItem, , newValue)
+				
 				if (items) {
-					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
-				}else{
-					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
+					if(this.tabIndex == 0){
+						this.recommendList.loadtext = "没有更多数据了"
+					} else {
+						this.hotList.loadtext = "没有更多数据了"
+					}
+				} else {
+					if(this.tabIndex == 0){
+						this.recommendList.loadtext = "上拉加载更多"
+					} else {
+						this.hotList.loadtext = "上拉加载更多"
+					}
 				}
 			},
 			publish() {
@@ -301,26 +374,32 @@
 
 			},
 			handleScroll(ev) {
-				const scrollTop = ev.detail.scrollTop;
-				console.log(scrollTop)
-				// console.log(this.newslist[this.tabIndex])
-				// 开始位置
-				const start = Math.floor(scrollTop / this.size)
-				this.start = start < 0 ? 0 : start;
-				// 结束位置
-				this.end = this.start + this.remain;
-				// 计算偏移
-				const offset = scrollTop - (scrollTop % this.size) - this.preCount[this.tabIndex] * this.size
-				this.offset = offset < 0 ? 0 : offset;
+				// let curList = this.tabIndex == 0 ? this.recommendList: this.hotList 
+				
+				// const scrollTop = ev.detail.scrollTop;
+				// console.log(scrollTop)
+				// // console.log(this.newslist[this.tabIndex])
+				// // 开始位置
+				// const start = Math.floor(scrollTop / this.size)
+				// this.start = start < 0 ? 0 : start;
+				// // 结束位置
+				// this.end = this.start + this.remain;
+				// // 计算偏移
+				// const offset = scrollTop - (scrollTop % this.size) - this.preCount(curList) * this.size
+				// this.offset = offset < 0 ? 0 : offset;
 			},
 			// tabbar点击事件
 			tabtap(index) {
+				console.log("tabtap")
 				this.tabIndex = index;
+				this.requestData()
 			},
 			// 滑动事件
 			tabChange(e) {
+				console.log("tabexchange")
 				this.tabIndex = e.detail.current;
-				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
+				//this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
+				this.requestData()
 			},
 			async likeOrTread(data) {
 				giveLike(data.id)
@@ -334,6 +413,7 @@
 			opendDetail(item) {
 				console.log("before jump to the detailed value, the id is " + item.id)
 				uni.navigateTo({
+					//用@居然还不行？？
 					url: '../../pages/detail/detail?id=' + item.id,
 				});
 			},
