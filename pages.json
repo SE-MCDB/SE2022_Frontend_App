@@ -41,19 +41,19 @@
 					"scrollIndicator": "none",
 					"bounce": "none",
 					"titleNView": {
-						"titleSize":"32upx",
-						"buttons": [
-							// 右边
-							{
-								"color": "#000000",
-								"colorPressed": "#FFFFFF",
-								"float": "right",
-								"fontSize": "50upx",
-								"fontSrc": "/static/font/icon.ttf",
-								"text": "\ue684",
-								"fontWeight":"bold"
-							}
-						]
+						"titleSize":"32upx"
+						// "buttons": [
+						// 	// 右边
+						// 	{
+						// 		"color": "#000000",
+						// 		"colorPressed": "#FFFFFF",
+						// 		"float": "right",
+						// 		"fontSize": "50upx",
+						// 		"fontSrc": "/static/font/icon.ttf",
+						// 		"text": "\ue684",
+						// 		"fontWeight":"bold"
+						// 	}
+						// ]
 					}
 				},
 				"enablePullDownRefresh": true
