@@ -46,6 +46,11 @@ npm run dev:h5
 npm run build:h5
 ```
 
+## Release
+
+- [`apk`](https://github.com/SE-mcdb/SE2022_Frontend_App/releases/)
+- [`spoc.uno`](http://spoc.uno)
+
 ## LICENSE
 
 [MIT](./LICENSE)
