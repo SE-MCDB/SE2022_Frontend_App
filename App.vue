@@ -44,7 +44,7 @@
 					//this.$store.dispatch('setSocketV',res.userInfo.id)
 					this.$http.href("pages/home/home")
 				}else{
-					this.$http.href("pages/login/login")
+					// this.$http.href("pages/login/login")
 				}		
 			}
 		},
