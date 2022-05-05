@@ -38,7 +38,7 @@
 		},
 		computed:{
 			getBgImg(){
-				return "../../static/bgimg/"+this.userinfo.bgimg+".jpg";
+				return "../../static/bgimg/" + this.userinfo.bgimg + ".jpg";
 			},
 			isguanzhu(){
 

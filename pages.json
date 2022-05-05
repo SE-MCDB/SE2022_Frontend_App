@@ -564,32 +564,26 @@
 		"list": [{
 				"pagePath": "pages/index/index",
 				"text": "首页",
-				"iconPath": "/static/tabbar/index.png",
-				"selectedIconPath": "/static/tabbar/indexed.png"
+				"iconPath": "/static/images/tabbar/index.png",
+				"selectedIconPath": "/static/images/tabbar/indexed.png"
 			},
-			// {
-			// 	"pagePath": "pages/news/news",
-			// 	"text": "动态",
-			// 	"iconPath": "/static/tabbar/news.png",
-			// 	"selectedIconPath": "/static/tabbar/newsed.png"
-			// },
 			{
 				"pagePath": "pages/paper/paper",
 				"text": "消息",
-				"iconPath": "/static/tabbar/xiaoxi.png",
-				"selectedIconPath": "/static/tabbar/xiaoxied.png"
+				"iconPath": "/static/images/tabbar/xiaoxi.png",
+				"selectedIconPath": "/static/images/tabbar/xiaoxied.png"
 			},
 			{
 				"pagePath": "pages/platform/platform",
 				"text": "平台",
-				"iconPath": "/static/tabbar/platform.png",
-				"selectedIconPath": "/static/tabbar/platformed.png"
+				"iconPath": "/static/images/tabbar/platform.png",
+				"selectedIconPath": "/static/images/tabbar/platformed.png"
 			},
 			{
 				"pagePath": "pages/home/home",
 				"text": "我的",
-				"iconPath": "/static/tabbar/home.png",
-				"selectedIconPath": "/static/tabbar/homeed.png"
+				"iconPath": "/static/images/tabbar/home.png",
+				"selectedIconPath": "/static/images/tabbar/homeed.png"
 			}
 		]
 	},

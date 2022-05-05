@@ -10,7 +10,7 @@
 			<radio-group>
 				<tui-list-cell unlined :hover="false">
 					<label class="tui-pay-item">
-						<image src="/static/images/mall/pay/icon_pay_balance.png" class="tui-pay-logo"></image>
+						<image src="/static/images/pay/icon_pay_balance.png" class="tui-pay-logo"></image>
 						<text>余额支付（余额0，余额不足）</text>
 						<view class="tui-radio" v-if="false">
 							<radio color="#EB0909" name="pay"></radio>
@@ -20,7 +20,7 @@
 				</tui-list-cell>
 				<tui-list-cell unlined>
 					<label class="tui-pay-item">
-						<image src="/static/images/mall/pay/icon_pay_weixin.png" class="tui-pay-logo"></image>
+						<image src="/static/images/pay/icon_pay_weixin.png" class="tui-pay-logo"></image>
 						<text>微信支付</text>
 						<view class="tui-radio">
 							<radio color="#EB0909" name="pay"></radio>
@@ -29,7 +29,7 @@
 				</tui-list-cell>
 				<tui-list-cell unlined>
 					<label class="tui-pay-item">
-						<image src="/static/images/mall/pay/icon_pay_zhifubao.png" class="tui-pay-logo"></image>
+						<image src="/static/images/pay/icon_pay_zhifubao.png" class="tui-pay-logo"></image>
 						<text>支付宝支付</text>
 						<view class="tui-radio">
 							<radio color="#EB0909" name="pay"></radio>

@@ -1,7 +1,7 @@
 <template>
 	<view style="padding: 20upx;">
 		<view class="user-set-about-t u-f-ajc u-f-column animated fadeIn fast">
-			<image src="../../static/common/logo.png" 
+			<image src="../../static/images/shit/logo.png" 
 			mode="widthFix" lazy-load></image>
 			<view>version 1.0.0</view>
 		</view>

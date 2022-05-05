@@ -107,13 +107,13 @@
 				timer:undefined,
 				topic: {
 					swiper: [{
-							src: "../../static/demo/banner1.jpg"
+							src: "../../static/images/banner/banner1.jpg"
 						},
 						{
-							src: "../../static/demo/banner2.jpg"
+							src: "../../static/images/banner/banner2.jpg"
 						},
 						{
-							src: "../../static/demo/banner3.jpg"
+							src: "../../static/images/banner/banner3.jpg"
 						},
 					],
 					nav: [{
