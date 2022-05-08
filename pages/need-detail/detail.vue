@@ -53,8 +53,22 @@
 				
 			</view>
 			
-			<view v-if="userInfo.type==4">
+			<view v-if="userInfo.type==4&&order.order_id==0">
 				<tui-button type="primary" class="need-detail-button" @click="contact()">
+					联系企业
+				</tui-button>
+			</view>
+			<view v-else-if="userInfo.type==4&&order.order_id>0">
+				<tui-button v-if="order.state==0" type="primary" class="need-detail-button" @click="contact()">
+					订单待处理
+				</tui-button>
+				<tui-button v-else-if="order.state==1" type="primary" class="need-detail-button" @click="contact()">
+					订单进行中
+				</tui-button>
+				<tui-button v-else-if="order.state==3" type="primary" class="need-detail-button" @click="contact()">
+					订单已完成
+				</tui-button>
+				<tui-button v-else type="primary" class="need-detail-button" @click="contact()">
 					联系企业
 				</tui-button>
 			</view>
@@ -73,6 +87,10 @@
 	import tuiCard from '@/components/thorui/tui-card/tui-card.vue'
 	import tuiListView from '@/components/thorui/tui-list-view/tui-list-view'
 	import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell'
+	import {getOrder} from '@/api/user-chat.js'
+	import {
+		getOrderDetail
+	} from "@/api/order-detail.js"
 	var graceRichText = require("../../components/common/richText.js");
 	export default {
 		components: {
@@ -82,6 +100,10 @@
 		},
 		data() {
 			return {
+				order:{
+					order_id:0,
+					state:-1,
+				},
 				field_items: [
 					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
 				],
@@ -132,6 +154,24 @@
 				});
 				let detail = await getNeedDetail(id)
 				this.item = detail
+				let temp
+				if(this.userInfo.type==4){
+					temp={
+						enterprise_id:this.item.enterprise_id,
+						expert_id:this.userInfo.id,
+						need_id:this.item.need_id,
+					};
+					let temp1 = await getOrder(temp)
+					console.log(this.item.need_id)
+					if(temp1){
+						let temp2 = await getOrderDetail(temp1.order_id)
+						if(temp2.order_id){
+							this.order = temp2
+						}
+						console.log(this.order.order_id)
+					}
+				}
+				
 			},
 			formatRichText (html) {
 							// 去掉img标签里的style、width、height属性

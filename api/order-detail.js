@@ -11,6 +11,7 @@ export const  getOrderDetail =async (id) => {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.get('order/'+ id, {}, headers)
+	console.log(result.error_msg)
 	//console.log("before result:" + result)
 	//console.log("result is:" + result)
 	return result
