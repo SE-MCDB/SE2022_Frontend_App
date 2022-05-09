@@ -84,4 +84,7 @@
 	/* 公共样式 */
 	@import './common/common.css';
 	@import './static/style/thorui-extend.css';
+	
+	/* 迭代:引入自定义图标库。wqnmlgbctnndsbwy根本不好使 */
+	/* @import "./static/font2/iconfont.css"; */
 </style>
