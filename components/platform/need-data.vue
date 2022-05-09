@@ -26,9 +26,9 @@
 			</view>
 			
 			<uni-section v-else title="全部订单" type="line" >
-				<uni-card v-for="(item, index) in datalist1" :key="index" :title="item.entp_name" 
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
-					<text class="uni-body">需求名称：{{item.title}}</text>
+				<uni-card v-for="(item, index) in datalist1" :key="index" :title="'需求：'+item.title" 
+					:sub-title="item.entp_name" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
+					<text class="uni-body">{{item.description}}</text>
 					<!-- 底部功能组件 -->
 					
 					<!-- state = 0, 待接受 -->
@@ -99,9 +99,9 @@
 			</view>
 			
 			<uni-section title="待处理订单" type="line" >
-				<uni-card v-for="(item, index) in datalist2" :key="index" :title="item.entp_name"
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
-					<text class="uni-body">需求名称：{{item.title}}</text>
+				<uni-card v-for="(item, index) in datalist2" :key="index" :title="'需求：'+item.title"
+					:sub-title="item.entp_name" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
+					<text class="uni-body">{{item.description}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<!-- 4 = 企业， 5 = 专家 -->
@@ -140,9 +140,9 @@
 			</view>
 			
 			<uni-section title="进行中订单" type="line" >
-				<uni-card v-for="(item, index) in datalist3" :key="index" :title="item.entp_name"
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
-					<text class="uni-body">需求名称：{{item.title}}</text>
+				<uni-card v-for="(item, index) in datalist3" :key="index" :title="'需求：'+item.title"
+					:sub-title="item.entp_name" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
+					<text class="uni-body">{{item.description}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view v-if="userInfo.type == ENTERPRISE" class="card-actions-item" @click.stop="actionsClick('完成订单', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
@@ -170,9 +170,9 @@
 			</view>
 			
 			<uni-section title="已完成订单" type="line" >
-				<uni-card v-for="(item, index) in datalist4" :key="index" :title="item.entp_name" 
-					:sub-title="item.description" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
-					<text class="uni-body">需求名称：{{item.title}}</text>
+				<uni-card v-for="(item, index) in datalist4" :key="index" :title="'需求：'+item.title" 
+					:sub-title="item.entp_name" :extra="item.time" :thumbnail="item.headpic" @click="openOrderDetail(item)">
+					<text class="uni-body">{{item.description}}</text>
 					<!-- 底部功能组件 -->
 					<view slot="actions" class="card-actions no-border u-f-ac u-f-jsb">	<!-- ac和jsb是设置横向+居中+两端对齐样式 -->
 						<view class="card-actions-item" @click.stop="actionsClick('分享', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
