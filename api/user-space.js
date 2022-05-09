@@ -34,7 +34,7 @@ export const getTopicListByUid = async (id) => {
 			}
 		})
 	}
-	console.log(result)
+	//console.log(result)
 	return result
 }
 

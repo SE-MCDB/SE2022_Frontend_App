@@ -22,7 +22,15 @@
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
 		
+		<!-- 主页 -->
 		<template v-if="tabIndex==0">
+			<user-space-userinfo 
+				:userinfo="info"
+				:authInfo="userInfo"
+				></user-space-userinfo>
+		</template>
+		
+		<template v-if="tabIndex==1">
 			<!-- 列表 -->
 			<view class="topic-list">
 			<block v-for="(list,listindex) in topicList" :key="listindex">
@@ -32,13 +40,23 @@
 			<!-- 上拉加载 -->
 		</template>
 		
-		<template v-if="tabIndex==1">
-			<!-- 主页 -->
-			<user-space-userinfo 
-				:userinfo="info"
-				:authInfo="userInfo"
-				></user-space-userinfo>
+		<!-- 成果 -->
+		<template v-if="tabIndex==2">
+			<!-- 选择筛选成果内容 -->
+			<view class="uni-px-5 uni-pb-5">
+				筛选标签：
+				<uni-data-checkbox mode="tag" multiple v-model="checkbox" :localdata="outcome"></uni-data-checkbox>
+			</view>
+			<!-- 具体数据卡片 -->
+			<uni-card v-for="(item, index) in paperlist" 
+					:key="index" :title="item.cites"
+					:extra="item.pyear" 
+					@click="openResultDetail()">
+				<text class="uni-body">{{item.title}}</text>
+			</uni-card>
 		</template>
+		
+		
 
 		<!-- 右上角，操作菜单 -->
 		<user-space-popup :show="show" 
@@ -65,8 +83,12 @@
 	import time from '../../common/time.js'
 	import {saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid} from '@/api/user-space.js'
 	import {
+		getExpertInfo
+	} from '@/api/expert.js';
+	import {
 		picUrl
 	} from "@/api/common.js";
+	
 	export default {
 		components:{
 			userSpaceHead,
@@ -82,9 +104,17 @@
 		computed:{
 			...mapState(['userInfo'])
 		},
-		onLoad(data) {
+		onShow() {		//页面加载,一个页面只会调用一次
+		  //   if (this.ifOnShow == true) {
+				// this.initData(this.info.id)
+				// window.location.reload();//返回当前页面强制书哈辛
+		  //   } 
+		},
+		onLoad(data) {		//页面显示,每次打开页面都会调用一次
 			this.info.id = data.uid
 			this.initData(data.uid)
+			
+			
 			// if(data.uid!=this.userInfo.id){
 			// 	saveUserAccess({
 			// 		fromId:this.userInfo.id?this.userInfo.id:(+new Date+"").slice(5),
@@ -96,12 +126,7 @@
 		    uni.hideLoading(); 
 		    this.ifOnShow = true;
 		},
-		onShow() {
-		    if (this.ifOnShow == true) {
-			this.initData(this.info.id)
-		      window.location.reload();//返回当前页面强制书哈辛
-		    } 
-		},
+		
 		provide () {
 		    return {
 		      reload: this.initData(this.info.id)
@@ -145,10 +170,11 @@
 					{ name:"关注", num:0 },
 					{ name:"粉丝", num:0 },
 				],
-				tabIndex:1,
+				tabIndex:0,
 				tabBars:[
-					{ name:"论文解读",id:"lunwenjiedu" },
-					{ name:"主页",id:"zhuye" },
+					{ name:"主页", id:"homepage" },
+					{ name:"动态", id:"dynamic" },
+					{ name:"成果", id:"masterpiece" },
 				],
 				tablist:[ {},
 					{
@@ -163,6 +189,21 @@
 						]
 					},
 				],
+				paperlist:[],	//论文列表
+				patentlist:[],	//专利列表
+				projectlist:[],	//项目列表
+				
+				checkbox: [0, 1, 2],	//筛选标签的初始值=全选
+				outcome: [{
+					text: '论文',
+					value: 0
+				}, {
+					text: '专利',
+					value: 1
+				}, {
+					text: '项目',
+					value: 2
+				}],
 			}
 		},
 		// 上拉触底事件
@@ -216,6 +257,8 @@
 					}
 					this.info.expert_field = str;
 				}
+				
+				this.paperlist = await getExpertInfo(this.info.id)
 				
 			},
 			getFiled(data) {
@@ -284,11 +327,6 @@
 					url: '../../pages/user-chat/user-chat?fid=' + this.info.id
 				});
 			},
-			// // 备注
-			// beizhu(){
-			// 	console.log("备注")
-			// 	this.togleShow()
-			// },
 			// 分享
 			fenxiang(){
 				console.log("tap-分享")
@@ -328,6 +366,14 @@
 			tabtap(index){
 				this.tabIndex=index;
 			},
+			
+			openResultDetail(){
+				uni.showToast({
+					icon:"loading",
+					title:"功能开发中，敬请期待...",
+					duration:500,
+				})
+			}
 		}
 	}
 </script>
@@ -352,5 +398,12 @@
 	border-top-right-radius: 20upx;
 	margin-top: -15upx;
 }
-
+/* 筛选标签样式 */
+.uni-px-5 {
+	padding-left: 15px;
+	padding-right: 10px;
+}
+.uni-pb-5 {
+	padding-bottom: 5px;
+}
 </style>
