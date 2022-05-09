@@ -16,3 +16,15 @@ export const  getOrderDetail =async (id) => {
 	//console.log("result is:" + result)
 	return result
 }
+
+export const  needToOrderlist =async (id) => {
+	console.log("needToOrderlist")
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
+	let result = await axios.get('need/'+ id+'/order', {}, headers)
+	//console.log(result)
+	//console.log("before result:" + result)
+	//console.log("result is:" + result)
+	return result
+}

@@ -44,10 +44,31 @@
 						经费:<text style="float: right;">{{item.money}}千元</text> 
 					</view>
 				</tui-list-view>
+				
+				<uni-collapse v-if="orderlist.length>0">
+					<view>
+						
+					<uni-collapse-item :show-animation="true" :open="true" title="已对接专家">
+						<uni-list>
+							
+							<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail.expert_id)">
+								
+								<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
+									
+								</uni-list-item>
+							</view>
+							
+						</uni-list>
+					</uni-collapse-item>
+					</view>
+				</uni-collapse>
+				
+				
 				<view class="topic-title-level-2">
 					<text>需求描述</text>
 				</view>
 				<view class="need-detail-list-describe">
+					
 					<rich-text v-html="item.description"></rich-text>
 				</view>
 				
@@ -72,6 +93,7 @@
 					联系企业
 				</tui-button>
 			</view>
+			
 		</view>
 </template>
 
@@ -89,8 +111,13 @@
 	import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell'
 	import {getOrder} from '@/api/user-chat.js'
 	import {
-		getOrderDetail
+		getOrderDetail,
+		needToOrderlist,
 	} from "@/api/order-detail.js"
+	import {
+		picUrl
+	} from "@/api/common.js";
+	import {getUserProfile} from '@/api/home.js'
 	var graceRichText = require("../../components/common/richText.js");
 	export default {
 		components: {
@@ -121,10 +148,20 @@
 						name: '高'
 					}
 				],
-				item: []
+				item: [],
+				orderlist:[
+					
+				],
+				sum:0,
+				detail:{
+					id:10,
+				},
 			}
 		},
-		onLoad(data) {
+		created(data){
+			
+		},
+		async onLoad(data) {
 			console.log("data should be:" + data + " and id should be:" + data.id)
 			try {
 				this.initData(data.id)
@@ -132,12 +169,24 @@
 
 			}
 		},
-		onShow(){
+		async onShow(){
 			try {
 				this.initData(this.detail.id)
 			} catch (e) {
 			
 			}
+		},
+		mounted(){
+			try {
+				this.initData(this.detail.id)
+			} catch (e) {
+			
+			}
+		},
+		watch:{
+			orderlist(val){
+				
+			},
 		},
 		// 监听导航右边按钮
 		onNavigationBarButtonTap(e) {
@@ -152,8 +201,10 @@
 				uni.setNavigationBarTitle({
 					title: "需求详情"
 				});
+				
 				let detail = await getNeedDetail(id)
 				this.item = detail
+				this.detail.id = detail.need_id
 				let temp
 				if(this.userInfo.type==4){
 					temp={
@@ -162,16 +213,40 @@
 						need_id:this.item.need_id,
 					};
 					let temp1 = await getOrder(temp)
-					console.log(this.item.need_id)
+					//console.log(this.item.need_id)
 					if(temp1){
 						let temp2 = await getOrderDetail(temp1.order_id)
 						if(temp2.order_id){
 							this.order = temp2
 						}
-						console.log(this.order.order_id)
+						
 					}
 				}
 				
+					let result = await needToOrderlist(id)
+					if(result.data[0]>0){
+						let i = 0
+						let temparray=[]
+						for(i;i<result.data.length;i++){
+							let orderdetail = await getOrderDetail(result.data[i])
+							let expertdetail = await getUserProfile(orderdetail.expert_id)
+							orderdetail.expertPic = picUrl+expertdetail.userpic
+							if(orderdetail.state==0){
+								orderdetail.state="订单待接受"
+							}
+							else if(orderdetail.state==1){
+								orderdetail.state="订单进行中"
+							}
+							else if(orderdetail.state==3){
+								orderdetail.state="订单已完成"
+							}
+							temparray.push(orderdetail)
+							//console.log(orderdetail.expertPic)
+					}
+					this.orderlist = temparray
+					this.sum = i+1
+					//console.log(this.orderlist[0])
+				}
 			},
 			formatRichText (html) {
 							// 去掉img标签里的style、width、height属性
@@ -202,6 +277,11 @@
 				console.log(temp)
 				uni.navigateTo({
 					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
+				})
+			},
+			gotoSpace(id){
+				uni.navigateTo({
+					url:'../user-space/user-space?uid='+id
 				})
 			},
 		}
