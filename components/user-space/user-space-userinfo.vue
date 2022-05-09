@@ -36,8 +36,6 @@
 			<template v-else>
 				<view>身份：普通用户</view>
 			</template>
-			
-<!-- 			<view>故乡：{{userinfo.path}}</view> -->
 		</view>
 	</view>
 </template>

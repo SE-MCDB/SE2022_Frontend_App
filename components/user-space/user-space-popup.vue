@@ -1,16 +1,24 @@
 <template>
 	<view>
-		<!-- 操作菜单 -->
+		<!-- 个人主页右上方-操作菜单 -->
 		<view class="papar-left-popup-mask" v-show="show" @tap="hidepopup"></view>
 		<view class="papar-left-popup" v-show="show">
-			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="lahei">
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="sixin">
 				<view class="icon iconfont icon-sousuo"></view> 
 				私信
 			</view>
-			<!-- <view class="u-f-ac" hover-class="papar-left-popup-h" @tap="beizhu">
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="fenxiang">
 				<view class="icon iconfont icon-qingchu"></view> 
-				备注
-			</view> -->
+				分享
+			</view>
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="heimingdan">
+				<uni-icons type="eye-slash" size="22"></uni-icons>
+				加入黑名单
+			</view>
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="jubao">
+				<uni-icons type="trash" size="22"></uni-icons>
+				举报
+			</view>
 		</view>
 	</view>
 </template>
@@ -24,12 +32,22 @@
 			hidepopup(){
 				this.$emit('hide');
 			},
-			lahei(){
-				this.$emit('lahei');
+			// 私信
+			sixin(){
+				this.$emit('sixin');
 			},
-			beizhu(){
-				this.$emit('beizhu');
-			}
+			// 分享
+			fenxiang(){
+				this.$emit('fenxiang');
+			},
+			// 加入黑名单
+			heimingdan(){
+				this.$emit('heimingdan');
+			},
+			// 举报
+			jubao(){
+				this.$emit('jubao');
+			},
 		}
 	}
 </script>
@@ -49,7 +67,7 @@
 	top: 100upx;
 	background: #FFFFFF;
 	z-index: 2000;
-	width: 55%;
+	width: 45%;
 	box-shadow: 1upx 1upx 20upx 2upx #CCCCCC;
 }
 .papar-left-popup>view{

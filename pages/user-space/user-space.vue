@@ -4,12 +4,14 @@
 		<user-space-head 
 			@userActive="userActive"
 			@refreshData="refreshData"
-			:userinfo="info"></user-space-head>
-		<!-- 统计 -->
+			:userinfo="info"></user-space-head>、
+		
+		<!-- 数据统计 -->
 		<view class="user-space-data">
 			<home-data :homedata="spacedata"></home-data>
 		</view>
 		<view style="height: 20upx; background: #F4F4F4;"></view>
+		
 		<!-- tab导航 -->
 		<swiper-tab-head 
 		:tabBars="tabBars" 
@@ -38,13 +40,13 @@
 				></user-space-userinfo>
 		</template>
 
-		
-
-		<!-- 操作菜单 -->
+		<!-- 右上角，操作菜单 -->
 		<user-space-popup :show="show" 
 		@hide="togleShow"
-		@lahei="lahei"
-		@beizhu="beizhu"></user-space-popup>
+		@sixin="sixin"
+		@fenxiang="fenxiang"
+		@heimingdan="heimingdan"
+		@jubao="jubao"></user-space-popup>
 		
 	</view>
 </template>
@@ -108,7 +110,7 @@
 		data() {
 			return {
 				ifOnShow: false,//首先设置ifOnShow不然会一直循环刷新
-				show:false,
+				show: false,	//控制右上角菜单是否显示
 				field_items: [
 					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
 				],
@@ -267,26 +269,54 @@
 					url: '../../pages/detail/detail?id='+topicDetail.id,
 				});
 			},
-			// 操作菜单显示隐藏
+			// 控制右上角操作菜单显示 or 隐藏
 			togleShow(){
-				this.show=!this.show;
+				this.show = !this.show;
 			},
 			// 私信
-			lahei(){
+			sixin(){
 				if(this.info.id==this.userInfo.id){
 					this.$http.toast("无法向自己发送私信！")
 					return
 				}
 				this.togleShow();
 				uni.navigateTo({
-					url: '../../pages/user-chat/user-chat?fid='+this.info.id
+					url: '../../pages/user-chat/user-chat?fid=' + this.info.id
 				});
 			},
-			// 备注
-			beizhu(){
-				console.log("备注")
-				this.togleShow()
+			// // 备注
+			// beizhu(){
+			// 	console.log("备注")
+			// 	this.togleShow()
+			// },
+			// 分享
+			fenxiang(){
+				console.log("tap-分享")
+				this.togleShow();
+				uni.showToast({
+					title:'分享成功！',
+					duration:500,
+				})
 			},
+			// 黑名单
+			heimingdan(){
+				console.log("tap-黑名单")
+				this.togleShow();
+				uni.showToast({
+					title:'加入成功！',
+					duration:500,
+				})
+			},
+			// 举报
+			jubao(){
+				console.log("tap-举报")
+				this.togleShow();
+				uni.showToast({
+					title:'举报成功！',
+					duration:500,
+				})
+			},
+			
 			// 上拉加载更多
 			loadmore(){
 				if(this.tablist[this.tabIndex].loadtext!="上拉加载更多"){ return; }
