@@ -9,9 +9,32 @@
 		<scroll-view scroll-y class="list">
 			<!-- 需求平台-我的 -->
 			<view v-if="tabIndex == 0" >
-				<need-data :needdata="needdata" :userInfo="userInfo" @goToExplore="goToExplore" @goToNeedInfo="goToNeedInfo" @openOrderDetail="openOrderDetail">
-					
-				</need-data>
+				<view v-if="userInfo=='4'">
+					<need-data :needdata="needdata" :userInfo="userInfo" @goToExplore="goToExplore" @goToNeedInfo="goToNeedInfo" @openOrderDetail="openOrderDetail">
+					</need-data>
+				</view>
+				<view v-else>
+					<!-- <home-info :homeinfo="homeinfo"></home-info> -->
+					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">
+						
+					</uni-section>
+					<uni-list>
+						<uni-list-item title="已完成需求管理" @click="managefinishedneed">
+							
+						</uni-list-item>
+						<uni-list-item title="已发布需求管理" @click="manageunfinishedneed">
+							
+						</uni-list-item>
+						<uni-list-item title="未发布需求管理" @click="manageunissuedneed">
+							
+						</uni-list-item>
+					</uni-list>
+					<uni-section title="更多信息" subTitle="更多功能,敬请期待!" type="line">
+					</uni-section>
+					<view>
+						<load-more loadtext="没有更多数据了"></load-more>
+					</view>
+				</view>
 			</view>
 		 
 			<!--需求平台-发现-->
@@ -232,6 +255,7 @@
 				})
 				this.hidepopup();
 			},
+			
 			async mounted() {
 				this.initDat()
 				if (this.userInfo.id) {
