@@ -15,8 +15,8 @@ See in: https://uniapp.dcloud.io/quickstart-hx.html
 
 ### Use IDE
 
-<img src="https://gitlab.com/imingx/picgo/raw/main/2022/202205050201933.png" align="right">
-<img src="https://gitlab.com/imingx/picgo/raw/main/2022/202205050135682.png" align="right">
+<img src="https://gitlab.com/imingx/picgo/raw/main/2022/202205050201933.png" align="right" width="30%">
+<img src="https://gitlab.com/imingx/picgo/raw/main/2022/202205050135682.png" align="right" width="30%">
 
 1. Install [HBuilderX](https://www.dcloud.io/hbuilderx.html) IDE
 
