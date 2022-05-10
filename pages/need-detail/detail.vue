@@ -51,7 +51,7 @@
 					<uni-collapse-item :show-animation="true" :open="true" title="已对接专家">
 						<uni-list>
 							
-							<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail.expert_id)">
+							<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail)">
 								
 								<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
 									
@@ -279,10 +279,16 @@
 					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
 				})
 			},
-			gotoSpace(id){
+			gotoSpace(orderdetail){
+				if(orderdetail.enterprise_id == this.userInfo.id || orderdetail.expert_id == this.userInfo.id){
+					uni.navigateTo({
+						url:'../order-detail/order-detail?id='+orderdetail.order_id
+					})
+				}else{
 				uni.navigateTo({
-					url:'../user-space/user-space?uid='+id
+					url:'../user-space/user-space?uid='+orderdetail.expert_id
 				})
+				}
 			},
 		}
 	}

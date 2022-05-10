@@ -9,7 +9,7 @@
 		<scroll-view scroll-y class="list">
 			<!-- 需求平台-我的 -->
 			<view v-if="tabIndex == 0" >
-				<view v-if="userInfo=='4'">
+				<view v-if="userInfo.type=='4'">
 					<need-data :needdata="needdata" :userInfo="userInfo" @goToExplore="goToExplore" @goToNeedInfo="goToNeedInfo" @openOrderDetail="openOrderDetail">
 					</need-data>
 				</view>
