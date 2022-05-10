@@ -63,21 +63,20 @@
 		<view class="u-f-ajc">
 			请先进行企业或专家认证
 		</view>
-		
 	</template>
 	</view>
 </template>
 
 <script>
-	import needList from "@/components/platform/need-list.vue";
+	import needList from '@/components/platform/need-list.vue'
 	import needData from '@/components/platform/need-data.vue'
-	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
-	import myNavBarNeed from "@/components/common/my-nav-bar-need.vue";
+	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
+	import myNavBarNeed from '@/components/common/my-nav-bar-need.vue'
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '@/components/list-card/list-card-1.vue'
-	import loadMore from "@/components/common/load-more.vue";
+	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
-	import noThing from "@/components/common/no-thing.vue";
+	import noThing from '@/components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
@@ -85,12 +84,8 @@
 		getAllNeed,
 		postNewNeed
 	} from '@/api/platform.js'
-	import {
-		mapState
-	} from 'vuex'
-	import {
-		getUserProfile,
-	} from "@/api/home.js"
+	import { mapState } from 'vuex'
+	import { getUserProfile, } from '@/api/home.js'
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -103,35 +98,32 @@
 			card,
 			platformCreate
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				swiperheight: 500,
 				islogin: false,
-				swiperheight: 500,
 				tabIndex: 1,
 				shoNo: false,
 				items: [],
 				show: false,
 				refreshing: false,
 				tabBars: [{
-						name: "我的",
-						id: "wode",
+						name: '我的',
+						id: 'wode',
 						page: 1
 					},
 					{
-						name: "发现",
-						id: "faxian",
+						name: '发现',
+						id: 'faxian',
 						page: 1
 					},
 				],
 				needdata:[
-					{ name:"全部", num:0 },
-					{ name:"待处理", num:0 },
-					{ name:"进行中", num:0 },
-					{ name:"已完成", num:0 },
+					{ name:'全部', num:0 },
+					{ name:'待处理', num:0 },
+					{ name:'进行中', num:0 },
+					{ name:'已完成', num:0 },
 				],
 				
 			}
@@ -140,14 +132,14 @@
 		onLoad() {
 			console.log(this.userInfo)
 			uni.getSystemInfo({
-				success: (res) => {
+				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
+					this.swiperheight = height
 				}
-			});
-			console.log("-------------------Requesting")
+			})
+			console.log('-------------------Requesting')
 			this.requestData()
-			console.log("-------------------Request Success")
+			console.log('-------------------Request Success')
 		},
 		
 		onShow() {
@@ -158,22 +150,20 @@
 			// 		this.swiperheight = height;
 			// 	}
 			// });
-			console.log("-------------------Requesting")
+			console.log('-------------------Requesting')
 			this.requestData()
-			console.log("-------------------Request Success")
+			console.log('-------------------Request Success')
 		},
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
-				uni.navigateTo({
-					url: '../login/login',
-				});
+				uni.navigateTo({ url: '../login/login', })
 			}
 			switch (e.index) {
 				case 0:
-					this.show = true;
-					break;
+					this.show = true
+					break
 			}
 		},
 		
@@ -185,7 +175,7 @@
 		methods: {
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
-				let type = this.tabBars[this.tabIndex].id;
+				let type = this.tabBars[this.tabIndex].id
 				try {
 					if(this.tabIndex === 1){
 						let items = await getAllNeed()
@@ -199,61 +189,51 @@
 				}
 			},
 			openLogin() {
-				uni.navigateTo({
-					url: '../login/login'
-				});
+				uni.navigateTo({ url: '../login/login' })
 			},
 			openDetail(item) {
 				//console.log("-----------------------------------openDetail")
-				uni.navigateTo({
-					url: '../need-detail/detail?id=' + item.need_id
-				})
+				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			openOrderDetail(order_id) {
-				console.log("openOrderDetail")
-				uni.navigateTo({
-					url: '../order-detail/order-detail?id=' + order_id
-				})
+				console.log('openOrderDetail')
+				uni.navigateTo({ url: '../order-detail/order-detail?id=' + order_id })
 			},
 			async onrefresh() {
-				if (this.refreshing) return;
-				console.log("here is refreshing!!!")
-				this.refreshing = true;
+				if (this.refreshing) return
+				console.log('here is refreshing!!!')
+				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
+					this.refreshing = false
+					uni.showToast({ title:'已更新',duration:500 })
 				}, 200)
 			},
 			tabtap(index) {
-				this.tabIndex = index;
+				this.tabIndex = index
 			},
 			// 滑动事件
 			tabChange(e) {
-				this.tabIndex = e.detail.current;
+				this.tabIndex = e.detail.current
 				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			hidepopup() {
-				this.show = false;
+				this.show = false
 			},
 			showpopup() {
-				this.show = true;
+				this.show = true
 			},
 			addneed() {
-				uni.navigateTo({
-					url: '../add-need/need'
-				})
-				this.hidepopup();
+				uni.navigateTo({ url: '../add-need/need' })
+				this.hidepopup()
 			},
 			manageneed() {
-				uni.navigateTo({
-					url: '../manage-need/manage-need'
-				})
-				this.hidepopup();
+				uni.navigateTo({ url: '../manage-need/manage-need' })
+				this.hidepopup()
 			},
 			
 			async mounted() {
@@ -280,33 +260,27 @@
 				}
 			},
 			async signIn(){
-				this.$http.href("@/pages/search-need/search-need")
+				this.$http.href('@/pages/search-need/search-need')
 			},
 			//跳转到各种类订单list
 			goToNeedInfo(index) {
 				console.log(index)
 				switch (index) {
 					case 0:
-						console.log(this.userInfo);
-						uni.navigateTo({
-							url: '../user-space/user-space?uid=' + this.userInfo.id
-						});
-						break;
+						console.log(this.userInfo)
+						uni.navigateTo({ url: '../user-space/user-space?uid=' + this.userInfo.id })
+						break
 					case 1:
-						uni.navigateTo({
-							url: '../user-comment/user-comment?uid=' + this.userInfo.id
-						});
-						break;
+						uni.navigateTo({ url: '../user-comment/user-comment?uid=' + this.userInfo.id })
+						break
 					case 2:
-						uni.navigateTo({
-							url: '../user-collect/user-collect?uid=' + this.userInfo.id
-						});
-						break;
+						uni.navigateTo({ url: '../user-collect/user-collect?uid=' + this.userInfo.id })
+						break
 				}
 			},
 			//去逛逛
 			goToExplore(){
-				console.log("tabindex change to 1.")
+				console.log('tabindex change to 1.')
 				this.tabIndex = 1
 			},
 		}

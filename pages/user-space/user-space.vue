@@ -70,24 +70,20 @@
 </template>
 
 <script>
-	import userSpaceHead from "../../components/user-space/user-space-head.vue";
-	import homeData from "../../components/home/home-data.vue";
-	import swiperTabHead from "../../components/index/swiper-tab-head.vue";
-	import userSpaceUserinfo from "../../components/user-space/user-space-userinfo.vue";
-	import commonList from "../../components/common/common-list.vue";
+	import userSpaceHead from '../../components/user-space/user-space-head.vue'
+	import homeData from '../../components/home/home-data.vue'
+	import swiperTabHead from '../../components/index/swiper-tab-head.vue'
+	import userSpaceUserinfo from '../../components/user-space/user-space-userinfo.vue'
+	import commonList from '../../components/common/common-list.vue'
 	import card from '../../components/list-card/list-card.vue'
-	import loadMore from "../../components/common/load-more.vue";
-	import userSpacePopup from "../../components/user-space/user-space-popup.vue";
-	import {mapMutations, mapState} from 'vuex'
-	import topicList from "../../components/news/topic-list.vue";
+	import loadMore from '../../components/common/load-more.vue'
+	import userSpacePopup from '../../components/user-space/user-space-popup.vue'
+	import { mapMutations, mapState } from 'vuex'
+	import topicList from '../../components/news/topic-list.vue'
 	import time from '../../common/time.js'
-	import {saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid} from '@/api/user-space.js'
-	import {
-		getExpertInfo
-	} from '@/api/expert.js';
-	import {
-		picUrl
-	} from "@/api/common.js";
+	import { saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid } from '@/api/user-space.js'
+	import { getExpertInfo } from '@/api/expert.js'
+	import { picUrl } from '@/api/common.js'
 	
 	export default {
 		components:{
@@ -101,9 +97,7 @@
 			card,
 			topicList		
 		},
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		onShow() {		//页面加载,一个页面只会调用一次
 		  //   if (this.ifOnShow == true) {
 				// this.initData(this.info.id)
@@ -123,67 +117,65 @@
 			// }
 		},
 		onHide() {
-		    uni.hideLoading(); 
-		    this.ifOnShow = true;
+		    uni.hideLoading() 
+		    this.ifOnShow = true
 		},
 		
 		provide () {
-		    return {
-		      reload: this.initData(this.info.id)
-		    }
+		    return { reload: this.initData(this.info.id) }
 		},
 		data() {
 			return {
 				ifOnShow: false,//首先设置ifOnShow不然会一直循环刷新
 				show: false,	//控制右上角菜单是否显示
 				field_items: [
-					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他'
 				],
 				info:{
 					currentId: -1,
 					bgimg:1,
-					userpic:"",
-					username:"",
-					email:"",
-					institution:"",
+					userpic:'',
+					username:'',
+					email:'',
+					institution:'',
 					sex:0,
 					age:0,
 					isguanzhu:0,
 					id:0,
-					job:"",
-					path:"",
+					job:'',
+					path:'',
 					type:-1,
 					state:-1,
-					enterprise_name:"",
-					enterprise_address:"",
-					enterprise_website:"",
-					enterprise_instruction:"",
-					enterprise_phone:"",
-					enterprise_legal_representative:"",
+					enterprise_name:'',
+					enterprise_address:'',
+					enterprise_website:'',
+					enterprise_instruction:'',
+					enterprise_phone:'',
+					enterprise_legal_representative:'',
 					enterprise_register_capital:0,
-					enterprise_field:"",
+					enterprise_field:'',
 				},
 				topicList:[],
 				titleList:[],
 				spacedata:[
-					{ name:"获赞", num:0 },
-					{ name:"关注", num:0 },
-					{ name:"粉丝", num:0 },
+					{ name:'获赞', num:0 },
+					{ name:'关注', num:0 },
+					{ name:'粉丝', num:0 },
 				],
 				tabIndex:0,
 				tabBars:[
-					{ name:"主页", id:"homepage" },
-					{ name:"动态", id:"dynamic" },
-					{ name:"成果", id:"masterpiece" },
+					{ name:'主页', id:'homepage' },
+					{ name:'动态', id:'dynamic' },
+					{ name:'成果', id:'masterpiece' },
 				],
 				tablist:[ {},
 					{
-						loadtext:"",
+						loadtext:'',
 						list:[
 						]
 					},
 					{
-						loadtext:"",
+						loadtext:'',
 						// 上拉加载更多
 						list:[
 						]
@@ -209,128 +201,126 @@
 		// 上拉触底事件
 		onReachBottom() {
 			// 上拉加载
-			this.loadmore();
+			this.loadmore()
 		},
 		onNavigationBarButtonTap(e) {
-			if(e.index==0){ this.togleShow(); }
+			if(e.index === 0){
+				this.togleShow() 
+			}
 		},
 		methods: {
 			async initData(id){
-				let data = await getUserInfo({"user_id":id});
-				let topicList = await getTopicListByUid(id);
+				let data = await getUserInfo({ 'user_id':id })
+				let topicList = await getTopicListByUid(id)
 				this.topicList = topicList
-				if("id" in data){
-					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
+				if('id' in data){
+					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+'k':data.total_like
 					this.spacedata[1].num = data.total_follow
 					this.spacedata[2].num = data.total_fan
 					let currentId = this.userInfo.id
-					this.info.currentId = currentId;
-					this.info.userpic = picUrl+data.userpic;
-					this.info.username = data.username;
+					this.info.currentId = currentId
+					this.info.userpic = picUrl+data.userpic
+					this.info.username = data.username
 					this.info.email = data.email
 					this.info.institution=data.institution
-					this.info.isguanzhu = data.is_following;
-					this.info.id = data.id;
-					this.info.type = data.type;
-					this.info.state = data.state;
-					this.info.enterprise_name= data.enterprise_name;
-					this.info.enterprise_address= data.enterprise_address;
-					this.info.enterprise_website= data.enterprise_website;
-					this.info.enterprise_instruction= data.enterprise_instruction;
-					this.info.enterprise_phone= data.enterprise_phone;
-					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
-					this.info.enterprise_register_capital= data.enterprise_register_capital;
-					this.info.enterprise_field = data.enterprise_field;
-					this.info.expert_name = data.expert_name;
-					this.info.expert_organization = data.expert_organization;
-					this.info.expert_field = data.expert_field;
-					this.info.expert_scholarprofile = data.expert_scholarprofile;
-					this.info.expert_phone = data.expert_phone;
+					this.info.isguanzhu = data.is_following
+					this.info.id = data.id
+					this.info.type = data.type
+					this.info.state = data.state
+					this.info.enterprise_name= data.enterprise_name
+					this.info.enterprise_address= data.enterprise_address
+					this.info.enterprise_website= data.enterprise_website
+					this.info.enterprise_instruction= data.enterprise_instruction
+					this.info.enterprise_phone= data.enterprise_phone
+					this.info.enterprise_legal_representative= data.enterprise_legal_representative
+					this.info.enterprise_register_capital= data.enterprise_register_capital
+					this.info.enterprise_field = data.enterprise_field
+					this.info.expert_name = data.expert_name
+					this.info.expert_organization = data.expert_organization
+					this.info.expert_field = data.expert_field
+					this.info.expert_scholarprofile = data.expert_scholarprofile
+					this.info.expert_phone = data.expert_phone
 				}
 				if (this.info.expert_field) {
-					let str = '';
-					let s = this.info.expert_field;
+					let str = ''
+					let s = this.info.expert_field
 					for (let i = 0; i < s.length; i++) {
-						if (s[i] == '1') {
-							str = str + this.field_items[i] + " ";
+						if (s[i] === '1') {
+							str = str + this.field_items[i] + ' '
 						}
 					}
-					this.info.expert_field = str;
+					this.info.expert_field = str
 				}
 				
 				this.paperlist = await getExpertInfo(this.info.id)
 				
 			},
 			getFiled(data) {
-				let str = '';
+				let str = ''
 				for (let i = 0; i < data.expert_field.length; i++) {
-					console.log(data.expert_filed[i]);
+					console.log(data.expert_filed[i])
 					// if (data.expert_filed[i] == '1') {
 					// 	str = str + this.field_items[i] + " ";
 					// }
 				}
-				console.log("get field " + str);
-				return str;
+				console.log('get field ' + str)
+				return str
 			},
 			userActive(){
 				this.info.isguanzhu = !this.info.isguanzhu
 			},
 			async refreshData(){
-				let data = await getUserInfo({"user_id":this.info.id});			
-				if("id" in data){
-					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
+				let data = await getUserInfo({ 'user_id':this.info.id })			
+				if('id' in data){
+					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+'k':data.total_like
 					this.spacedata[1].num = data.total_follow
 					this.spacedata[2].num = data.total_fan
 					let currentId = this.userInfo.id
-					this.info.currentId = currentId;
-					this.info.userpic = picUrl+data.userpic;
-					this.info.username = data.username;
+					this.info.currentId = currentId
+					this.info.userpic = picUrl+data.userpic
+					this.info.username = data.username
 					this.info.email = data.email
 					this.info.institution=data.institution
-					this.info.isguanzhu = data.is_following;
-					this.info.id = data.id;
-					this.info.type = data.type;
-					this.info.state = data.state;
-					this.info.enterprise_name= data.enterprise_name;
-					this.info.enterprise_address= data.enterprise_address;
-					this.info.enterprise_website= data.enterprise_website;
-					this.info.enterprise_instruction= data.enterprise_instruction;
-					this.info.enterprise_phone= data.enterprise_phone;
-					this.info.enterprise_legal_representative= data.enterprise_legal_representative;
-					this.info.enterprise_register_capital= data.enterprise_register_capital;
-					this.info.enterprise_field= data.enterprise_field;
-					this.info.expert_name = data.expert_name;
-					this.info.expert_organization = data.expert_organization;
-					this.info.expert_field = data.expert_field;
-					this.info.expert_scholarprofile = data.expert_scholarprofile;
-					this.info.expert_phone = data.expert_phone;
+					this.info.isguanzhu = data.is_following
+					this.info.id = data.id
+					this.info.type = data.type
+					this.info.state = data.state
+					this.info.enterprise_name= data.enterprise_name
+					this.info.enterprise_address= data.enterprise_address
+					this.info.enterprise_website= data.enterprise_website
+					this.info.enterprise_instruction= data.enterprise_instruction
+					this.info.enterprise_phone= data.enterprise_phone
+					this.info.enterprise_legal_representative= data.enterprise_legal_representative
+					this.info.enterprise_register_capital= data.enterprise_register_capital
+					this.info.enterprise_field= data.enterprise_field
+					this.info.expert_name = data.expert_name
+					this.info.expert_organization = data.expert_organization
+					this.info.expert_field = data.expert_field
+					this.info.expert_scholarprofile = data.expert_scholarprofile
+					this.info.expert_phone = data.expert_phone
 				}
 			},
 			gotoTopic(index){
-				let topicDetail = this.topicList[index];
-				uni.navigateTo({
-					url: '../../pages/detail/detail?id='+topicDetail.id,
-				});
+				let topicDetail = this.topicList[index]
+				uni.navigateTo({ url: '../../pages/detail/detail?id='+topicDetail.id, })
 			},
 			// 控制右上角操作菜单显示 or 隐藏
 			togleShow(){
-				this.show = !this.show;
+				this.show = !this.show
 			},
 			// 私信
 			sixin(){
-				if(this.info.id==this.userInfo.id){
-					this.$http.toast("无法向自己发送私信！")
+				if(this.info.id === this.userInfo.id){
+					this.$http.toast('无法向自己发送私信！')
 					return
 				}
-				this.togleShow();
-				uni.navigateTo({
-					url: '../../pages/user-chat/user-chat?fid=' + this.info.id
-				});
+				this.togleShow()
+				uni.navigateTo({ url: '../../pages/user-chat/user-chat?fid=' + this.info.id })
 			},
 			// 分享
 			fenxiang(){
-				console.log("tap-分享")
-				this.togleShow();
+				console.log('tap-分享')
+				this.togleShow()
 				uni.showToast({
 					title:'分享成功！',
 					duration:500,
@@ -338,8 +328,8 @@
 			},
 			// 黑名单
 			heimingdan(){
-				console.log("tap-黑名单")
-				this.togleShow();
+				console.log('tap-黑名单')
+				this.togleShow()
 				uni.showToast({
 					title:'加入成功！',
 					duration:500,
@@ -347,8 +337,8 @@
 			},
 			// 举报
 			jubao(){
-				console.log("tap-举报")
-				this.togleShow();
+				console.log('tap-举报')
+				this.togleShow()
 				uni.showToast({
 					title:'举报成功！',
 					duration:500,
@@ -357,20 +347,20 @@
 			
 			// 上拉加载更多
 			loadmore(){
-				if(this.tablist[this.tabIndex].loadtext!="上拉加载更多"){ return; }
+				if(this.tablist[this.tabIndex].loadtext !== '上拉加载更多'){ return }
 				// 修改状态
-				this.tablist[this.tabIndex].loadtext="加载中...";
+				this.tablist[this.tabIndex].loadtext='加载中...'
 				// 获取数据
 				// this.tablist[this.tabIndex].loadtext="没有更多数据了";
 			},
 			tabtap(index){
-				this.tabIndex=index;
+				this.tabIndex=index
 			},
 			
 			openResultDetail(){
 				uni.showToast({
-					icon:"loading",
-					title:"功能开发中，敬请期待...",
+					icon:'loading',
+					title:'功能开发中，敬请期待...',
 					duration:500,
 				})
 			}

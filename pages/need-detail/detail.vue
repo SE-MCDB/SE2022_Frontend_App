@@ -63,7 +63,6 @@
 					</view>
 				</uni-collapse>
 				
-				
 				<view class="topic-title-level-2">
 					<text>需求描述</text>
 				</view>
@@ -101,24 +100,22 @@
 	import {
 		mapState,
 		mapMutations
-	} from "vuex"
+	} from 'vuex'
 	import {
 		getNeedDetail,
 		createContact
-	} from "@/api/need-detail.js"
+	} from '@/api/need-detail.js'
 	import tuiCard from '@/components/thorui/tui-card/tui-card.vue'
 	import tuiListView from '@/components/thorui/tui-list-view/tui-list-view'
 	import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell'
-	import {getOrder} from '@/api/user-chat.js'
+	import { getOrder } from '@/api/user-chat.js'
 	import {
 		getOrderDetail,
 		needToOrderlist,
-	} from "@/api/order-detail.js"
-	import {
-		picUrl
-	} from "@/api/common.js";
-	import {getUserProfile} from '@/api/home.js'
-	var graceRichText = require("../../components/common/richText.js");
+	} from '@/api/order-detail.js'
+	import { picUrl } from '@/api/common.js'
+	import { getUserProfile } from '@/api/home.js'
+	var graceRichText = require('../../components/common/richText.js')
 	export default {
 		components: {
 			tuiCard,
@@ -132,7 +129,7 @@
 					state:-1,
 				},
 				field_items: [
-					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他'
 				],
 				emergencyItems: [
 					{
@@ -153,16 +150,14 @@
 					
 				],
 				sum:0,
-				detail:{
-					id:10,
-				},
+				detail:{ id:10, },
 			}
 		},
 		created(data){
 			
 		},
 		async onLoad(data) {
-			console.log("data should be:" + data + " and id should be:" + data.id)
+			console.log('data should be:' + data + ' and id should be:' + data.id)
 			try {
 				this.initData(data.id)
 			} catch (e) {
@@ -192,26 +187,22 @@
 		onNavigationBarButtonTap(e) {
 			
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		methods: {
 			//初始化数据
 			async initData(id) {
-				uni.setNavigationBarTitle({
-					title: "需求详情"
-				});
+				uni.setNavigationBarTitle({ title: '需求详情' })
 				
 				let detail = await getNeedDetail(id)
 				this.item = detail
 				this.detail.id = detail.need_id
 				let temp
-				if(this.userInfo.type==4){
+				if(this.userInfo.type===4){
 					temp={
 						enterprise_id:this.item.enterprise_id,
 						expert_id:this.userInfo.id,
 						need_id:this.item.need_id,
-					};
+					}
 					let temp1 = await getOrder(temp)
 					//console.log(this.item.need_id)
 					if(temp1){
@@ -231,14 +222,14 @@
 							let orderdetail = await getOrderDetail(result.data[i])
 							let expertdetail = await getUserProfile(orderdetail.expert_id)
 							orderdetail.expertPic = picUrl+expertdetail.userpic
-							if(orderdetail.state==0){
-								orderdetail.state="订单待接受"
+							if(orderdetail.state===0){
+								orderdetail.state='订单待接受'
 							}
-							else if(orderdetail.state==1){
-								orderdetail.state="订单进行中"
+							else if(orderdetail.state===1){
+								orderdetail.state='订单进行中'
 							}
-							else if(orderdetail.state==3){
-								orderdetail.state="订单已完成"
+							else if(orderdetail.state===3){
+								orderdetail.state='订单已完成'
 							}
 							temparray.push(orderdetail)
 							//console.log(orderdetail.expertPic)
@@ -251,43 +242,37 @@
 			formatRichText (html) {
 							// 去掉img标签里的style、width、height属性
 							let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
-								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-								return match;
-							});
+								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '')
+								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '')
+								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '')
+								return match
+							})
 							// 修改所有style里的width属性为max-width:100%
 							newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
-								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
-								return match;
-							});
+								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;')
+								return match
+							})
 							// 去掉<br/>标签
-							newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+							newContent = newContent.replace(/<br[^>]*\/>/gi, '')
 							// img标签添加style属性：max-width:100%;height:auto
-							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"');
-							return newContent;
+							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"')
+							return newContent
 			},
 			contact(){
 				let temp={
 					enterprise_id:this.item.enterprise_id,
 					expert_id:this.userInfo.id,
 					need_id:this.item.need_id,
-				};
+				}
 				let s =createContact(temp)
 				console.log(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+this.item.enterprise_id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+this.item.enterprise_id })
 			},
 			gotoSpace(orderdetail){
-				if(orderdetail.enterprise_id == this.userInfo.id || orderdetail.expert_id == this.userInfo.id){
-					uni.navigateTo({
-						url:'../order-detail/order-detail?id='+orderdetail.order_id
-					})
+				if(orderdetail.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
+					uni.navigateTo({ url:'../order-detail/order-detail?id='+orderdetail.order_id })
 				}else{
-				uni.navigateTo({
-					url:'../user-space/user-space?uid='+orderdetail.expert_id
-				})
+				uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
 				}
 			},
 		}

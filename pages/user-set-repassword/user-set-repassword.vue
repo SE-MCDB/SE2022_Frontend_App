@@ -20,94 +20,92 @@
 </template>
 
 <script>
-	import {reSetPassword} from '@/api/user-set-repassword.js'
+	import { reSetPassword } from '@/api/user-set-repassword.js'
 	export default {
 		data() {
 			return {
-				oldpassword:"",
-				newpassword:"",
-				renewpassword:"",
+				oldpassword:'',
+				newpassword:'',
+				renewpassword:'',
 				disabled:true,
 				loading:false
 			}
 		},
 		watch:{
 			oldpassword(val){
-				this.change();
+				this.change()
 			},
 			newpassword(val){
-				this.change();
+				this.change()
 			},
 			renewpassword(val){
-				this.change();
+				this.change()
 			}
 		},
 		methods: {
 			// 监听输入框
 			change(){
 				if(this.oldpassword && this.newpassword && this.renewpassword){
-					this.disabled=false;
-					return;
+					this.disabled=false
+					return
 				}
-				this.disabled=true;
+				this.disabled=true
 			},
 			// 验证层
 			check(){
-				if(!this.oldpassword || this.oldpassword==""){
+				if(!this.oldpassword || this.oldpassword === ''){
 					uni.showToast({
 						title: '旧密码不能为空',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
-				if(!this.newpassword || this.newpassword==""){
+				if(!this.newpassword || this.newpassword === ''){
 					uni.showToast({
 						title: '新密码不能为空',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
-				if(!this.renewpassword || this.renewpassword==""){
+				if(!this.renewpassword || this.renewpassword === ''){
 					uni.showToast({
 						title: '确认密码不能为空',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
 				if(this.newpassword !== this.renewpassword){
 					uni.showToast({
 						title: '确认密码和新密码不一致',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
-				return true;
+				return true
 			},
 			// 提交
 			async submit(){
-				this.loading=true; this.disabled=true;
-				if(!this.check()){ this.loading=false; this.disabled=false; return; }
+				this.loading=true; this.disabled=true
+				if(!this.check()){ this.loading=false; this.disabled=false; return }
 				let res = await reSetPassword({
 					oldpassword: this.oldpassword,
 					newpassword:this.newpassword,
 					renewpassword:this.renewpassword,
 				})
-					if(res.code==0){
+					if(res.code === 0){
 						uni.showToast({
-							title:"密码修改成功",
+							title:'密码修改成功',
 							icon:'none'
 						})
-						uni.navigateBack({
-							delta:1
-						})
+						uni.navigateBack({ delta:1 })
 					}else{
 						uni.showToast({
-							title:"密码不正确",
+							title:'密码不正确',
 							icon:'none'
 						})
 					}
-				this.loading=false;
-				this.disabled=false;
+				this.loading=false
+				this.disabled=false
 			}
 		}
 	}

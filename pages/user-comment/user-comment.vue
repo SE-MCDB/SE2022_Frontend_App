@@ -1,6 +1,6 @@
 <template>
 	<view class="container-comm">
-		<template v-for="item in list">
+		<template v-for="(item,index) in list" :key="index">
 			<view class="com-item" @tap="openDatail(item)" :index="item.id">
 				<user-comment :item="item"></user-comment>
 			</view>
@@ -12,7 +12,7 @@
 <script>
 	import userComment from '@/components/user-comment/user-comment.vue'
 	import noThing from '@/components/common/no-thing.vue'
-	import {getUserComm} from '@/api/user-comment.js'
+	import { getUserComm } from '@/api/user-comment.js'
 	export default {
 		components: {
 			userComment,
@@ -30,9 +30,7 @@
 		},
 		methods: {
 			openDatail(item) {
-				uni.navigateTo({
-					url: "../detail/detail?id=" + item.id
-				})
+				uni.navigateTo({ url: '../detail/detail?id=' + item.id })
 			}
 		}
 	}

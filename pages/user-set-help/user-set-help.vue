@@ -13,8 +13,8 @@
 </template>
 
 <script>
-	import uniCollapse from "../../components/uni-collapse/uni-collapse.vue"
-	import uniCollapseItem from "../../components/uni-collapse-item/uni-collapse-item.vue"
+	import uniCollapse from '../../components/uni-collapse/uni-collapse.vue'
+	import uniCollapseItem from '../../components/uni-collapse-item/uni-collapse-item.vue'
 	export default {
 		components:{
 			uniCollapse,
@@ -24,23 +24,21 @@
 			return {
 				list:[
 					{
-						title:"客服什么时候上线？",
-						content:"敬请期待"
+						title:'客服什么时候上线？',
+						content:'敬请期待'
 					},
 					{
-						title:"忘记账号/昵称/密码怎么办？",
-						content:"敬请期待"
+						title:'忘记账号/昵称/密码怎么办？',
+						content:'敬请期待'
 					},
 					{
-						title:"怎么搜索/查找/关注/取关用户？",
-						content:"敬请期待"
+						title:'怎么搜索/查找/关注/取关用户？',
+						content:'敬请期待'
 					}
 				]
 			}
 		},
-		methods: {
-			
-		}
+		methods: {}
 	}
 </script>
 

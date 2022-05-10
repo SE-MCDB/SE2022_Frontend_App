@@ -54,18 +54,18 @@
 
 <script>
 	//实际使用需要传入上传地址，以及上传接口返回数据进行调整组件
-	import {mapState,mapMutations} from 'vuex'
+	import { mapState, mapMutations } from 'vuex'
 	import {
 		getCategory,
 		addTopicTitle,
-	} from "@/api/add-title.js";
-		import {baseUrl} from '@/api/common.js'
+	} from '@/api/add-title.js'
+		import { baseUrl } from '@/api/common.js'
 	export default {
 		data() {
 			return {
 				imageData: [],
 				//上传地址
-				serverUrl: baseUrl+"upload/cloud",
+				serverUrl: baseUrl+'upload/cloud',
 				text: '',
 				top: 0, //标题图标距离顶部距离
 				opcity: 0,
@@ -74,27 +74,25 @@
 				title: ''
 			}
 		},
-		computed:{
-			...mapState(['userInfo', 'selTitle','category'])
-		},
+		computed:{ ...mapState(['userInfo', 'selTitle','category']) },
 		methods: {
 			...mapMutations(['delSelTitle','resetSelTitle','delCategory']),
 			result(e) {
-				this.imageData = e.imgArr;
+				this.imageData = e.imgArr
 			},
 			remove(e) {
 				//移除图片
 				let index = e.index
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			opcityChange(e) {
-				this.opcity = e.opcity;
+				this.opcity = e.opcity
 			},
 			back() {
-				uni.navigateBack();
+				uni.navigateBack()
 			},
 			inputChangeDesc(event){
 				this.text = event.detail.value
@@ -104,7 +102,7 @@
 			},
 			skipToSearch(index) {
 				console.log(index)
-				this.$http.href("../../pages/search/search")
+				this.$http.href('../../pages/search/search')
 			},
 			delTitleClass(){
 				this.delCategory()
@@ -116,12 +114,12 @@
 				this.$http.href('../select-title/select-title')
 			},		// 发布
 			async submit(){
-				console.log("发布")
-				if(this.text==''||this.imageData.length==0){
-					if(this.imageData.length==0){
-						this.$http.toast("请上传图片！")
+				console.log('发布')
+				if(this.text===''||this.imageData.length===0){
+					if(this.imageData.length===0){
+						this.$http.toast('请上传图片！')
 					}else{
-						this.$http.toast("内容为空！")
+						this.$http.toast('内容为空！')
 					}
 					return
 				}
@@ -131,20 +129,20 @@
 					cid:this.category.id?this.category.id:0,
 					title: this.title,
 					description: this.text,
-					urlType:"img",
-					titlePic: this.imageData[0]?(this.imageData[0].startsWith("http")?this.imageData.join(','):""):'',
+					urlType:'img',
+					titlePic: this.imageData[0]?(this.imageData[0].startsWith('http')?this.imageData.join(','):''):'',
 				})
-				if(data.code==0){
+				if(data.code===0){
 					uni.showToast({
 						title: '发表成功',
-						icon:"success",
+						icon:'success',
 						duration: 200,
 						success:()=>{
 							this.text = '',
 							this.imageData.length=0
 							uni.navigateBack()
 						}
-					});
+					})
 				}else{
 					uni.showToast({
 						title: '发表失败',
@@ -155,7 +153,7 @@
 							this.text=''
 							uni.navigateBack()
 						}
-					});
+					})
 				}
 
 				
@@ -163,7 +161,7 @@
 
 		},
 		onPageScroll(e) {
-			this.scrollTop = e.scrollTop;
+			this.scrollTop = e.scrollTop
 		}
 	}
 </script>

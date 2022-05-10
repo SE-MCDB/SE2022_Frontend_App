@@ -119,16 +119,14 @@
 </template>
 
 <script>
-	import {
-		enterprise_certificate
-	} from '../../api/certificate.js';
+	import { enterprise_certificate } from '../../api/certificate.js'
 	import {
 		mapMutations,
 		mapState
-	} from 'vuex';
-	import uploadLicense from "../../components/uploadImages/uploadLicense.vue"
-	import uploadID from "../../components/uploadImages/uploadID.vue"
-	import form from "../../components/thorui/tui-validation/tui-validation.js";
+	} from 'vuex'
+	import uploadLicense from '../../components/uploadImages/uploadLicense.vue'
+	import uploadID from '../../components/uploadImages/uploadID.vue'
+	import form from '../../components/thorui/tui-validation/tui-validation.js'
 	export default {
 		components:{
 			uploadLicense,
@@ -147,114 +145,114 @@
 				field: '',
 				business_license: '',
 				legal_person_ID: '',
-			};
+			}
 		},
 		computed:{
 			disabled: function() {
-				let bool = true;
+				let bool = true
 				if (this.userID && this.name && this.address && this.website &&
 					this.instruction && this.phone && this.legal_representative &&
 					this.register_capital && this.field && this.business_license && this.legal_person_ID) {
-					bool = false;
+					bool = false
 				}
-				return bool;
+				return bool
 			},
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
 			//this.userID = data.uid;
 			
-			this.userID = this.userInfo.id;
+			this.userID = this.userInfo.id
 			if(this.userInfo.enterprise_name){
-				this.name = this.userInfo.enterprise_name;
-				this.address = this.userInfo.enterprise_address;
-				this.website =this.userInfo.enterprise_website;
-				this.instruction =this.userInfo.enterprise_instruction;
-				this.phone =this.userInfo.enterprise_phone;
-				this.legal_representative =this.userInfo.enterprise_legal_representative;
-				this.register_capital =this.userInfo.enterprise_register_capital;
-				this.field =this.userInfo.enterprise_field;
+				this.name = this.userInfo.enterprise_name
+				this.address = this.userInfo.enterprise_address
+				this.website =this.userInfo.enterprise_website
+				this.instruction =this.userInfo.enterprise_instruction
+				this.phone =this.userInfo.enterprise_phone
+				this.legal_representative =this.userInfo.enterprise_legal_representative
+				this.register_capital =this.userInfo.enterprise_register_capital
+				this.field =this.userInfo.enterprise_field
 			}
-			console.log('onLoad in certification '+ this.userID);
+			console.log('onLoad in certification '+ this.userID)
 		},
 		methods: {
 			//验证手机号码
 			back() {
-				uni.navigateBack();
+				uni.navigateBack()
 			},
 			inputName(e) {
-				this.name = e.detail.value;
+				this.name = e.detail.value
 			},
 			inputAddress(e) {
-				this.address = e.detail.value;
+				this.address = e.detail.value
 			},
 			inputWebsite(e) {
-				this.website = e.detail.value;
+				this.website = e.detail.value
 			},
 			inputInstruction(e) {
-				this.instruction = e.detail.value;
+				this.instruction = e.detail.value
 			},
 			inputPhone(e) {
-				this.phone = e.detail.value;
+				this.phone = e.detail.value
 			},
 			inputLegalRepresentative(e) {
-				this.legal_representative = e.detail.value;
+				this.legal_representative = e.detail.value
 			},
 			inputRegisterCapital(e) {
-				this.register_capital = e.detail.value;
+				this.register_capital = e.detail.value
 			},
 			inputField(e) {
-				this.field = e.detail.value;
+				this.field = e.detail.value
 			},
 			inputBusinessLisence(e) {
-				this.business_license = e.detail.value;
+				this.business_license = e.detail.value
 			},
 			inputLegalPersonID(e) {
-				this.legal_person_ID = e.detail.value;
+				this.legal_person_ID = e.detail.value
 			},
 			clearInput(type) {
-				if (type == 1) {
-					this.name = '';
-				} else if(type == 2) {
-					this.address = '';
-				}else if (type == 3) {
-					this.website = '';
-				} else if (type == 4) {
-					this.instruction = '';
-				} else if (type == 5) {
-					this.phone = '';
-				} else if (type == 6) {
-					this.legal_representative = '';
-				} else if (type == 7) {
-					this.register_capital = '';
-				} else if (type == 8) {
-					this.field = '';
-				} else if (type == 9) {
-					this.business_license = '';
-				} else if (type == 10) {
-					this.legal_person_ID = '';
+				if (type === 1) {
+					this.name = ''
+				} else if(type === 2) {
+					this.address = ''
+				}else if (type === 3) {
+					this.website = ''
+				} else if (type === 4) {
+					this.instruction = ''
+				} else if (type === 5) {
+					this.phone = ''
+				} else if (type === 6) {
+					this.legal_representative = ''
+				} else if (type === 7) {
+					this.register_capital = ''
+				} else if (type === 8) {
+					this.field = ''
+				} else if (type === 9) {
+					this.business_license = ''
+				} else if (type === 10) {
+					this.legal_person_ID = ''
 				}
 			},
 			protocol() {
-				this.tui.href("/pages/doc/protocol/protocol")
+				this.tui.href('/pages/doc/protocol/protocol')
 			},
 			getIDPath(val) {
 				if (val.length > 0) {
-					this.legal_person_ID = val[0];
+					this.legal_person_ID = val[0]
 				} else {
-					this.legal_person_ID = '';
+					this.legal_person_ID = ''
 				}
-				console.log("IDPath!")
-				console.log(this.legal_person_ID);
+				console.log('IDPath!')
+				console.log(this.legal_person_ID)
 			},
 			getLicensePath(val) {
 				if (val.length > 0) {
-					this.business_license = val[0];
+					this.business_license = val[0]
 				} else {
-					this.legal_person_ID = '';
+					this.legal_person_ID = ''
 				}
-				console.log("License Path!")
-				console.log(this.business_license);
+				console.log('License Path!')
+				console.log(this.business_license)
 			},
 			// async toCertificate() {
 			// 	console.log("certification begins");
@@ -274,10 +272,10 @@
 			// }
 			validate() {
 				let rules = [{
-					name: "phone",
-					rule: ["isMobile"],
-					msg: ["请输入正确手机号"]
-				}];
+					name: 'phone',
+					rule: ['isMobile'],
+					msg: ['请输入正确手机号']
+				}]
 				let formData = {
 					id: this.userID,
 					name: this.name,
@@ -290,20 +288,20 @@
 					field: this.field,
 					business_license: this.business_license,
 					legal_person_ID: this.legal_person_ID
-				};
-				let checkRes = form.validation(formData, rules);
-				return checkRes;
+				}
+				let checkRes = form.validation(formData, rules)
+				return checkRes
 			},
 			certificate() {
-				console.log("认证开始！")
-				let checkRes = this.validate();
+				console.log('认证开始！')
+				let checkRes = this.validate()
 				if (checkRes) {
 					uni.showToast({
 						title: checkRes,
-						icon: "none"
-					});
-					console.log("手机号不正确，认证失败");
-					return;
+						icon: 'none'
+					})
+					console.log('手机号不正确，认证失败')
+					return
 				} 
 				uni.uploadFile({
 					url: 'http://122.9.14.73:8000/api/enterprise/setinfo',
@@ -326,19 +324,19 @@
 						'register_capital': this.register_capital,
 						'field': this.field,
 					},
-					success: (uploadFileRes) => {
-						console.log(uploadFileRes.data);
-						console.log("认证申请已发送");
-						this.back();
+					success: uploadFileRes => {
+						console.log(uploadFileRes.data)
+						console.log('认证申请已发送')
+						this.back()
 					},
-					fail: (err) => {
-						console.log("认证失败");
+					fail: err => {
+						console.log('认证失败')
 					}
 				})
-				return;
+				return
 			}
 		}
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

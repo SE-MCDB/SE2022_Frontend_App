@@ -42,28 +42,26 @@
 <script>
 	export default {
 		data() {
-			return {
-				
-			}
+			return {}
 		},
 		methods: {
 			onClick(str){
 				switch(str){
-					case "使用条款":
+					case '使用条款':
 						// 通过组件定义的ref调用uni-popup方法 ,如果传入参数 ，type 属性将失效 ，仅支持 ['top','left','bottom','right','center']
 					    this.$refs.tiaokuan.open('center')
-						break;
-					case "隐私声明":
+						break
+					case '隐私声明':
 						this.$refs.shengming.open('center')
-						break;
-					case "开源协议":
+						break
+					case '开源协议':
 						this.$refs.xieyi.open('center')
-						break;
-					case "致谢":
+						break
+					case '致谢':
 						this.$refs.zhixie.open('center')
-						break;
+						break
 					default:
-						break;
+						break
 				}
 			}
 			

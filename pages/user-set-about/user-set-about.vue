@@ -13,22 +13,18 @@
 </template>
 
 <script>
-	import homeListItem from "../../components/home/home-list-item.vue";
+	import homeListItem from '../../components/home/home-list-item.vue'
 	export default {
-		components:{
-			homeListItem
-		},
+		components:{ homeListItem },
 		data() {
 			return {
 				list:[
-					{ icon:"",name:"新版本检测",clicktype:"",url:"" },
-					{ icon:"",name:"PaperDaily用户协议",clicktype:"",url:"" },
+					{ icon:'',name:'新版本检测',clicktype:'',url:'' },
+					{ icon:'',name:'PaperDaily用户协议',clicktype:'',url:'' },
 				]
 			}
 		},
-		methods: {
-			
-		}
+		methods: {}
 	}
 </script>
 

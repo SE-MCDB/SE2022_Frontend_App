@@ -14,63 +14,59 @@
 </template>
 
 <script>
-	import noThing from "../../components/common/no-thing.vue";
-	import loadMore from "../../components/common/load-more.vue";
-	import {searchNeedList} from '@/api/search.js'
-	import needList from "@/components/platform/need-list.vue";
-	import {mapState} from 'vuex'
+	import noThing from '../../components/common/no-thing.vue'
+	import loadMore from '../../components/common/load-more.vue'
+	import { searchNeedList } from '@/api/search.js'
+	import needList from '@/components/platform/need-list.vue'
+	import { mapState } from 'vuex'
 	export default {
 		components:{
 			needList,
 			noThing,
 			loadMore
 		},
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		data() {
 			return {
 				issearch:false,
-				loadtext:"",
+				loadtext:'',
 				list:[],
-				searchtext:"",
+				searchtext:'',
 				page:0
-			};
+			}
 		},
 		// 监听原生标题导航按钮点击事件(取消按钮)
 		onNavigationBarButtonTap(e){
-			if(e.index==0){
-				uni.navigateBack({
-					delta: 1
-				});
+			if(e.index===0){
+				uni.navigateBack({ delta: 1 })
 			}
 		},
 		// 监听搜索框文本变化
 		onNavigationBarSearchInputChanged(e){
-			this.searchtext=e.text;
+			this.searchtext=e.text
 		},
 		// 监听点击搜索按钮事件
 		onNavigationBarSearchInputConfirmed(e){
-			if(e.text){ this.getdata(); }
+			if(e.text){ this.getdata() }
 		},
 		// 监听页面触底事件
 		onReachBottom() {
-			this.loadmore();
+			this.loadmore()
 		},
 		// 监听下拉刷新
 		onPullDownRefresh() {
-			this.getdata();
-			uni.stopPullDownRefresh();
+			this.getdata()
+			uni.stopPullDownRefresh()
 		},
 		methods:{
 			// 搜索事件
 			async getdata(){
 				// 请求服务器 post keyword:this.searchtext
-				let data;
-				if(this.searchtext.length==0){
+				let data
+				if(this.searchtext.length===0){
 					uni.showToast({
-						title:"搜索内容不能为空!",
-						icon:"none"
+						title:'搜索内容不能为空!',
+						icon:'none'
 					})
 					return
 				}
@@ -78,9 +74,9 @@
 					data = await searchNeedList(this.searchtext)
 					console.log(data)
 					if(data.length===0){
-						this.issearch=true;
+						this.issearch=true
 						this.list = []
-						this.loadtext="没有更多数据了";
+						this.loadtext='没有更多数据了'
 						return 
 					}else{
 						this.page = this.page+1
@@ -92,16 +88,14 @@
 				}
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
-				uni.navigateTo({
-					url: '../need-detail/detail?id=' + item.need_id
-				})
+				console.log('-----------------------------------openDetail')
+				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			// 上拉加载
 			 loadmore(){
-				if(this.loadtext!="上拉加载更多"){ return; }
+				if(this.loadtext!=='上拉加载更多'){ return }
 				// 修改状态
-				this.loadtext="加载中...";
+				this.loadtext='加载中...'
 				// 获取数据
 				this.getdata()
 			},

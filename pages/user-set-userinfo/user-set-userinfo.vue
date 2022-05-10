@@ -41,6 +41,7 @@
 				<view class="icon iconfont icon-bianji1"></view>
 			</view>
 		</view>
+		
 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
 			<view>家乡</view>
 			<view class="u-f-ac" @tap="showMulLinkageThreePicker">
@@ -59,27 +60,25 @@
 </template>
 
 <script>
-	let sex=['男','女'];
-	let qg=['秘密','未婚','已婚'];
-	let job=['秘密','IT','老师',"学生"];
-	import {mapState, mapMutations} from 'vuex'
-	import mpvueCityPicker from "../../components/mpvue-citypicker/mpvueCityPicker.vue";
-	import {uploudFile} from '@/api/add-input.js'
-	import {updateUserInfo,getUserInfo } from '@/api/user-set-userinfo.js'
+	let sex=['男','女']
+	let qg=['秘密','未婚','已婚']
+	let job=['秘密','IT','老师','学生']
+	import { mapState, mapMutations } from 'vuex'
+	import mpvueCityPicker from '../../components/mpvue-citypicker/mpvueCityPicker.vue'
+	import { uploudFile } from '@/api/add-input.js'
+	import { updateUserInfo,getUserInfo } from '@/api/user-set-userinfo.js'
 	export default {
-		components:{
-			mpvueCityPicker
-		},
+		components:{ mpvueCityPicker },
 
 		data() {
 			return {
-				userpic:"",
+				userpic:'',
 				cropper: false,
-				caijian: "",
-				username:"",
-				sex:"",
-				job:"",
-				birthday:"",
+				caijian: '',
+				username:'',
+				sex:'',
+				job:'',
+				birthday:'',
 				cityPickerValueDefault: [0, 0, 1],
 				pickerText: '',
 				authorFile: undefined,
@@ -89,8 +88,8 @@
 		},
 		onBackPress() {
 		  if (this.$refs.mpvueCityPicker.showPicker) {
-		  	this.$refs.mpvueCityPicker.pickerCancel();
-		    return true;
+		  	this.$refs.mpvueCityPicker.pickerCancel()
+		    return true
 		  }
 		},
 		onUnload() {
@@ -102,11 +101,11 @@
 			if(this.userInfo&&this.userInfo.id){
 				this.userpic = this.userInfo.authorUrl
 				this.username = this.userInfo.userName
-				this.sex = this.userInfo.gender==0?"男":"女"
+				this.sex = this.userInfo.gender === 0?'男':'女'
 				this.job = this.userInfo.occupation
 				this.birthday = this.userInfo.birthday
-				this.cityPickerValueDefault =  [0, 0, 1]
-				this.pickerText =  this.userInfo.address
+				this.cityPickerValueDefault = [0, 0, 1]
+				this.pickerText = this.userInfo.address
 			}
 		},
 		watch:{
@@ -118,10 +117,10 @@
 		computed: {
 			...mapState(['userInfo']),
 			startDate() {
-				return this.getDate('start');
+				return this.getDate('start')
 			},
 			endDate() {
-				return this.getDate('end');
+				return this.getDate('end')
 			}
 		},
 		methods: {
@@ -131,7 +130,7 @@
 				this.$refs.mpvueCityPicker.show()
 			},
 			onConfirm(e) {
-				this.pickerText = e.label;
+				this.pickerText = e.label
 			},
 			// 修改生日
 			bindDateChange(e) {
@@ -142,14 +141,12 @@
 				uni.chooseImage({
 					count:1,
 					sizeType:['compressed'],
-					success: (res) => {
+					success: res => {
 						this.caijian = res.tempFiles[0].path
 						// this.userpic = res.tempFiles[0].path
 						// this.authorFile = res.tempFiles[0]
 						// this.cropper = true
-						uni.navigateTo({
-							url:'../user-face/user-face?tempFilePath='+res.tempFiles[0].path
-						})
+						uni.navigateTo({ url:'../user-face/user-face?tempFilePath='+res.tempFiles[0].path })
 					}
 				})
 
@@ -160,54 +157,52 @@
 			},
 			// 单列选择
 			changeOne(val){
-				let arr=[];
+				let arr=[]
 				switch (val){
 					case 'sex':
-					arr=sex;
-						break;
+					arr=sex
+						break
 					case 'qg':
-					arr=qg;
-						break;
+					arr=qg
+						break
 					case 'job':
-					arr=job;
-						break;
+					arr=job
+						break
 				}
 				uni.showActionSheet({
 					itemList: arr,
 					success: res => {
 						switch (val){
 							case 'sex':
-							this.sex=arr[res.tapIndex];
-								break;
+							this.sex=arr[res.tapIndex]
+								break
 							case 'qg':
-							this.qg=arr[res.tapIndex];
-								break;
+							this.qg=arr[res.tapIndex]
+								break
 							case 'job':
-							this.job=arr[res.tapIndex];
-								break;
+							this.job=arr[res.tapIndex]
+								break
 						}
 					},
-				});
-			},
-			async submit(){
-				uni.navigateBack({
-					delta: 1
 				})
 			},
+			async submit(){
+				uni.navigateBack({ delta: 1 })
+			},
 			getDate(type) {
-				const date = new Date();
-				let year = date.getFullYear();
-				let month = date.getMonth() + 1;
-				let day = date.getDate();
+				const date = new Date()
+				let year = date.getFullYear()
+				let month = date.getMonth() + 1
+				let day = date.getDate()
 
 				if (type === 'start') {
-					year = year - 60;
+					year = year - 60
 				} else if (type === 'end') {
-					year = year + 2;
+					year = year + 2
 				}
-				month = month > 9 ? month : '0' + month;;
-				day = day > 9 ? day : '0' + day;
-				return `${year}-${month}-${day}`;
+				month = month > 9 ? month : '0' + month
+				day = day > 9 ? day : '0' + day
+				return `${year}-${month}-${day}`
 			}
 		}
 	}

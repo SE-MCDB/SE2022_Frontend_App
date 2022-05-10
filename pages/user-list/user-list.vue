@@ -39,19 +39,17 @@
 			</swiper-item>
 		</swiper>   
 		</view>
-		
-		
 	</view>
 </template>
 
 <script>
-	import swiperTabHead from "../../components/index/swiper-tab-head.vue";
-	import userList from "../../components/user-list/user-list.vue";
-	import loadMore from "../../components/common/load-more.vue";
-	import noThing from "../../components/common/no-thing.vue";
-	import {getUserAttList, getUserFansList,getUserEachList} from '@/api/user-list.js'
-	import {userAtt} from '@/api/user-search.js'
-	import {mapState} from 'vuex'
+	import swiperTabHead from '../../components/index/swiper-tab-head.vue'
+	import userList from '../../components/user-list/user-list.vue'
+	import loadMore from '../../components/common/load-more.vue'
+	import noThing from '../../components/common/no-thing.vue'
+	import { getUserAttList, getUserFansList,getUserEachList } from '@/api/user-list.js'
+	import { userAtt } from '@/api/user-search.js'
+	import { mapState } from 'vuex'
 	export default {
 		components:{
 			swiperTabHead,
@@ -59,70 +57,68 @@
 			loadMore,
 			noThing
 		},
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		data() {
 			return {
 				swiperheight:500,
 				tabIndex:0,
 				tabBars:[
-					{ name:"互关",id:"huguan",num:0 },
-					{ name:"关注",id:"guanzhu",num:0 },
-					{ name:"粉丝",id:"fensi",num:0 },
+					{ name:'互关',id:'huguan',num:0 },
+					{ name:'关注',id:'guanzhu',num:0 },
+					{ name:'粉丝',id:'fensi',num:0 },
 				],
 				searchtext:'',
 				cache:[],
 				newslist:[
 					{
-						loadtext:"",
+						loadtext:'',
 						list:[
 
 						]
 					},
 					{
-						loadtext:"",
+						loadtext:'',
 						list:[
 
 						]
 					},
 					{
-						loadtext:"",
+						loadtext:'',
 						list:[
 		
 						]
 					}
 				]
 				
-			};
+			}
 		},
 		onLoad() {
 			uni.getSystemInfo({
-				success: (res)=> {
+				success: res=> {
 					let height=res.windowHeight-uni.upx2px(100)
-					this.swiperheight=height;
+					this.swiperheight=height
 				}
-			});
+			})
 			this.initData()
 		},
 		onShow(){
 			uni.getSystemInfo({
-				success: (res)=> {
+				success: res=> {
 					let height=res.windowHeight-uni.upx2px(100)
-					this.swiperheight=height;
+					this.swiperheight=height
 				}
-			});
+			})
 			this.initData()
 		},
 		// 监听搜索框文本变化
 		onNavigationBarSearchInputChanged(e){
-			this.searchtext=e.text;
+			this.searchtext=e.text
 		},
 		// 监听点击搜索按钮事件
 		onNavigationBarSearchInputConfirmed(e){
 			if(e.text){ 
 				this.cache = this.newslist[this.tabIndex].list
-				this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.filter((item)=>{
+				this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.filter(item=>{
 					if(this.strSimilarity2Percent(item.username, e.text)>0){
 						console.log(typeof this.strSimilarity2Percent(item.username, e.text))
 						return true
@@ -135,15 +131,13 @@
 		},
 		// 监听导航按钮事件
 		onNavigationBarButtonTap(e) {
-			if(e.index==0){
-				uni.navigateBack({
-					delta: 1
-				});
+			if(e.index===0){
+				uni.navigateBack({ delta: 1 })
 			}
 		},
 		watch:{
 			'searchtext':function(searchtext,old){
-				if(searchtext==''){
+				if(searchtext===''){
 					this.newslist[this.tabIndex].list = this.cache 
 				}
 
@@ -153,29 +147,29 @@
 			loadmore(index){
 				// if(this.newslist[index].loadtext!="上拉加载更多"){ return; }
 				// 修改状态
-				this.newslist[index].loadtext="加载中...";
+				this.newslist[index].loadtext='加载中...'
 				// 获取数据
 				// this.newslist[index].loadtext="没有更多数据了";
 			},
 			// tabbar点击事件
 			tabtap(index){
-				this.tabIndex=index;
+				this.tabIndex=index
 			},
 			// 滑动事件
 			tabChange(e){
-				this.tabIndex=e.detail.current;
+				this.tabIndex=e.detail.current
 			},
 			async attActive(index,item){
 				let data = await userAtt(item.id)
-				if(data&&data.code==0){
+				if(data&&data.code===0){
 					this.initData()
 				}
 			},
 			
 			async initData(){
-				let  attData = await getUserAttList(this.userInfo.id)
-				let  eachData = await getUserEachList(this.userInfo.id)
-				let  fansData =await getUserFansList(this.userInfo.id,eachData)
+				let attData = await getUserAttList(this.userInfo.id)
+				let eachData = await getUserEachList(this.userInfo.id)
+				let fansData =await getUserFansList(this.userInfo.id,eachData)
 				this.tabBars[0].num = eachData.length
 				this.tabBars[1].num = attData.length
 				this.tabBars[2].num = fansData.length
@@ -185,39 +179,39 @@
 			},
 			
 			strSimilarity2Number: function (s, t) {
-			     var n = s.length, m = t.length, d = [];
-			     var i, j, s_i, t_j, cost;
-			     if (n == 0) return m;
-			     if (m == 0) return n;
+			     var n = s.length, m = t.length, d = []
+			     var i, j, s_i, t_j, cost
+			     if (n === 0) return m
+			     if (m === 0) return n
 			     for (i = 0; i <= n; i++) {
-			         d[i] = [];
-			         d[i][0] = i;
+			         d[i] = []
+			         d[i][0] = i
 			     }
 			     for (j = 0; j <= m; j++) {
-			         d[0][j] = j;
+			         d[0][j] = j
 			     }
 			     for (i = 1; i <= n; i++) {
-			         s_i = s.charAt(i - 1);
+			         s_i = s.charAt(i - 1)
 			         for (j = 1; j <= m; j++) {
-			             t_j = t.charAt(j - 1);
-			             if (s_i == t_j) {
-			                 cost = 0;
+			             t_j = t.charAt(j - 1)
+			             if (s_i === t_j) {
+			                 cost = 0
 			             } else {
-			                 cost = 1;
+			                 cost = 1
 			             }
-			             d[i][j] = this.Minimum(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost);
+			             d[i][j] = this.Minimum(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + cost)
 			         }
 			     }
-			     return d[n][m];
+			     return d[n][m]
 			 },
 			//两个字符串的相似程度，并返回相似度百分比
 			 strSimilarity2Percent: function (s, t) {
-			     var l = s.length > t.length ? s.length : t.length;
-			     var d = this.strSimilarity2Number(s, t);
-			     return (1 - d / l).toFixed(4);
+			     var l = s.length > t.length ? s.length : t.length
+			     var d = this.strSimilarity2Number(s, t)
+			     return (1 - d / l).toFixed(4)
 			 },
 			 Minimum: function (a, b, c) {
-			     return a < b ? (a < c ? a : c) : (b < c ? b : c);
+			     return a < b ? (a < c ? a : c) : (b < c ? b : c)
 			 },
 		}
 	}

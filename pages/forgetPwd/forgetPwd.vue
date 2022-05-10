@@ -39,15 +39,15 @@
 </template>
 
 <script>
-	import {sendForgetCode,forgetPwd} from '@/api/forgetPwd.js'
+	import { sendForgetCode,forgetPwd } from '@/api/forgetPwd.js'
 	export default {
 		computed: {
 			disabled: function() {
-				let bool = true;
+				let bool = true
 				if (this.email && this.code && this.password) {
-					bool = false;
+					bool = false
 				}
-				return bool;
+				return bool
 			}
 		},
 		data() {
@@ -57,57 +57,55 @@
 				code: '',
 				isSend: false,
 				btnSendText: '获取验证码' //倒计时格式：(60秒)
-			};
+			}
 		},
 		methods: {
 			inputCode(e) {
-				this.code = e.detail.value;
+				this.code = e.detail.value
 			},
 			inputEmail: function(e) {
-				this.email = e.detail.value;
+				this.email = e.detail.value
 			},
 			inputPwd: function(e) {
-				this.password = e.detail.value;
+				this.password = e.detail.value
 			},
 			clearInput(type) {
-				if (type == 1) {
-					this.email = '';
+				if (type === 1) {
+					this.email = ''
 				} else {
-					this.password = '';
+					this.password = ''
 				}
 			},
 			//验证邮箱合法
 			isEmail() {
-				let mPattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-				return mPattern.test(this.email);
+				let mPattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+				return mPattern.test(this.email)
 			},
 			// 获取验证码
 			async getCheckNum() {
 				if (this.btnSendText > 0) {
-					return;
+					return
 				}
 				// 验证手机号合法性
 				if (!this.isEmail()) {
 					uni.showToast({
 						title: '请输入正确的邮箱',
-						icon: "none"
-					});
-					return;
+						icon: 'none'
+					})
+					return
 				}
 				// 请求服务器，发送验证码
-				let {
-					code
-				} = await sendForgetCode({"email":this.email})
+				let { code } = await sendForgetCode({ 'email':this.email })
 				console.log(code)
 				// 发送成功，开启倒计时
-				this.btnSendText = 60;
+				this.btnSendText = 60
 				let timer = setInterval(() => {
-					this.btnSendText--;
+					this.btnSendText--
 					if (this.btnSendText < 1) {
-						clearInterval(timer);
-						this.btnSendText = "获取验证码";
+						clearInterval(timer)
+						this.btnSendText = '获取验证码'
 					}
-				}, 1000);
+				}, 1000)
 			},
 			async forgetPassword(){
 				let data = await forgetPwd({
@@ -115,7 +113,7 @@
 					password: this.password,
 					code: this.code,
 				})
-				if (data.status == 400) {
+				if (data.status === 400) {
 					uni.showToast({
 						title: '用户不存在',
 						icon: 'none'
@@ -130,7 +128,7 @@
 			}
 				
 		}
-	};
+	}
 </script>
 
 <style lang="scss">

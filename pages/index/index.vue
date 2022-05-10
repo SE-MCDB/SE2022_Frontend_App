@@ -18,16 +18,16 @@
 		
 		<!-- 导致chrome不兼容的罪魁祸首 -->
 		<!-- <view class="uni-tab-bar">
-			<!-- 单个文章内的上下滑块功能 -->
+			<! 单个文章内的上下滑块功能 -->
 			<!-- <swiper class="swiper-box" :style="{height:swiperheight+'px'}" :current="tabIndex" >
-				<!-- <swiper-item v-for="(items,index) in newslist" :key="index"> -->
+				<! <swiper-item v-for="(items,index) in newslist" :key="index"> -->
 				<!-- <swiper-item >
 					<scroll-view 
 					@scroll="handleScroll"
 					 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
 					 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
 						
-						<!-- 推荐：图文列表 -->
+						<! 推荐：图文列表 -->
 						<!-- <template v-if="recommendList.list.length > 0 && tabIndex == 0">
 							<block v-for="(item, index1) in recommendList.list" :key="index1">
 								<index-list 
@@ -37,7 +37,7 @@
 							<load-more :loadtext="recommendList.loadtext"></load-more>
 						</template>
 						
-						<!-- 热榜 -->
+						<! 热榜 -->
 						<!-- <template v-if="hotList.list.length > 0 && tabIndex == 1">
 							<view class="topic-list">
 								<block v-for="(list, index1) in hotList.list" :key="index1">
@@ -115,24 +115,22 @@
 
 
 <script>
-	import indexList from "../../components/index/index-list.vue";
-	import swiperTabHead from "../../components/index/swiper-tab-head.vue";
-	import loadMore from "../../components/common/load-more.vue";
-	import noThing from "../../components/common/no-thing.vue";
-	import myNavBar from "../../components/common/my-nav-bar.vue";
+	import indexList from '../../components/index/index-list.vue'
+	import swiperTabHead from '../../components/index/swiper-tab-head.vue'
+	import loadMore from '../../components/common/load-more.vue'
+	import noThing from '../../components/common/no-thing.vue'
+	import myNavBar from '../../components/common/my-nav-bar.vue'
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '../../components/list-card/list-card-1.vue'
 	import {
 		getTopicList,
 		getRecommendList
 	} from '@/api/index.js'
-	import {
-		giveLike
-	} from '@/api/common.js'
+	import { giveLike } from '@/api/common.js'
 	import {
 		mapState,
 		mapMutations
-	} from "vuex"
+	} from 'vuex'
 	export default {
 		components: {
 			indexList,
@@ -158,78 +156,78 @@
 				popupShow: false,
 				shareList: [{
 					share: [{
-						name: "QQ",
-						icon: "qq",
-						color: "#07BDFD",
+						name: 'QQ',
+						icon: 'qq',
+						color: '#07BDFD',
 						size: 68
 					}, {
-						name: "微信",
-						icon: "wechat",
-						color: "#80D640",
+						name: '微信',
+						icon: 'wechat',
+						color: '#80D640',
 						size: 68
 					}, {
-						name: "朋友圈",
-						icon: "moments",
-						color: "#80D640",
+						name: '朋友圈',
+						icon: 'moments',
+						color: '#80D640',
 						size: 68,
 					}]
 				}, {
 					operate: [{
-						name: "刷新",
-						icon: "refresh",
+						name: '刷新',
+						icon: 'refresh',
 						size: 56
 					}, {
-						name: "搜索内容",
-						icon: "search-2",
+						name: '搜索内容',
+						icon: 'search-2',
 						size: 56
 					}]
 				}],
 				tabBars: [{
-						name: "推荐",
-						id: "tuijian",
+						name: '推荐',
+						id: 'tuijian',
 						page: 1
 					},
 					{
-						name: "热榜",
-						id: "hanfu",
+						name: '热榜',
+						id: 'hanfu',
 						page: 1
 					},
 				],
 				newslist: [{
-						loadtext: "没有更多数据了",
-						id: "recommend",
+						loadtext: '没有更多数据了',
+						id: 'recommend',
 						list: []
 					},
 					{
-						loadtext: "没有更多数据了",
-						id: "hotList",
+						loadtext: '没有更多数据了',
+						id: 'hotList',
 						list: []
 					},
 				],
 				recommendList: {
-					loadtext: "没有更多数据了",
-					id: "recommend",
+					loadtext: '没有更多数据了',
+					id: 'recommend',
 					list: []
 				},
 				hotList: {
-					loadtext: "没有更多数据了",
-					id: "hotList",
+					loadtext: '没有更多数据了',
+					id: 'hotList',
 					list: []
 				},
 			}
 		},
 		onShow() {		//页面加载,一个页面只会调用一次
-			console.log("index-onShow()")
+			console.log('index-onShow()')
 			this.requestData()
 		},
 		onLoad() {		//页面显示,每次打开页面都会调用一次
-			console.log("index-onLoad()")
+			console.log('index-onLoad()')
 			uni.getSystemInfo({
-				success: (res) => {
+				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
+					this.swiperheight = height
 				}
-			});
+			})
 			//this.requestData() 不能刷新，防止点进文章再出来跳飞了
 		},
 		computed: {
@@ -237,12 +235,12 @@
 			// 预留项
 			preCount(list) {
 				return list.map(item=>{
-					return Math.min(this.start, this.remain);
+					return Math.min(this.start, this.remain)
 				})
 			},
 			nextCount(list) {
 				return list.map(item=>{
-					return Math.min(item.list.length - this.end, this.remain);
+					return Math.min(item.list.length - this.end, this.remain)
 				})
 			},
 			// newsVlist(){
@@ -269,12 +267,12 @@
 			// async requestData(GoPage, Gotype) {
 			async requestData() {
 				// let currentPage = GoPage || this.tabBars[this.tabIndex].page;
-				let type = this.tabBars[this.tabIndex].id;
-				let items;
+				let type = this.tabBars[this.tabIndex].id
+				let items
 				//let curList = this.tabIndex == 0 ? this.recommendList: this.hotList
 				
 				try {
-					if(this.tabIndex == 0){
+					if(this.tabIndex === 0){
 						items = await getRecommendList()
 					} else {
 						items = await getTopicList()
@@ -288,10 +286,10 @@
 				if (items && items.length === 0) {
 					this.tabBars[this.tabIndex].page = page
 					// this.newslist[this.tabIndex].loadtext = "没有更多数据了"
-					if(this.tabIndex == 0){
-						this.recommendList.loadtext = "没有更多数据了"
+					if(this.tabIndex === 0){
+						this.recommendList.loadtext = '没有更多数据了'
 					} else {
-						this.hotList.loadtext = "没有更多数据了"
+						this.hotList.loadtext = '没有更多数据了'
 					}
 					
 					return
@@ -303,37 +301,36 @@
 				// 	this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.concat(items)
 				// }
 				
-				if(this.tabIndex == 0){
+				if(this.tabIndex === 0){
 					this.recommendList.list = items
-					console.log("rec赋值成功!")
+					console.log('rec赋值成功!')
 				} else {
 					this.hotList.list = items
-					console.log("hot赋值成功!")
+					console.log('hot赋值成功!')
 				}
-				
 				
 				// this.newslist[this.tabIndex].list.splice(indexOfItem, , newValue)
 				
 				if (items) {
-					if(this.tabIndex == 0){
-						this.recommendList.loadtext = "没有更多数据了"
+					if(this.tabIndex === 0){
+						this.recommendList.loadtext = '没有更多数据了'
 					} else {
-						this.hotList.loadtext = "没有更多数据了"
+						this.hotList.loadtext = '没有更多数据了'
 					}
 				} else {
-					if(this.tabIndex == 0){
-						this.recommendList.loadtext = "上拉加载更多"
+					if(this.tabIndex === 0){
+						this.recommendList.loadtext = '上拉加载更多'
 					} else {
-						this.hotList.loadtext = "上拉加载更多"
+						this.hotList.loadtext = '上拉加载更多'
 					}
 				}
 			},
 			publish() {
 				// 打开发布页面
-				this.$http.href("../add-input/add-input")
+				this.$http.href('../add-input/add-input')
 			},
 			searchInfo() {
-				console.log("searchInfo")
+				console.log('searchInfo')
 				// uni.navigateTo({
 				// 	url: '../search/search',
 				// });
@@ -343,15 +340,15 @@
 			},
 			popup: function() {
 				this.popupShow = !this.popupShow
-				this.$http.toast("敬请期待~")
+				this.$http.toast('敬请期待~')
 			},
 			async onrefresh() {
-				if (this.refreshing) return;
-				this.refreshing = true;
+				if (this.refreshing) return
+				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
+					this.refreshing = false
+					uni.showToast({ title:'已更新',duration:500 })
 				}, 200)
 			},
 			loadmore(index) {
@@ -390,14 +387,14 @@
 			},
 			// tabbar点击事件
 			tabtap(index) {
-				console.log("tabtap")
-				this.tabIndex = index;
+				console.log('tabtap')
+				this.tabIndex = index
 				this.requestData()
 			},
 			// 滑动事件
 			tabChange(e) {
-				console.log("tabexchange")
-				this.tabIndex = e.detail.current;
+				console.log('tabexchange')
+				this.tabIndex = e.detail.current
 				//this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 				this.requestData()
 			},
@@ -405,30 +402,30 @@
 				giveLike(data.id)
 				console.log(data)
 				if(data.is_like){
-					this.$http.toast("你已取消点赞!")
+					this.$http.toast('你已取消点赞!')
 				}else{
-					this.$http.toast("点赞成功!")
+					this.$http.toast('点赞成功!')
 				}
 			},
 			opendDetail(item) {
-				console.log("before jump to the detailed value, the id is " + item.id)
+				console.log('before jump to the detailed value, the id is ' + item.id)
 				uni.navigateTo({
 					//用@居然还不行？？
 					url: '../../pages/detail/detail?id=' + item.id,
-				});
+				})
 			},
 			change(e) {
-				console.log(e);
+				console.log(e)
 			},
 			confirm(e) {
-				console.log(e);
+				console.log(e)
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			async signIn(){
-				this.$http.href("../../pages/check-in/check-in")
+				this.$http.href('../../pages/check-in/check-in')
 			}
 		},
 

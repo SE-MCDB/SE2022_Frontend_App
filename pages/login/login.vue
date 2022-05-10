@@ -86,22 +86,20 @@
 		createSocket,
 		readChatMsg
 	} from '@/api/paper.js'
-	import{
-		picUrl
-	} from '@/api/common.js'
+	import{ picUrl } from '@/api/common.js'
 	export default {
 		computed: {
 			...mapState(['chatList', 'msgIndex', 'userInfo']),
 			...mapGetters(['currentChatMsgs']),
 			disabled: function() {
-				let bool = true;
+				let bool = true
 				if (this.mobile && this.password) {
-					bool = false;
+					bool = false
 				}
 				if (this.mobile &&this.code) {
-					bool = false;
+					bool = false
 				}
-				return bool;
+				return bool
 			}
 		},
 		data() {
@@ -113,12 +111,12 @@
 				code: '',
 				isSend: false,
 				btnSendText: '获取验证码' //倒计时格式：(60秒)
-			};
+			}
 		},
 		onLoad(options) {
 			setTimeout(() => {
 
-			}, 0);
+			}, 0)
 		},
 		methods: {
 			...mapMutations([
@@ -135,70 +133,64 @@
 			
 			// 验证手机号码
 			isPhone(phone) {
-				let mPattern = /^1[34578]\d{9}$/;
-				return mPattern.test(phone);
+				let mPattern = /^1[34578]\d{9}$/
+				return mPattern.test(phone)
 			},
 			back() {
-				uni.switchTab({
-					url: '/pages/home/home'
-				});
+				uni.switchTab({ url: '/pages/home/home' })
 			},
 			toggLogin(){
 				this.status=!this.status
 			},
 			inputCode(e) {
-				this.code = e.detail.value;
+				this.code = e.detail.value
 			},
 			inputMobile: function(e) {
-				this.mobile = e.detail.value;
+				this.mobile = e.detail.value
 			},
 			inputPwd: function(e) {
-				this.password = e.detail.value;
+				this.password = e.detail.value
 			},
 			clearInput(type) {
-				if (type == 1) {
-					this.mobile = '';
+				if (type === 1) {
+					this.mobile = ''
 				} else {
-					this.password = '';
+					this.password = ''
 				}
 			},
 			async getCheckNum() {
 				if (this.btnSendText > 0) {
-					return;
+					return
 				}
 				// 请求服务器，发送验证码
-				let {
-					code
-				} = await sendLoginCode(this.mobile)
+				let { code } = await sendLoginCode(this.mobile)
 				if(code){
-					this.$http.toast("验证码已发送");
+					this.$http.toast('验证码已发送')
 				}
 				this.isSend = true,
 				// 发送成功，开启倒计时
-				this.btnSendText = 60;
+				this.btnSendText = 60
 				let timer = setInterval(() => {
-					this.btnSendText--;
+					this.btnSendText--
 					if (this.btnSendText < 1) {
-						clearInterval(timer);
-						this.btnSendText = '获取验证码';
+						clearInterval(timer)
+						this.btnSendText = '获取验证码'
 						this.isSend = true
 					}
-				}, 1000);
+				}, 1000)
 			},
 			href(type) {
-				let url = '../forgetPwd/forgetPwd';
-				if (type == 2) {
-					url = '../register/register';
+				let url = '../forgetPwd/forgetPwd'
+				if (type === 2) {
+					url = '../register/register'
 				}
-				uni.navigateTo({
-					url: url
-				})
+				uni.navigateTo({ url: url })
 
 				// this.tui.href(url);
 			},
 			showOtherLogin() {
 				//打开后 不再关闭
-				this.popupShow = true;
+				this.popupShow = true
 			},
 			// 提交登录
 			async submit() {
@@ -213,30 +205,28 @@
 					username: this.mobile,
 					password: this.password
 				})
-				if("code" in data){
+				if('code' in data){
 					if (data.code===401) {
-						this.$http.toast("账号或密码错误");
+						this.$http.toast('账号或密码错误')
 					} else {
-						this.$http.toast("用户未注册");
+						this.$http.toast('用户未注册')
 					}
 					return
 				}
 					
-				uni.setStorageSync('token', data.access_token);
+				uni.setStorageSync('token', data.access_token)
 				uni.setStorageSync('refresh_token',data.refresh_token)
 				data.userInfo.userpic=picUrl+data.userInfo.userpic
-				this.setUserInfo(data.userInfo);
+				this.setUserInfo(data.userInfo)
 				//调用聊天记录
 				let token=uni.getStorageSync('token')
 				let chatList = await getChatList(this.userInfo)
-				this.setChatList(chatList);
+				this.setChatList(chatList)
 				this.sortChatList()
 				uni.setStorageSync('chatList', JSON.stringify(this.chatList))
 				
-				uni.switchTab({
-					url: '/pages/home/home'
-				});
-				return;
+				uni.switchTab({ url: '/pages/home/home' })
+				return
 			}
 
 			}

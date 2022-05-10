@@ -51,28 +51,23 @@
 					</scroll-view>
 				</swiper-item>
 
-			
-			
 			</swiper>
 		</view>
-
 
 	</view>
 </template>
 
 <script>
-	import newsNavBar from "../../components/news/news-nav-bar.vue";
-	import commonList from "../../components/common/common-list.vue";
-	import indexList from "../../components/index/index-list.vue";
-	import loadMore from "../../components/common/load-more.vue";
-	import topicNav from "../../components/news/topic-nav.vue";
-	import topicList from "../../components/news/topic-list.vue";
+	import newsNavBar from '../../components/news/news-nav-bar.vue'
+	import commonList from '../../components/common/common-list.vue'
+	import indexList from '../../components/index/index-list.vue'
+	import loadMore from '../../components/common/load-more.vue'
+	import topicNav from '../../components/news/topic-nav.vue'
+	import topicList from '../../components/news/topic-list.vue'
 	import noThing from '@/components/common/no-thing.vue'
-	import {getTopicTitleList, getTopicList} from '@/api/news.js'
-	import {giveLike} from '@/api/common.js'
-	import {
-		mapState
-	} from 'vuex'
+	import { getTopicTitleList, getTopicList } from '@/api/news.js'
+	import { giveLike } from '@/api/common.js'
+	import { mapState } from 'vuex'
 	export default {
 		components: {
 			newsNavBar,
@@ -83,80 +78,60 @@
 			indexList,
 			noThing
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				swiperheight: 500,
 				tabIndex: 0,
 				tabBars: [
 					{
-						name: "话题",
-						id: "topic"
+						name: '话题',
+						id: 'topic'
 					},{
-						name: "关注",
-						id: "guanzhu"
+						name: '关注',
+						id: 'guanzhu'
 					}
 				],
 				guanzhu: {
-					loadtext: "",
+					loadtext: '',
 					page: 1,
 					list: []
 				},
 				timer:undefined,
 				topic: {
-					swiper: [{
-							src: "../../static/images/banner/banner1.jpg"
-						},
-						{
-							src: "../../static/images/banner/banner2.jpg"
-						},
-						{
-							src: "../../static/images/banner/banner3.jpg"
-						},
+					swiper: [{ src: '../../static/images/banner/banner1.jpg' },
+						{ src: '../../static/images/banner/banner2.jpg' },
+						{ src: '../../static/images/banner/banner3.jpg' },
 					],
-					nav: [{
-							name: "最新"
-						},
-						{
-							name: "游戏"
-						},
-						{
-							name: "打卡"
-						},
-						{
-							name: "韩府"
-						},
-						{
-							name: "二手"
-						},
-						{
-							name: "周边"
-						},
+					nav: [{ name: '最新' },
+						{ name: '游戏' },
+						{ name: '打卡' },
+						{ name: '韩府' },
+						{ name: '二手' },
+						{ name: '周边' },
 					],
 					list: []
 				}
-			};
+			}
 		},
 		onShow() {
-			if (this.userInfo.id && this.guanzhu.list.length == 0) {
+			if (this.userInfo.id && this.guanzhu.list.length === 0) {
 				this.requestData()
-				this.guanzhu.loadtext = ""
+				this.guanzhu.loadtext = ''
 			}
 		},
 		onLoad() {
 			uni.getSystemInfo({
-				success: (res) => {
+				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
+					this.swiperheight = height
 				}
-			});
+			})
 			this.initTopicTitle()
 			if (this.userInfo.id) {
 				this.requestData()
 			} else {
-				this.guanzhu.loadtext = "你还未登录呢!"
+				this.guanzhu.loadtext = '你还未登录呢!'
 			}
 		},
 		methods: {
@@ -167,33 +142,31 @@
 				this.$http.href('../add-title/add-title')
 			},
 			opendDetail(item){
-				uni.navigateTo({
-					url: '../../pages/detail/detail?id='+item.id,
-				});
+				uni.navigateTo({ url: '../../pages/detail/detail?id='+item.id, })
 			},
 			async searchTitle(event){
-				if(event.target.value==''){
+				if(event.target.value===''){
 					return
 				}
 				clearInterval(this.timer)
 				let key = event.target.value
-				if(event.type=="input"){
+				if(event.type==='input'){
 					this.timer = setTimeout(()=>{
 						this.initTopicTitle(1,key)
 					},500)
 				}
-				if(event.type=="confirm"){
+				if(event.type==='confirm'){
 					this.initTopicTitle(1,key)
 				}
 
 			},
 			async initTopicTitle(page=1,search='') {
 				
-				let {items} = await getTopicTitleList(page,search)
+				let { items } = await getTopicTitleList(page,search)
 				if(!items){
 					return
 				}
-				this.topic.list = items.map((item) => {
+				this.topic.list = items.map(item => {
 					return {
 						titlePic: item.titlePic,
 						title: item.title,
@@ -205,16 +178,16 @@
 				})
 			},
 			async requestData(GoPage) {
-				let currentPage = GoPage || this.guanzhu.page;
-				let data;
+				let currentPage = GoPage || this.guanzhu.page
+				let data
 				try {
 					data = await getTopicList(currentPage)
 				} catch (e) {
 					console.log(e)
 					return
 				}
-				if(data==null){
-					this.guanzhu.loadtext = "没有更多数据了";
+				if(data===null){
+					this.guanzhu.loadtext = '没有更多数据了'
 					return
 				}
 				let {
@@ -223,13 +196,13 @@
 				} = data
 				if (items && items.length === 0) {
 					this.guanzhu.page = page
-					this.guanzhu.loadtext = "没有更多数据了";
+					this.guanzhu.loadtext = '没有更多数据了'
 					return
 				}
 				this.guanzhu.page = page
 				this.guanzhu.list = this.guanzhu.list.concat(items)
 				if (items && items.length < 10) {
-					this.guanzhu.loadtext = "没有更多数据了";
+					this.guanzhu.loadtext = '没有更多数据了'
 				}
 			},
 			async likeOrTread(data) {
@@ -237,20 +210,20 @@
 			},
 			// 点击切换
 			changeTab(index) {
-				this.tabIndex = index;
+				this.tabIndex = index
 			},
 			// 滑动事件
 			tabChange(e) {
-				this.tabIndex = e.detail.current;
+				this.tabIndex = e.detail.current
 			},
 			// 上拉加载
 			loadmore() {
 				console.log(this.guanzhu)
-				if (this.guanzhu.loadtext != "") {
-					return;
+				if (this.guanzhu.loadtext !== '') {
+					return
 				}
 				// 修改状态
-				this.guanzhu.loadtext = "加载中...";
+				this.guanzhu.loadtext = '加载中...'
 				this.requestData(this.guanzhu.page + 1)
 				// 获取数据
 				// this.guanzhu.loadtext="没有更多数据了";

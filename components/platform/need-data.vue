@@ -200,17 +200,17 @@
 	import uniCard from '@/components/uni-card/uni-card.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
-	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
+	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
 	
 	//import tuiCard from "@/components/thorui/tui-card/tui-card"
 	//import tuiSwipeAction from "@/components/thorui/tui-swipe-action/tui-swipe-action"
 	//import tuiBubblePopup from "@/components/thorui/tui-bubble-popup/tui-bubble-popup"
 	//import tuiIcon from "@/components/thorui/tui-icon/tui-icon"
 	
-	import tuiModal from "@/components/thorui/tui-modal/tui-modal"	//提示窗
-	import tuiAlert from "@/components/thorui/tui-alert/tui-alert"	//提示窗
+	import tuiModal from '@/components/thorui/tui-modal/tui-modal'	//提示窗
+	import tuiAlert from '@/components/thorui/tui-alert/tui-alert'	//提示窗
 	
-	import noOrder from "@/components/common/no-order.vue";	//无订单
+	import noOrder from '@/components/common/no-order.vue'	//无订单
 	
 	//订单相关函数
 	import {
@@ -224,9 +224,7 @@
 	} from '@/api/platform/order.js'
 	
 	//需要用contact函数
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	import { createContact } from '@/api/need-detail.js'
 	
 	export default {
 		data(){
@@ -240,29 +238,29 @@
 				tabIndex: 1,	//默认进“待处理”界面
 				tabBars: [
 					{
-						name: "全部",
-						id: "quanbu",
+						name: '全部',
+						id: 'quanbu',
 						page: 1
 					},
 					{
-						name: "待处理",
-						id: "daichuli",
+						name: '待处理',
+						id: 'daichuli',
 						page: 1
 					},
 					{
-						name: "进行中",
-						id: "jinxingzhong",
+						name: '进行中',
+						id: 'jinxingzhong',
 						page: 1
 					},
 					{
-						name: "已完成",
-						id: "yiwancheng",
+						name: '已完成',
+						id: 'yiwancheng',
 						page: 1
 					},
 				],
 				actions:[
 					{
-						name:"删除",
+						name:'删除',
 						color: '#fff',
 						fontsize: 30, //单位rpx
 						width: 70, //单位px
@@ -291,15 +289,15 @@
 			//item:Object,	//关于odrder_list信息
 		},
 		onShow(){		//页面加载,一个页面只会调用一次
-			console.log("onshow");
-			this.refreshData();
+			console.log('onshow')
+			this.refreshData()
 		},
 		onLoad(){		//页面显示,每次打开页面都会调用一次
-			console.log("onload");
-			this.refreshData();
+			console.log('onload')
+			this.refreshData()
 		},
 		created(){
-			this.refreshData();
+			this.refreshData()
 		},
 		beforeMount(){
 			
@@ -315,38 +313,38 @@
 		},
 		methods:{
 			temp(id){
-				console.log(id);
+				console.log(id)
 			},
 			tabtap(index) {
-				this.tabIndex = index;
+				this.tabIndex = index
 				this.refreshData()
 			},
 			goToNeed(index){
 				console.log(index)
-				this.$emit("goToNeedInfo",index)
+				this.$emit('goToNeedInfo',index)
 			},
 			closeshow(){
-				this.show=false;
+				this.show=false
 			},
 			onClick(){
-				console.log("click for detail")
+				console.log('click for detail')
 				//todo
 			},
 			print(id){
-				if(this.show[id]==true){
-					this.show.splice(id,1,false);
+				if(this.show[id] === true){
+					this.show.splice(id,1,false)
 					
 				}
 				else{
-					this.show.splice(id,1,true);
+					this.show.splice(id,1,true)
 				}
-				console.log(id+"success "+this.show[id]);
+				console.log(id+'success '+this.show[id])
 			},
 			
 			//打开订单详情
 			openOrderDetail(orderItem){
-				console.log("click for order detail. id = "+ orderItem.order_id)
-				this.$emit("openOrderDetail", orderItem.order_id)
+				console.log('click for order detail. id = '+ orderItem.order_id)
+				this.$emit('openOrderDetail', orderItem.order_id)
 			},
 			
 			// initData(){
@@ -394,82 +392,80 @@
 				switch (this.tabIndex) {
 					case 0:
 						this.datalist1 = await getAllOrder(this.userInfo.id)
-						break;
+						break
 					case 1:
 						this.datalist2 = await getPendingOrder(this.userInfo.id)
-						break;
+						break
 					case 2:
 						this.datalist3 = await getCooperatingOrder(this.userInfo.id)
-						break;
+						break
 					case 3:
 						this.datalist4 = await getFinishedOrder(this.userInfo.id)
-						break;
+						break
 					default:
-						break;
+						break
 				}
 			},
 			
 			async actionsClick(str, item){
 				let order_id = item.order_id
 				switch(str) {
-					case "联系企业": 	//与专家case二合一
-					case "联系专家":
+					case '联系企业': 	//与专家case二合一
+					case '联系专家':
 						console.log(str)
 						this.contact(item)
-						break;
-					case "帮助":
-						uni.navigateTo({
-							url:'../feedback/feedback'
-						})
+						break
+					case '帮助':
+						uni.navigateTo({ url:'../feedback/feedback' })
 						console.log(str)
-						break;
-					case "分享":
+						break
+					case '分享':
 						console.log(str)
 						this.$refs.shareLink.open('center')
-						break;
-					case "拒绝订单":
-						this.curOperation = "reject"
+						break
+					case '拒绝订单':
+						this.curOperation = 'reject'
 						this.order_id = order_id
 						this.$refs.confirmOperation.open()
 						console.log(str)
-						break;
-					case "接受订单":
-						this.curOperation = "accept"
+						break
+					case '接受订单':
+						this.curOperation = 'accept'
 						this.order_id = order_id
 						this.$refs.confirmOperation.open()
 						console.log(str)
-						break;
-					case "完成订单":
-						this.curOperation = "accomplish"
+						break
+					case '完成订单':
+						this.curOperation = 'accomplish'
 						this.order_id = order_id
 						this.$refs.confirmOperation.open()
 						console.log(str)
-						break;
-					case "放弃订单":
+						break
+					case '放弃订单':
 						console.log(str)
-						uni.showToast({title:'施工中...', duration:500})
-						break;
-					case "评价":
+						uni.showToast({ title:'施工中...', duration:500 })
+						break
+					case '评价':
 						console.log(str)
-						uni.showToast({title:'评价成功！', duration:500})
-						break;
-					case "再来一单":
+						uni.showToast({ title:'评价成功！', duration:500 })
+						break
+					case '再来一单':
 						console.log(str)
-						uni.showToast({title:'已反馈！', duration:500})
-						break;
+						uni.showToast({ title:'已反馈！', duration:500 })
+						break
 					
-					case "催促专家":
+					case '催促专家':
 						console.log(str)
-						uni.showToast({title:'已发送提醒！', duration:500})
-						break;
+						uni.showToast({ title:'已发送提醒！', duration:500 })
+						break
 					default:
-						break;
+						break
 				}
 			},
 			
 			//跳转到联系对方聊天窗口
 			contact(item) {
-				if(this.userInfo.type == this.EXPERT) {
+				if(this.userInfo.type === this.EXPERT) {
 					//自己是企业，则联系专家
 					var contact_id = item.entp_id	//不能用let!否则传不出 {} 区域
 				} else {
@@ -483,35 +479,33 @@
 				//console.log("contact:"+item.need_id)
 				//console.log("Cid = ", contact_id)
 				createContact(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid=' + contact_id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid=' + contact_id })
 			},
 			
 			//去逛逛
 			goToExplore(){
 				//console.log("in needdata.")
-				this.$emit("goToExplore")
+				this.$emit('goToExplore')
 			},
 			
 			//确认操作
 			async operationConfirm(){
 				switch(this.curOperation){
-					case "reject":	//拒绝订单
+					case 'reject':	//拒绝订单
 						await rejectOrder(this.userInfo.id, this.order_id)
-						uni.showToast({title:'操作成功！', duration:500})
-						break;
-					case "accept":	//接受订单
+						uni.showToast({ title:'操作成功！', duration:500 })
+						break
+					case 'accept':	//接受订单
 						await acceptOrder(this.userInfo.id, this.order_id)
-						uni.showToast({title:'操作成功！', duration:500})
-						break;
-					case "accomplish":	//完成订单
+						uni.showToast({ title:'操作成功！', duration:500 })
+						break
+					case 'accomplish':	//完成订单
 						await accomplishOrder(this.userInfo.id, this.order_id)
-						uni.showToast({title:'操作成功！', duration:500})
-						break;
-					case "abandon":	//放弃订单
-						uni.showToast({title:'施工中...', duration:500})
-						break;
+						uni.showToast({ title:'操作成功！', duration:500 })
+						break
+					case 'abandon':	//放弃订单
+						uni.showToast({ title:'施工中...', duration:500 })
+						break
 				}
 				// TODO 做一些其他的事情，手动执行 close 才会关闭对话框
 				// ...

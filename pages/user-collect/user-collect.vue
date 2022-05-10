@@ -15,14 +15,12 @@
 
 <script>
 	import historyList from '../../components/history-list/history-list.vue'
-	import loadMore from "../../components/common/load-more.vue";
-			import noThing from "../../components/common/no-thing.vue";
+	import loadMore from '../../components/common/load-more.vue'
+	import noThing from '../../components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
-	import {getTopicCollect, deleteCollect} from '@/api/user-collect.js'
-	import {
-		mapState
-	} from 'vuex'
+	import { getTopicCollect, deleteCollect } from '@/api/user-collect.js'
+	import { mapState } from 'vuex'
 	export default {
 		components: {
 			historyList,
@@ -31,9 +29,7 @@
 			uniSwipeActionItem,
 			noThing
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		onShow(){
 			this.initData()
 		},
@@ -50,9 +46,7 @@
 					// }, 
 					{
 						text: '删除',
-						style: {
-							backgroundColor: '#dd524d'
-						}
+						style: { backgroundColor: '#dd524d' }
 					}
 				]
 			}
@@ -60,12 +54,12 @@
 		mounted() {
 			this.initData()
 		},
-
+		
 		methods: {
 			async initData() {
 				if (this.userInfo.id) {
-					let data =await getTopicCollect(1,{num_per_page:100000,interpretation:true})
-					if( data.length==0){
+					let data =await getTopicCollect(1,{ num_per_page:100000,interpretation:true })
+					if( data.length===0){
 						this.loadtext = '收藏为空'
 						return
 					}
@@ -74,17 +68,13 @@
 				}
 			},
 			onClick(item, index) {
-				let headers = {
-					"Authorization":'Bearer ' + uni.getStorageSync('token')
-				}
+				let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 				this.$http.post('Interpretation/'+item.id+'/unfavor',{},headers)
-				this.$http.toast("取消收藏!")
+				this.$http.toast('取消收藏!')
 				this.list.splice(index, 1)
 			},
 			gotoTopicInfo(item) {
-				uni.navigateTo({
-					url: '../../pages/detail/detail?id=' + item.id,
-				});
+				uni.navigateTo({ url: '../../pages/detail/detail?id=' + item.id, })
 			}
 		}
 	}

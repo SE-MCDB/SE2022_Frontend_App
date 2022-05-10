@@ -57,26 +57,22 @@
 </template>
 
 <script>
-	import needList from "@/components/platform/need-list.vue";
+	import needList from '@/components/platform/need-list.vue'
 	import needData from '@/components/platform/need-data.vue'
-	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
-	import myNavBar from "@/components/common/my-nav-bar.vue";
+	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
+	import myNavBar from '@/components/common/my-nav-bar.vue'
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '@/components/list-card/list-card-1.vue'
-	import loadMore from "@/components/common/load-more.vue";
+	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
-	import noThing from "@/components/common/no-thing.vue";
+	import noThing from '@/components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
-	import {
-		mapState
-	} from 'vuex'
-	import {
-		getUserProfile,
-	} from "@/api/home.js"
+	import { mapState } from 'vuex'
+	import { getUserProfile, } from '@/api/home.js'
 	import {
 		manageFinishedNeed,
 		manageUnfinishedNeed,
@@ -85,10 +81,8 @@
 		endNeed,
 		expertRecommend,
 		transformNeed
-	} from "@/api/manage-need.js"
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	} from '@/api/manage-need.js'
+	import { createContact } from '@/api/need-detail.js'
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -103,9 +97,7 @@
 			uniPopup,
 			uniPopupDialog
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				islogin: false,
@@ -123,18 +115,18 @@
 				resolveIndex: -1,
 				expertList: [],
 				tabBars: [{
-						name: "已完成",
-						id: "wode",
+						name: '已完成',
+						id: 'wode',
 						page: 1
 					},
 					{
-						name: "未完成",
-						id: "faxian",
+						name: '未完成',
+						id: 'faxian',
 						page: 1
 					},
 					{
-						name: "未发布",
-						id: "weifabu",
+						name: '未发布',
+						id: 'weifabu',
 						page: 1
 					}
 				],
@@ -145,35 +137,33 @@
 		onLoad() {
 			console.log(this.userInfo)
 			uni.getSystemInfo({
-				success: (res) => {
+				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
+					this.swiperheight = height
 				}
-			});
-			console.log("-------------------Requesting")
+			})
+			console.log('-------------------Requesting')
 			this.msg = ''
 			this.requestData()
-			console.log("-------------------Request Success")
+			console.log('-------------------Request Success')
 		},
 		
 		onShow() {
 			console.log(this.userInfo)
-			console.log("-------------------Requesting")
+			console.log('-------------------Requesting')
 			this.requestData()
-			console.log("-------------------Request Success")
+			console.log('-------------------Request Success')
 		},
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
-				uni.navigateTo({
-					url: '../login/login',
-				});
+				uni.navigateTo({ url: '../login/login', })
 			}
 			switch (e.index) {
 				case 0:
-					this.show = true;
-					break;
+					this.show = true
+					break
 			}
 		},
 		
@@ -186,7 +176,7 @@
 		methods: {
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
-				let type = this.tabBars[this.tabIndex].id;
+				let type = this.tabBars[this.tabIndex].id
 				try {
 					if(this.tabIndex === 1){
 						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
@@ -206,38 +196,32 @@
 				}
 			},
 			openLogin() {
-				uni.navigateTo({
-					url: '../login/login'
-				});
+				uni.navigateTo({ url: '../login/login' })
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
-				uni.navigateTo({
-					url: '../need-detail/detail?id=' + item.need_id
-				})
+				console.log('-----------------------------------openDetail')
+				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			editneed(item) {
-				console.log("------------------------------------rewrite need")
-				uni.navigateTo({
-					url: '../edit-need/edit-need?id=' + item.need_id
-				})
+				console.log('------------------------------------rewrite need')
+				uni.navigateTo({ url: '../edit-need/edit-need?id=' + item.need_id })
 			},
 			deleteneed(item) {
 				this.msgType = 'error'
 				this.resolveId = item.need_id
 				this.msg = '确认删除需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to delete need")
+				console.log('------------------------------------ready to delete need')
 			},
 			endneed(item) {
 				this.msgType = 'warn'
 				this.resolveId = item.need_id
 				this.msg = '确认结束需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to end need")
+				console.log('------------------------------------ready to end need')
 			},
 			async issue(item) {
-				console.log("issue")
+				console.log('issue')
 				try {
 					let result = await transformNeed(this.userInfo.id, item.need_id)
 				} catch (e) {
@@ -322,35 +306,35 @@
 				console.log('点击关闭')
 			},
 			async onrefresh() {
-				if (this.refreshing) return;
-				this.refreshing = true;
+				if (this.refreshing) return
+				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
+					this.refreshing = false
+					uni.showToast({ title:'已更新',duration:500 })
 				}, 200)
 			},
 			tabtap(index) {
-				console.log("change index to " + index);
-				this.tabIndex = index;
+				console.log('change index to ' + index)
+				this.tabIndex = index
 				this.resolveIndex = -1
 				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			// 滑动事件
 			tabChange(e) {
-				this.tabIndex = e.detail.current;
+				this.tabIndex = e.detail.current
 				this.resolveIndex = -1
 				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			hidepopup() {
-				this.show = false;
+				this.show = false
 			},
 			showpopup() {
-				this.show = true;
+				this.show = true
 			},
 			async mounted() {
 				this.initDat()
@@ -380,12 +364,10 @@
 					expert_id:expert.expert_id,
 					enterprise_id:this.userInfo.id,
 					need_id:item.need_id,
-				};
+				}
 				let s =createContact(temp)
 				console.log(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+expert.expert_id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+expert.expert_id })
 			},
 		}
 	}

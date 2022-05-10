@@ -21,11 +21,11 @@
 </template>
 
 <script>
-	import paperList from "../../components/paper/paper-list.vue";
-	import loadMore from "../../components/common/load-more.vue";
-	import paperLeftPopup from "../../components/paper/paper-left-popup.vue";
+	import paperList from '../../components/paper/paper-list.vue'
+	import loadMore from '../../components/common/load-more.vue'
+	import paperLeftPopup from '../../components/paper/paper-left-popup.vue'
 	import time from '../../common/time.js'
-			import noThing from "../../components/common/no-thing.vue";
+			import noThing from '../../components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import {
@@ -61,7 +61,7 @@
 			return {
 				show: false,
 				socketTask: undefined,
-				loadtext: "",
+				loadtext: '',
 				list: [],
 				$is_open_socket:false,
 				options: [
@@ -73,13 +73,11 @@
 					// }, 
 					{
 						text: '删除',
-						style: {
-							backgroundColor: '#dd524d'
-						}
+						style: { backgroundColor: '#dd524d' }
 					}
 				]
 
-			};
+			}
 		},
 		onShow() {
 			//this.connectSocketInit();
@@ -87,7 +85,6 @@
 				this.initData()
 				this.loadtext = ''
 			}
-
 		},
 		// 监听下拉刷新
 		async onPullDownRefresh() {
@@ -96,10 +93,10 @@
 			} else {
 				this.loadtext = ''
 			}
-			uni.stopPullDownRefresh();
+			uni.stopPullDownRefresh()
 		},
 		onReachBottom() {
-			this.loadmore();
+			this.loadmore()
 		},
 		async onLoad() {
 		},
@@ -107,16 +104,16 @@
 		onNavigationBarButtonTap(e) {
 			switch (e.index) {
 				case 0:
-					this.$http.href("../user-list/user-list")
-					this.hidepopup();
-					break;
+					this.$http.href('../user-list/user-list')
+					this.hidepopup()
+					break
 				case 1:
-					this.showpopup();
-					break;
+					this.showpopup()
+					break
 			}
 		},
 		beforeDestroy() {
-			this.closeSocket();
+			this.closeSocket()
 		
 		},
 		methods: {
@@ -134,7 +131,7 @@
 			async initData() {
 				let token=uni.getStorageSync('token')
 				let chatList = await getChatList(this.userInfo)
-				this.setChatList(chatList);
+				this.setChatList(chatList)
 				this.sortChatList()
 				uni.setStorageSync('chatList', JSON.stringify(this.chatList))
 				console.log(this.userInfo)
@@ -200,12 +197,12 @@
 				if (this.is_open_socket) {
 					this.socketTask.close({
 						success(res) {
-							this.$is_open_socket = false;
+							this.$is_open_socket = false
 							this.socketTask = undefined
-							console.log("关闭成功", res)
+							console.log('关闭成功', res)
 						},
 						fail(err) {
-							console.log("关闭失败", err)
+							console.log('关闭失败', err)
 						}
 					})
 				}
@@ -213,23 +210,23 @@
 			
 			readMsg(index) {
 				this.setIndex(index)
-				if (this.currentChatMsgs.length == 0) {
+				if (this.currentChatMsgs.length === 0) {
 					return
 				}
-				if (this.chatList[index].noreadnum == 0) {
+				if (this.chatList[index].noreadnum === 0) {
 					return
 				}
 				let msgs = this.currentChatMsgs.filter((item => {
-					if (item.id && item.status == 0 && item.uid !=this.userInfo.id) {
+					if (item.id && item.status === 0 && item.uid !==this.userInfo.id) {
 						return true
 					} else {
 						return false
 					}
-				}));
+				}))
 				let mids = msgs.map((item => {
 					return item.id
-				}));
-				console.log("test here")
+				}))
+				console.log('test here')
 				readChatMsg(mids,this.chatList[index].id)
 				this.updateMsg(index)
 
@@ -237,24 +234,22 @@
 			// 操作菜单
 			
 			addfriend() {
-				uni.navigateTo({
-					url: '../user-search/user-search'
-				})
-				this.hidepopup();
+				uni.navigateTo({ url: '../user-search/user-search' })
+				this.hidepopup()
 
 			},
 			clear() {
-				console.log("清除列表");
+				console.log('清除列表')
 				uni.showModal({
-					title: "提示",
-					content: "是否清除列表",
-					cancelText: "取消",
-					success: async (e) => {
-						if (e.confirm == true) {
-							let cids = this.chatList.map((item) => {
+					title: '提示',
+					content: '是否清除列表',
+					cancelText: '取消',
+					success: async e => {
+						if (e.confirm === true) {
+							let cids = this.chatList.map(item => {
 								return item.id
 							})
-							if (cids.length == 0) {
+							if (cids.length === 0) {
 								return
 							}
 							this.setChatList([])
@@ -262,23 +257,23 @@
 						}
 					}
 				})
-				this.hidepopup();
+				this.hidepopup()
 			},
 			hidepopup() {
-				this.show = false;
+				this.show = false
 			},
 			showpopup() {
-				this.show = true;
+				this.show = true
 			},
 			// 上拉加载
 			loadmore() {
-				if (this.loadtext != "") {
-					return;
+				if (this.loadtext !== '') {
+					return
 				}
 				// 修改状态
-				this.loadtext = "加载中...";
+				this.loadtext = '加载中...'
 				// 获取数据
-				this.loadtext = "没有更多数据了";
+				this.loadtext = '没有更多数据了'
 			},
 		}
 	}

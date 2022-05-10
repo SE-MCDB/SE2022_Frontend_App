@@ -42,21 +42,15 @@
 </template>
 
 <script>
-	import homeListItem from "../../components/home/home-list-item.vue";
-	import homeInfo from "../../components/home/home-info.vue";
-	import otherLogin from "../../components/home/other-login.vue";
-	import homeData from "../../components/home/home-data.vue";
-	import {
-		getUserProfile,
-	} from "@/api/home.js";
+	import homeListItem from '../../components/home/home-list-item.vue'
+	import homeInfo from '../../components/home/home-info.vue'
+	import otherLogin from '../../components/home/other-login.vue'
+	import homeData from '../../components/home/home-data.vue'
+	import { getUserProfile, } from '@/api/home.js'
 	
-	import {
-		picUrl
-	} from "@/api/common.js";
+	import { picUrl } from '@/api/common.js'
 	
-	import {
-		webUrl
-	} from '../../common/config.js'
+	import { webUrl } from '../../common/config.js'
 	import {
 		mapState,
 		mapMutations
@@ -68,9 +62,7 @@
 			otherLogin,
 			homeData
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		onShow() {
 			console.log(this.userInfo.email)
 			if (this.userInfo.id) {
@@ -91,8 +83,6 @@
 			}
 		},
 		onLoad(){
-			
-			
 			
 			
 		},
@@ -124,7 +114,7 @@
 				islogin: false,
 				homeinfo: {
 					userpic: this.userInfo ? this.userInfo.userpic : '',
-					username: this.userInfo ? this.userInfo.username : "",
+					username: this.userInfo ? this.userInfo.username : '',
 					totalnum: 0,
 					todaynum: 0,
 					type: 0,
@@ -132,15 +122,15 @@
 				homedata: [
 					// { name:"话题", num:0 },
 					{
-						name: "主页",
+						name: '主页',
 						num: 0
 					},
 					{
-						name: "评论",
+						name: '评论',
 						num: 0
 					},
 					{
-						name: "收藏",
+						name: '收藏',
 						num: 0
 					},
 				],
@@ -159,43 +149,33 @@
 					size: '22',
 					type: 'gear'
 				},
-			};
+			}
 		},
 		// 监听下拉刷新
 		async onPullDownRefresh() {
 			await this.initDat()
-			uni.stopPullDownRefresh();
+			uni.stopPullDownRefresh()
 		},
 		onNavigationBarButtonTap(e) {
 			if (this.userInfo.id) {
-				if (e.index == 0) {
-					uni.navigateTo({
-						url: '../user-set/user-set',
-					});
+				if (e.index === 0) {
+					uni.navigateTo({ url: '../user-set/user-set', })
 				}
 			} else {
-				uni.navigateTo({
-					url: '../login/login',
-				});
+				uni.navigateTo({ url: '../login/login', })
 			}
 
 		},
 		methods: {
 			...mapMutations(['setUserInfo']),
 			openLogin() {
-				uni.navigateTo({
-					url: '../login/login'
-				});
+				uni.navigateTo({ url: '../login/login' })
 			},
 			openEnterpriseCertificate() {
-				uni.navigateTo({
-					url: '../certificate-enterprise/certificate-enterprise?uid=' + this.userInfo.id
-				})
+				uni.navigateTo({ url: '../certificate-enterprise/certificate-enterprise?uid=' + this.userInfo.id })
 			},
 			openExpertCertificate() {
-				uni.navigateTo({
-					url: '../certificate-expert/certificate-expert?uid=' + this.userInfo.id
-				})
+				uni.navigateTo({ url: '../certificate-expert/certificate-expert?uid=' + this.userInfo.id })
 			},
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
@@ -217,19 +197,19 @@
 				}
 			},
 			print(){
-				console.log(this.userInfo.id);
+				console.log(this.userInfo.id)
 			},
 			goToSpace(index) {
 				switch (index) {
 					case 0:
 						this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
-						break;
+						break
 					case 1:
 						// this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
-						break;
+						break
 					case 2:
 						this.$http.href('../../pages/user-collect/user-collect?uid=' + this.userInfo.id)
-						break;
+						break
 				}
 			},
 			

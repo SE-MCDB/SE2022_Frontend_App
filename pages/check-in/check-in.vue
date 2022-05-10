@@ -70,8 +70,8 @@
 </template>
 
 <script>
-	import {getSignList, saveSign} from '@/api/check-in.js'
-	import {mapState} from 'vuex'
+	import { getSignList, saveSign } from '@/api/check-in.js'
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
@@ -85,11 +85,9 @@
 				weeks_ch: ['日', '一', '二', '三', '四', '五', '六'],
 				weeks_en: ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'],
 				adress: ''
-			};
+			}
 		},
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		props: {
 			sendYear: {
 				type: Number,
@@ -107,29 +105,27 @@
 			},
 			langType: { //只是示例一个翻译而已，要想所有都翻译自己可以再加加
 				type: String,
-				default: "ch"
+				default: 'ch'
 			},
 		},
 		 async created() {
-			this.cur_year = this.sendYear;
-			this.cur_month = this.sendMonth;
+			this.cur_year = this.sendYear
+			this.cur_month = this.sendMonth
 			// this.SignUp = this.dataSource;
 			await this.initData()
-			this.calculateEmptyGrids(this.cur_year, this.cur_month);
-			this.calculateDays(this.cur_year, this.cur_month);
-			this.onJudgeSign();
+			this.calculateEmptyGrids(this.cur_year, this.cur_month)
+			this.calculateDays(this.cur_year, this.cur_month)
+			this.onJudgeSign()
 		},
-		watch: {
-			dataSource: 'onResChange',
-		},
+		watch: { dataSource: 'onResChange', },
 		methods: {
 			async initData(){
 				if(this.userInfo.id){
 					let list = await getSignList()
-					let signin = this.cur_year + "-" + this.cur_month + "-" + this.today
+					let signin = this.cur_year + '-' + this.cur_month + '-' + this.today
 					
-					this.SignUp = list.map((item)=>{
-						if(item.signIn==signin){
+					this.SignUp = list.map(item=>{
+						if(item.signIn===signin){
 							this.adress = item.adress
 						}
 						return item.signIn
@@ -143,20 +139,20 @@
 			},
 			// 获取当月第一天星期几
 			getFirstDayOfWeek(year, month) {
-				return new Date(Date.UTC(year, month - 1, 1)).getDay();
+				return new Date(Date.UTC(year, month - 1, 1)).getDay()
 			},
 			// 计算当月1号前空了几个格子，把它填充在days数组的前面
 			calculateEmptyGrids(year, month) {
 				//计算每个月时要清零
-				this.days = [];
-				const firstDayOfWeek = this.getFirstDayOfWeek(year, month);
+				this.days = []
+				const firstDayOfWeek = this.getFirstDayOfWeek(year, month)
 				if (firstDayOfWeek > 0) {
 					for (let i = 0; i < firstDayOfWeek; i++) {
 						var obj = {
 							date: null,
 							isSign: false
 						}
-						this.days.push(obj);
+						this.days.push(obj)
 					}
 				}
 			},
@@ -164,7 +160,7 @@
 			// 绘制当月天数占的格子，并把它放到days数组中
 			calculateDays(year, month) {
 
-				const thisMonthDays = this.getThisMonthDays(year, month);
+				const thisMonthDays = this.getThisMonthDays(year, month)
 				// this.columnsLen=Math.ceil(thisMonthDays/7);
 				// console.log(this.columnsLen);
 				for (let i = 1; i <= thisMonthDays; i++) {
@@ -172,7 +168,7 @@
 						date: i,
 						isSign: false
 					}
-					this.days.push(obj);
+					this.days.push(obj)
 				}
 				//console.log(this.days);
 
@@ -180,86 +176,84 @@
 
 			onResChange(newD, oldD) {
 				// this.SignUp = newD;
-				this.onJudgeSign();
+				this.onJudgeSign()
 			},
 			//匹配判断当月与当月哪些日子签到打卡
 			onJudgeSign() {
-				var signs = this.SignUp;
-				var daysArr = this.days;
+				var signs = this.SignUp
+				var daysArr = this.days
 				for (var i = 0; i < signs.length; i++) {
-					var current = new Date(signs[i].replace(/-/g, "/"));
-					var year = current.getFullYear();
-					var month = current.getMonth() + 1;
-					var day = current.getDate();
-					day = parseInt(day);
+					var current = new Date(signs[i].replace(/-/g, '/'))
+					var year = current.getFullYear()
+					var month = current.getMonth() + 1
+					var day = current.getDate()
+					day = parseInt(day)
 					for (var j = 0; j < daysArr.length; j++) {
 						//年月日相同则打卡成功   						
-						if (year == this.cur_year && month == this.cur_month && daysArr[j].date == day) { //&& signs[i].isSign == "今日已打卡"
+						if (year === this.cur_year && month === this.cur_month && daysArr[j].date === day) { //&& signs[i].isSign == "今日已打卡"
 							// console.log(daysArr[j].date, day);
-							daysArr[j].isSign = true;
+							daysArr[j].isSign = true
 							
 						}
 					}
 				}
-				this.days = daysArr;
+				this.days = daysArr
 			},
 
 			// 切换控制年月，上一个月，下一个月
 			async handleCalendar(type) {
-				const cur_year = parseInt(this.cur_year);
-				const cur_month = parseInt(this.cur_month);
-				var newMonth;
-				var newYear = cur_year;
+				const cur_year = parseInt(this.cur_year)
+				const cur_month = parseInt(this.cur_month)
+				var newMonth
+				var newYear = cur_year
 				if (type === 0) { //上个月
-					newMonth = cur_month - 1;
+					newMonth = cur_month - 1
 					if (newMonth < 1) {
-						newYear = cur_year - 1;
-						newMonth = 12;
+						newYear = cur_year - 1
+						newMonth = 12
 					}
 				} else {
-					newMonth = cur_month + 1;
+					newMonth = cur_month + 1
 					if (newMonth > 12) {
-						newYear = cur_year + 1;
-						newMonth = 1;
+						newYear = cur_year + 1
+						newMonth = 1
 					}
 				}
-				this.calculateEmptyGrids(newYear, newMonth);
-				this.calculateDays(newYear, newMonth);
+				this.calculateEmptyGrids(newYear, newMonth)
+				this.calculateDays(newYear, newMonth)
 
-				this.cur_year = newYear;
-				this.cur_month = newMonth;
-				this.onJudgeSign();
+				this.cur_year = newYear
+				this.cur_month = newMonth
+				this.onJudgeSign()
 				// this.SignUp = []; //先清空
 				// this.$emit('dateChange', this.cur_year+"-"+this.cur_month); //传给调用模板页面去拿新数据				
 			},
 
 			async clickSignUp(date, type) { //0补签，1当日签到		
-				var str = "签到";
-				if (type == 0) {//如果不需要补签功能直接在这阻止不执行后面的代码就行。
-					str = "补签";
+				var str = '签到'
+				if (type === 0) {//如果不需要补签功能直接在这阻止不执行后面的代码就行。
+					str = '补签'
 					return
 				}
 				uni.showToast({
-					title: str + "成功",
+					title: str + '成功',
 					icon: 'success',
 					duration: 2000
-				});
-				let signin = this.cur_year + "-" + this.cur_month + "-" + date
-				let data =await saveSign({
-					signIn: signin
 				})
-				if(data.code==0){
+				let signin = this.cur_year + '-' + this.cur_month + '-' + date
+				let data =await saveSign({ signIn: signin })
+				if(data.code===0){
 					
-					this.SignUp.push(this.cur_year + "-" + this.cur_month + "-" + date); //自动加假数据，写了接口就不用了
-					this.adress = data.message==""?"中国": data.message
-					this.$forceUpdate();
+					this.SignUp.push(this.cur_year + '-' + this.cur_month + '-' + date) //自动加假数据，写了接口就不用了
+					this.adress = data.message===''?'中国': data.message
+					this.$forceUpdate()
 				}
 
-				this.$emit('clickChange', this.cur_year + "-" + this.cur_month + "-" + date); //传给调用模板页面
+				this.$emit('clickChange', this.cur_year + '-' + this.cur_month + '-' + date) //传给调用模板页面
 
 
 				//refresh
-				this.onJudgeSign();
+				this.onJudgeSign()
 
 			}
 		}

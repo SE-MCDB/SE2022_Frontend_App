@@ -62,17 +62,15 @@
 		userRegister,
 		getCode,
 	} from '@/api/register.js'
-	import {
-		mapMutations
-	} from 'vuex';
+	import { mapMutations } from 'vuex'
 	export default {
 		computed: {
 			disabled: function() {
-				let bool = true;
+				let bool = true
 				if (this.username && this.code && this.password) {
-					bool = false;
+					bool = false
 				}
-				return bool;
+				return bool
 			}
 		},
 		data() {
@@ -83,101 +81,99 @@
 				email:'',
 				isSend: false,
 				btnSendText: '获取验证码' //倒计时格式：(60秒)
-			};
+			}
 		},
 		methods: {
 			//验证手机号码
 			isEmail(email) {
-				let mPattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
-				return mPattern.test(email);
+				let mPattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+				return mPattern.test(email)
 			},
 			back() {
-				uni.navigateBack();
+				uni.navigateBack()
 			},
 			inputCode(e) {
-				this.code = e.detail.value;
+				this.code = e.detail.value
 			},
 			inputUserName: function(e) {
-				this.username = e.detail.value;
+				this.username = e.detail.value
 			},
 			inputPwd: function(e) {
-				this.password = e.detail.value;
+				this.password = e.detail.value
 			},
 			inputEmail: function(e) {
-				this.email= e.detail.value;
+				this.email= e.detail.value
 			},
 			clearInput(type) {
-				if (type == 1) {
-					this.username = '';
-				} else if(type==2){
-					this.password = '';
+				if (type === 1) {
+					this.username = ''
+				} else if(type===2){
+					this.password = ''
 				}else{
-					this.email='';
+					this.email=''
 				}
 			},
 			protocol() {
-				this.tui.href("/pages/doc/protocol/protocol")
+				this.tui.href('/pages/doc/protocol/protocol')
 			},
 			async getCheckNum() {
 				if (this.btnSendText > 0) {
-					return;
+					return
 				}
 				// 验证邮箱合法性
 				if (!this.isEmail(this.email)) {
 					uni.showToast({
 						title: '请输入正确的邮箱',
-						icon: "none"
-					});
-					return;
+						icon: 'none'
+					})
+					return
 				}
 				// 请求服务器，发送验证码
 				
-				let code = await getCode({"email":this.email})
+				let code = await getCode({ 'email':this.email })
 				if(code){
-					this.$http.toast("验证码已发送");
+					this.$http.toast('验证码已发送')
 				}
 				this.isSend = true,
 				// 发送成功，开启倒计时
-				this.btnSendText = 60;
+				this.btnSendText = 60
 				let timer = setInterval(() => {
-					this.btnSendText--;
+					this.btnSendText--
 					if (this.btnSendText < 1) {
-						clearInterval(timer);
-						this.btnSendText = '获取验证码';
+						clearInterval(timer)
+						this.btnSendText = '获取验证码'
 						this.isSend = true
 					}
-				}, 1000);
+				}, 1000)
 			},
 			async toRegister() {
 				if (!this.isEmail(this.email)) {
-					this.$http.toast("请输入正确的邮箱");
+					this.$http.toast('请输入正确的邮箱')
 					return
 				}
-				console.log("begin");
+				console.log('begin')
 				let data = await userRegister({
 					username: this.username,
 					code: this.code,
 					password: this.password,
 					email:this.email,
 				})
-				if (!data || (data && !("id" in data))) {
+				if (!data || (data && !('id' in data))) {
 					let msg = data.error_msg
 					if(msg && data.code===409){
-						this.$http.toast("用户名或邮箱已存在");
+						this.$http.toast('用户名或邮箱已存在')
 					}else if(msg &&data.code===400){
-						this.$http.toast("请填写完整信息");
+						this.$http.toast('请填写完整信息')
 					}else if(msg &&data.code===402){
-						this.$http.toast("验证码输入错误");
+						this.$http.toast('验证码输入错误')
 					}
 					return
 				}
-				uni.redirectTo({
-					url: '../login/login'
-				})
-				return;
+				uni.redirectTo({ url: '../login/login' })
+				return
 			},
 		}
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

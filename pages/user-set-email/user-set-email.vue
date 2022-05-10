@@ -3,7 +3,6 @@
 		<input type="text" v-model="email"
 		class="uni-input common-input"
 		placeholder="输入需要绑定的邮箱" />
-		
 
 		<view class="login-input-box">
 			<input type="text" v-model="password"
@@ -22,16 +21,14 @@
 </template>
 
 <script>
-	import {mapState} from 'vuex'
-	import {bindEmail,getEmailCode} from '@/api/user-set-email.js'
+	import { mapState } from 'vuex'
+	import { bindEmail,getEmailCode } from '@/api/user-set-email.js'
 	export default {
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		data() {
 			return {
 				email:'',
-				password:"",
+				password:'',
 				disabled:true,
 				loading:false,
 				codetime:0,
@@ -45,10 +42,10 @@
 		},
 		watch:{
 			email(val){
-				this.change();
+				this.change()
 			},
 			password(val){
-				this.change();
+				this.change()
 			},
 		},
 		methods: {
@@ -56,90 +53,88 @@
 			// 监听输入框
 			change(){
 				if(this.email && this.password){
-					this.disabled=false;
-					return;
+					this.disabled=false
+					return
 				}
-				this.disabled=true;
+				this.disabled=true
 			},
 			async getCheckNum(){
-				if(this.codetime > 0){ return; }
+				if(this.codetime > 0){ return }
 				// 验证邮箱格式
-				let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+				let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
 				if(!ePattern.test(this.email)){
 					uni.showToast({
 						title: '请输入正确邮箱格式',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
 				// 请求服务器，发送验证码
-				let data =await  getEmailCode(this.email)
+				let data =await getEmailCode(this.email)
 				
 				console.log(data)
 				// 发送成功，开启倒计时
-				this.codetime=60;
+				this.codetime=60
 				let timer=setInterval(()=>{
-					this.codetime--;
+					this.codetime--
 					if(this.codetime < 1){
-						clearInterval(timer);
-						this.codetime=0;
+						clearInterval(timer)
+						this.codetime=0
 					}
-				},1000);
+				},1000)
 			},
 			// 验证层
 			check(){
-				if(!this.email || this.email==""){
+				if(!this.email || this.email === ''){
 					uni.showToast({
 						title: '邮箱不能为空',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
 				
 				// 验证邮箱格式
-				let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+				let ePattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/
 				if(!ePattern.test(this.email)){
 					uni.showToast({
 						title: '请输入正确邮箱格式',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
 				
-				if(!this.password || this.password==""){
+				if(!this.password || this.password === ''){
 					uni.showToast({
 						title: '密码不能为空',
-						icon:"none"
-					});
-					return false;
+						icon:'none'
+					})
+					return false
 				}
-				return true;
+				return true
 			},
 			// 提交
 			async submit(){
-				this.loading=true; this.disabled=true;
-				if(!this.check()){ this.loading=false; this.disabled=false; return; }
+				this.loading=true; this.disabled=true
+				if(!this.check()){ this.loading=false; this.disabled=false; return }
 				// 提交服务器
 				let res = await bindEmail({
 					email: this.email,
 					code: this.password
 				})
-					if(res.code==0){
+					if(res.code === 0){
 						uni.showToast({
-							title:"邮箱绑定成功",
+							title:'邮箱绑定成功',
 							icon:'success'
 						})
-						uni.navigateBack({
-							delta:1
-						})
+						uni.navigateBack({ delta:1 })
 					}else{
 						uni.showToast({
-							title:"邮箱绑定失败",
+							title:'邮箱绑定失败',
 							icon:'success'
 						})
 						return 
 					}
-				this.loading=false; this.disabled=false;
+				this.loading=false; this.disabled=false
 			}
 		}
 	}

@@ -26,29 +26,27 @@
 </template>
 
 <script>
-	import detailInfo from "../../components/detail/detail-info.vue";
-	import plComment from "../../components/ygc-comment/ygc-comment.vue";
-	import time from "../../common/time.js";
-	import commentList from "../../components/detail/comment-list.vue";
-	import userChatBottom from "../../components/user-chat/user-chat-bottom.vue";
-	import moreShare from "../../components/common/more-share.vue";
-	import tRtPopup from '@/components/views/t-rt-popup/t-rt-popup';
+	import detailInfo from '../../components/detail/detail-info.vue'
+	import plComment from '../../components/ygc-comment/ygc-comment.vue'
+	import time from '../../common/time.js'
+	import commentList from '../../components/detail/comment-list.vue'
+	import userChatBottom from '../../components/user-chat/user-chat-bottom.vue'
+	import moreShare from '../../components/common/more-share.vue'
+	import tRtPopup from '@/components/views/t-rt-popup/t-rt-popup'
 	import {
 		getTopicDetail,
 		pushHistory,
 		delComment,
 		addComment,
 		getCommentList
-	} from "@/api/detail.js";
-	import {
-		giveLike
-	} from '@/api/common.js'
+	} from '@/api/detail.js'
+	import { giveLike } from '@/api/common.js'
 	import {
 		mapState,
 		mapMutations
-	} from "vuex"
+	} from 'vuex'
 	
-	var graceRichText = require("../../components/common/richText.js");
+	var graceRichText = require('../../components/common/richText.js')
 	export default {
 		components: {
 			tRtPopup,
@@ -62,7 +60,7 @@
 			return {
 				shareshow: false,
 				currentComm: {},
-				placeText: "请输入评论",
+				placeText: '请输入评论',
 				comment: {
 					count: 0,
 					list: []
@@ -75,20 +73,16 @@
 						title: '收藏',
 						icon: 'star'
 					},
-					{
-						title: '分享',
-					}
+					{ title: '分享', }
 				],
 				detail: {},
-				created_by:{
-					
-				},
+				created_by:{},
 				maskState: false
 
 			}
 		},
 		onLoad(data) {
-			console.log("data is:" + data + " and data.id is:" + data.id)
+			console.log('data is:' + data + ' and data.id is:' + data.id)
 			try {
 				this.initData(data.id)
 			} catch (e) {
@@ -116,22 +110,18 @@
 			// 	},
 			// });
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		methods: {
 			// 初始化数据
 			async initData(id) {
 				// 修改窗口标题
-				uni.setNavigationBarTitle({
-					title: "详情"
-				});
+				uni.setNavigationBarTitle({ title: '详情' })
 				let detail = await getTopicDetail(id)
 				this.detail = detail
 				this.comment.count = detail.commentNum
 				this.created_by = detail.created_by
 				this.detail.content= graceRichText.format(this.detail.content)
-				this.getcomment(detail.uid);
+				this.getcomment(detail.uid)
 				
 				this.$nextTick(()=>{
 					this.detail = detail
@@ -143,24 +133,22 @@
 			itemClick(e) {
 				switch(e.index){
 					case 0: 
-						uni.switchTab({
-							url:'../index/index'
-						})
-					break;
+						uni.switchTab({ url:'../index/index' })
+					break
 					case 1:
 						
-					break;
+					break
 					case 2:
 					
-					break;
+					break
 				}
-				let text = ["首页", "收藏", "分享"][e.index];
-				this.$http.toast(`您点击了：${text}`);
+				let text = ['首页', '收藏', '分享'][e.index]
+				this.$http.toast(`您点击了：${text}`)
 			},
 			onClick(){
 				if(!this.userInfo || !this.userInfo.id){
 					uni.showToast({
-						title:"你还未登录！或登录过有效期!",
+						title:'你还未登录！或登录过有效期!',
 						icon:'none'
 					})
 					return
@@ -174,7 +162,7 @@
 				this.collect = !this.collect
 			},
 			rtBubble() {
-				this.$refs.rtBubble.toggle();
+				this.$refs.rtBubble.toggle()
 			},
 			comSubimt(item) {
 				this.currentComm = item
@@ -183,10 +171,10 @@
 			},
 			async comDelete(item) {
 				await delComment(item.id)
-				await this.getcomment();
+				await this.getcomment()
 			},
 			async pubComment(text) {
-				if (text == "") {
+				if (text === '') {
 					return
 				}
 				if(this.currentComm.title){
@@ -213,44 +201,42 @@
 			
 			goToUserInfo(item) {
 				
-				uni.navigateTo({
-					url: '../../pages/user-space/user-space?uid=' + item.uid
-				})
+				uni.navigateTo({ url: '../../pages/user-space/user-space?uid=' + item.uid })
 			},
 			async likeOrTread(data) {
 				giveLike(data)
 				if(this.detail.is_like){
-					this.$http.toast("你已取消点赞!")
+					this.$http.toast('你已取消点赞!')
 				}else{
-					this.$http.toast("点赞成功!")
+					this.$http.toast('点赞成功!')
 					
 				}
 			},
 			// 获取评论
 			async getcomment(id) {
-				let items = await getCommentList(id,{"interpretation_id":this.detail.id})
-				this.comment.list = items.ans;
-				this.comment.count = items.length;
+				let items = await getCommentList(id,{ 'interpretation_id':this.detail.id })
+				this.comment.list = items.ans
+				this.comment.count = items.length
 				this.detail.commentNum = items.length
 			},
 			formatRichText (html) {
 							// 去掉img标签里的style、width、height属性
 							let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
-								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-								return match;
-							});
+								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '')
+								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '')
+								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '')
+								return match
+							})
 							// 修改所有style里的width属性为max-width:100%
 							newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
-								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
-								return match;
-							});
+								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;')
+								return match
+							})
 							// 去掉<br/>标签
-							newContent = newContent.replace(/<br[^>]*\/>/gi, '');
+							newContent = newContent.replace(/<br[^>]*\/>/gi, '')
 							// img标签添加style属性：max-width:100%;height:auto
-							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"');
-							return newContent;
+							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"')
+							return newContent
 			},
 		}
 	}

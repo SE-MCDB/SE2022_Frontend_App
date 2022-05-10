@@ -6,7 +6,7 @@
 		<view class="tui-form">
 			<view class="tui-view-input">
 			
-<!-- 				<tui-list-cell :hover="false">
+					<!--<tui-list-cell :hover="false">
 					<view class="thorui-input-item">
 						<view class="thorui-input-title">姓名</view>
 						<input class="thorui-input" placeholder="请输入姓名" placeholder-class="thorui-phcolor" v-model="name" />
@@ -120,16 +120,14 @@
 </template>
 
 <script>
-	import {
-		enterprise_certificate
-	} from '../../api/certificate.js';
+	import { enterprise_certificate } from '../../api/certificate.js'
 	import {
 		mapMutations,
 		mapState
-	} from 'vuex';
-	import uploadLicense from "../../components/uploadImages/uploadLicense.vue"
-	import uploadID from "../../components/uploadImages/uploadID.vue"
-	import form from "../../components/thorui/tui-validation/tui-validation.js";
+	} from 'vuex'
+	import uploadLicense from '../../components/uploadImages/uploadLicense.vue'
+	import uploadID from '../../components/uploadImages/uploadID.vue'
+	import form from '../../components/thorui/tui-validation/tui-validation.js'
 	export default {
 		components:{
 			uploadLicense,
@@ -194,153 +192,153 @@
 					checked: false,
 				},
 				]
-			};
+			}
 		},
 		computed:{
 			disabled: function() {
-				let bool = true;
+				let bool = true
 				if (this.userID &&this.name && (this.paper || this.patent) &&
 					this.organization && this.ID_num &&
 					this.scholar_ID && this.scholar_profile) {
-					bool = false;
+					bool = false
 				}
-				return bool;
+				return bool
 			},
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
 			//this.userID = data.uid;
 			
-			this.userID = this.userInfo.id;
+			this.userID = this.userInfo.id
 			if(this.userInfo.expert_name){
-				this.name = this.userInfo.expert_name;
-				this.organization = this.userInfo.expert_organization;
-				this.field = this.userInfo.expert_field;
-				this.scholar_profile = this.userInfo.expert_scholarprofile;
-				this.phone = this.userInfo.expert_phone;
+				this.name = this.userInfo.expert_name
+				this.organization = this.userInfo.expert_organization
+				this.field = this.userInfo.expert_field
+				this.scholar_profile = this.userInfo.expert_scholarprofile
+				this.phone = this.userInfo.expert_phone
 			}
-			console.log('onLoad in certification '+ this.userID);
+			console.log('onLoad in certification '+ this.userID)
 		},
 		methods: {
 			//验证手机号码
 			back() {
-				uni.navigateBack();
+				uni.navigateBack()
 			},
 			inputName(e) {
-				this.name = e.detail.value;
+				this.name = e.detail.value
 			},
 			inputPaper(e) {
-				this.paper = e.detail.value;
+				this.paper = e.detail.value
 			},
 			inputPatent(e) {
-				this.patent = e.detail.value;
+				this.patent = e.detail.value
 			},
 			inputOrganization(e) {
-				this.organization = e.detail.value;
+				this.organization = e.detail.value
 			},
 			inputField(e) {
-				this.field = e.detail.value;
+				this.field = e.detail.value
 			},
 			inputID_num(e) {
-				this.ID_num = e.detail.value;
+				this.ID_num = e.detail.value
 			},
 			inputScholar_ID(e) {
-				this.scholar_ID = e.detail.value;
+				this.scholar_ID = e.detail.value
 			},
 			inputScholar_Profile(e) {
-				this.scholar_profile = e.detail.value;
+				this.scholar_profile = e.detail.value
 			},
 			inputPhone(e) {
-				this.phone = e.detail.value;
+				this.phone = e.detail.value
 			},
 			clearInput(type) {
-				if (type == 1) {
-					this.name = '';
-				} else if(type == 2) {
-					this.ID_num = '';
-				}else if (type == 3) {
-					this.phone = '';
-				} else if (type == 4) {
-					this.paper = '';
-				} else if (type == 5) {
-					this.patent = '';
-				} else if (type == 6) {
-					this.organization = '';
-				} else if (type == 7) {
-					this.scholar_profile = '';
+				if (type === 1) {
+					this.name = ''
+				} else if(type === 2) {
+					this.ID_num = ''
+				}else if (type === 3) {
+					this.phone = ''
+				} else if (type === 4) {
+					this.paper = ''
+				} else if (type === 5) {
+					this.patent = ''
+				} else if (type === 6) {
+					this.organization = ''
+				} else if (type === 7) {
+					this.scholar_profile = ''
 				}
 			},
 			protocol() {
-				this.tui.href("/pages/doc/protocol/protocol")
+				this.tui.href('/pages/doc/protocol/protocol')
 			},
 			getIDPath(val) {
 				if (val.length > 0) {
-					this.scholar_ID = val[0];
+					this.scholar_ID = val[0]
 				} else {
-					this.scholar_ID = '';
+					this.scholar_ID = ''
 				}
-				console.log("IDPath!")
-				console.log(this.scholar_ID);
+				console.log('IDPath!')
+				console.log(this.scholar_ID)
 			},
 			getSelectedInfo(e) {
-				console.log(e.detail.value);
-				this.selectedItems = e.detail.value;
+				console.log(e.detail.value)
+				this.selectedItems = e.detail.value
 			},
 			checkID() {
-				if (this.scholar_ID.length != 18) {
-					return true;
+				if (this.scholar_ID.length !== 18) {
+					return true
 				} else {
-					return false;
+					return false
 				}
 			},
 			getFieldString() {
-				let string = [];
+				let string = []
 				for (let i = 0; i < this.checkboxItems.length; i++) {
-					string.push("0");
+					string.push('0')
 				}
-				console.log("string is " + string);
+				console.log('string is ' + string)
 				for (let i = 0; i < this.selectedItems.length; i++) {
-					console.log("seledted " + this.selectedItems[i])
-					string[this.selectedItems[i]] = "1";
+					console.log('seledted ' + this.selectedItems[i])
+					string[this.selectedItems[i]] = '1'
 				}
-				console.log("string is " + string);
-				let str = '';
+				console.log('string is ' + string)
+				let str = ''
 				for (let i = 0; i < string.length; i++) {
-					str = str + string[i];
+					str = str + string[i]
 				}
-				this.field = str;
+				this.field = str
 			},
 			checkFiledString() {
-				if (this.selectedItems.length == 0) {
-					return true;
+				if (this.selectedItems.length === 0) {
+					return true
 				}
-				return false;
+				return false
 			},
 			validate() {
 				let rules = [{
-					name: "phone",
-					rule: ["isMobile"],
-					msg: ["请输入正确手机号"]
+					name: 'phone',
+					rule: ['isMobile'],
+					msg: ['请输入正确手机号']
 				},
 				{	
-					name: "scholar_ID",
-					rule: ["required"],
-					msg: ["请输入身份证号"],
+					name: 'scholar_ID',
+					rule: ['required'],
+					msg: ['请输入身份证号'],
 					validator: [{
-						msg: "请输入正确身份号码",
+						msg: '请输入正确身份号码',
 						method: this.checkID
 					}]
 				},
 				{
-					name: "field",
-					rule: ["required"],
-					msg: ["请至少选择一个领域"],
+					name: 'field',
+					rule: ['required'],
+					msg: ['请至少选择一个领域'],
 					validator: [{
-						msg: "请至少选择一个领域",
+						msg: '请至少选择一个领域',
 						method: this.checkFieldString
 					}]
 				}
-				];
+				]
 				let formData = {
 					userID: this.userID,
 					name: this.name,
@@ -352,20 +350,20 @@
 					scholar_ID: this.scholar_ID,
 					scholar_profile: this.scholar_profile,
 					phone: this.phone,
-				};
-				let checkRes = form.validation(formData, rules);
-				return checkRes;
+				}
+				let checkRes = form.validation(formData, rules)
+				return checkRes
 			},
 			certificate() {
-				console.log("认证开始！")
-				this.getFieldString();
-				let checkRes = this.validate();
+				console.log('认证开始！')
+				this.getFieldString()
+				let checkRes = this.validate()
 				if (checkRes) {
 					uni.showToast({
 						title: checkRes,
-						icon: "none"
-					});
-					return;
+						icon: 'none'
+					})
+					return
 				} 
 				uni.uploadFile({
 					url: 'http://122.9.14.73:8000/api/expert/setinfo',
@@ -384,19 +382,19 @@
 						'field': this.field,
 						'scholar_profile': this.scholar_profile
 					},
-					success: (uploadFileRes) => {
-						console.log(uploadFileRes.data);
-						console.log("认证申请已发送");
-						this.back();
+					success: uploadFileRes => {
+						console.log(uploadFileRes.data)
+						console.log('认证申请已发送')
+						this.back()
 					},
-					fail: (err) => {
-						console.log(err);
+					fail: err => {
+						console.log(err)
 					}
 				})
-				return;
+				return
 			}
 		}
-	};
+	}
 </script>
 
 <style lang="scss" scoped>

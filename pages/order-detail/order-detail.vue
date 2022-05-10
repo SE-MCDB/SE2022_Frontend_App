@@ -57,27 +57,18 @@
 	import {
 		mapState,
 		mapMutations
-	} from "vuex"
-	import {
-		getOrderDetail
-	} from "@/api/order-detail.js"
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	} from 'vuex'
+	import { getOrderDetail } from '@/api/order-detail.js'
+	import { createContact } from '@/api/need-detail.js'
 	
 	
 	export default {
-		components: {
-		},
+		components: {},
 		data() {
-			return {
-				item:{
-					need:{},
-				},
-			}
+			return { item:{ need:{}, }, }
 		},
 		onLoad(data) {
-			console.log("data should be:" + data + " and id should be:" + data.id)
+			console.log('data should be:' + data + ' and id should be:' + data.id)
 			try {
 				this.initData(data.id)
 			} catch (e) {
@@ -96,60 +87,52 @@
 			
 		},
 		onPullDownRefresh(){
-			this.initData(this.item.order_id);
+			this.initData(this.item.order_id)
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		methods: {
 			//初始化数据
 			async initData(id) {
 				console.log(id)
 				if(id){
-					uni.setNavigationBarTitle({
-						title: "订单详情"
-					});
+					uni.setNavigationBarTitle({ title: '订单详情' })
 					let detail = await getOrderDetail(id)
 					this.item = detail
 					
 					switch(detail.state){
 						case 0:
-							this.item.state = "待接受"
-							break;
+							this.item.state = '待接受'
+							break
 						case 1:
-							this.item.state = "正在合作中"
-							break;
+							this.item.state = '正在合作中'
+							break
 						case 2:
-							this.item.state = "已拒绝"
-							break;
+							this.item.state = '已拒绝'
+							break
 						case 3:
-							this.item.state = "已结束"
-							break;
+							this.item.state = '已结束'
+							break
 						default:
-							this.item.state = "未知状态"
-							break;
+							this.item.state = '未知状态'
+							break
 					}
 
 					if(!detail.end_time) {
-						this.item.end_time="未结束"
+						this.item.end_time='未结束'
 					}
 				}
 				else{
 					console.log(id)
 				}
-				uni.stopPullDownRefresh();
+				uni.stopPullDownRefresh()
 			},
 			goToSpace(id){
-				console.log("jumpspace"+id)
-				uni.navigateTo({
-					url:'../user-space/user-space?uid='+id
-				})
+				console.log('jumpspace'+id)
+				uni.navigateTo({ url:'../user-space/user-space?uid='+id })
 			},
 			goToNeed(id){
-				console.log("jumpneed"+id)
-				uni.navigateTo({
-					url:'../need-detail/detail?id='+id
-				})
+				console.log('jumpneed'+id)
+				uni.navigateTo({ url:'../need-detail/detail?id='+id })
 			},
 			contact(id){
 				let item={
@@ -158,9 +141,7 @@
 					need_id:this.item.need.need_id,
 				}
 				createContact(item)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+id })
 			},
 		}
 	}

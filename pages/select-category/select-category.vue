@@ -18,14 +18,12 @@
 </template>
 
 <script>
-	import topicList from "../../components/select-title-list/select-title-list.vue";
-	import {getTopicTitleClass,getTopicTitleList} from '@/api/search-title.js'
-	import {getCategory} from '@/api/add-input.js'
-	import {mapMutations} from 'vuex'
+	import topicList from '../../components/select-title-list/select-title-list.vue'
+	import { getTopicTitleClass,getTopicTitleList } from '@/api/search-title.js'
+	import { getCategory } from '@/api/add-input.js'
+	import { mapMutations } from 'vuex'
 	export default {
-		components:{
-			topicList
-		},
+		components:{ topicList },
 		data() {
 			return {
 				sizeCalcState: false,
@@ -37,7 +35,7 @@
 			}
 		},
 		onLoad(data){
-			this.loadData(data.topic);
+			this.loadData(data.topic)
 		},
 		methods: {
 			...mapMutations(['addCategory']),
@@ -59,57 +57,53 @@
 				}
 			},
 			async loadnItems(cid=''){
-				let {items, page:newPage} = await getTopicTitleList(1,cid)
+				let { items, page:newPage } = await getTopicTitleList(1,cid)
 				this.tlist = items
 			},
 			//一级分类点击
 			tabtap(item){
 				if(!this.sizeCalcState){
-					this.calcSize();
+					this.calcSize()
 				}
 				
 				this.loadnItems(item.id)
-				this.currentId = item.id;
-				let index = this.slist.findIndex(sitem=>sitem.cid === item.id);
+				this.currentId = item.id
+				let index = this.slist.findIndex(sitem=>sitem.cid === item.id)
 				if(this.slist[index]){
-					this.tabScrollTop = this.slist[index].top;
+					this.tabScrollTop = this.slist[index].top
 				}
 				this.addCategory(item)
 			},
 			//右侧栏滚动
 			asideScroll(e){
 				if(!this.sizeCalcState){
-					this.calcSize();
+					this.calcSize()
 				}
-				let scrollTop = e.detail.scrollTop;
-				let tabs = this.slist.filter(item=>item.top <= scrollTop).reverse();
+				let scrollTop = e.detail.scrollTop
+				let tabs = this.slist.filter(item=>item.top <= scrollTop).reverse()
 				if(tabs.length > 0){
-					this.currentId = tabs[0].cid;
+					this.currentId = tabs[0].cid
 				}
 			},
 			//计算右侧栏每个tab的高度等信息
 			calcSize(){
-				let h = 0;
+				let h = 0
 				this.slist.forEach(item=>{
-					let view = uni.createSelectorQuery().select("#main-" + item.id);
-					view.fields({
-						size: true
-					}, data => {
-						item.top = h;
-						h += data.height;
-						item.bottom = h;
-					}).exec();
+					let view = uni.createSelectorQuery().select('#main-' + item.id)
+					view.fields({ size: true }, data => {
+						item.top = h
+						h += data.height
+						item.bottom = h
+					}).exec()
 				})
-				this.sizeCalcState = true;
+				this.sizeCalcState = true
 			},
 			navToList(sid, tid){
 				console.log(sid ,tid)
 			},
 			backSelTitle(item){
 				this.addselTitle(item)
-				uni.navigateBack({
-					delta:1
-				})
+				uni.navigateBack({ delta:1 })
 			}
 		}
 	}

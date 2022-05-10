@@ -37,9 +37,9 @@
 	import {
 		mapMutations,
 		mapState
-	} from 'vuex';
-	import uploadLicense from "@/components/uploadImages/uploadLicense.vue"
-	import uploadID from "@/components/uploadImages/uploadID.vue"
+	} from 'vuex'
+	import uploadLicense from '@/components/uploadImages/uploadLicense.vue'
+	import uploadID from '@/components/uploadImages/uploadID.vue'
 	
 	export default {
 		data() {
@@ -108,9 +108,7 @@
 						}]
 					},
 					qtype: {
-						rules: [{
-								format: 'array'
-							},
+						rules: [{ format: 'array' },
 							{
 								validateFunction: function(rule, value, data, callback) {
 									if (value.length < 1) {
@@ -130,9 +128,7 @@
 				},
 			}
 		},
-		computed: {
-
-		},
+		computed: {},
 		onLoad() {},
 		onReady() {
 			// 设置自定义表单校验规则，必须在节点渲染完毕后执行
@@ -140,18 +136,16 @@
 		},
 		methods: {
 			onClickItem(e) {
-				console.log(e);
+				console.log(e)
 				this.current = e.currentIndex
 			},
 			
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
-					console.log('success', res);
-					uni.showToast({
-						title: `已提交`
-					})
+					console.log('success', res)
+					uni.showToast({ title: '已提交' })
 				}).catch(err => {
-					console.log('err', err);
+					console.log('err', err)
 				})
 			},
 		}

@@ -73,13 +73,9 @@
 	import {
 		mapMutations,
 		mapState
-	} from 'vuex';
-	import {
-		editneed
-	} from '@/api/edit-need.js'
-	import {
-		getNeedDetail
-	} from '@/api/need-detail.js'
+	} from 'vuex'
+	import { editneed } from '@/api/edit-need.js'
+	import { getNeedDetail } from '@/api/need-detail.js'
 	import uniCard from '@/components/uni_easyinput/uni-card/components/uni-card/uni-card.vue'
 	import uniEasyinput from '@/components/uni_easyinput/uni-easyinput/components/uni-easyinput/uni-easyinput.vue'
 	import uniSection from '@/components/uni-section/uni-section.vue'
@@ -109,7 +105,7 @@
 				real: 0,
 				index: 0,
 				field_items: [
-					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他'
 				],
 				emergencyItems: [
 					{
@@ -125,26 +121,24 @@
 						name: '高'
 					}
 				]
-			};
+			}
 		},
 		mounted() {
 			setTimeout(() => {
 				this.datetimesingle = Date.now() - 2 * 24 * 3600 * 1000
 				this.single = '2021-2-12'
 				// this.range = ['2021-03-1', '2021-4-28']
-				this.datetimerange = ["2021-07-08 0:01:10", "2021-08-08 23:59:59"]
+				this.datetimerange = ['2021-07-08 0:01:10', '2021-08-08 23:59:59']
 				// this.start = '2021-07-10'
 				// this.end = '2021-07-20'
 			}, 3000)
 		},
-		computed:{
-			...mapState(['userInfo'])
-		},
+		computed:{ ...mapState(['userInfo']) },
 		onLoad(data) {
-			console.log("edit-need id is:" + data.id)
-			console.log("-------------------Requesting")
+			console.log('edit-need id is:' + data.id)
+			console.log('-------------------Requesting')
 			this.initData(data.id)
-			console.log("-------------------Request Success")
+			console.log('-------------------Request Success')
 		},
 		onShow(){
 			try {
@@ -159,96 +153,96 @@
 				// 	title: "需求详情"
 				// });
 				let data = await getNeedDetail(id)
-				console.log("------------------------------------------------")
-				console.log("------------------------------------------------")
+				console.log('------------------------------------------------')
+				console.log('------------------------------------------------')
 				// console.log("data is" + data)
-				this.company_id = this.userInfo.id;
-				this.need_id = id;
-				console.log('onLoad in certification '+ this.userID);
-				this.title =  data.title;
-				this.description = data.description;
-				this.money = data.money;
-				this.start_time = data.start_time;
-				this.end_time = data.end_time;
-				this.key_word = data.key_word;
-				this.field = data.field;
-				this.address = data.address;
-				this.emergency = data.emergency;
-				this.predict = data.predict;
-				this.real = data.real;
-				this.index = this.field;
-				console.log("title is" + this.title)
-				console.log("description is" + this.description)
-				console.log("money is" + this.money)
+				this.company_id = this.userInfo.id
+				this.need_id = id
+				console.log('onLoad in certification '+ this.userID)
+				this.title = data.title
+				this.description = data.description
+				this.money = data.money
+				this.start_time = data.start_time
+				this.end_time = data.end_time
+				this.key_word = data.key_word
+				this.field = data.field
+				this.address = data.address
+				this.emergency = data.emergency
+				this.predict = data.predict
+				this.real = data.real
+				this.index = this.field
+				console.log('title is' + this.title)
+				console.log('description is' + this.description)
+				console.log('money is' + this.money)
 			},
 			back() {
-				uni.navigateBack();
+				uni.navigateBack()
 			},
 			inputTitle(e) {
-				this.title = e.detail;
+				this.title = e.detail
 			},
 			inputDescription(e) {
-				this.description = e.detail;
+				this.description = e.detail
 			},
 			inputMoney(e) {
-				this.money = e.detail;
+				this.money = e.detail
 			},
 			show: function(e) {
-				this.$refs.start_time.show();
+				this.$refs.start_time.show()
 			},
 			changeLogStart(e) {
-				console.log('----changeStartTime事件:', e);
+				console.log('----changeStartTime事件:', e)
 			},
 			changeLogEnd(e) {
-				console.log('----changeEndTime事件:', e);
+				console.log('----changeEndTime事件:', e)
 			},
  			inputKeyword(e) {
 				this.key_word = e.detail
 			},
 			inputField(e) {
-				this.index = e.detail.value;
+				this.index = e.detail.value
 				console.log(this.index)
 				this.field = this.index
 			},
 			inputAddress(e) {
-				this.address = e.detail;
+				this.address = e.detail
 			},
 			inputPredict(e) {
-				this.predict = e.detail;
+				this.predict = e.detail
 			},
 			radioChange: function(evt) {
 				for (let i = 0; i < this.emergencyItems.length; i++) {
 					if (this.emergencyItems[i].value === evt.detail.value) {
-						this.emergency = i;
-						break;
+						this.emergency = i
+						break
 					}
 				}
 			},
 			validate: function(data) {
 				let validate_answer = true
 				if (data.title === '') {
-					this.$http.toast("请输入需求标题！")
+					this.$http.toast('请输入需求标题！')
 					validate_answer = false
 				} else if (data.description === '') {
-					this.$http.toast("请对需求输入具体描述！")
+					this.$http.toast('请对需求输入具体描述！')
 					validate_answer = false
 				} else if (data.money === '') {
-					this.$http.toast("请输入资金！")
+					this.$http.toast('请输入资金！')
 					validate_answer = false
 				} else if (data.start_time === '' || data.end_time === '' || data.start_time >= data.end_time) {
-					this.$http.toast("请输入正确的时间！")
+					this.$http.toast('请输入正确的时间！')
 					validate_answer = false
 				// } else if (!isKeyword(data.key_word)) {
 				// 	this.$http.toast("请按照格式输入！")
 				// 	validate_answer = false
 				} else if (data.address === '') {
-					this.$http.toast("请输入正确的地址！")
+					this.$http.toast('请输入正确的地址！')
 					validate_answer = false
 				} else if (data.emergency === '') {
-					this.$http.toast("请评定紧急程度！")
+					this.$http.toast('请评定紧急程度！')
 					validate_answer = false
 				} else if (data.predict === '0' || data.predict === 0) {
-					this.$http.toast("预估人数必须大于0！")
+					this.$http.toast('预估人数必须大于0！')
 					validate_answer = false
 				}
 				return validate_answer
@@ -260,17 +254,17 @@
 			async update() {
 				let data = {
 					// "company_id": this.company_id,
-					"title": this.title,
-					"description": this.description,
-					"money": this.money,
-					"start_time": this.start_time,
-					"end_time": this.end_time,
-					"key_word": this.key_word,
-					"field": this.field,
-					"address": this.address,
+					'title': this.title,
+					'description': this.description,
+					'money': this.money,
+					'start_time': this.start_time,
+					'end_time': this.end_time,
+					'key_word': this.key_word,
+					'field': this.field,
+					'address': this.address,
 					// "state": this.state,
-					"emergency": this.emergency,
-					"predict": this.predict,
+					'emergency': this.emergency,
+					'predict': this.predict,
 					// "real": this.real
 				}
 				let company_id = this.company_id
@@ -279,15 +273,15 @@
 				if (validate_answer) {
 					let result = await editneed(company_id, need_id, data)
 					if (result&&result.code) {
-						this.$http.toast("需求更新失败！")
+						this.$http.toast('需求更新失败！')
 					} else {
-						this.$http.toast("需求更新成功！")
+						this.$http.toast('需求更新成功！')
 						this.back()
 					}
 				}
 			},
 		}
-	};
+	}
 </script>
 
 <style lang="scss" scoped>
