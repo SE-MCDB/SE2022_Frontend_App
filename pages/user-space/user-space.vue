@@ -32,11 +32,12 @@
 		
 		<template v-if="tabIndex==1">
 			<!-- 列表 -->
-			<view class="topic-list">
+			<!-- <view class="topic-list">
 			<block v-for="(list,listindex) in topicList" :key="listindex">
 				<card @gotoTopic="gotoTopic" :cardinfo="list" :index="listindex"></card>
 			</block>
-			</view>
+			</view> -->
+			<cant-see></cant-see>
 			<!-- 上拉加载 -->
 		</template>
 		
@@ -87,6 +88,8 @@
 	import { getExpertInfo } from '@/api/expert.js'
 	import { picUrl } from '@/api/common.js'
 	
+	import cantSee from '@/components/common/no-permit-see.vue'
+	
 	export default {
 		components:{
 			userSpaceHead,
@@ -97,7 +100,8 @@
 			loadMore,
 			userSpacePopup,
 			card,
-			topicList		
+			topicList,
+			cantSee,
 		},
 		computed:{ ...mapState(['userInfo']), },
 		onShow() {		//页面加载,一个页面只会调用一次
