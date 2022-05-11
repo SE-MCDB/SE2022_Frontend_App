@@ -18,13 +18,14 @@ function purifyKeys(item){
 	return purified_result
 }
 
-export const getExpertInfo = async uid => {
+export const getExpertInfo = async(uid, type) => {
+	// type为papers、patents、projects三类
 	console.log('getExpertInfo')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	
-	console.log(uid)
+	// console.log(uid)
 	
-	let result = await axios.get('expert/' + uid, { 'tab':'papers', }, headers)
+	let result = await axios.get('expert/' + uid, { 'tab':type, }, headers)
 	
 	result = result.data
 	

@@ -1,6 +1,6 @@
 <template>
 	<view class="container-comm">
-		<template v-for="(item,index) in list" :key="index">
+		<template v-for="item in list">
 			<view class="com-item" @tap="openDatail(item)" :index="item.id">
 				<user-comment :item="item"></user-comment>
 			</view>

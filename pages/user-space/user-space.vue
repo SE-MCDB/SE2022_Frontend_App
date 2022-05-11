@@ -41,21 +41,23 @@
 		</template>
 		
 		<!-- 成果 -->
-		<template v-if="tabIndex==2">
-			<!-- 选择筛选成果内容 -->
-			<view class="uni-px-5 uni-pb-5">
+		<template v-if="tabIndex==2 && info.type==4">
+			<!-- 选择筛选内容 -->
+			<view class="sameline uni-px-5 uni-pb-5">
 				筛选标签：
-				<uni-data-checkbox mode="tag" multiple v-model="checkbox" :localdata="outcome"></uni-data-checkbox>
+				<uni-data-checkbox class="sameline" mode="tag" multiple 
+				v-model="checkbox" 
+				:localdata="outcome"
+				@change="generateDList()"></uni-data-checkbox>
 			</view>
 			<!-- 具体数据卡片 -->
-			<uni-card v-for="(item, index) in paperlist" 
+			<uni-card v-for="(item, index) in datalist" 
 					:key="index" :title="item.cites"
 					:extra="item.pyear" 
 					@click="openResultDetail()">
 				<text class="uni-body">{{item.title}}</text>
 			</uni-card>
 		</template>
-		
 		
 
 		<!-- 右上角，操作菜单 -->
@@ -97,7 +99,7 @@
 			card,
 			topicList		
 		},
-		computed:{ ...mapState(['userInfo']) },
+		computed:{ ...mapState(['userInfo']), },
 		onShow() {		//页面加载,一个页面只会调用一次
 		  //   if (this.ifOnShow == true) {
 				// this.initData(this.info.id)
@@ -107,6 +109,9 @@
 		onLoad(data) {		//页面显示,每次打开页面都会调用一次
 			this.info.id = data.uid
 			this.initData(data.uid)
+			// if(this.info === 5){	//企业，不显示“成果”一栏
+			// 	this.tabBars.remove(2)
+			// }
 			
 			
 			// if(data.uid!=this.userInfo.id){
@@ -122,7 +127,7 @@
 		},
 		
 		provide () {
-		    return { reload: this.initData(this.info.id) }
+		    // return { reload: this.initData(this.info.id) }
 		},
 		data() {
 			return {
@@ -184,6 +189,7 @@
 				paperlist:[],	//论文列表
 				patentlist:[],	//专利列表
 				projectlist:[],	//项目列表
+				datalist:[],	//最终呈现数据的总列表
 				
 				checkbox: [0, 1, 2],	//筛选标签的初始值=全选
 				outcome: [{
@@ -252,8 +258,23 @@
 					this.info.expert_field = str
 				}
 				
-				this.paperlist = await getExpertInfo(this.info.id)
-				
+				this.paperlist = await getExpertInfo(this.info.id, 'papers')
+				this.patentlist = await getExpertInfo(this.info.id, 'patents')
+				this.projectlist = await getExpertInfo(this.info.id, 'projects')
+				this.generateDList()
+			},
+			generateDList(){	//刷新datalist
+				this.datalist = []
+				if(this.checkbox.indexOf(0) !== -1){
+					this.datalist.push.apply(this.datalist, this.paperlist)
+				}
+				if(this.checkbox.indexOf(1) !== -1){
+					this.datalist.push.apply(this.datalist, this.patentlist)
+				}
+				if(this.checkbox.indexOf(2) !== -1){
+					this.datalist.push.apply(this.datalist, this.projectlist)
+				}
+				console.log(this.datalist)
 			},
 			getFiled(data) {
 				let str = ''
@@ -395,5 +416,8 @@
 }
 .uni-pb-5 {
 	padding-bottom: 5px;
+}
+.sameline {	/* 设定元素在同一行 */
+	display: inline-block
 }
 </style>
