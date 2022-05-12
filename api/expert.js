@@ -8,7 +8,8 @@ function purifyPapers(item){
 	let purified_result = {
 		type: 0,	// 0=论文，1=专利，2=项目
 		strType: '论文',
-		title: item.title,		//发表年限
+		title: item.title,		//标题
+		scholars: item.scholars,	//所有作者
 		pyear: String(item.pyear),		//发表年限
 		cites: '引用次数：' + item.cites,	//引用次数
 	}
@@ -22,9 +23,10 @@ function purifyPatents(item){
 	let purified_result = {
 		type: 1,	// 0=论文，1=专利，2=项目
 		strType: '专利',
-		title: item.title,		//发表年限
+		title: item.title,		//标题
+		scholars: item.scholars,	//所有作者
 		pyear: String(item.pyear),		//发表年限
-		url: item.url,
+		description: '详情介绍: ' + item.url,
 	}
 	if(purified_result.pyear === 'undefined' || purified_result.pyear === null || purified_result.pyear === ''){
 		purified_result.pyear = '未知年份'
@@ -36,16 +38,29 @@ function purifyProjects(item){
 	let purified_result = {
 		type: 2,	// 0=论文，1=专利，2=项目
 		strType: '项目',
-		title: item.title,		//发表年限
+		title: item.title,		//题目
+		scholars: item.scholars,	//所有作者
 		pyear: item.startYead + '-' + item.endYear,		//发表年限
-		url: item.url,
-		level1: item.typeFirst,	//项目级别
-		level2: item.typeSecond,	//项目级别
-		level3: item.typeThird,	//项目级别
+		description: '详情介绍: ' + item.url,
 	}
-	if(purified_result.pyear === 'undefined' || purified_result.pyear === null || purified_result.pyear === ''){
+	if(item.endYear === null){
+		purified_result.pyear = item.startYead + '-' + '至今'
+	}
+	if(purified_result.pyear === 'undefined' || purified_result.pyear === null){
 		purified_result.pyear = '未知年份'
 	}
+	let str = ""
+	if(item.typeFirst !== null){
+		str = str.concat(item.typeFirst)	//项目级别
+		if(item.typeSecond !== null){
+			str = str.concat(", " + item.typeSecond)
+			if(item.typeThird !== null){
+				str = str.concat(", " + item.typeThird)
+			}
+		}
+		purified_result.description = str.concat("。" + purified_result.description)
+	}
+	
 	return purified_result
 }
 

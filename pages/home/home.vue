@@ -120,7 +120,6 @@
 					type: 0,
 				},
 				homedata: [
-					// { name:"话题", num:0 },
 					{
 						name: '主页',
 						num: 0
@@ -164,7 +163,6 @@
 			} else {
 				uni.navigateTo({ url: '../login/login', })
 			}
-
 		},
 		methods: {
 			...mapMutations(['setUserInfo']),
