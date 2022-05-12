@@ -1,99 +1,89 @@
 <template>
-	<view class="need-detail-list">
-			<view class="need-detail-list">
-				<view class="topic-title">
-					<text>{{item.title}}</text>
-					<!-- 异步问题 -->
-					<span class="need-detail-list-right" v-if="emergencyItems[item.emergency]">
-						<view v-if="item.emergency === '2'" :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
-							{{emergencItems[item.emergency].name}}紧急
-						</view>
-						<view v-else-if="item.emergency === '1'" :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
-							{{emergencyItems[item.emergency].name}}紧急
-						</view>
-						<view v-else :style="{color: item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'}">
-							{{emergencyItems[item.emergency].name}}紧急
-						</view>
-						<!-- {{emergencyItems[item.emergency].name}}紧急 -->
-					</span>
-					<view class="need-detail-list-field">
-						{{field_items[item.field]}}
-					</view>
-				</view>
-				<view span="1">
-					<text>关键词描述：</text>
-					<text class="topic-keyword">{{item.key_word}}</text>
-				</view>	
-				<view class="topic-title-level-2">
-					<text>相关信息</text>
-				</view>
-				<tui-list-view class="need-detail-info">
-					<view class="need-detail-list-enterprise">
-						发布企业：<text style="float: right;">{{item.enterprise_name}}-{{item.address}}</text>
-					</view>
-					<view class="need-detail-list-time">
-						开始时间：<text style="float: right; color: #0081FF;">{{item.start_time}}</text>
-					</view>
-					<view class="need-detail-list-time">
-						结束时间：<text style="float: right; color: #0081FF">{{item.end_time}}</text>
-					</view>
-					<view class="need-detail-list-people">
-						接收人数 <text style="float: right; color: #FF0000;">{{item.real}}/{{item.predict}}</text>
-					</view>
-					<view class="need-detail-list-money">
-						经费:<text style="float: right;">{{item.money}}千元</text> 
-					</view>
-				</tui-list-view>
+	<view class="detail">
+		<uni-row class="header">
+			<uni-col :span="9" class="image">
+				<image src="../../static/bgimg/need_contracted.jpg" mode="widthFix" lazy-load class="image-image"></image>
+			</uni-col>
+			<uni-col :span="14" :offset="1" class="title-info">
+				<uni-row class="need-title">
+					<text class="need-title">{{item.title}}</text>
+				</uni-row>
+				<uni-row class="need-info">
+					<uni-row :span="14" class="need-info-item">
+						<uni-icons type="gear" size="18"></uni-icons>
+						<text class="need-info-text">领域：{{field_items[item.field]}}</text>
+					</uni-row>
+					<uni-row :span="14" class="need-info-item">
+						<uni-icons type="gear" size="18"></uni-icons>
+						<text class="need-info-text">关键词：{{item.key_word}}</text>
+					</uni-row>
+				</uni-row>
+			</uni-col>
+		</uni-row>
+		<uni-row class="need-header">
+			<uni-section title="Introduction" subTitle="需求说明" type="line">
 				
-				<uni-collapse v-if="orderlist.length>0">
-					<view>
-						
-					<uni-collapse-item :show-animation="true" :open="true" title="已对接专家">
-						<uni-list>
-							
-							<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail)">
-								
-								<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
-									
-								</uni-list-item>
-							</view>
-							
-						</uni-list>
-					</uni-collapse-item>
-					</view>
-				</uni-collapse>
+			</uni-section>
+		</uni-row>
+		<uni-row class="need-introduction">
+			<uni-col :span="14" :offset="1">
+				<uni-icons type="location" size="18"></uni-icons>
+				<text class="need-introduction-text">地址：{{item.address}}</text>
+			</uni-col>
+			<uni-col :span="8" :offset="1">
+				<uni-icons type="cart" size="18"></uni-icons>
+				<text class="need-introduction-text">经费：￥{{item.money}}万</text>
+			</uni-col>
+		</uni-row>
+		<uni-row class="need-introduction">
+			<uni-col :span="23" :offset="1">
+				<uni-icons type="calendar" size="18"></uni-icons>
+				<text class="need-introduction-text">开始日期：{{item.start_time}}</text>
+			</uni-col>
+		</uni-row>
+		<uni-row class="need-introduction">
+			<uni-col :span="23" :offset="1">
+				<uni-icons type="calendar" size="18"></uni-icons>
+				<text class="need-introduction-text">截止日期：{{item.end_time}}</text>
+			</uni-col>
+		</uni-row>
+		<uni-row class="need-header">
+			<uni-section title="Description" subTitle="需求描述" type="line">
 				
-				<view class="topic-title-level-2">
-					<text>需求描述</text>
+			</uni-section>
+		</uni-row>
+		<uni-row class="need-description">
+			<text class="need-description">{{item.description}}</text>
+		</uni-row>
+		
+		<uni-row class="need-after">
+			<uni-section title="Contributors" subTitle="订单信息" type="line">
+			</uni-section>
+		</uni-row>
+		
+		<uni-row class="need-contributors">
+			<uni-list>
+				<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail)">
+					<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
+					</uni-list-item>
 				</view>
-				<view class="need-detail-list-describe">
-					
-					<rich-text v-html="item.description"></rich-text>
+				<view v-if="orderlist.length === 0" class="load-text">
+					<load-more loadtext="暂时没有订单信息~"></load-more>
 				</view>
-				
-			</view>
-			
+				<view v-else class="load-text">
+					<load-more loadtext="没有更多信息了~"></load-more>
+				</view>
+			</uni-list>
+		</uni-row>
+		
+		<uni-row class="fix-button">
 			<view v-if="userInfo.type==4&&order.order_id==0">
-				<tui-button type="primary" class="need-detail-button" @click="contact()">
-					联系企业
-				</tui-button>
+				<uni-col :span="8" :offset="16">
+					<button type="primary" @click="contact" class="fix-button-button">立即对接</button>
+				</uni-col>
 			</view>
-			<view v-else-if="userInfo.type==4&&order.order_id>0">
-				<tui-button v-if="order.state==0" type="primary" class="need-detail-button" @click="contact()">
-					订单待处理
-				</tui-button>
-				<tui-button v-else-if="order.state==1" type="primary" class="need-detail-button" @click="contact()">
-					订单进行中
-				</tui-button>
-				<tui-button v-else-if="order.state==3" type="primary" class="need-detail-button" @click="contact()">
-					订单已完成
-				</tui-button>
-				<tui-button v-else type="primary" class="need-detail-button" @click="contact()">
-					联系企业
-				</tui-button>
-			</view>
-			
-		</view>
+		</uni-row>
+	</view>
 </template>
 
 <script>
@@ -108,11 +98,18 @@
 	import tuiCard from '@/components/thorui/tui-card/tui-card.vue'
 	import tuiListView from '@/components/thorui/tui-list-view/tui-list-view'
 	import tuiListCell from '@/components/thorui/tui-list-cell/tui-list-cell'
+	import loadMore from '@/components/common/load-more.vue'
 	import { getOrder } from '@/api/user-chat.js'
 	import {
 		getOrderDetail,
 		needToOrderlist,
 	} from '@/api/order-detail.js'
+	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
+	import uniRow from '@/components/uni-row/components/uni-row/uni-row.vue'
+	import uniSection from '@/components/uni-section/uni-section.vue'
+	import uniCard from '@/components/uni-card/uni-card.vue'
+	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
+	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import { picUrl } from '@/api/common.js'
 	import { getUserProfile } from '@/api/home.js'
 	var graceRichText = require('../../components/common/richText.js')
@@ -120,7 +117,12 @@
 		components: {
 			tuiCard,
 			tuiListView,
-			tuiListCell
+			tuiListCell,
+			uniCol,
+			uniRow,
+			uniSection,
+			uniCard,
+			loadMore
 		},
 		data() {
 			return {
@@ -146,43 +148,26 @@
 					}
 				],
 				item: [],
-				orderlist:[
-					
-				],
+				orderlist:[],
 				sum:0,
-				detail:{ id:10, },
+				detail: {id: 10}
 			}
 		},
-		created(data){
-			
-		},
-		async onLoad(data) {
+		onLoad(data) {
 			console.log('data should be:' + data + ' and id should be:' + data.id)
-			try {
-				this.initData(data.id)
-			} catch (e) {
-
-			}
+			this.initData(data.id)
 		},
-		async onShow(){
-			try {
-				this.initData(this.detail.id)
-			} catch (e) {
-			
-			}
+		onShow(){
+			// console.log(this.detail.id)
+			// this.initData(this.detail.id)
+			// oyk: 这里不能使用detail.id。因为会自动为其默认值，使用nextTick保存对item的更新
+			this.initData(this.item.need_id)
 		},
-		mounted(){
-			try {
-				this.initData(this.detail.id)
-			} catch (e) {
-			
-			}
-		},
-		watch:{
-			orderlist(val){
+		// watch:{
+		// 	orderlist(val){
 				
-			},
-		},
+		// 	},
+		// },
 		// 监听导航右边按钮
 		onNavigationBarButtonTap(e) {
 			
@@ -191,12 +176,27 @@
 		methods: {
 			//初始化数据
 			async initData(id) {
+				if (!id) {
+					console.log("error!")
+					return 
+				}
 				uni.setNavigationBarTitle({ title: '需求详情' })
-				
+				console.log("the id is " + id)
 				let detail = await getNeedDetail(id)
 				this.item = detail
 				this.detail.id = detail.need_id
-				let temp
+				this.$nextTick(()=>{
+					this.item = detail
+				})
+				if (this.item) {
+					this.getOrderList()
+				}
+			},
+			async getOrderList() {
+				// this.detail.id = detail.need_id
+				// console.log("the detail-need-id is " + detail.need_id)
+				console.log(this.detail.id)
+				let temp = {}
 				if(this.userInfo.type===4){
 					temp={
 						enterprise_id:this.item.enterprise_id,
@@ -210,53 +210,53 @@
 						if(temp2.order_id){
 							this.order = temp2
 						}
-						
 					}
 				}
 				
-					let result = await needToOrderlist(id)
-					if(result.data[0]>0){
-						let i = 0
-						let temparray=[]
-						for(i;i<result.data.length;i++){
-							let orderdetail = await getOrderDetail(result.data[i])
-							let expertdetail = await getUserProfile(orderdetail.expert_id)
-							orderdetail.expertPic = picUrl+expertdetail.userpic
-							if(orderdetail.state===0){
-								orderdetail.state='订单待接受'
-							}
-							else if(orderdetail.state===1){
-								orderdetail.state='订单进行中'
-							}
-							else if(orderdetail.state===3){
-								orderdetail.state='订单已完成'
-							}
-							temparray.push(orderdetail)
-							//console.log(orderdetail.expertPic)
+				let result = await needToOrderlist(this.item.need_id)
+				if(result.data[0]>0){
+					let i = 0
+					let temparray=[]
+					for(i;i<result.data.length;i++){
+						let orderdetail = await getOrderDetail(result.data[i])
+						let expertdetail = await getUserProfile(orderdetail.expert_id)
+						orderdetail.expertPic = picUrl+expertdetail.userpic
+						if(orderdetail.state===0){
+							orderdetail.state='订单待接受'
+						}
+						else if(orderdetail.state===1){
+							orderdetail.state='订单进行中'
+						}
+						else if(orderdetail.state===3){
+							orderdetail.state='订单已完成'
+						}
+						temparray.push(orderdetail)
+						//console.log(orderdetail.expertPic)
 					}
 					this.orderlist = temparray
 					this.sum = i+1
 					//console.log(this.orderlist[0])
 				}
 			},
+			
 			formatRichText (html) {
-							// 去掉img标签里的style、width、height属性
-							let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
-								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '')
-								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '')
-								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '')
-								return match
-							})
-							// 修改所有style里的width属性为max-width:100%
-							newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
-								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;')
-								return match
-							})
-							// 去掉<br/>标签
-							newContent = newContent.replace(/<br[^>]*\/>/gi, '')
-							// img标签添加style属性：max-width:100%;height:auto
-							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"')
-							return newContent
+				// 去掉img标签里的style、width、height属性
+				let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
+					match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '')
+					match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '')
+					match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '')
+					return match
+				})
+				// 修改所有style里的width属性为max-width:100%
+				newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
+					match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;')
+					return match
+				})
+				// 去掉<br/>标签
+				newContent = newContent.replace(/<br[^>]*\/>/gi, '')
+				// img标签添加style属性：max-width:100%;height:auto
+				newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"')
+				return newContent
 			},
 			contact(){
 				let temp={
@@ -280,61 +280,81 @@
 </script>
 
 <style>
-	.topic-title {
-		font-weight: bold;
-		font-size:x-large;
+	.detail {
+		min-height: 1380upx;
+		background-color: #F1F1F1;
+		padding: 10upx;
 	}
-	.topic-title-level-2 {
-		font-weight: bold;
-		font-size:large;
-	}
-	.topic-keyword {
-		color: orange;
-		font-size:smaller;
-		border-radius: dotted;
-		border-color: orange;
-		max-width: 10%;
-		padding-left: 1%;
-	}
-	.need-detail-list {
-		padding: 15upx;
-		min-height: 1080upx;
-		bottom: 0upx!important;
-	}
-	.need-detail-list-right {
-		float: right;
-		color: #0081FF;
-		font-size: medium;
-		padding-top: 15upx;
-	}
-	.need-detail-list-field {
+	.header {
 		margin: 10upx;
-		border-radius: 20upx;
-		border-style: solid;
-		border-width: 3upx;
-		text-align: center;
-		max-width: 20%;
-		border-color: #0081FF;
-		color: #0081FF;
 		background-color: white;
-		font-family: "SimSun ";
+		border: solid #F5FFF0 2upx;
+		height: 17%;
 	}
-	.need-detail-info {
-		margin: 15upx;
-		border-radius: 20upx;
-		border-style: none;
-		background-color: #F9F9F9;
-		border-width: 3upx;
-	};
-	.need-detail-list-describe {
+	.image-image {
+		padding-top: 5%;
+		width:100%;
+	}
+	.title-info {
 		
 	}
-	.need-detail-button {
-		width:80%;
+	.need-title {
+		font-size: 35upx;
+		font-weight: bold;
+		color: skyblue;
+		overflow: hidden;
+		width: 400rpx !important;
+	    overflow: unset;
+	    word-break: break-all;
+	    text-overflow: ellipsis;
+	    display: -webkit-box;
+	   -webkit-box-orient: horizontal;
+	   -webkit-line-clamp: 2;
+	   white-space: nowrap;
+	}
+	.need-info {
+		padding-top: 10upx;
+	}
+	.need-info-item {
+		height: 50upx;
+	}
+	.need-info-text {
+		font-weight: 100;
+		font-size: 20upx;
+	}
+	.need-header {
+	}
+	.need-introduction {
+		max-height: 150upx;
+		opacity: 0.8;
+		background-color: #FFFFFD;
+		margin-top: 10upx;
+	}
+	.need-description {
+		margin: 10upx;
+		padding-left: 10upx;
+		min-height: 200upx;
+		background-color: #FFFFFD;
+		font-family: 'SimHei';
+		font-size: 30upx;
+	}
+	.need-contributors {
+		margin-bottom: 15%;
 		display: flex;
-		align-items: center;
-		justify-content: center; 
-		font-size:30upx;
-		bottom: 0upx;
-	};
+	}
+	.load-text {
+		bottom: 30upx;
+		padding-bottom: ;
+	}
+	.fix-button {
+		background-color: white;
+		position: fixed;
+		bottom: 10upx;
+		right: 10upx;
+		width: 100%;
+	}
+	.fix-button-button {
+		margin: 10upx;
+		font-size: 20upx;
+	}
 </style>

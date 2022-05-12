@@ -427,6 +427,48 @@
 				"enablePullDownRefresh": true
 			}
 		}, 
+		{
+			"path": "pages/manage-need/manageunfinishedneed",
+			"style": {
+				"navigationBarTitleText": "需求管理-未完成",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": true
+					}
+				},
+				"enablePullDownRefresh": true
+			}
+		}, 
+		{
+			"path": "pages/manage-need/managefinishedneed",
+			"style": {
+				"navigationBarTitleText": "需求管理-已完成",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": true
+					}
+				},
+				"enablePullDownRefresh": true
+			}
+		}, 
+		{
+			"path": "pages/manage-need/manageunissuedneed",
+			"style": {
+				"navigationBarTitleText": "需求管理-未发布",
+				"app-plus": {
+					"scrollIndicator": "none", //隐藏滚动条
+					"bounce": "none", //关闭反弹效果
+					"titleNView": {
+						"autoBackButton": true
+					}
+				},
+				"enablePullDownRefresh": true
+			}
+		}, 
 		
 		{
 			"path": "pages/edit-need/edit-need",

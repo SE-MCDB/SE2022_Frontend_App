@@ -15,19 +15,21 @@
 				</view>
 				<view v-else>
 					<!-- <home-info :homeinfo="homeinfo"></home-info> -->
-					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">
-						
+					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">	
 					</uni-section>
 					<uni-list>
-						<uni-list-item title="已完成需求管理" @click="managefinishedneed">
-							
-						</uni-list-item>
-						<uni-list-item title="已发布需求管理" @click="manageunfinishedneed">
-							
-						</uni-list-item>
-						<uni-list-item title="未发布需求管理" @click="manageunissuedneed">
-							
-						</uni-list-item>
+						<view @click="managefinishedneed">
+							<uni-list-item title="已完成需求管理">	
+							</uni-list-item>
+						</view>
+						<view @click="manageunfinishedneed">
+							<uni-list-item title="已发布需求管理" @click="manageunfinishedneed">	
+							</uni-list-item>
+						</view>
+						<view @click="manageunissuedneed"> 
+							<uni-list-item title="未发布需求管理" @click="manageunissuedneed">	
+							</uni-list-item>
+						</view>
 					</uni-list>
 					<uni-section title="更多信息" subTitle="更多功能,敬请期待!" type="line">
 					</uni-section>
@@ -193,6 +195,7 @@
 			},
 			openDetail(item) {
 				//console.log("-----------------------------------openDetail")
+				console.log(item.need_id)
 				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			openOrderDetail(order_id) {
@@ -233,6 +236,22 @@
 			},
 			manageneed() {
 				uni.navigateTo({ url: '../manage-need/manage-need' })
+				this.hidepopup()
+			},
+			managefinishedneed() {
+				uni.navigateTo({ url: '../manage-need/managefinishedneed' })
+				this.hidepopup()
+			},
+			manageunfinishedneed() {
+				uni.navigateTo({
+					url:'../manage-need/manageunfinishedneed'
+				})
+				this.hidepopup()
+			},
+			manageunissuedneed() {
+				uni.navigateTo({
+					url:'../manage-need/manageunissuedneed'
+				})
 				this.hidepopup()
 			},
 			

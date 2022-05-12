@@ -5,14 +5,15 @@
 			<!--导航栏-->
 			<scroll-view
 			 scroll-y class="list">
-				<!--搜索框-->
-				
 				<!-- 需求订单统计 -->
-				<view>
+				<view v-if="finisheditems">
 					<view v-for="(item, index) in finisheditems" :key="index">
 						<need-list :item="item" :index="index" @openDetail="openDetail">
 						</need-list>
 					</view>
+				</view>
+				<view v-else>
+					<no-thing></no-thing>
 				</view>
 			</scroll-view>
 			
@@ -104,23 +105,6 @@
 				resolveId: '',
 				resolveIndex: -1,
 				expertList: [],
-				tabBars: [{
-						name: "已完成",
-						id: "wode",
-						page: 1
-					},
-					{
-						name: "未完成",
-						id: "faxian",
-						page: 1
-					},
-					{
-						name: "未发布",
-						id: "weifabu",
-						page: 1
-					}
-				],
-				
 			}
 		},
 		
@@ -168,24 +152,8 @@
 		methods: {
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
-				let type = this.tabBars[this.tabIndex].id;
-				try {
-					if(this.tabIndex === 1){
-						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
-						this.unfinisheditems = unfinisheditems
-					} else if (this.tabIndex === 0){
-						let finisheditems = await manageFinishedNeed(this.userInfo.id)
-						this.finisheditems = finisheditems
-					} else {
-						let unissueditems = await manageUnissuedNeed(this.userInfo.id)
-						this.unissueditems = unissueditems
-						console.log(this.unissueditems.length)
-					}
-					// console.log(items)
-				} catch (e) {
-					console.log(e)
-					return
-				}
+				let finisheditems = await manageFinishedNeed(this.userInfo.id)
+				this.finisheditems = finisheditems
 			},
 			openLogin() {
 				uni.navigateTo({
@@ -217,16 +185,6 @@
 				this.msg = '确认结束需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
 				console.log("------------------------------------ready to end need")
-			},
-			async issue(item) {
-				console.log("issue")
-				try {
-					let result = await transformNeed(this.userInfo.id, item.need_id)
-				} catch (e) {
-					console.log(e)
-					return 
-				}
-				this.onrefresh()
 			},
 			goToRecommend(msg) {
 				let item = msg[0]
@@ -312,18 +270,6 @@
 					uni.showToast({title:'已更新',duration:500})
 				}, 200)
 			},
-			tabtap(index) {
-				console.log("change index to " + index);
-				this.tabIndex = index;
-				this.resolveIndex = -1
-				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
-			},
-			// 滑动事件
-			tabChange(e) {
-				this.tabIndex = e.detail.current;
-				this.resolveIndex = -1
-				this.requestData(this.tabBars[this.tabIndex].page, this.tabBars[this.tabIndex].id)
-			},
 			initNavigation(e) {
 				this.opcity = e.opcity;
 				this.top = e.top;
@@ -333,29 +279,6 @@
 			},
 			showpopup() {
 				this.show = true;
-			},
-			async mounted() {
-				this.initDat()
-				if (this.userInfo.id) {
-					if (!this.islogin) {
-						this.initDat()
-					}
-				} else {
-					this.needdata[0].num = 0
-					this.needdata[1].num = 0
-					this.needdata[2].num = 0
-					this.islogin = false
-				}
-			},
-			async initDat() {
-				if (this.userInfo && this.userInfo.id) {
-					let userProfile = await getUserProfile()
-					console.log(userProfile)
-					this.needdata[0].num = userProfile.total_post
-					this.needdata[1].num = userProfile.total_comment
-					this.needdata[2].num = userProfile.total_mycollect
-					this.islogin = true
-				}
 			},
 			contactExpert(item, expert){
 				let temp={

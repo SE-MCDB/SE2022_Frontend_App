@@ -1,43 +1,77 @@
 <template>
 	<uni-card>
-		<uni-row :span="24" class="title">
-			<uni-col class="title">
-				{{item.title}}
-			</uni-col>
-		</uni-row>
-		<uni-row class="detail">
-			<uni-col :span="12" class="detail">
-				研发领域：<text class="detail-field">{{field_items[item.field]}}</text>
-			</uni-col>
-			<uni-col :span="12" class="detail">
-				研发金额：<text class="detail-money">￥{{item.money}}万</text>
-			</uni-col>
-		</uni-row>
-		<uni-row class="description">
-			<uni-col class="description-text" :span="23">
-				{{item.description}}
-			</uni-col>
-		</uni-row>
+		<view @click="openDetail">
+			<uni-row :span="24" class="title">
+				<uni-col class="title">
+					{{item.title}}
+				</uni-col>
+			</uni-row>
+			<uni-row class="detail">
+				<uni-col :span="12" class="detail">
+					研发领域：<text class="detail-field">{{field_items[item.field]}}</text>
+				</uni-col>
+				<uni-col :span="12" class="detail">
+					研发金额：<text class="detail-money">￥{{item.money}}万</text>
+				</uni-col>
+			</uni-row>
+			<uni-row class="description">
+				<uni-col class="description-text" :span="23">
+					{{item.description}}
+				</uni-col>
+			</uni-row>
+			<uni-row>
+				<uni-col :span="16">
+					<uni-row class="location">
+						<uni-icons type="location" size="18"></uni-icons>
+						<text>所在地：{{item.address}}</text>
+					</uni-row>
+					<uni-row class="location">
+						<uni-icons type="calendar" size="18"></uni-icons>
+						<text>截止时间：{{item.end_time}}</text>
+					</uni-row>
+					<uni-row class="location">
+						<uni-icons type="auth" size="18"></uni-icons>
+						<text>
+							已对接专家：
+						</text>
+					</uni-row>
+				</uni-col>
+				<uni-col :span="7" class="buttons" :offset="1" v-if="!edit">
+					<button type="primary" class="buttons-text" @click="openDetail">查看详情</button>
+				</uni-col>
+			</uni-row>
+		</view>
 		<uni-row>
-			<uni-col :span="16">
-				<uni-row class="location">
-					<uni-icons type="location" size="18"></uni-icons>
-					<text>所在地：{{item.address}}</text>
-				</uni-row>
-				<uni-row class="location">
-					<uni-icons type="calendar" size="18"></uni-icons>
-					<text>截止时间：{{item.end_time}}</text>
-				</uni-row>
-				<uni-row class="location">
-					<uni-icons type="auth" size="18"></uni-icons>
-					<text>
-						已对接专家：
-					</text>
-				</uni-row>
+			<view v-if="edit">
+			<uni-col :span="6" class="operation-buttons">
+				<view @click="editneed">
+					<uni-icons type="refreshempty" size="18"></uni-icons>
+					<text>编辑</text>
+				</view>
 			</uni-col>
-			<uni-col :span="7" class="buttons" :offset="1">
-				<button type="primary" class="buttons-text" @click="openDetail">查看详情</button>
+			<uni-col :span="6" class="operation-buttons">
+				<view @click="deleteneed">
+					<uni-icons type="minus" size="18"></uni-icons>
+					<text>删除</text>
+				</view>
 			</uni-col>
+			<uni-col :span="6" class="operation-buttons">
+				<view @click="endneed" v-if="edit != 2">
+					<uni-icons type="checkmarkempty" size="18"></uni-icons>
+					<text>结束</text>
+				</view>
+				<view @click="issue" v-else>
+					<uni-icons type="checkmarkempty" size="18"></uni-icons>
+					<text>发布</text>
+				</view>
+			</uni-col>
+			<uni-col :span="6" class="operation-buttons">
+				<view @click="goToRecommend">
+					<uni-icons type="search" size="18"></uni-icons>
+					<text>找专家</text>
+				</view>
+			</uni-col>
+			</view>
 		</uni-row>
 	</uni-card>
 </template>
@@ -104,11 +138,11 @@
 				this.$emit("openDetail",this.item)
 				console.log("------------------openDetail")
 			},
-			editneed(type) {
+			editneed() {
 				this.$emit("editneed", this.item)
 				console.log("------------------edit-need")
 			},
-			deleteneed(type) {
+			deleteneed() {
 				this.$emit("deleteneed", this.item)
 				console.log("------------------delete-need")
 			},
@@ -164,5 +198,9 @@
 }
 .buttons-text {
 	font-size: 20upx;
+}
+.operation-buttons {
+	text-align: center;
+	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
 }
 </style>
