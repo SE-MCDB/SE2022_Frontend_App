@@ -37,29 +37,14 @@
 				<card @gotoTopic="gotoTopic" :cardinfo="list" :index="listindex"></card>
 			</block>
 			</view> -->
-			<cant-see></cant-see>
-			<!-- 上拉加载 -->
+			
+			<no-permit-see></no-permit-see>
 		</template>
 		
 		<!-- 成果 -->
 		<template v-if="tabIndex==2 && info.type==4">
-			<!-- 选择筛选内容 -->
-			<view class="sameline uni-px-5 uni-pb-5">
-				筛选标签：
-				<uni-data-checkbox class="sameline" mode="tag" multiple 
-				v-model="checkbox" 
-				:localdata="outcome"
-				@change="generateDList()"></uni-data-checkbox>
-			</view>
-			<!-- 具体数据卡片 -->
-			<uni-card v-for="(item, index) in datalist" 
-					:key="index" :title="item.cites"
-					:extra="item.pyear" 
-					@click="openResultDetail()">
-				<text class="uni-body">{{item.title}}</text>
-			</uni-card>
+			<userAchievement></userAchievement>	
 		</template>
-		
 
 		<!-- 右上角，操作菜单 -->
 		<user-space-popup :show="show" 
@@ -85,10 +70,11 @@
 	import topicList from '../../components/news/topic-list.vue'
 	import time from '../../common/time.js'
 	import { saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid } from '@/api/user-space.js'
-	import { getExpertInfo } from '@/api/expert.js'
+	
 	import { picUrl } from '@/api/common.js'
 	
-	import cantSee from '@/components/common/no-permit-see.vue'
+	import noPermitSee from '@/components/common/no-permit-see.vue'
+	import userAchievement from './user-achievement.vue'
 	
 	export default {
 		components:{
@@ -101,7 +87,8 @@
 			userSpacePopup,
 			card,
 			topicList,
-			cantSee,
+			noPermitSee,
+			userAchievement,
 		},
 		computed:{ ...mapState(['userInfo']), },
 		onShow() {		//页面加载,一个页面只会调用一次
@@ -190,22 +177,6 @@
 						]
 					},
 				],
-				paperlist:[],	//论文列表
-				patentlist:[],	//专利列表
-				projectlist:[],	//项目列表
-				datalist:[],	//最终呈现数据的总列表
-				
-				checkbox: [0, 1, 2],	//筛选标签的初始值=全选
-				outcome: [{
-					text: '论文',
-					value: 0
-				}, {
-					text: '专利',
-					value: 1
-				}, {
-					text: '项目',
-					value: 2
-				}],
 			}
 		},
 		// 上拉触底事件
@@ -261,24 +232,6 @@
 					}
 					this.info.expert_field = str
 				}
-				
-				this.paperlist = await getExpertInfo(this.info.id, 'papers')
-				this.patentlist = await getExpertInfo(this.info.id, 'patents')
-				this.projectlist = await getExpertInfo(this.info.id, 'projects')
-				this.generateDList()
-			},
-			generateDList(){	//刷新datalist
-				this.datalist = []
-				if(this.checkbox.indexOf(0) !== -1){
-					this.datalist.push.apply(this.datalist, this.paperlist)
-				}
-				if(this.checkbox.indexOf(1) !== -1){
-					this.datalist.push.apply(this.datalist, this.patentlist)
-				}
-				if(this.checkbox.indexOf(2) !== -1){
-					this.datalist.push.apply(this.datalist, this.projectlist)
-				}
-				console.log(this.datalist)
 			},
 			getFiled(data) {
 				let str = ''
@@ -412,16 +365,5 @@
 	border-top-left-radius: 20upx;
 	border-top-right-radius: 20upx;
 	margin-top: -15upx;
-}
-/* 筛选标签样式 */
-.uni-px-5 {
-	padding-left: 15px;
-	padding-right: 10px;
-}
-.uni-pb-5 {
-	padding-bottom: 5px;
-}
-.sameline {	/* 设定元素在同一行 */
-	display: inline-block
 }
 </style>
