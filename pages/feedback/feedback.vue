@@ -5,11 +5,11 @@
 			<view class="example">
 				<!-- 基础用法，不包含校验规则 -->
 				<uni-forms ref="baseForm" :rules="myRules" :modelValue="baseFormData">
-					<uni-forms-item label="用户名" required name="name">
-						<uni-easyinput v-model="baseFormData.name" placeholder="请输入用户名" />
+					<uni-forms-item label="称谓" required name="name">
+						<uni-easyinput v-model="baseFormData.name" placeholder="该怎么称呼您" />
 					</uni-forms-item>
 					<uni-forms-item label="邮箱" required name="email">
-						<uni-easyinput v-model="baseFormData.age" placeholder="请输入邮箱" />
+						<uni-easyinput v-model="baseFormData.email" placeholder="请输入邮箱" />
 					</uni-forms-item>
 					<uni-forms-item label="性别" required name="sex">
 						<uni-data-checkbox v-model="baseFormData.sex" :localdata="sexs" />
@@ -21,7 +21,7 @@
 						<uni-easyinput type="textarea" v-model="baseFormData.description" placeholder="为更快解决您的问题,请您尽可能详细地描述您的问题" />
 					</uni-forms-item>
 					<uni-forms-item label="当前时间">
-						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="baseFormData.datetimesingle"/>
+						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="baseFormData.datetime"/>
 					</uni-forms-item>
 				</uni-forms>
 				<button type="primary" @click="submit('baseForm')">提交</button>
@@ -31,17 +31,13 @@
 </template>
 
 <script>
-	// import {
-	// 	submit_feedback
-	// } from '@/api/certificate.js';
-	import {
-		mapMutations,
-		mapState
-	} from 'vuex'
+	import { submitForm } from '@/api/feedback.js'
+	import { mapState } from 'vuex'
 	import uploadLicense from '@/components/uploadImages/uploadLicense.vue'
 	import uploadID from '@/components/uploadImages/uploadID.vue'
 	
 	export default {
+		computed:{ ...mapState(['userInfo']), },
 		data() {
 			return {
 				// 基础表单数据
@@ -51,12 +47,7 @@
 					sex: '',
 					qtype: [0],		//默认选择第几项,空表示不选
 					description: '',
-					datetimesingle: Date(),
-				},
-				// 表单数据
-				alignmentFormData: {
-					name: '',
-					age: '',
+					datetime: Date(),
 				},
 				// 单选数据源
 				sexs: [{
@@ -142,8 +133,18 @@
 			
 			submit(ref) {
 				this.$refs[ref].validate().then(res => {
-					console.log('success', res)
-					uni.showToast({ title: '已提交' })
+					var submitFormData = this.baseFormData
+					//submitFormData['id'] = this.userInfo.id
+					submitForm(submitFormData)
+					
+					uni.showToast({
+						title: '已提交' ,
+						duration: 1250,
+					})
+					setTimeout(function(){	//延迟跳转
+						uni.navigateBack()	//回到上一界面
+					}, 1500)
+					
 				}).catch(err => {
 					console.log('err', err)
 				})
