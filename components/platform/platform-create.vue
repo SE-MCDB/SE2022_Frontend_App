@@ -15,9 +15,9 @@
 				<view class="icon iconfont icon-qingchu"></view> 
 				清除列表
 			</view> -->
-			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="manageneed">
+			<view class="u-f-ac" hover-class="papar-left-popup-h" @tap="manageorder">
 				<view class="icon iconfont icon-sousuo"></view> 
-				需求管理
+				订单管理
 			</view>
 		</view>
 	</view>
@@ -50,7 +50,7 @@
 					{
 						iconPath: '/static/images/icon/manage.png',
 						selectedIconPath: '/static/images/icon/manage-active.png',
-						text: '管理',
+						text: '订单',
 						active: false
 					},
 				]
@@ -66,8 +66,8 @@
 			addneed(){
 				this.$emit('addneed');
 			},
-			manageneed() {
-				this.$emit('manageneed');
+			manageorder() {
+				this.$emit('manageorder');
 			},
 			//点击fab后的动作
 			trigger(e) {
@@ -77,7 +77,7 @@
 						this.$emit('addneed');
 						break;
 					case 1:	//管理
-						this.$emit('manageneed');
+						this.$emit('manageorder');
 						break;
 					default:
 						break;

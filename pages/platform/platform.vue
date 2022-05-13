@@ -3,7 +3,7 @@
 	<template v-if="userInfo&&userInfo.id&&(userInfo.type=='4'||userInfo.type=='5')">
 		
 		<!--右上角创建需求-->
-		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageneed="manageneed"></platform-create>
+		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageorder="manageorder"></platform-create>
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view scroll-y class="list">
@@ -14,7 +14,22 @@
 					</need-data>
 				</view>
 				<view v-else>
-					<!-- <home-info :homeinfo="homeinfo"></home-info> -->
+					<home-info :homeinfo="homeinfo"></home-info>
+						<uni-row>
+							<uni-col :span="8" :offset="4">
+								<view class="info">
+								<uni-icons type="edit" size="20"></uni-icons>
+								<text class="info-text">最近评价</text>
+								</view>
+							</uni-col>
+							<uni-col :span="8">
+								<view class="info">
+								<uni-icons type="edit" size="20"></uni-icons>
+								<text class="info-text">我的反馈</text>
+								</view>
+							</uni-col>
+						</uni-row>
+					<!-- </view> -->
 					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">	
 					</uni-section>
 					<uni-list>
@@ -74,7 +89,8 @@
 	import needData from '@/components/platform/need-data.vue'
 	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
 	import myNavBarNeed from '@/components/common/my-nav-bar-need.vue'
-	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
+	// import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
+	import homeInfo from '@/components/home/home-info'
 	import card from '@/components/list-card/list-card-1.vue'
 	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
@@ -82,6 +98,8 @@
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
+	import uniRow from '@/components/uni-row/components/uni-row/uni-row.vue'
+	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
 	import {
 		getAllNeed,
 		postNewNeed
@@ -93,11 +111,14 @@
 		components: {
 			needList,
 			needData,
+			homeInfo,
 			swiperTabHead,
 			loadMore,
 			noThing,
 			myNavBarNeed,
 			card,
+			uniCol,
+			uniRow,
 			platformCreate
 		},
 		computed: { ...mapState(['userInfo']) },
@@ -110,6 +131,7 @@
 				items: [],
 				show: false,
 				refreshing: false,
+				homeinfo: () => {},
 				tabBars: [{
 						name: '我的',
 						id: 'wode',
@@ -133,6 +155,7 @@
 		
 		onLoad() {
 			console.log(this.userInfo)
+			this.homeinfo = this.userInfo
 			uni.getSystemInfo({
 				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
@@ -146,6 +169,7 @@
 		
 		onShow() {
 			console.log(this.userInfo.type)
+			this.homeinfo = this.userInfo
 			// uni.getSystemInfo({
 			// 	success: (res) => {
 			// 		let height = res.windowHeight - uni.upx2px(100)
@@ -234,8 +258,8 @@
 				uni.navigateTo({ url: '../add-need/need' })
 				this.hidepopup()
 			},
-			manageneed() {
-				uni.navigateTo({ url: '../manage-need/manage-need' })
+			manageorder() {
+				uni.navigateTo({ url: '../manage-order/manage-order' })
 				this.hidepopup()
 			},
 			managefinishedneed() {
@@ -321,5 +345,13 @@
 		border-top-left-radius: 20upx;
 		border-top-right-radius: 20upx;
 		margin-top: -15upx;
+	}
+	.info {
+		height:80upx;
+		text-align: center;
+		box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
+	}
+	.info-text {
+		text-decoration: blink;
 	}
 </style>

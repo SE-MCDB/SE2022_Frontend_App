@@ -34,6 +34,9 @@
 						<text>
 							已对接专家：
 						</text>
+						<view v-for="(expert, index) in item.experts" :key="index">
+							<image :src="expert.pic" mode="widthFix" lazy-load class="expert-image"></image>
+						</view>
 					</uni-row>
 				</uni-col>
 				<uni-col :span="7" class="buttons" :offset="1" v-if="!edit">
@@ -71,6 +74,39 @@
 					<text>找专家</text>
 				</view>
 			</uni-col>
+			</view>
+		</uni-row>
+		<uni-row>
+			<view v-if="showExpert">
+				<view v-for="(expert, index) in expertList">
+					<uni-row>
+						<uni-col :span="6">
+							<image :src="expert.userpic" mode="heightFix" lazy-load></image>
+						</uni-col>
+						<uni-col :span="10" :offset="1">
+							<uni-row>
+								<uni-col :span="5">
+									<text class="expert-name">
+									{{expert.name}}
+									</text>
+								</uni-col>
+								<uni-col :span="5">
+									<text style="color:blue" class="expert-phone">
+									{{expert.phone}}
+									</text>
+								</uni-col>
+							</uni-row>
+							<uni-row>
+								<text class="expert-description">
+									{{expert.description}}
+								</text>
+							</uni-row>
+						</uni-col>
+						<uni-col :span="6" :offset="1">
+							<button type="primary" @click="contact">立即对接</button>
+						</uni-col>
+					</uni-row>
+				</view>
 			</view>
 		</uni-row>
 	</uni-card>
@@ -129,7 +165,6 @@
 						name: '高'
 					}
 				],
-				yanse: this.item.emergency === 1 ? 'orange' : this.item.emergency === 2 ? 'red' : 'blue'
 			}
 		},
 		
@@ -202,5 +237,8 @@
 .operation-buttons {
 	text-align: center;
 	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
+}
+.expert-image {
+	width: 50upx;
 }
 </style>

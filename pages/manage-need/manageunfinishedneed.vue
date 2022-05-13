@@ -196,17 +196,6 @@
 				let item = msg[0]
 				let index = msg[1]
 				this.recommend(item, index)
-				// console.log("length is " + result.length)
-				// if (!(result&& result.code)) {
-				// 	this.expertList = result.data
-				// 	// console.log(this.expertList.length)
-				// 	if (this.resolveIndex === index) {
-				// 		this.resolveIndex = -1
-				// 	} else {
-				// 		this.resolveIndex = index
-				// 	}
-				// 	// console.log("father is:" + this.expertList.length)
-				// }
 			},
 			contact(msg) {
 				console.log(msg[0] + ' ' + msg[1])
