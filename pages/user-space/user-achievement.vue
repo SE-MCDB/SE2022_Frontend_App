@@ -13,12 +13,15 @@
 		<uni-card v-for="(item, index) in datalist" :key="index" @click="openResultDetail()">
 			<uni-row :span="24" class="title">
 				<uni-col class="title">
-					{{item.title}}
+					<uni-tag custom-style="background-color: #d6d6d6; border-color: #d6d6d6; color: #000000;"
+					:circle="true" :text="item.strType" type="warning" size="small"/>
+
+					<text>{{item.title}}</text>>
 				</uni-col>
 			</uni-row>
 			<uni-row class="detail">
 				<uni-col :span="12" class="detail">
-					成果类型：<text class="detail-money">{{item.strType}}</text>
+					<text class="detail-money">{{item.scholars}}</text>
 				</uni-col>
 				<uni-col :span="12" class="detail">
 					年份：<text class="detail-field">{{item.pyear}}</text>
@@ -26,7 +29,7 @@
 			</uni-row>
 			<uni-row class="description">
 				<uni-col class="description-text" :span="23">
-					{{item.url}}
+					{{item.description}}
 					{{item.cites}}
 				</uni-col>
 			</uni-row>
@@ -114,6 +117,11 @@
 		font-weight: 600;
 		color: #0A98D5;
 	}
+	/* .title-tag {
+		background-color: #4335d6;
+		border-color: #4335d6; 
+		color: #fff;
+	} */
 	.detail {
 		font-weight: 200;
 		font-size: 20upx;
