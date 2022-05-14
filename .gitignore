@@ -4,3 +4,4 @@ unpackage/
 api/common.js
 config/requestConfig.js
 pages/user-face/user-face.vue
+.vscode
