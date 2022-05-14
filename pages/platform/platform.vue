@@ -14,7 +14,7 @@
 					</need-data>
 				</view>
 				<view v-else>
-					<home-info :homeinfo="homeinfo"></home-info>
+					<homeInfo :homeinfo="homeinfo"></homeInfo>
 						<uni-row>
 							<uni-col :span="8" :offset="4">
 								<view class="info">
@@ -90,7 +90,7 @@
 	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
 	import myNavBarNeed from '@/components/common/my-nav-bar-need.vue'
 	// import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
-	import homeInfo from '@/components/home/home-info'
+	import homeInfo from '@/components/home/home-info-2'
 	import card from '@/components/list-card/list-card-1.vue'
 	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
@@ -154,7 +154,7 @@
 		},
 		
 		onLoad() {
-			console.log(this.userInfo)
+			console.log(this.userInfo.enterprise_name)
 			this.homeinfo = this.userInfo
 			uni.getSystemInfo({
 				success: res => {
