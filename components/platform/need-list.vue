@@ -76,39 +76,44 @@
 			</uni-col>
 			</view>
 		</uni-row>
-		<uni-row>
-			<view v-if="showExpert">
-				<view v-for="(expert, index) in expertList">
-					<uni-row>
-						<uni-col :span="6">
-							<image :src="expert.userpic" mode="heightFix" lazy-load></image>
-						</uni-col>
-						<uni-col :span="10" :offset="1">
-							<uni-row>
-								<uni-col :span="5">
-									<text class="expert-name">
+		<view v-if="showExpert">
+			<view v-for="(expert, index) in expertList">
+				<view class="expert-info">
+				<uni-row :span="24">
+					<!-- <uni-col :span="4">
+						<image :src="expert.userpic" mode="widthFix" lazy-load class="expert-image"></image>
+					</uni-col> -->
+					<uni-col :span="16">
+						<uni-row>
+							<uni-col :span="8">
+								<text class="expert-name">
 									{{expert.name}}
-									</text>
-								</uni-col>
-								<uni-col :span="5">
-									<text style="color:blue" class="expert-phone">
-									{{expert.phone}}
-									</text>
-								</uni-col>
-							</uni-row>
-							<uni-row>
-								<text class="expert-description">
-									{{expert.description}}
 								</text>
-							</uni-row>
-						</uni-col>
-						<uni-col :span="6" :offset="1">
-							<button type="primary" @click="contact">立即对接</button>
-						</uni-col>
-					</uni-row>
+							</uni-col>
+							<uni-col :span="8">
+								<text style="color:blue" class="expert-phone">
+								{{expert.phone}}
+								</text>
+							</uni-col>
+						</uni-row>
+						<uni-row>
+							<text>
+								{{expert.organization}}
+							</text>
+						</uni-row>
+						<uni-row>
+							<text class="expert-description">
+								{{expert.profile}}
+							</text>
+						</uni-row>
+					</uni-col>
+					<uni-col :span="8">
+						<button type="primary" @click="contact" class="expert-button">立即对接</button>
+					</uni-col>
+				</uni-row>
 				</view>
 			</view>
-		</uni-row>
+		</view>
 	</uni-card>
 </template>
 
@@ -240,6 +245,14 @@
 	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
 }
 .expert-image {
-	width: 50upx;
+	width: 20upx;
+}
+.expert-info {
+	height: 80upx;
+}
+.expert-button {
+	margin: 10upx;
+	font-size: 15upx;
+	text-align: center;
 }
 </style>
