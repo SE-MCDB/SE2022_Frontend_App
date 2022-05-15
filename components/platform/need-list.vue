@@ -34,6 +34,10 @@
 						<text>
 							已对接专家：
 						</text>
+						<!-- 专家的头像们 -->
+						<text v-if="item.experts==undefined || item.experts.length == 0">
+							暂无
+						</text>
 						<view v-for="(expert, index) in item.experts" :key="index">
 							<image :src="expert.pic" mode="widthFix" lazy-load class="expert-image"></image>
 						</view>
@@ -122,9 +126,7 @@
 	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
 	import uniFav from '@/components/uni-fav/uni-fav.vue'
 	import uniCard from '@/components/uni-card/uni-card.vue'
-	import {
-		picUrl
-	} from "@/api/common.js";
+	import { picUrl } from '@/api/common.js'
 	export default {
 		components:{
 			uniRow,
@@ -154,7 +156,7 @@
 				gutter: 0,
 				nvueWidth: 730,
 				field_items: [
-					"信息技术", "装备制造", "新材料", "新能源", "节能环保", "生物医药", "科学创意", "检验检测", "其他"
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他'
 				],
 				emergencyItems: [
 					{
@@ -170,39 +172,45 @@
 						name: '高'
 					}
 				],
+				matched_explist: [],	//已对接专家列表
 			}
 		},
 		
 		methods: {
 			openDetail(){
-				this.$emit("openDetail",this.item)
-				console.log("------------------openDetail")
+				this.$emit('openDetail',this.item)
+				console.log('------------------openDetail')
 			},
 			editneed() {
-				this.$emit("editneed", this.item)
-				console.log("------------------edit-need")
+				this.$emit('editneed', this.item)
+				console.log('------------------edit-need')
 			},
 			deleteneed() {
-				this.$emit("deleteneed", this.item)
-				console.log("------------------delete-need")
+				this.$emit('deleteneed', this.item)
+				console.log('------------------delete-need')
 			},
 			endneed() {
-				this.$emit("endneed", this.item)
-				console.log("------------------end-need")
+				this.$emit('endneed', this.item)
+				console.log('------------------end-need')
 			},
 			issue() {
-				this.$emit("issue", this.item)
-				console.log("------------------issue")
+				this.$emit('issue', this.item)
+				console.log('------------------issue')
 			},
 			goToRecommend() {
-				this.$emit("goToRecommend", this.item, this.index)
-				console.log("------------------goToRecommend")
+				this.$emit('goToRecommend', this.item, this.index)
+				console.log('------------------goToRecommend')
 				console.log(this.showExpert)
 				console.log(this.expertList.length)
 			},
 			contact(expert) {
-				console.log("expert:"+expert.expert_id)
-				this.$emit("contact", this.item, expert)
+				console.log('expert:'+expert.expert_id)
+				this.$emit('contact', this.item, expert)
+			},
+			// 点击头像，查看专家主页
+			seeExpertHome(id){
+				console.log('正在跳转到专家：'+id+'的主页')
+				uni.navigateTo({ url: '@/pages/user-space/user-space?uid=' + id })
 			}
 		}
 	}

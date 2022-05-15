@@ -1,26 +1,78 @@
-import axios from '@/config/requestConfig.js';
-import time from '../common/time.js';
+import axios from '@/config/requestConfig.js'
+import time from '../common/time.js'
 
-import {
-	picUrl
-} from './common.js'
+import { picUrl } from './common.js'
 
-export const  getAllNeed =async () => {
-	console.log("getAllNeed")
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
+// 处理need格式
+async function purifyResult(item){
+	let purified_result = {
+		'need_id': item.need_id,
+		'address': item.address,
+		'title': item.title,
+		'description': item.description,
+		'start_time': item.start_time,
+		'end_time': item.end_time,
+		'money': item.money,
+		'field': item.field,
+		'state': item.state,
+		'emergency': item.emergency,
+		'predict': item.predict,
+		'real': item.real,
 	}
+
+	if(purified_result.description === 'undefined' || purified_result.description === null){
+		purified_result.pyear = '暂无详情'
+	}
+	// 新增专家、头像url属性
+	purified_result.experts = await getMatchedExperts(item.need_id)
+	
+	console.log(purified_result)
+	return purified_result
+}
+
+function purifyMatchedExperts(item){
+	let purified_result = {
+		'expert_id': item.expert_id,
+		'scholar_id': item.scholar_id,
+		'name': item.name,
+		'pic': picUrl + item.icon_url,
+	}
+	
+	if(purified_result.scholar_id === 'undefined' || purified_result.scholar_id === null){
+		purified_result.pyear = '暂无知兔专家id'
+	}
+	
+	console.log(purified_result)
+	return purified_result
+}
+
+// 获取全部“待解决”需求（发现页面展示）
+export const getAllNeed =async () => {
+	console.log('getAllNeed')
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('need/all', {}, headers)
-	console.log("before result:" + result)
+	console.log('before result:' + result)
 	result = result.data
-	console.log("result is:" + result)
+	// console.log("result is:" + result)
+	
+	//清洗数据格式
+	if(result && result.length){
+		for(let x of result){
+			await purifyResult(x)
+		}
+		return result
+		
+		// result = result.map(item=>{
+		// 	res =  await purifyResult(item)
+		// 	return res
+		// })
+	}
+	
 	return result
 }
 
-export const  getAllList =async () => {
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
+export const getAllList =async () => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get(url = 'platform', data = {}, headers)
 	
 	//result 参照接口文档
@@ -31,7 +83,7 @@ export const  getAllList =async () => {
 }
 
 //获取已完成需求
-export const  getFinishedNeed =async (data) => {
+export const getFinishedNeed =async data => {
 	let result = await axios.get(url = 'platform', data = {}, this.data)
 	
 	//result 参照接口文档
@@ -42,11 +94,9 @@ export const  getFinishedNeed =async (data) => {
 }
 
 //获取进行中需求
-export const  getProcedingNeed =async (data) => {
+export const getProcedingNeed =async data => {
 	//TODO:如何传递参数进来
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get(url = 'platform', data = {}, headers)
 	
 	//result 参照接口文档
@@ -63,7 +113,7 @@ export const  getProcedingNeed =async (data) => {
 }
 
 //发布新需求
-export const  postNewNeed =async (data) => {
+export const postNewNeed =async data => {
 	//TODO:如何传递参数进来
 	// let headers = {
 	// 	"Authorization":'Bearer ' + uni.getStorageSync('token')
@@ -83,3 +133,18 @@ export const  postNewNeed =async (data) => {
 	return result
 }
 
+// 获取某个需求的全部已对接专家及头像url，传入需求id
+export const getMatchedExperts =async id => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+	
+	let result = await axios.get('need/'+id+'/allexperts', {}, headers)
+	result = result.data
+	
+	if(result && result.length) {
+		result = result.map(item=>{
+			return purifyMatchedExperts(item)
+		})
+	}
+	console.log(result)
+	return result
+}
