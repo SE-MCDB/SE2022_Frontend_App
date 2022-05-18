@@ -206,6 +206,9 @@
 					if(this.tabIndex === 1){
 						let items = await getAllNeed()
 						this.items = items
+						// for(let i of this.items) {
+						// 	console.log(i.experts)
+						// }
 					}
 					// console.log(items)
 				} catch (e) {
