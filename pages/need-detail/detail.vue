@@ -111,7 +111,8 @@
 	import uniCollapseItem from '@/components/uni-collapse-item/uni-collapse-item.vue'
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import { picUrl } from '@/api/common.js'
-	import { getUserProfile } from '@/api/home.js'
+	// import { getUserProfile } from '@/api/home.js'
+	import {getUserInfo} from '@/api/user-space.js'
 	var graceRichText = require('../../components/common/richText.js')
 	export default {
 		components: {
@@ -219,7 +220,9 @@
 					let temparray=[]
 					for(i;i<result.data.length;i++){
 						let orderdetail = await getOrderDetail(result.data[i])
-						let expertdetail = await getUserProfile(orderdetail.expert_id)
+						let expertdetail = await getUserInfo({ 'user_id':orderdetail.expert_id})
+						console.log(orderdetail.expert_id)
+						console.log(expertdetail.userpic)
 						orderdetail.expertPic = picUrl+expertdetail.userpic
 						if(orderdetail.state===0){
 							orderdetail.state='订单待接受'
@@ -269,10 +272,15 @@
 				uni.navigateTo({ url:'../user-chat/user-chat?fid='+this.item.enterprise_id })
 			},
 			gotoSpace(orderdetail){
-				if(orderdetail.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
+				console.log(orderdetail.need.enterprise_id)
+				console.log(this.userInfo.id)
+				console.log(orderdetail.expert_id)
+				console.log(this.userInfo.id)
+			
+				if(orderdetail.need.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
 					uni.navigateTo({ url:'../order-detail/order-detail?id='+orderdetail.order_id })
 				}else{
-				uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
+					uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
 				}
 			},
 		}
