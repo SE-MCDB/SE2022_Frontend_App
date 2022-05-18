@@ -269,10 +269,15 @@
 				uni.navigateTo({ url:'../user-chat/user-chat?fid='+this.item.enterprise_id })
 			},
 			gotoSpace(orderdetail){
-				if(orderdetail.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
+				console.log(orderdetail.need.enterprise_id)
+				console.log(this.userInfo.id)
+				console.log(orderdetail.expert_id)
+				console.log(this.userInfo.id)
+			
+				if(orderdetail.need.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
 					uni.navigateTo({ url:'../order-detail/order-detail?id='+orderdetail.order_id })
 				}else{
-				uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
+					uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
 				}
 			},
 		}
