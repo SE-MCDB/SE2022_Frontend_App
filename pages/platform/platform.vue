@@ -17,13 +17,13 @@
 					<homeInfo :homeinfo="homeinfo"></homeInfo>
 						<uni-row>
 							<uni-col :span="8" :offset="4">
-								<view class="info">
+								<view class="info" @click="naviToMyevaluations">
 								<uni-icons type="edit" size="20"></uni-icons>
 								<text class="info-text">最近评价</text>
 								</view>
 							</uni-col>
 							<uni-col :span="8">
-								<view class="info">
+								<view class="info" @click="naviToMyfeedbacks">
 								<uni-icons type="edit" size="20"></uni-icons>
 								<text class="info-text">我的反馈</text>
 								</view>
@@ -270,15 +270,11 @@
 				this.hidepopup()
 			},
 			manageunfinishedneed() {
-				uni.navigateTo({
-					url:'../manage-need/manageunfinishedneed'
-				})
+				uni.navigateTo({ url:'../manage-need/manageunfinishedneed' })
 				this.hidepopup()
 			},
 			manageunissuedneed() {
-				uni.navigateTo({
-					url:'../manage-need/manageunissuedneed'
-				})
+				uni.navigateTo({ url:'../manage-need/manageunissuedneed' })
 				this.hidepopup()
 			},
 			
@@ -328,6 +324,15 @@
 			goToExplore(){
 				console.log('tabindex change to 1.')
 				this.tabIndex = 1
+			},
+			//跳转到“最近评价”
+			naviToMyevaluations(){
+				//uni.navigateTo({ url: '../my-feedbacks/my-feedbacks' })
+				console.log('To Myevaluations.')
+			},
+			//跳转到“我的反馈”
+			naviToMyfeedbacks(){
+				uni.navigateTo({ url: '../my-feedbacks/my-feedbacks' })
 			},
 		}
 	}
