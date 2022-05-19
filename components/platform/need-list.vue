@@ -38,9 +38,12 @@
 						<text v-if="item.experts==undefined || item.experts.length == 0">
 							暂无
 						</text>
-						<view  style="display: flex;flex-direction: row;">
+						<view class="expert-header-view">
 							<view v-for="(expert, index) in item.experts" :key="index">
-								<image :src="expert.pic" mode="widthFix" lazy-load class="expert-image" @click="seeExpertHome(expert.expert_id)"></image>
+								<image :src="expert.pic" mode="widthFix" lazy-load 
+									class="expert-image" 
+									:title="expert.name"
+									@click="seeExpertHome(expert.expert_id)"></image>
 							</view>
 						</view>
 						
@@ -252,6 +255,12 @@
 }
 .expert-image {
 	width: 50upx;
-	padding: 3upx
+	height: 50upx;
+	border-radius: 50px;
+	margin-right: 3px;
+}
+.expert-header-view{
+	display: flex;
+	flex-direction: row;
 }
 </style>
