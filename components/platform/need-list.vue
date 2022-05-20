@@ -1,6 +1,6 @@
 <template>
 	<uni-card>
-		<view @click="openDetail">
+		<view>
 			<uni-row :span="24" class="title">
 				<uni-col class="title">
 					{{item.title}}
@@ -38,9 +38,15 @@
 						<text v-if="item.experts==undefined || item.experts.length == 0">
 							暂无
 						</text>
-						<view v-for="(expert, index) in item.experts" :key="index">
-							<image :src="expert.pic" mode="widthFix" lazy-load class="expert-image"></image>
+						<view class="expert-header-view">
+							<view v-for="(expert, index) in item.experts" :key="index">
+								<image :src="expert.pic" mode="widthFix" lazy-load 
+									class="expert-image" 
+									:title="expert.name"
+									@click="seeExpertHome(expert.expert_id)"></image>
+							</view>
 						</view>
+						
 					</uni-row>
 				</uni-col>
 				<uni-col :span="7" class="buttons" :offset="1" v-if="!edit">
@@ -210,7 +216,7 @@
 			// 点击头像，查看专家主页
 			seeExpertHome(id){
 				console.log('正在跳转到专家：'+id+'的主页')
-				uni.navigateTo({ url: '@/pages/user-space/user-space?uid=' + id })
+				uni.navigateTo({ url: '/pages/user-space/user-space?uid=' + id })
 			}
 		}
 	}
@@ -253,14 +259,13 @@
 	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
 }
 .expert-image {
-	width: 20upx;
+	width: 50upx;
+	height: 50upx;
+	border-radius: 50px;
+	margin-right: 3px;
 }
-.expert-info {
-	height: 80upx;
-}
-.expert-button {
-	margin: 10upx;
-	font-size: 15upx;
-	text-align: center;
+.expert-header-view{
+	display: flex;
+	flex-direction: row;
 }
 </style>

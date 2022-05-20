@@ -132,11 +132,13 @@
 			},
 			
 			submit(ref) {
+				console.log("11111")
 				this.$refs[ref].validate().then(res => {
 					var submitFormData = this.baseFormData
 					//submitFormData['id'] = this.userInfo.id
 					submitForm(submitFormData)
-					
+					console.log(this.baseFormData)
+					console.log(submitFormData)
 					uni.showToast({
 						title: '已提交' ,
 						duration: 1250,

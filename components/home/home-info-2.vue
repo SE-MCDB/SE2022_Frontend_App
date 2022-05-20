@@ -5,10 +5,16 @@
 		<view class="u-f1" @tap="goToSpace">
 			<view>{{homeinfo.username}}</view>
 			<template v-if="homeinfo.type=='4'">
-				<view>{{homeinfo.expert_name}}</view>
+				<view>
+					<uni-icons type="checkbox" color="#0A98D5"></uni-icons>
+					{{homeinfo.expert_name}}
+				</view>
 			</template>
 			<template v-else-if="homeinfo.type=='5'">
-				<view>{{homeinfo.enterprise_name}}</view>
+				<view>
+					<uni-icons type="checkbox" color="#0A98D5"></uni-icons>
+					{{homeinfo.enterprise_name}}
+				</view>
 			</template>
 			<template v-else-if="homeinfo.type=='1'">
 				<view>专家身份认证中</view>
@@ -22,7 +28,14 @@
 			<template v-else>
 				<view>普通用户</view>
 			</template>
-			<view>{{homeinfo.email}} </view>
+			<view>
+				<!-- <uni-icons type="email"></uni-icons>
+				{{homeinfo.email}} -->
+			</view>
+			<view>
+				<uni-icons type="location"></uni-icons>
+				<text>IP属地：北京</text>
+			</view>
 		</view>
 		
 		<view class="icon iconfont icon-jinru"></view>
@@ -35,24 +48,16 @@
 
 <script>
 	export default {
-		props:{
-			homeinfo:Object
-		},
+		props:{ homeinfo:Object },
 		methods:{
 			goToSpace(){
-				uni.navigateTo({
-					url: '../user-set-userinfo/user-set-userinfo',
-				});
+				uni.navigateTo({ url: '../user-set-userinfo/user-set-userinfo', })
 			},
 			openEnterpriseCertificate() {
-				uni.navigateTo({
-					url: '../certificate-enterprise/certificate-enterprise',
-				});
+				uni.navigateTo({ url: '../certificate-enterprise/certificate-enterprise', })
 			},
 			openExpertCertificate(){
-				uni.navigateTo({
-					url: '../certificate-expert/certificate-expert',
-				});
+				uni.navigateTo({ url: '../certificate-expert/certificate-expert', })
 			},
 		}
 	}
@@ -75,6 +80,9 @@
 .home-info>view:first-of-type>view:nth-of-type(2){
 	font-size: 26upx;
 	color: #0A98D5;
+}
+.home-info>view:first-of-type>view:nth-of-type(3){
+	color: #000000;
 }
 .home-info>view:first-of-type>view:last-child{
 	color: #BBBBBB;

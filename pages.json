@@ -472,7 +472,6 @@
 		{
 			"path": "pages/manage-order/manage-order",
 			"style": {
-				
 				"navigationBarTitleText": "订单管理",
 				"app-plus": {
 					"scrollIndicator": "none", //隐藏滚动条
@@ -564,8 +563,7 @@
             {
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
-            }
-            
+            }      
         }
         ,{
             "path" : "pages/certificate-expert/certificate-expert",
@@ -574,13 +572,12 @@
                 "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
-            
         }
         ,{
             "path" : "pages/feedback/feedback",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "问题反馈",
                 "enablePullDownRefresh": false
             }
             
@@ -589,7 +586,16 @@
             "path" : "pages/aboutus/aboutus",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "关于我们",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/my-feedbacks/my-feedbacks",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "我的反馈",
                 "enablePullDownRefresh": false
             }
             
