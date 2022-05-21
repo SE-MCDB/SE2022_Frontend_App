@@ -89,38 +89,40 @@
 		<view v-if="showExpert">
 			<view v-for="(expert, index) in expertList">
 				<view class="expert-info">
-				<uni-row :span="24">
-					<!-- <uni-col :span="4">
-						<image :src="expert.userpic" mode="widthFix" lazy-load class="expert-image"></image>
-					</uni-col> -->
-					<uni-col :span="16">
-						<uni-row>
-							<uni-col :span="8">
-								<text class="expert-name">
-									{{expert.name}}
+					<uni-row :span="24">
+						<uni-col :span="3">
+							<image :src="expert.userpic" mode="widthFix" lazy-load class="expert-image"></image>
+						</uni-col>
+						<uni-col :span="13">
+							<uni-row>
+								<uni-col>
+									<text class="expert-name">
+										{{expert.name}}
+									</text>
+								</uni-col>
+							</uni-row>
+							<uni-row>
+								<text class="expert-organization">
+									{{expert.organization}}
 								</text>
-							</uni-col>
-							<uni-col :span="8">
-								<text style="color:blue" class="expert-phone">
-								{{expert.phone}}
+							</uni-row>
+							<uni-row>
+								<uni-col>
+									<text style="color:blue" class="expert-phone">
+									{{expert.phone}}
+									</text>
+								</uni-col>
+							</uni-row>
+							<!-- <uni-row v-show="">
+								<text class="expert-description">
+									{{expert.profile}}
 								</text>
-							</uni-col>
-						</uni-row>
-						<uni-row>
-							<text>
-								{{expert.organization}}
-							</text>
-						</uni-row>
-						<uni-row>
-							<text class="expert-description">
-								{{expert.profile}}
-							</text>
-						</uni-row>
-					</uni-col>
-					<uni-col :span="8">
-						<button type="primary" @click="contact" class="expert-button">立即对接</button>
-					</uni-col>
-				</uni-row>
+							</uni-row> -->
+						</uni-col>
+						<uni-col :span="8">
+							<button type="primary" @click="contact" class="expert-button">立即对接</button>
+						</uni-col>
+					</uni-row>
 				</view>
 			</view>
 		</view>
@@ -258,6 +260,10 @@
 	text-align: center;
 	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
 }
+.expert-info {
+	background-color: #FFFFFD;
+	margin-top: 20upx;
+}
 .expert-image {
 	width: 50upx;
 	height: 50upx;
@@ -267,5 +273,16 @@
 .expert-header-view{
 	display: flex;
 	flex-direction: row;
+}
+.expert-button {
+	margin: 20upx;
+	font-size: small;
+}
+.expert-name {
+	font-weight: 900;
+	font-size: medium;
+}
+.expert-organization {
+	color: skyblue;
 }
 </style>
