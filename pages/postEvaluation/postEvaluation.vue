@@ -4,7 +4,7 @@
 		<uni-card :is-shadow="false" is-full>
 			<tui-steps :items="items" spacing="250rpx" :activeSteps="activeSteps"></tui-steps>
 		</uni-card>
-
+		<view>
 		<uni-section>
 			<uni-forms ref="form" :rules="myRules" :modelValue="formData">
 				<uni-forms-item label="合作体验" name="ratestar">
@@ -35,7 +35,7 @@
 			</view>
 		
 		</uni-section>
-		
+		</view>
 
 	</view>
 </template>
@@ -110,6 +110,9 @@
 				 }
 				 else if(len > 15){
 					 this.activeSteps = 1
+				 }
+				 else{
+					 this.activeSteps = 0
 				 }
 			 }
 		}
