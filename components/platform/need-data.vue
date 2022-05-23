@@ -447,7 +447,7 @@
 						break
 					case '评价':
 						console.log(str)
-						uni.showToast({ title:'评价成功！', duration:500 })
+						uni.navigateTo({ url:'../../pages/postEvaluation/postEvaluation' })
 						break
 					case '再来一单':
 						console.log(str)
