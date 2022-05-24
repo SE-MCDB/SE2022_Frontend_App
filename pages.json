@@ -610,6 +610,15 @@
 				
             }
         }
+        ,{
+            "path" : "pages/my-evaluations/my-evaluations",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "最近评价",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"permission": {
 	    "scope.userLocation": {

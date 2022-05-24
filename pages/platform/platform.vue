@@ -327,7 +327,7 @@
 			},
 			//跳转到“最近评价”
 			naviToMyevaluations(){
-				//uni.navigateTo({ url: '../my-feedbacks/my-feedbacks' })
+				uni.navigateTo({ url: '../my-evaluations/my-evaluations' })
 				console.log('To Myevaluations.')
 			},
 			//跳转到“我的反馈”

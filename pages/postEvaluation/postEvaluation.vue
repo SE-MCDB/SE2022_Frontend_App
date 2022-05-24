@@ -124,10 +124,17 @@
 					 this.activeSteps = 0
 				 }
 			 },
-			 onSubmit(e){
+			 async onSubmit(e){
 				 if(this.formData.rate_level && this.formData.rate_speed && this.formData.rate_taste){
-					 postEvaluation(this.formData)
-					 console.log("submit success "+this.formData.rate_level)
+					 let result = await postEvaluation(this.formData)
+					 console.log(result)
+					 uni.showToast({
+					 	title: '评价成功！',
+					 	duration: 1250,
+					 })
+					 setTimeout(function(){	//延迟跳转
+					 	uni.navigateBack()	//回到上一界面
+					 }, 1500)
 				 }
 				 
 				 console.log(this.formData.order_id)
