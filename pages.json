@@ -605,22 +605,9 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "发表评价",
-                "enablePullDownRefresh": false,
+                "enablePullDownRefresh": false
 				
-				"app-plus": {
-					"titleNView": {
-						"buttons": [
-							{
-								"text":"发布",
-								"type":"circle",
-								"color":"#0000ff",
-								"background":"#000000",
-								"fontSize":"15px",
-								"float":"right"
-							}
-						]
-					}
-				}
+				
             }
         }
     ],

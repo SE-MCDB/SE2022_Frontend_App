@@ -1,17 +1,17 @@
 <template>
-	<view>
+	<view class="post">
 		<!-- 评分字数大闯关 -->
 		<uni-card :is-shadow="false" is-full>
 			<tui-steps :items="items" spacing="250rpx" :activeSteps="activeSteps"></tui-steps>
 		</uni-card>
 		<view>
 		<uni-section>
-			<uni-forms ref="form" :rules="myRules" :modelValue="formData">
+			<uni-forms ref="form" :rules="myRules" :modelValue="formData" @submit="onSubmit">
 				<uni-forms-item label="合作体验" name="ratestar">
 					<uni-rate v-model="formData.rate_taste" @change="onChange"/>
 				</uni-forms-item>
-				<uni-forms-item label="需求进展" name="ratestar">
-					<uni-rate v-model="formData.rate_process" @change="onChange"/>
+				<uni-forms-item label="完成速度" name="ratestar">
+					<uni-rate v-model="formData.rate_speed" @change="onChange"/>
 				</uni-forms-item>
 				<uni-forms-item label="专业水准" name="ratestar">
 					<uni-rate v-model="formData.rate_level" @change="onChange"/>
@@ -25,15 +25,16 @@
 				<uni-forms-item label="评价时间">
 					<uni-datetime-picker type="datetime" 
 						return-type="timestamp" 
-						v-model="formData.datetime"/>
+						v-model="formData.datetime"
+						:disabled="true"/>
 				</uni-forms-item>
+				
+				
+				<button type="default" plain="true" form-type="submit" @click="onSubmit">提交评价</button>
 			</uni-forms>
 
-			<view>
-			<view>匿名评价</view>
-				<switch checked @change="switchChange" />
-			</view>
-		
+			
+			
 		</uni-section>
 		</view>
 
@@ -42,22 +43,28 @@
 
 <script>
 	import tuiSteps from '@/components/thorui/tui-steps/tui-steps'
-	
+	import { mapState } from 'vuex'
+	import {postEvaluation,} from '@/api/postEvaluation.js'
 	export default {
+		onLoad(data){
+			this.formData.order_id=data.oid
+			
+		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				point: [Math.floor(Math.random()*10)+10, Math.floor(Math.random()*10)+110],
 				items: [{
-						title: '评价得积分',
+						title: '评价',
 						desc: '',
 					}, {
 						title: '满15字',
-						desc: '获14积分',
+						desc: '',
 						// 什么jb傻逼玩意,加一个random，v-model直接爆炸螺旋原地起飞绑定不上了
 						// desc: '获'.concat(str(this.point[0])).concat('积分')
 					}, {
 						title: '满80字',
-						desc: '获114积分'
+						desc: ''
 						// desc: '获'.concat(str(this.point[1])).concat('积分')
 					}],
 				activeSteps: 0,
@@ -65,10 +72,12 @@
 				// 基础表单数据
 				formData: {
 					rate_taste: 0,
-					rate_process: 0,
+					rate_speed: 0,
 					rate_level: 0,
 					description: '',
 					datetime: Date(),
+					order_id:0,
+					
 				},
 				
 				// 自定义表单校验规则
@@ -114,6 +123,14 @@
 				 else{
 					 this.activeSteps = 0
 				 }
+			 },
+			 onSubmit(e){
+				 if(this.formData.rate_level && this.formData.rate_speed && this.formData.rate_taste){
+					 postEvaluation(this.formData)
+					 console.log("submit success "+this.formData.rate_level)
+				 }
+				 
+				 console.log(this.formData.order_id)
 			 }
 		}
 	}
@@ -121,4 +138,11 @@
 
 <style>
 
+	.post {
+		min-height: 1000upx;
+		background-color: #F1F1F1;
+		
+		margin-left: 15upx;
+		margin-right: 15upx;
+	}
 </style>

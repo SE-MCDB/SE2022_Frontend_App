@@ -5,6 +5,7 @@ import{ picUrl, } from '@/api/common.js'
 //清洗result格式的函数
 function purifyKeys(item){
 	let purified_result = {
+		state: item.state,
 		order_id: item.order_id,						//订单id
 		//state: item.state,							//订单状态
 		//ctime: item.create_time,						//订单创建时间

@@ -78,7 +78,7 @@
 							<uni-icons type="redo" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view v-show='false' class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="chatbubble" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
@@ -179,7 +179,7 @@
 							<uni-icons type="redo" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">分享</text>
 						</view>
-						<view class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
+						<view v-show='false' class="card-actions-item" @click.stop="actionsClick('评价', item)">	<!--加stop修饰阻止事件继续冒泡传播-->
 							<uni-icons type="chatbubble" size="20" color="#999"></uni-icons>
 							<text class="card-actions-item-text">评价</text>
 						</view>
@@ -447,7 +447,7 @@
 						break
 					case '评价':
 						console.log(str)
-						uni.navigateTo({ url:'../../pages/postEvaluation/postEvaluation' })
+						uni.navigateTo({ url:'../../pages/postEvaluation/postEvaluation?oid='+item.order_id })
 						break
 					case '再来一单':
 						console.log(str)
