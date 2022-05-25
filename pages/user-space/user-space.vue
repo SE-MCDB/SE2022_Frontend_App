@@ -190,7 +190,7 @@
 		// 上拉触底事件
 		onReachBottom() {
 			// 上拉加载
-			this.loadmore()
+			//this.loadmore()
 		},
 		onNavigationBarButtonTap(e) {
 			if(e.index === 0){

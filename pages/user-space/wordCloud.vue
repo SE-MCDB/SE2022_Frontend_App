@@ -141,6 +141,6 @@
 	/* 请根据实际需求修改父元素尺寸，组件自动识别宽高 */
 	.charts-box {
 		width: 100%;
-		height: 215px;	/* 小于这个值会把上面uni-section的字挡住 */
+		height: 215px;	/* 小 于这个值会把上面uni-section的字挡住 */
 	}
 </style>
