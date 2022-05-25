@@ -30,14 +30,8 @@
 				></user-space-userinfo>
 		</template>
 		
+		
 		<template v-if="tabIndex==1">
-			<!-- 列表 -->
-			<!-- <view class="topic-list">
-			<block v-for="(list,listindex) in topicList" :key="listindex">
-				<card @gotoTopic="gotoTopic" :cardinfo="list" :index="listindex"></card>
-			</block>
-			</view> -->
-			
 			<no-permit-see></no-permit-see>
 		</template>
 		
