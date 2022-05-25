@@ -33,16 +33,21 @@
 					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">	
 					</uni-section>
 					<uni-list>
-						<view @click="managefinishedneed">
-							<uni-list-item title="已完成需求管理">	
-							</uni-list-item>
-						</view>
 						<view @click="manageunfinishedneed">
-							<uni-list-item title="已发布需求管理" @click="manageunfinishedneed">	
+							<uni-list-item title="已发布需求管理" @click="manageunfinishedneed"
+										   :border="false" link rightText="点击体验AI推荐"
+										   showBadge="true" badge-text="hot" badgeType="error"
+										   >	
 							</uni-list-item>
 						</view>
 						<view @click="manageunissuedneed"> 
-							<uni-list-item title="未发布需求管理" @click="manageunissuedneed">	
+							<uni-list-item title="未发布需求管理" @click="manageunissuedneed"
+										   :border="false" link >	
+							</uni-list-item>
+						</view>
+						<view @click="managefinishedneed">
+							<uni-list-item title="已完成需求管理"
+										   :border="false" link>	
 							</uni-list-item>
 						</view>
 					</uni-list>
