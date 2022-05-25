@@ -30,9 +30,9 @@
 				></user-space-userinfo>
 		</template>
 		
-		
+		<!-- 动态 -->
 		<template v-if="tabIndex==1">
-			<no-permit-see></no-permit-see>
+			<word-cloud></word-cloud>
 		</template>
 		
 		<!-- 成果 -->
@@ -67,7 +67,7 @@
 	
 	import { picUrl } from '@/api/common.js'
 	
-	import noPermitSee from '@/components/common/no-permit-see.vue'
+	import wordCloud from './wordCloud.vue'
 	import userAchievement from './user-achievement.vue'
 	
 	export default {
@@ -81,7 +81,7 @@
 			userSpacePopup,
 			card,
 			topicList,
-			noPermitSee,
+			wordCloud,
 			userAchievement,
 		},
 		computed:{ ...mapState(['userInfo']), },
