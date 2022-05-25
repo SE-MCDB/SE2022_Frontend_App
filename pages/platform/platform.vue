@@ -94,7 +94,6 @@
 	import needData from '@/components/platform/need-data.vue'
 	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
 	import myNavBarNeed from '@/components/common/my-nav-bar-need.vue'
-	// import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import homeInfo from '@/components/home/home-info-2'
 	import card from '@/components/list-card/list-card-1.vue'
 	import loadMore from '@/components/common/load-more.vue'
@@ -167,9 +166,10 @@
 					this.swiperheight = height
 				}
 			})
-			console.log('-------------------Requesting')
+			
+			// console.log('-------------------Requesting')
 			this.requestData()
-			console.log('-------------------Request Success')
+			// console.log('-------------------Request Success')
 		},
 		
 		onShow() {
@@ -181,9 +181,10 @@
 			// 		this.swiperheight = height;
 			// 	}
 			// });
-			console.log('-------------------Requesting')
+			
+			// console.log('-------------------Requesting')
 			this.requestData()
-			console.log('-------------------Request Success')
+			// console.log('-------------------Request Success')
 		},
 		
 		// 监听导航按钮点击事件
