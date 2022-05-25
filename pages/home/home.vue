@@ -23,10 +23,16 @@
 			<home-data @goToSpace="goToSpace" :homedata="homedata"></home-data>
 			
 			<uni-section title="探索" type="circle">
-				<uni-list :border="false">					
-					<uni-list-item :show-extra-icon="true" clickable link :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享首单补贴" @click="clickLink"/>
+				<uni-list :border="false">
+					<uni-list-item v-if='userInfo.type==4' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近收到的评价" link @click="clickRate" />
+					<uni-list-item v-else-if='userInfo.type==5' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近评价" link @click="clickRate" />
+					
+					<uni-list-item :border="false" :show-extra-icon="true" clickable link :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享首单补贴" @click="clickLink"/>
+					
 					<uni-list-item :border="false" :show-extra-icon="true" clickable :extra-icon="feedbackIcon" title="帮助与反馈" link to="/pages/feedback/feedback" @click="onClick"/>
+					
 					<uni-list-item :border="false" :show-extra-icon="true" clickable :extra-icon="aboutIcon" title="关于" link to="/pages/aboutus/aboutus" @click="onClick" />
+					
 				</uni-list>
 			</uni-section>
 			
@@ -111,6 +117,7 @@
 		},
 		data() {
 			return {
+				rateUrl:"",
 				islogin: false,
 				homeinfo: {
 					userpic: this.userInfo ? this.userInfo.userpic : '',
@@ -147,6 +154,11 @@
 					color: '#ffb204',
 					size: '22',
 					type: 'gear'
+				},
+				rateIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'chat'
 				},
 			}
 		},
@@ -192,6 +204,7 @@
 					this.homedata[1].num = userProfile.total_comment
 					this.homedata[2].num = userProfile.total_mycollect
 					this.islogin = true
+					this.rateUrl='/pages/my-evaluations/my-evaluations?id='+this.userInfo.id
 				}
 			},
 			print(){
@@ -216,6 +229,9 @@
 			},
 			clickLink(){	//点击分享链接
 				this.$refs.shareLink.open('center')
+			},
+			clickRate(){	//点击评价链接
+				uni.navigateTo({ url: this.rateUrl })
 			},
 		}
 	}

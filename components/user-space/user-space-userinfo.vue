@@ -7,8 +7,9 @@
 			<view>ID：{{userinfo.id}}</view>
 		</view>
 		<view class="user-space-userinfo-item">
+			
 			<view v-if="userinfo.state=='0'">个人信息</view>
-			<view v-if="userinfo.state=='4'">专家信息</view>
+			<view v-if="userinfo.state=='4'" @click='clickRate()'>专家信息（点击查看评价）</view>
 			<view v-if="userinfo.state=='5'">企业信息</view>
 			<template v-if="userinfo.state=='0'">
 				<view>身份：普通用户</view>
@@ -54,6 +55,11 @@
 			getXingZuo(){
 				return t.gettime.getHoroscope(this.userinfo.birthday)
 			}
+		},
+		methods:{
+			clickRate(){	//点击评价链接
+				uni.navigateTo({ url: "/pages/my-evaluations/my-evaluations?id="+this.userinfo.id })
+			},
 		}
 	}
 </script>
