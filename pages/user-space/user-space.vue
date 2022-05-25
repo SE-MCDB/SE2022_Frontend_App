@@ -30,15 +30,15 @@
 				></user-space-userinfo>
 		</template>
 		
-		<template v-if="tabIndex==1">
+		<template v-if="tabIndex==1 && info.type==4">
 			<!-- 列表 -->
 			<!-- <view class="topic-list">
 			<block v-for="(list,listindex) in topicList" :key="listindex">
 				<card @gotoTopic="gotoTopic" :cardinfo="list" :index="listindex"></card>
 			</block>
 			</view> -->
-			
-			<no-permit-see></no-permit-see>
+			<userRate :id='info.id'></userRate>
+			<!-- <no-permit-see></no-permit-see> -->
 		</template>
 		
 		<!-- 成果 -->
@@ -70,6 +70,7 @@
 	import topicList from '../../components/news/topic-list.vue'
 	import time from '../../common/time.js'
 	import { saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid } from '@/api/user-space.js'
+	import userRate from './user-rate.vue'
 	
 	import { picUrl } from '@/api/common.js'
 	
@@ -89,6 +90,7 @@
 			topicList,
 			noPermitSee,
 			userAchievement,
+			userRate,
 		},
 		computed:{ ...mapState(['userInfo']), },
 		onShow() {		//页面加载,一个页面只会调用一次
@@ -161,7 +163,7 @@
 				tabIndex:0,
 				tabBars:[
 					{ name:'主页', id:'homepage' },
-					{ name:'动态', id:'dynamic' },
+					{ name:'评价', id:'dynamic' },
 					{ name:'成果', id:'masterpiece' },
 				],
 				tablist:[ {},

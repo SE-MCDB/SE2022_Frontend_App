@@ -1,12 +1,7 @@
 <template>
 	<view class="my-evaluations" v-if='this.flag==1'>
 		<view v-if='this.type==4'>
-			<uni-section subTitle="" title="专家信息" type="circle" >
-				<uni-list>
-					<uni-list-item link clickable :thumb="rateList[0].expert.expert_icon" :title="rateList[0].expert.expert_name" @click=gotospace()>
-					</uni-list-item>
-				</uni-list>
-			</uni-section>
+			
 			<uni-section subTitle="" title="专家评分" type="circle" >
 				<home-data :homedata="ratedata"></home-data>
 			</uni-section>
@@ -79,12 +74,15 @@
 	import homeData from '../../components/home/home-data.vue'
 	import {getUserInfo} from '@/api/user-space.js'
 	export default {
+		props: {
+			id:Number,
+		},
 		components: {
 			
 			homeData,
 		},
-		async onLoad(data){
-			this.id=data.id
+		async mounted(){
+			
 			this.init()
 		},
 		computed: { ...mapState(['userInfo']) },
@@ -94,7 +92,7 @@
 				rateList:[
 				],
 				flag:-1,
-				id:0,
+				
 				type:0,
 				ratedata: [
 					{
