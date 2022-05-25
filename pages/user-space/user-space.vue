@@ -17,7 +17,7 @@
 		:tabBars="tabBars" 
 		:tabIndex="tabIndex"
 		@tabtap="tabtap"
-		scrollItemStyle="width:33.33%;"
+		scrollItemStyle="width:25%;"
 		scrollStyle="border-bottom:0;">
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
@@ -44,6 +44,10 @@
 		<!-- 成果 -->
 		<template v-if="tabIndex==2 && info.type==4">
 			<userAchievement></userAchievement>	
+		</template>
+		
+		<template v-if="tabIndex==3 && info.type==4">
+			<wordCloud></wordCloud>	
 		</template>
 
 		<!-- 右上角，操作菜单 -->
@@ -163,8 +167,10 @@
 				tabIndex:0,
 				tabBars:[
 					{ name:'主页', id:'homepage' },
-					{ name:'评价', id:'dynamic' },
+					{ name:'评价', id:'rate' },
+					
 					{ name:'成果', id:'masterpiece' },
+					{ name:'动态', id:'dynamic' },
 				],
 				tablist:[ {},
 					{
