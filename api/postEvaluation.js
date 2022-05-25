@@ -5,3 +5,8 @@ export const postEvaluation = async (data) => {
 	let result = await axios.post('order/rate', {"formData":data});
 	return result;
 }
+export const orderToEvaluation = async (data) => {
+	console.log("orderToEvaluation");
+	let result = await axios.get('order/'+data+'/rate');
+	return result;
+}

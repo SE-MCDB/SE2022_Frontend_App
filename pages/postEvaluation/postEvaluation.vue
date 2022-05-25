@@ -17,7 +17,7 @@
 					<uni-rate v-model="formData.rate_level" @change="onChange"/>
 				</uni-forms-item>
 				<uni-forms-item label="详细评价" name="description">
-					<uni-easyinput type="textarea" 
+					<uni-easyinput type="textarea" :disabled='flag==1'
 						v-model="formData.description" 
 						placeholder="详细描述您的订单合作体验,可以帮助更多想要与企业合作的人~" 
 						@input="inputArea()"/>
@@ -30,7 +30,8 @@
 				</uni-forms-item>
 				
 				
-				<button type="default" plain="true" form-type="submit" @click="onSubmit">提交评价</button>
+				<button type="default" v-if='flag==0' plain="true" form-type="submit" @click="onSubmit">提交评价</button>
+				<button type="default" v-else-if='flag==1' plain="true" :disabled="true" form-type="submit" @click="onSubmit">评价已存在</button>
 			</uni-forms>
 
 			
@@ -44,11 +45,11 @@
 <script>
 	import tuiSteps from '@/components/thorui/tui-steps/tui-steps'
 	import { mapState } from 'vuex'
-	import {postEvaluation,} from '@/api/postEvaluation.js'
+	import {postEvaluation,orderToEvaluation,} from '@/api/postEvaluation.js'
 	export default {
-		onLoad(data){
+		async onLoad(data){
 			this.formData.order_id=data.oid
-			
+			this.init()
 		},
 		computed: { ...mapState(['userInfo']) },
 		data() {
@@ -79,7 +80,7 @@
 					order_id:0,
 					
 				},
-				
+				flag:-1,
 				// 自定义表单校验规则
 				myRules: {
 					description: {
@@ -95,6 +96,16 @@
 		methods: {
 			onChange(e){
 				console.log('rate发生改变:' + JSON.stringify(e))
+			},
+			async init(){
+				let result = await orderToEvaluation(this.formData.order_id)
+				this.flag = result.flag
+				if(this.flag==1){
+					this.formData = result.data
+					console.log("rate exist!")
+				}else{
+					
+				}
 			},
 			
 			// 全局导航栏发布按钮
