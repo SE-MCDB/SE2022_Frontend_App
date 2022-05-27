@@ -29,5 +29,6 @@ export const idToEvaluation = async data => {
 			result.data[x].enterprise.enterprise_icon = picUrl+result.data[x].enterprise.enterprise_icon
 		}
 	}
+	
 	return result
 }

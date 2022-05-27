@@ -3,7 +3,7 @@
 		<view v-if='this.type==4'>
 			<uni-section subTitle="" title="专家信息" type="circle" >
 				<uni-list>
-					<uni-list-item link clickable :thumb="rateList[0].expert.expert_icon" :title="rateList[0].expert.expert_name" @click=gotospace()>
+					<uni-list-item link clickable :thumb="rateList[0].expert.expert_icon" :title="rateList[0].expert.expert_name" @click="gotospace()">
 					</uni-list-item>
 				</uni-list>
 			</uni-section>
@@ -137,41 +137,52 @@
 		},
 		async onLoad(data){
 			this.id=data.id
+			console.log("load")
 			this.init()
-			// this.getChartData()	//放此处会加载不出来？
+			this.getChartData()	//放此处会加载不出来？
 		},
 		async onReady(){
+			//this.init()
 			this.getChartData()
 		},
 		computed: { ...mapState(['userInfo']) },
 		methods: {
 			async init(){
 				if(this.id>0){
-					let result = await idToEvaluation(this.id)
-					let data = await getUserInfo({ 'user_id':this.id })
+					console.log("begin")
+					var result = {
+						"avg":{
+							"rate_data":1,
+						}
+					}
+					result = await idToEvaluation(this.id)
+					var data = await getUserInfo({ 'user_id':this.id })
 					this.type = data.type
+					console.log(this.type)
 					if(result && result.code){
-						
-					}else if(this.type===4){
+						console.log("error")
+					}else if(this.type==4 ||(this.type==5 && this.id==this.userInfo.id)){
 						this.flag = result.flag
 						this.rateList = result.data
+						//console.log(result.rate[0])
 						this.ratedata[0].num=result.avg.rate_taste
 						this.ratedata[1].num=result.avg.rate_speed
 						this.ratedata[2].num=result.avg.rate_level
 						//console.log(this.ratedata[0].num)
-						//console.log(this.rateList[0].rate.rate_taste)
-					}else{
+						console.log(this.rateList[0].rate.rate_taste)
+					}
+					else{
 						this.flag = result.flag
 						this.rateList = result.data
 					}
-					if(this.type===5 && this.id!==this.userInfo.id){
+					if(this.type==5 && this.id!=this.userInfo.id){
 						this.flag=0
 					}
 				}
 			},
 			async getChartData() {
 				//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
-				
+				if(this.type==4){
 				let result = await idToEvaluation(this.id)
 				
 				let res = {
@@ -183,10 +194,10 @@
 						// data: [5.0,4.5,5.0,3.9,4.0],
 						
 						data: [5.0,4.5,5.0,3.9,4.0],
-						data: [result.avg.rate_taste,
+						/*data: [result.avg.rate_taste,
 							   result.avg.rate_speed,
 							   result.avg.rate_level,
-							   3.9,4.0]
+							   3.9,4.0]*/
 					  },
 					  {
 						name: '平均评分',
@@ -197,6 +208,7 @@
 				  }
 				this.chartData = JSON.parse(JSON.stringify(res))
 				console.log(this,chartData)
+				}
 			},
 			gotospace(){
 				uni.navigateTo({ url: '../user-space/user-space?uid=' + this.id })
