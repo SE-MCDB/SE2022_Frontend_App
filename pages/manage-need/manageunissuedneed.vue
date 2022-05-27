@@ -118,17 +118,12 @@
 					this.swiperheight = height;
 				}
 			});
-			console.log("-------------------Requesting")
 			this.msg = ''
 			this.requestData()
-			console.log("-------------------Request Success")
 		},
 		
 		onShow() {
-			console.log(this.userInfo)
-			console.log("-------------------Requesting")
 			this.requestData()
-			console.log("-------------------Request Success")
 		},
 		
 		// 监听导航按钮点击事件
@@ -157,7 +152,6 @@
 				try {
 						let unissueditems = await manageUnissuedNeed(this.userInfo.id)
 						this.unissueditems = unissueditems
-						console.log(this.unissueditems.length)
 					// console.log(items)
 				} catch (e) {
 					console.log(e)
@@ -170,13 +164,11 @@
 				});
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
 				uni.navigateTo({
 					url: '../need-detail/detail?id=' + item.need_id
 				})
 			},
 			editneed(item) {
-				console.log("------------------------------------rewrite need")
 				uni.navigateTo({
 					url: '../edit-need/edit-need?id=' + item.need_id
 				})
@@ -186,10 +178,8 @@
 				this.resolveId = item.need_id
 				this.msg = '确认删除需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to delete need")
 			},
 			async issue(item) {
-				console.log("issue")
 				try {
 					let result = await transformNeed(this.userInfo.id, item.need_id)
 				} catch (e) {
@@ -198,21 +188,29 @@
 				}
 				this.onrefresh()
 			},
+			// goToRecommend(msg) {
+			// 	let item = msg[0]
+			// 	let index = msg[1]
+			// 	this.recommend(item, index)
+			// 	// console.log("length is " + result.length)
+			// 	// if (!(result&& result.code)) {
+			// 	// 	this.expertList = result.data
+			// 	// 	// console.log(this.expertList.length)
+			// 	// 	if (this.resolveIndex === index) {
+			// 	// 		this.resolveIndex = -1
+			// 	// 	} else {
+			// 	// 		this.resolveIndex = index
+			// 	// 	}
+			// 	// 	// console.log("father is:" + this.expertList.length)
+			// 	// }
+			// },
 			goToRecommend(msg) {
-				let item = msg[0]
+				const item = msg[0]
 				let index = msg[1]
-				this.recommend(item, index)
-				// console.log("length is " + result.length)
-				// if (!(result&& result.code)) {
-				// 	this.expertList = result.data
-				// 	// console.log(this.expertList.length)
-				// 	if (this.resolveIndex === index) {
-				// 		this.resolveIndex = -1
-				// 	} else {
-				// 		this.resolveIndex = index
-				// 	}
-				// 	// console.log("father is:" + this.expertList.length)
-				// }
+				// this.recommend(item, index)
+				uni.navigateTo({
+					url:'../recommend/expert-recommend?item=' + encodeURIComponent(JSON.stringify(item))
+				})
 			},
 			contact(msg) {
 				console.log(msg[0] + ' ' + msg[1])

@@ -50,8 +50,6 @@ export const expertRecommend =async id => {
 	if (result && result.code) {
 		console.log('error!')
 	}
-	console.log('result is:' + result)
-	console.log('result is:' + result.data.length)
 	return result
 }
 
@@ -61,3 +59,13 @@ export const transformNeed =async (uid, id) => {
 	let result = await axios.post('user/'+ uid + '/need/' + id + '/transform', {}, headers)
 	return result
 }
+
+export const aiRecommend =async id => {
+	console.log('aiRecommend')
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+	let result = await axios.get('ai/recommend/' + id, {}, headers)
+	if (result && result.code) {
+		console.log('error!')
+	}
+	return result
+} 

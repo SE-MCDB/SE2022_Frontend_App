@@ -187,29 +187,21 @@
 		methods: {
 			openDetail(){
 				this.$emit('openDetail',this.item)
-				console.log('------------------openDetail')
 			},
 			editneed() {
 				this.$emit('editneed', this.item)
-				console.log('------------------edit-need')
 			},
 			deleteneed() {
 				this.$emit('deleteneed', this.item)
-				console.log('------------------delete-need')
 			},
 			endneed() {
 				this.$emit('endneed', this.item)
-				console.log('------------------end-need')
 			},
 			issue() {
 				this.$emit('issue', this.item)
-				console.log('------------------issue')
 			},
 			goToRecommend() {
 				this.$emit('goToRecommend', this.item, this.index)
-				console.log('------------------goToRecommend')
-				console.log(this.showExpert)
-				console.log(this.expertList.length)
 			},
 			contact(expert) {
 				console.log('expert:'+expert.expert_id)

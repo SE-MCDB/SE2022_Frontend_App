@@ -109,24 +109,18 @@
 		},
 		
 		onLoad() {
-			console.log(this.userInfo)
 			uni.getSystemInfo({
 				success: (res) => {
 					let height = res.windowHeight - uni.upx2px(100)
 					this.swiperheight = height;
 				}
 			});
-			console.log("-------------------Requesting")
 			this.msg = ''
 			this.requestData()
-			console.log("-------------------Request Success")
 		},
 		
 		onShow() {
-			console.log(this.userInfo)
-			console.log("-------------------Requesting")
 			this.requestData()
-			console.log("-------------------Request Success")
 		},
 		
 		// 监听导航按钮点击事件
@@ -167,13 +161,11 @@
 				});
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
 				uni.navigateTo({
 					url: '../need-detail/detail?id=' + item.need_id
 				})
 			},
 			editneed(item) {
-				console.log("------------------------------------rewrite need")
 				uni.navigateTo({
 					url: '../edit-need/edit-need?id=' + item.need_id
 				})
@@ -183,19 +175,20 @@
 				this.resolveId = item.need_id
 				this.msg = '确认删除需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to delete need")
 			},
 			endneed(item) {
 				this.msgType = 'warn'
 				this.resolveId = item.need_id
 				this.msg = '确认结束需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to end need")
 			},
 			goToRecommend(msg) {
-				let item = msg[0]
+				const item = msg[0]
 				let index = msg[1]
-				this.recommend(item, index)
+				// this.recommend(item, index)
+				uni.navigateTo({
+					url:'../recommend/expert-recommend?item=' + encodeURIComponent(JSON.stringify(item))
+				})
 			},
 			contact(msg) {
 				console.log(msg[0] + ' ' + msg[1])

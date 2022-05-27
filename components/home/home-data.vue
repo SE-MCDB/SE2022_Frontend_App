@@ -1,8 +1,15 @@
 <template>
-	<view class="home-data u-f-ac animated fadeIn fast">
+	<view class="home-data u-f-ac animated fadeIn fast" v-if="homedata">
 		<block v-for="(item,index) in homedata" :key="index">
 			<view class="u-f1 u-f-ajc u-f-column" @tap="goToInfo(index)">
 				<view>{{item.num}}</view>{{item.name}}
+			</view>
+		</block>
+	</view>
+	<view class="home-data u-f-ac animated fadeIn fast" v-else>
+		<block>
+			<view class="u-f1 u-f-ajc u-f-column">
+				<view>暂无用户交流信息</view>
 			</view>
 		</block>
 	</view>
