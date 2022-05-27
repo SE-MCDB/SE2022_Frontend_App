@@ -1,74 +1,74 @@
 <template>
 	<view class="container">
-			<view class="tui-status-bar">
-				<uni-card :is-shadow="false" is-full>
-					<text class="uni-h6">需求描述</text>
-				</uni-card>
-			</view>
-			<view class="need-form">
-				<form @submit="submit" @reset="reset">
-					<uni-section title="需求标题" subTitle="为您的需求总结一个标题" type="line" padding>
-						<uni-easyinput v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
-					</uni-section>
-					<uni-section title="需求描述" subTitle="详细描述您的需求" type="line" padding>
-						<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
-					</uni-section>
-					<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
-						<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
-					</uni-section>
-					<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
-						<view class="date-set">
-							<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
-						</view>
-					</uni-section>
-					<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
-						<view class="date-set">
-							<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
-						</view>
-					</uni-section>
-					<uni-section title="关键词" subTitle="请为您的需求添加几个关键词" type="line" padding>
-						<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
-					</uni-section>
-					<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
-						<view class="uni-list">
-							<view class="uni-list-cell">
-								<view class="uni-list-cell-left">
-									当前选择
-								</view>
-								<view class="uni-list-cell-db">
-									<picker @change="inputField" :value="index" :range="field_items">
-										<view class="uni-input">{{field_items[index]}}</view>
-									</picker>
-								</view>
+		<view class="tui-status-bar">
+			<uni-card :is-shadow="false" is-full>
+				<text class="uni-h6">需求描述</text>
+			</uni-card>
+		</view>
+		<view class="need-form">
+			<form @submit="submit" @reset="reset">
+				<uni-section title="需求标题" subTitle="为您的需求总结一个标题" type="line" padding>
+					<uni-easyinput v-model="title" focus placeholder="请输入内容" @input="inputTitle"></uni-easyinput>
+				</uni-section>
+				<uni-section title="需求描述" subTitle="详细描述您的需求" type="line" padding>
+					<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
+				</uni-section>
+				<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
+					<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
+				</uni-section>
+				<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
+					<view class="date-set">
+						<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
+					</view>
+				</uni-section>
+				<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
+					<view class="date-set">
+						<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
+					</view>
+				</uni-section>
+				<uni-section title="关键词" subTitle="请为您的需求添加几个关键词" type="line" padding>
+					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
+				</uni-section>
+				<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
+					<view class="uni-list">
+						<view class="uni-list-cell">
+							<view class="uni-list-cell-left">
+								当前选择
+							</view>
+							<view class="uni-list-cell-db">
+								<picker @change="inputField" :value="index" :range="field_items">
+									<view class="uni-input">{{field_items[index]}}</view>
+								</picker>
 							</view>
 						</view>
-					</uni-section>
-					<uni-section title="地址" subTitle="请为您的需求添加地址" type="line" padding>
-						<uni-easyinput v-model="address" placeholder="请输入需求地址" @input="inputAddress"></uni-easyinput>
-					</uni-section>
-					<uni-section title="紧急程度" subTitle="请为您的需求进行紧急估量" type="line" padding></uni-section>
-					<view class="uni-list">
-						<radio-group @change="radioChange">
-							<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in emergencyItems" :key="item.value">
-								<view>
-									<radio :value="item.value" :checked="index === emergency" />
-								</view>
-								<view>{{item.name}}</view>
-							</label>
-						</radio-group>
 					</view>
-					<uni-section title="预估人数" subTitle="为您的需求商定所需人数" type="line" padding>
-						<uni-easyinput type="digit" v-model="predict" placeholder="请输入内容" @input="inputPredict"></uni-easyinput>
-					</uni-section>
-					
-					<view class="uni-btn-v">
-						<button type="primary" form-type="submit">保存并发布</button>
-						<button type="primary" @click="saveNeed">保存</button>
-						<button type="default" form-type="reset">清除</button>
-					</view>
-				</form>
-			</view>
+				</uni-section>
+				<uni-section title="地址" subTitle="请为您的需求添加地址" type="line" padding>
+					<uni-easyinput v-model="address" placeholder="请输入需求地址" @input="inputAddress"></uni-easyinput>
+				</uni-section>
+				<uni-section title="紧急程度" subTitle="请为您的需求进行紧急估量" type="line" padding></uni-section>
+				<view class="uni-list">
+					<radio-group @change="radioChange">
+						<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in emergencyItems" :key="item.value">
+							<view class="emergency-evaluate">
+								<radio :value="item.value" :checked="index === emergency" />
+							</view>
+							<view>{{item.name}}</view>
+						</label>
+					</radio-group>
+				</view>
+				<!-- <uni-section title="预估人数" subTitle="为您的需求商定所需人数" type="line" padding>
+					<uni-easyinput type="digit" v-model="predict" placeholder="请输入内容" @input="inputPredict"></uni-easyinput>
+				</uni-section> -->
+				
+				<view class="uni-btn-v">
+					<button type="primary" form-type="submit">保存并发布</button>
+					<button type="primary" @click="saveNeed">保存</button>
+					<button type="default" form-type="reset">清除</button>
+				</view>
+			</form>
 		</view>
+	</view>
 </template>
 <script>
 	import {
@@ -103,7 +103,7 @@
 				address: '',
 				state: 0,
 				emergency: '',
-				predict: '',
+				predict: 0,
 				real: 0,
 				index: 0,
 				field_items: [
@@ -395,7 +395,12 @@
 		background-color: #fff;
 		padding: 10px;
 	}
+	.emergency-evaluate {
+		margin: 5upx;
+	}
 	button {
 		margin: 20upx;
+		height: 70upx;
+		font-size: small;
 	}
 </style>

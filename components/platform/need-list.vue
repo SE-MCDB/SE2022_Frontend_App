@@ -1,24 +1,32 @@
 <template>
+	<view>
 	<uni-card>
 		<view>
 			<uni-row :span="24" class="title">
-				<uni-col class="title">
-					{{item.title}}
+				<uni-col class="title" :span="22">
+					<view @click="openDetail">
+						{{item.title}}
+					</view>
+				</uni-col>
+				<uni-col class="operation" :span="2" v-if="manage">
+					<uni-icons type="more" @click="showToast('bottom')" size="18" class="operation"></uni-icons>
 				</uni-col>
 			</uni-row>
-			<uni-row class="detail">
-				<uni-col :span="12" class="detail">
-					研发领域：<text class="detail-field">{{field_items[item.field]}}</text>
-				</uni-col>
-				<uni-col :span="12" class="detail">
-					研发金额：<text class="detail-money">￥{{item.money}}万</text>
-				</uni-col>
-			</uni-row>
-			<uni-row class="description">
-				<uni-col class="description-text" :span="23">
-					{{item.description}}
-				</uni-col>
-			</uni-row>
+			<view @click="openDetail">
+				<uni-row class="detail">
+					<uni-col :span="12" class="detail">
+						研发领域：<text class="detail-field">{{field_items[item.field]}}</text>
+					</uni-col>
+					<uni-col :span="12" class="detail">
+						研发金额：<text class="detail-money">￥{{item.money}}万</text>
+					</uni-col>
+				</uni-row>
+				<uni-row class="description">
+					<uni-col class="description-text" :span="23">
+						{{item.description}}
+					</uni-col>
+				</uni-row>
+			</view>
 			<uni-row>
 				<uni-col :span="16">
 					<uni-row class="location">
@@ -56,6 +64,13 @@
 		</view>
 		<uni-row>
 			<view v-if="edit">
+				<button type="primary" @click="goToRecommend" class="operation-buttons">
+					专家推荐
+				</button>
+			</view>
+		</uni-row>
+		<!-- <uni-row>
+			<view v-if="edit">
 			<uni-col :span="6" class="operation-buttons">
 				<view @click="editneed">
 					<uni-icons type="refreshempty" size="18"></uni-icons>
@@ -85,7 +100,7 @@
 				</view>
 			</uni-col>
 			</view>
-		</uni-row>
+		</uni-row> -->
 		<view v-if="showExpert">
 			<view v-for="(expert, index) in expertList">
 				<view class="expert-info">
@@ -127,6 +142,54 @@
 			</view>
 		</view>
 	</uni-card>
+	
+	<uni-popup ref="popup" background-color="#fff">
+		<view class="popup-content">
+			<uni-row>
+				<uni-col :span="8" class="operation-button">
+					<view @click="editneed">
+						<uni-row>
+							<uni-icons type="refreshempty" size="24"></uni-icons>
+						</uni-row>
+						<uni-row>
+							<text>编辑</text>
+						</uni-row>
+					</view>
+				</uni-col>
+				<uni-col :span="8" class="operation-button">
+					<view @click="deleteneed">
+						<uni-row>
+							<uni-icons type="minus" size="24"></uni-icons>
+						</uni-row>
+						<uni-row>
+							<text>删除</text>
+						</uni-row>
+					</view>
+				</uni-col>
+				<uni-col :span="8" class="operation-button" v-if="edit != 2">
+					<view @click="endneed">
+						<uni-row>
+							<uni-icons type="checkmarkempty" size="24"></uni-icons>
+						</uni-row>
+						<uni-row>
+							<text>结束</text>
+						</uni-row>
+					</view>
+				</uni-col>
+				<uni-col :span="8" class="operation-button" v-else>
+					<view @click="issue">
+						<uni-row>
+							<uni-icons type="checkmarkempty" size="24"></uni-icons>
+						</uni-row>
+						<uni-row>
+							<text>发布</text>
+						</uni-row>
+					</view>
+				</uni-col>
+			</uni-row>
+		</view>
+	</uni-popup>
+	</view>
 </template>
 
 <script>
@@ -134,13 +197,15 @@
 	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
 	import uniFav from '@/components/uni-fav/uni-fav.vue'
 	import uniCard from '@/components/uni-card/uni-card.vue'
+	import uniPopup from '@/components/uni-popup/uni-popup.vue'
 	import { picUrl } from '@/api/common.js'
 	export default {
 		components:{
 			uniRow,
 			uniCol,
 			uniFav,
-			uniCard
+			uniCard,
+			uniPopup
 		},
 		props:{
 			item:Object,
@@ -157,10 +222,15 @@
 			showExpert: {
 				type: Boolean,
 				default: false,
+			},
+			manage: {
+				type: Boolean,
+				default: false,
 			}
 		},
 		data() {
 			return {
+				type: 'bottom',
 				gutter: 0,
 				nvueWidth: 730,
 				field_items: [
@@ -211,6 +281,10 @@
 			seeExpertHome(id){
 				console.log('正在跳转到专家：'+id+'的主页')
 				uni.navigateTo({ url: '/pages/user-space/user-space?uid=' + id })
+			},
+			showToast(type) {
+				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
+				this.$refs.popup.open(type)
 			}
 		}
 	}
@@ -222,6 +296,9 @@
 	font-size: 30upx;
 	font-weight: 600;
 	color: #0A98D5;
+}
+.operation {
+	float: right;
 }
 .detail {
 	font-weight: 200;
@@ -248,9 +325,16 @@
 .buttons-text {
 	font-size: 20upx;
 }
-.operation-buttons {
+.operation-button {
 	text-align: center;
-	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
+}
+.operation-buttons {
+	height: 60upx;
+	text-align: center;
+	font-size: small;
+	margin-left: 10upx;
+	margin-right: 10upx;
+	/* box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04) */
 }
 .expert-info {
 	background-color: #FFFFFD;

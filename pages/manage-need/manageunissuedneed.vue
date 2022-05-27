@@ -9,7 +9,7 @@
 				<view v-if="unissueditems.length === 0">
 					<view v-for="(item, index) in unissueditems" :key="index">
 						<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 2" :expertList="resolveIndex === index && tabIndex === 2 ? expertList : []"
-						@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="2" @contact="contact(arguments)"
+						@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="2" :manage="true" @contact="contact(arguments)"
 						@editneed="editneed" @deleteneed="deleteneed" @issue="issue">
 						</need-list>
 					</view>

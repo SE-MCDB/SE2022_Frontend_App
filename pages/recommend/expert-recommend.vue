@@ -206,6 +206,12 @@
 				if (experts) {
 					this.expertRegister = experts.register 
 					this.expertOther = experts.other
+					if (experts.register.length >= 5) {
+						this.expertRegister = experts.register.slice(0, 4)
+					} 
+					if (experts.other.length >= 5) {
+						this.expertOther = experts.other.slice(0, 4)
+					}
 				}
 				this.validate()
 			},
