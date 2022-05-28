@@ -14,7 +14,7 @@
 					<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 				</uni-section>
 				<uni-section title="需求经费" subTitle="修改您的需求价格" type="line" padding>
-					<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
+					<uni-easyinput type="digit" v-model="money" placeholder="单位:万元" @input="inputMoney"></uni-easyinput>
 				</uni-section>
 				<uni-section title="关键词" subTitle="修改您的关键词" type="line" padding>
 					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
@@ -122,25 +122,22 @@
 		onLoad(data) {
 			this.initData(data.id)
 		},
-		onShow(){
-			try {
-				this.initData(this.detail.id)
-			} catch (e) {
+		// onShow(){
+		// 	try {
+		// 		this.initData(this.detail.id)
+		// 	} catch (e) {
 			
-			}
-		},
+		// 	}
+		// },
 		methods: {
 			async initData(id) {
 				// uni.setNavigationBarTitle({
 				// 	title: "需求详情"
 				// });
 				let data = await getNeedDetail(id)
-				console.log('------------------------------------------------')
-				console.log('------------------------------------------------')
 				// console.log("data is" + data)
 				this.company_id = this.userInfo.id
 				this.need_id = id
-				console.log('onLoad in certification '+ this.userID)
 				this.title = data.title
 				this.description = data.description
 				this.money = data.money
@@ -153,9 +150,6 @@
 				this.predict = data.predict
 				this.real = data.real
 				this.index = this.field
-				console.log('title is' + this.title)
-				console.log('description is' + this.description)
-				console.log('money is' + this.money)
 			},
 			back() {
 				uni.navigateBack()
@@ -269,6 +263,7 @@
 
 <style lang="scss" scoped>
 	.container {
+		min-height: 1000upx;
 		.tui-page-title {
 			width: 100%;
 			font-size: 48rpx;

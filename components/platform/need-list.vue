@@ -227,15 +227,19 @@
 				this.$emit('openDetail',this.item)
 			},
 			editneed() {
+				this.$refs.popup.close()
 				this.$emit('editneed', this.item)
 			},
 			deleteneed() {
+				this.$refs.popup.close()
 				this.$emit('deleteneed', this.item)
 			},
 			endneed() {
+				this.$refs.popup.close()
 				this.$emit('endneed', this.item)
 			},
 			issue() {
+				this.$refs.popup.close()
 				this.$emit('issue', this.item)
 			},
 			goToRecommend() {

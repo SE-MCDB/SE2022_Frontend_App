@@ -145,6 +145,7 @@
 				})
 			},
 			editneed(item) {
+				console.log("edit-need..................")
 				uni.navigateTo({
 					url: '../edit-need/edit-need?id=' + item.need_id
 				})
