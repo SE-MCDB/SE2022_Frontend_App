@@ -109,34 +109,13 @@
 		},
 		
 		onLoad() {
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
-				}
-			});
-			this.msg = ''
 			this.requestData()
 		},
 		
-		onShow() {
-			this.requestData()
+		onshow() {
+			
 		},
-		
-		// 监听导航按钮点击事件
-		onNavigationBarButtonTap(e) {
-			if (!this.userInfo.id) {
-				uni.navigateTo({
-					url: '../login/login',
-				});
-			}
-			switch (e.index) {
-				case 0:
-					this.show = true;
-					break;
-			}
-		},
-		
+	
 		onPullDownRefresh() {
 			this.onrefresh()
 			uni.stopPullDownRefresh()
@@ -185,7 +164,6 @@
 			goToRecommend(msg) {
 				const item = msg[0]
 				let index = msg[1]
-				// this.recommend(item, index)
 				uni.navigateTo({
 					url:'../recommend/expert-recommend?item=' + encodeURIComponent(JSON.stringify(item))
 				})
@@ -196,8 +174,6 @@
 			},
 			dialogConfirm(type) {
 				console.log('点击确认')
-				// this.messageText = `点击确认了 ${this.msgType} 窗口`
-				// this.$refs.message.open()
 				if (type === 'warn') {
 					this.end()
 				} else if (type === 'error') {

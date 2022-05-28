@@ -111,33 +111,12 @@
 		},
 		
 		onLoad() {
-			console.log(this.userInfo)
-			uni.getSystemInfo({
-				success: (res) => {
-					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
-				}
-			});
-			this.msg = ''
+			console.log("??????")
 			this.requestData()
 		},
 		
-		onShow() {
-			this.requestData()
-		},
-		
-		// 监听导航按钮点击事件
-		onNavigationBarButtonTap(e) {
-			if (!this.userInfo.id) {
-				uni.navigateTo({
-					url: '../login/login',
-				});
-			}
-			switch (e.index) {
-				case 0:
-					this.show = true;
-					break;
-			}
+		onshow() {
+			
 		},
 		
 		onPullDownRefresh() {
@@ -244,10 +223,10 @@
 			dialogClose() {
 				console.log('点击关闭')
 			},
-			async onrefresh() {
+			onrefresh() {
 				if (this.refreshing) return;
 				this.refreshing = true;
-				await this.requestData()
+				this.requestData()
 				setTimeout(() => {
 					this.refreshing = false;
 					uni.showToast({title:'已更新',duration:500})

@@ -34,14 +34,14 @@
 					</uni-section>
 					<uni-list>
 						<view @click="manageunfinishedneed">
-							<uni-list-item title="已发布需求管理" @click="manageunfinishedneed"
+							<uni-list-item title="已发布需求管理" 
 										   :border="false" link rightText="点击体验AI推荐"
 										   showBadge="true" badge-text="hot" badgeType="error"
 										   >	
 							</uni-list-item>
 						</view>
 						<view @click="manageunissuedneed"> 
-							<uni-list-item title="未发布需求管理" @click="manageunissuedneed"
+							<uni-list-item title="未发布需求管理" 
 										   :border="false" link >	
 							</uni-list-item>
 						</view>
@@ -170,21 +170,15 @@
 			this.requestData()
 		},
 		
-		onShow() {
-			console.log(this.userInfo.type)
-			this.homeinfo = this.userInfo
-			this.requestData()
-		},
+		// onShow() {
+		// 	this.homeinfo = this.userInfo
+		// 	this.requestData()
+		// },
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
 				uni.navigateTo({ url: '../login/login', })
-			}
-			switch (e.index) {
-				case 0:
-					this.show = true
-					break
 			}
 		},
 		
@@ -258,19 +252,19 @@
 			},
 			manageorder() {
 				uni.navigateTo({ url: '../manage-order/manage-order' })
-				this.hidepopup()
+				// this.hidepopup()
 			},
 			managefinishedneed() {
 				uni.navigateTo({ url: '../manage-need/managefinishedneed' })
-				this.hidepopup()
+				// this.hidepopup()
 			},
 			manageunfinishedneed() {
 				uni.navigateTo({ url:'../manage-need/manageunfinishedneed' })
-				this.hidepopup()
+				// this.hidepopup()
 			},
 			manageunissuedneed() {
 				uni.navigateTo({ url:'../manage-need/manageunissuedneed' })
-				this.hidepopup()
+				// this.hidepopup()
 			},
 			
 			async mounted() {

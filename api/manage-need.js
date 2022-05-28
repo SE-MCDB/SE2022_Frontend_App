@@ -1,7 +1,6 @@
 import axios from '@/config/requestConfig.js'
 
 export const manageUnfinishedNeed =async id => {
-	console.log('id is:' + id)
 	console.log('manageUnFinishedNeed')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('user/' + id + '/need/proceeding', {}, headers)

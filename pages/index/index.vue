@@ -303,10 +303,8 @@
 				
 				if(this.tabIndex === 0){
 					this.recommendList.list = items
-					console.log('rec赋值成功!')
 				} else {
 					this.hotList.list = items
-					console.log('hot赋值成功!')
 				}
 				
 				// this.newslist[this.tabIndex].list.splice(indexOfItem, , newValue)

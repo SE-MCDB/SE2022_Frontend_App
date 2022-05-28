@@ -116,18 +116,16 @@
 					this.swiperheight = height;
 				}
 			});
-			console.log("-------------------Requesting")
 			this.msg = ''
 			this.requestData()
-			console.log("-------------------Request Success")
 		},
 		
-		onShow() {
-			console.log(this.userInfo)
-			console.log("-------------------Requesting")
-			this.requestData()
-			console.log("-------------------Request Success")
-		},
+		// onShow() {
+		// 	console.log(this.userInfo)
+		// 	console.log("-------------------Requesting")
+		// 	this.requestData()
+		// 	console.log("-------------------Request Success")
+		// },
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {

@@ -51,7 +51,6 @@ export const getAllNeed =async () => {
 	console.log('getAllNeed')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('need/all', {}, headers)
-	console.log('before result:' + result)
 	result = result.data
 	// console.log("result is:" + result)
 	
