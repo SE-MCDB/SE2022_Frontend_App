@@ -1,13 +1,13 @@
 <template>
 	<view class=container>
 		
-		<tui-list-cell :size="40" :hover="false" >
+		<!-- <tui-list-cell :size="40" :hover="false" >
 			<tui-icon name="order" :size="40" unit="rpx" margin="60" color="#00007f"></tui-icon>
 			订单编号：
 		</tui-list-cell>
 		<tui-list-cell :size="30" :hover="false" backgroundColor="#d3d3d3">
 			{{item.order_id}}
-		</tui-list-cell>
+		</tui-list-cell> -->
 		
 		<tui-list-cell :size="40" :hover="false" >
 			<tui-icon name="notice" :size="40" unit="rpx" margin="60" color="#ff5500"></tui-icon>
@@ -32,10 +32,10 @@
 		<tui-list-cell :size="30" :hover="false" class=cell backgroundColor="#d3d3d3">
 			{{item.end_time}}
 		</tui-list-cell>
-		<tui-list-cell :size="40" :hover="false" >
+		<!-- <tui-list-cell :size="40" :hover="false" >
 			<tui-icon name="pie" :size="40" unit="rpx" margin="60" color="#55ff7f"></tui-icon>
 			已招募人数/总人数：{{item.real}}/{{item.predict}}
-		</tui-list-cell>
+		</tui-list-cell> -->
 		<tui-list-cell :size="40" :hover="true" :arrow="true" @click=goToSpace(item.expert_id)>
 			<tui-icon name="people" :size="40" unit="rpx" margin="60" color="#aa00ff"></tui-icon>
 			专家名称：{{item.expert_name}}
