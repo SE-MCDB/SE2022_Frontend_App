@@ -3,7 +3,16 @@
 		<image :src="getBgImg" mode="widthFix" lazy-load></image>
 		<view class="user-space-head-info u-f-ajc u-f-column">
 			<image :src="userinfo.userpic" mode="widthFix" lazy-load></image>
-			<view class="user-space-margin u-f-ac">
+			<view class="user-space-margin-detail" v-if="userinfo.type === 4">
+				{{userinfo.expert_name}}
+			</view>
+			<view class="user-space-margin-detail" v-else-if="userinfo.type === 5">
+				{{userinfo.enterprise_name}}
+			</view>
+			<view class="user-space-margin-detail" v-else>
+				
+			</view>
+			<view class="user-space-margin-username">
 				{{userinfo.username}}
 			</view>
 			<view 
@@ -114,6 +123,18 @@
 	font-weight: bold;
 	text-shadow: 2upx 2upx 10upx #333333;
 }
+.user-space-margin-username {
+	color: #FFFFFF;
+	font-size: 30upx;
+	/* font-weight: bold; */
+	text-shadow: 2upx 2upx 10upx #333333;
+}
+/* .user-space-margin-detail {
+	color: #FFFFFF;
+	font-size: 35upx;
+	font-weight: bold;
+	text-shadow: 2upx 2upx 10upx #333333;
+} */
 .user-space-head-btn{
 	background: #FFE933;
 	color: #333333;
