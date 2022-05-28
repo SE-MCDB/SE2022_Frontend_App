@@ -51,7 +51,7 @@
 		props:{ homeinfo:Object },
 		methods:{
 			goToSpace(){
-				uni.navigateTo({ url: '../user-set-userinfo/user-set-userinfo', })
+				uni.navigateTo({ url: '../user-space/user-space?uid=' + this.homeinfo.id, })
 			},
 			openEnterpriseCertificate() {
 				uni.navigateTo({ url: '../certificate-enterprise/certificate-enterprise', })

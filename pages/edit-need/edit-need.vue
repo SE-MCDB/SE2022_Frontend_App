@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="tui-status-bar">
 			<uni-card :is-shadow="false" is-full>
-				<text class="uni-h6">需求描述</text>
+				<text class="uni-h6">修改需求</text>
 			</uni-card>
 		</view>
 		<view class="need-form">
@@ -16,16 +16,6 @@
 				<uni-section title="需求经费" subTitle="修改您的需求价格" type="line" padding>
 					<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
 				</uni-section>
-				<!-- <uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
-					<view class="date-set">
-						<uni-datetime-picker type="datetime" v-model="start_time" @change="changeLogStart" />
-					</view>
-				</uni-section>
-				<uni-section title="结束日期" subTitle="请选择需求结束日期" type="line" padding>
-					<view class="date-set">
-						<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
-					</view>
-				</uni-section> -->
 				<uni-section title="关键词" subTitle="修改您的关键词" type="line" padding>
 					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
 				</uni-section>
@@ -57,13 +47,8 @@
 						</label>
 					</radio-group>
 				</view>
-				<!-- <uni-section title="预估人数" subTitle="修改您的所需人数" type="line" padding>
-					<uni-easyinput type="digit" v-model="predict" placeholder="请输入内容" @input="inputPredict"></uni-easyinput>
-				</uni-section> -->
-				
 				<view class="uni-btn-v">
 					<button type="primary" form-type="submit">更新</button>
-					<!-- <button type="default" form-type="reset">清除</button> -->
 				</view>
 			</form>
 		</view>
@@ -238,10 +223,11 @@
 				} else if (data.emergency === '') {
 					this.$http.toast('请评定紧急程度！')
 					validate_answer = false
-				} else if (data.predict === '0' || data.predict === 0) {
-					this.$http.toast('预估人数必须大于0！')
-					validate_answer = false
 				}
+				// } else if (data.predict === '0' || data.predict === 0) {
+				// 	this.$http.toast('预估人数必须大于0！')
+				// 	validate_answer = false
+				// }
 				return validate_answer
 			},
 			isKeyword: function(key_word) {
