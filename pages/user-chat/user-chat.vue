@@ -145,8 +145,6 @@
 		
 		onShow() {
 			this.isShow = true
-			
-			
 		},
 		beforeDestroy() {
 			this.isShow = false
@@ -162,7 +160,23 @@
 			if(data.index){
 				this.setIndex(parseInt(data.index))
 				this.index = data.index
-				uni.setNavigationBarTitle({ title:this.chatList[this.msgIndex].username })
+				
+				// 增加企业或专家真实姓名@标识
+				let titlebarName = this.chatList[this.msgIndex].username
+				console.log(this.chatList[this.msgIndex])
+				
+				// 设置导航栏标题
+				uni.setNavigationBarTitle({ title: titlebarName, })
+				
+				// 设置导航栏颜色
+				uni.setNavigationBarColor({
+				    frontColor: '#000000',	//前景颜色值，包括按钮、标题、状态栏的颜色
+				    backgroundColor: '#fffae1',
+				    animation: {
+				        duration: 500,
+				        timingFunc: 'easeInOut'	//动画以低速开始和结束
+				    }
+				})
 			}
 			this.fid = data.fid
 			let id = parseInt(data.fid)
@@ -207,13 +221,23 @@
 		},
 
 		onReady() {
-			
 			this.getdata()
 			this.initdata()
 			this.pageToBottom(true)
 			this.initorder()
 			this.initdata()
 			//this.refresh()
+		},
+		
+		// 监听标题栏按钮点击事件
+		onNavigationBarButtonTap(e) {
+			// console.log(e.index)
+			switch (e.index) {
+				// 右上头像按钮跳转
+				case 0:
+					this.goToUserInfo()
+					break
+			}
 		},
 		
 		watch:{
