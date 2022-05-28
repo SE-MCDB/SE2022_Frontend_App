@@ -34,7 +34,7 @@
 			</view>
 			<view>
 				<uni-icons type="location"></uni-icons>
-				<text>IP属地：{{homeinfo.enterprise_address}}</text>
+				<text>属地：{{homeinfo.enterprise_address}}</text>
 			</view>
 		</view>
 		
