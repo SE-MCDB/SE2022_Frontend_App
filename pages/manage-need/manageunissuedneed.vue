@@ -6,9 +6,9 @@
 			<scroll-view
 			 scroll-y class="list">
 				<!--搜索框-->
-				<view v-if="unissueditems.length === 0">
+				<view v-if="unissueditems.length">
 					<view v-for="(item, index) in unissueditems" :key="index">
-						<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 2" :expertList="resolveIndex === index && tabIndex === 2 ? expertList : []"
+						<need-list :item="item" :index="index" :showExpert="false" :expertList="[]"
 						@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="2" :manage="true" @contact="contact(arguments)"
 						@editneed="editneed" @deleteneed="deleteneed" @issue="issue">
 						</need-list>
@@ -131,6 +131,8 @@
 				try {
 						let unissueditems = await manageUnissuedNeed(this.userInfo.id)
 						this.unissueditems = unissueditems
+						console.log(this.unissueditems.length)
+						
 					// console.log(items)
 				} catch (e) {
 					console.log(e)

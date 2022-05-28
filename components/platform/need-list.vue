@@ -69,38 +69,6 @@
 				</button>
 			</view>
 		</uni-row>
-		<!-- <uni-row>
-			<view v-if="edit">
-			<uni-col :span="6" class="operation-buttons">
-				<view @click="editneed">
-					<uni-icons type="refreshempty" size="18"></uni-icons>
-					<text>编辑</text>
-				</view>
-			</uni-col>
-			<uni-col :span="6" class="operation-buttons">
-				<view @click="deleteneed">
-					<uni-icons type="minus" size="18"></uni-icons>
-					<text>删除</text>
-				</view>
-			</uni-col>
-			<uni-col :span="6" class="operation-buttons">
-				<view @click="endneed" v-if="edit != 2">
-					<uni-icons type="checkmarkempty" size="18"></uni-icons>
-					<text>结束</text>
-				</view>
-				<view @click="issue" v-else>
-					<uni-icons type="checkmarkempty" size="18"></uni-icons>
-					<text>发布</text>
-				</view>
-			</uni-col>
-			<uni-col :span="6" class="operation-buttons">
-				<view @click="goToRecommend">
-					<uni-icons type="search" size="18"></uni-icons>
-					<text>找专家</text>
-				</view>
-			</uni-col>
-			</view>
-		</uni-row> -->
 		<view v-if="showExpert">
 			<view v-for="(expert, index) in expertList">
 				<view class="expert-info">
