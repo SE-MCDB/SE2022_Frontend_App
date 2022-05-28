@@ -4,7 +4,7 @@
 		<view>
 			<view>{{item.username}}</view>
 			<view style="display: inline-block;">
-				{{item.institution}}
+				{{item.name}}
 			</view>
 		</view>
 		<view class="icon iconfont u-f-ajc" 

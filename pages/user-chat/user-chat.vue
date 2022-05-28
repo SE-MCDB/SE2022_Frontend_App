@@ -162,11 +162,16 @@
 				this.index = data.index
 				
 				// 增加企业或专家真实姓名@标识
-				let titlebarName = this.chatList[this.msgIndex].username
-				console.log(this.chatList[this.msgIndex])
+				if (this.chatList[this.msgIndex].name) {
+					let titlebarName = this.chatList[this.msgIndex].username + "（" + this.chatList[this.msgIndex].name +"）"
+					uni.setNavigationBarTitle({ title: titlebarName, })
+				} else {
+					let titlebarName = this.chatList[this.msgIndex].username 
+					uni.setNavigationBarTitle({ title: titlebarName, })
+				}
+				// console.log(this.chatList[this.msgIndex])
 				
 				// 设置导航栏标题
-				uni.setNavigationBarTitle({ title: titlebarName, })
 				
 				// 设置导航栏颜色
 				uni.setNavigationBarColor({

@@ -20,6 +20,7 @@ export const getUserAttList = async (data) => {
 						id:item.id,
 						userpic:picUrl+item.userpic,
 						username:item.username,
+						name:item.institution,
 						isguanzhu:true
 				}
 			})
@@ -49,6 +50,7 @@ export const getUserFansList = async (uid,eachData) => {
 					id:item.id,
 					userpic:picUrl+item.userpic,
 					username:item.username,
+					name:item.institution,
 					isguanzhu:item.isguanzhu
 			}
 		})
@@ -69,10 +71,12 @@ export const getUserEachList = async (uid) => {
 					id:item.id,
 					userpic:picUrl+item.userpic,
 					username:item.username,
+					name:item.institution,
 					isguanzhu:true
 			}
 		})
 	}
+	console.log(result)
 	return result
 }
 

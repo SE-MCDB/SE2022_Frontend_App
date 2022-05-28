@@ -314,6 +314,10 @@
 			},
 			// 黑名单
 			heimingdan(){
+				if(this.info.id === this.userInfo.id){
+					this.$http.toast('无法将自己加入黑名单')
+					return
+				}
 				console.log('tap-黑名单')
 				this.togleShow()
 				uni.showToast({
@@ -323,6 +327,10 @@
 			},
 			// 举报
 			jubao(){
+				if(this.info.id === this.userInfo.id){
+					this.$http.toast('无法举报自己')
+					return
+				}
 				console.log('tap-举报')
 				this.togleShow()
 				uni.showToast({
