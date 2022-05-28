@@ -167,24 +167,13 @@
 				}
 			})
 			
-			// console.log('-------------------Requesting')
 			this.requestData()
-			// console.log('-------------------Request Success')
 		},
 		
 		onShow() {
 			console.log(this.userInfo.type)
 			this.homeinfo = this.userInfo
-			// uni.getSystemInfo({
-			// 	success: (res) => {
-			// 		let height = res.windowHeight - uni.upx2px(100)
-			// 		this.swiperheight = height;
-			// 	}
-			// });
-			
-			// console.log('-------------------Requesting')
 			this.requestData()
-			// console.log('-------------------Request Success')
 		},
 		
 		// 监听导航按钮点击事件

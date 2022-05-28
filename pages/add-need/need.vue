@@ -14,7 +14,7 @@
 					<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 				</uni-section>
 				<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
-					<uni-easyinput type="digit" v-model="money" placeholder="单位:千元" @input="inputMoney"></uni-easyinput>
+					<uni-easyinput type="digit" v-model="money" placeholder="单位:万元" @input="inputMoney"></uni-easyinput>
 				</uni-section>
 				<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
 					<view class="date-set">
@@ -223,10 +223,11 @@
 				} else if (data.emergency === '') {
 					this.$http.toast('请评定紧急程度！')
 					validate_answer = false
-				} else if (data.predict === '0' || data.predict === 0) {
-					this.$http.toast('预估人数必须大于0！')
-					validate_answer = false
 				}
+				// } else if (data.predict === '0' || data.predict === 0) {
+				// 	this.$http.toast('预估人数必须大于0！')
+				// 	validate_answer = false
+				// }
 				return validate_answer
 			},
 			isKeyword: function(key_word) {

@@ -16,7 +16,7 @@
 					<uni-tag custom-style="background-color: #d6d6d6; border-color: #d6d6d6; color: #000000;"
 					:circle="true" :text="item.strType" type="warning" size="small"/>
 
-					<text>{{item.title}}</text>>
+					<text>{{item.title}}</text>
 				</uni-col>
 			</uni-row>
 			<uni-row class="detail">
@@ -55,6 +55,11 @@
 			this.initData()
 			console.log('Achievement onLoad')
 		},
+		props: {
+			id: {
+				type: Number,
+			}
+		},
 		data() {
 			return {
 				paperlist:[],	//论文列表
@@ -77,9 +82,9 @@
 		},
 		methods: {
 			async initData(){		
-				this.paperlist = await getExpertInfo(this.userInfo.id, 'papers')
-				this.patentlist = await getExpertInfo(this.userInfo.id, 'patents')
-				this.projectlist = await getExpertInfo(this.userInfo.id, 'projects')
+				this.paperlist = await getExpertInfo(this.id, 'papers')
+				this.patentlist = await getExpertInfo(this.id, 'patents')
+				this.projectlist = await getExpertInfo(this.id, 'projects')
 				this.generateDList()
 			},
 			generateDList(){	//刷新datalist

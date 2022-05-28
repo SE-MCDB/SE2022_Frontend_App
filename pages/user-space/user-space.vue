@@ -43,7 +43,7 @@
 		
 		<!-- 成果 -->
 		<template v-if="tabIndex==2 && info.type==4">
-			<userAchievement></userAchievement>	
+			<userAchievement :id="info.id"></userAchievement>	
 		</template>
 		
 		<template v-if="tabIndex==3 && info.type==4">
