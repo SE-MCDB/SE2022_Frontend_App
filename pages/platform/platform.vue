@@ -171,8 +171,9 @@
 					this.swiperheight = height
 				}
 			})
-			
-			this.requestData()
+			if (this.userInfo.type === 5 || this.userInfo.type === 4) {
+				this.requestData()
+			}
 		},
 		
 		onShow() {
@@ -182,7 +183,9 @@
 				this.tabBars[0].name = '我的'
 			}
 			this.homeinfo = this.userInfo
-			this.requestData()
+			if (this.userInfo.type === 5 || this.userInfo.type === 4) {
+				this.requestData()
+			}
 		},
 		
 		// 监听导航按钮点击事件

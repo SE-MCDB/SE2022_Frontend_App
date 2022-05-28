@@ -147,9 +147,11 @@
 		computed: { ...mapState(['userInfo']) },
 		methods: {
 			async init(){
+				console.log(this.id)
 				if(this.id>0){
 					var result = { 'avg':{ 'rate_data':1 } }
 					result = await idToEvaluation(this.id)
+					console.log(result)
 					var data = await getUserInfo({ 'user_id':this.id })
 					this.type = data.type
 
