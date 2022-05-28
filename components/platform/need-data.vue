@@ -514,6 +514,7 @@
 				}
 				// TODO 做一些其他的事情，手动执行 close 才会关闭对话框
 				// ...
+				this.refreshData()
 				this.$refs.confirmOperation.close()
 			},
 			//关闭提示框
