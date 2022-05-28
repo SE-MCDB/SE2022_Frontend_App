@@ -130,7 +130,7 @@
 			return {
 				swiperheight: 500,
 				islogin: false,
-				tabIndex: 1,
+				tabIndex: 0,
 				shoNo: false,
 				items: [],
 				show: false,
@@ -158,7 +158,12 @@
 		},
 		
 		onLoad() {
-			console.log(this.userInfo.enterprise_name)
+			// console.log(this.userInfo.enterprise_name)
+			if (this.userInfo.type === 4) {
+				this.tabBars[0].name = '订单'
+			} else {
+				this.tabBars[0].name = '我的'
+			}
 			this.homeinfo = this.userInfo
 			uni.getSystemInfo({
 				success: res => {
@@ -170,10 +175,15 @@
 			this.requestData()
 		},
 		
-		// onShow() {
-		// 	this.homeinfo = this.userInfo
-		// 	this.requestData()
-		// },
+		onShow() {
+			if (this.userInfo.type === 4) {
+				this.tabBars[0].name = '订单'
+			} else {
+				this.tabBars[0].name = '我的'
+			}
+			this.homeinfo = this.userInfo
+			this.requestData()
+		},
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
@@ -230,6 +240,7 @@
 			},
 			tabtap(index) {
 				this.tabIndex = index
+				this.requestData()
 			},
 			// 滑动事件
 			tabChange(e) {

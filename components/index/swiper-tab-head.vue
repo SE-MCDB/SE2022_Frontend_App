@@ -2,7 +2,7 @@
 	<view class="uni-tab-bar">
 		<scroll-view scroll-x class="uni-swiper-tab" :style="scrollStyle">
 			<block v-for="(tab,index) in tabBars" :key="tab.id">
-				<view class="swiper-tab-list" 
+				<view class="swiper-tab-list"
 				:class="{'active':tabIndex==index}"
 				@tap="tabtap(index)"
 				:style="scrollItemStyle">

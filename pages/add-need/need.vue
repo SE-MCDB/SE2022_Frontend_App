@@ -13,7 +13,7 @@
 				<uni-section title="需求描述" subTitle="详细描述您的需求" type="line" padding>
 					<uni-easyinput type="textarea" v-model="description" placeholder="请输入内容" @input="inputDescription"></uni-easyinput>
 				</uni-section>
-				<uni-section title="经费" subTitle="为您的需求标上价格" type="line" padding>
+				<uni-section title="经费" subTitle="为您的需求标上价格 ( 单位: 万元 ) " type="line" padding>
 					<uni-easyinput type="digit" v-model="money" placeholder="单位:万元" @input="inputMoney"></uni-easyinput>
 				</uni-section>
 				<uni-section title="开始日期" subTitle="请选择需求开始日期" type="line" padding>
@@ -26,8 +26,8 @@
 						<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
 					</view>
 				</uni-section>
-				<uni-section title="关键词" subTitle="请为您的需求添加几个关键词" type="line" padding>
-					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以空格分开" @input="inputKeyword"></uni-easyinput>
+				<uni-section title="关键词" subTitle="请为您的需求添加几个关键词, 以英文分号分开" type="line" padding>
+					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词, 以英文分号分开" @input="inputKeyword"></uni-easyinput>
 				</uni-section>
 				<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
 					<view class="uni-list">
@@ -62,7 +62,7 @@
 				</uni-section> -->
 				
 				<view class="uni-btn-v">
-					<button type="primary" form-type="submit">保存并发布</button>
+					<button type="primary" form-type="submit">直接发布</button>
 					<button type="primary" @click="saveNeed">保存</button>
 					<button type="default" form-type="reset">清除</button>
 				</view>
