@@ -4,7 +4,7 @@
 		<user-space-head 
 			@userActive="userActive"
 			@refreshData="refreshData"
-			:userinfo="info"></user-space-head>、
+			:userinfo="info"></user-space-head>
 		
 		<!-- 数据统计 -->
 		<view class="user-space-data">
