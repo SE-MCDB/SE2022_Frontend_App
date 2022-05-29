@@ -14,6 +14,9 @@
 .u-f-jsb{
 	justify-content: space-between;	/* 两端对齐，项目之间的间隔都相等 */
 }
+.u-f-end{
+	justify-content: end;	/* 右侧对齐 */
+}
 .u-f1{
 	flex: 1;
 }
