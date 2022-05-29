@@ -4,6 +4,13 @@
 			
 			<uni-section subTitle="" title="专家评分" type="circle" >
 				<home-data :homedata="ratedata"></home-data>
+				<view class="charts-box">
+				    <qiun-data-charts 
+						type="radar"
+						:opts="opts"
+						:chartData="chartData"
+				    />
+				  </view>
 			</uni-section>
 		</view>
 		<uni-section subTitle="显示最近的评价" title="全部评价" type="line" >
@@ -84,6 +91,7 @@
 		async mounted(){
 			
 			this.init()
+			this.getChartData()
 		},
 		computed: { ...mapState(['userInfo']) },
 		data() {
@@ -108,6 +116,28 @@
 						num: 0
 					},
 				],
+				chartData: {},
+				//可以通过修改 config-ucharts.js 文件中下标为 ['radar'] 的节点来配置全局默认参数，如都是默认参数，此处可以不传 opts 。实际应用过程中 opts 只需传入与全局默认参数中不一致的【某一个属性】即可实现同类型的图表显示不同的样式，达到页面简洁的需求。
+				opts: {
+					color: ['#1890FF','#91CB74','#FAC858','#EE6666','#73C0DE','#3CA272','#FC8452','#9A60B4','#ea7ccc'],
+					padding: [5,5,5,5],
+					dataLabel: false,
+					legend: {
+						show: true,
+						position: 'right',
+						lineHeight: 25
+					},
+					extra: {
+						radar: {
+							gridType: 'radar',
+							gridColor: '#CCCCCC',
+							gridCount: 3,
+							opacity: 0.2,
+							max: 5,
+							border: true
+						}
+					},
+				},
 			}
 		},
 		methods: {
@@ -138,6 +168,36 @@
 			},
 			gotospace(){
 				uni.navigateTo({ url: '../user-space/user-space?uid=' + this.id })
+			},
+			async getChartData() {
+				//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
+				// if(this.type===4){ 这里不能加，否则chartData为空渲染有问题
+					let result = await idToEvaluation(this.id)
+					let a = (result.avg.rate_taste+result.avg.rate_speed+result.avg.rate_level)/3
+					let res = {
+						categories: ['合作体验','完成速度','专业水平','活跃程度','平台信誉'],
+						series: [
+						  {
+							name: '专家评分',
+							// data: [90,110,165,195,187,172]
+							// data: [5.0,4.5,5.0,3.9,4.0],
+							
+							/*data: [5.0,4.5,5.0,3.9,4.0],*/
+							data: [result.avg.rate_taste,
+								   result.avg.rate_speed,
+								   result.avg.rate_level,
+								   3.9,a],
+						  },
+						  {
+							name: '平均评分',
+							// data: [190,210,105,35,27,102]
+							data: [2.6,4.2,3.9,1.5,2.8]
+						  }
+						]
+					}
+					this.chartData = JSON.parse(JSON.stringify(res))
+					
+				// }
 			},
 		}
 	}

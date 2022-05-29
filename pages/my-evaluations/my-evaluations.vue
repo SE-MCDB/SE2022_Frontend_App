@@ -180,7 +180,7 @@
 				//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接
 				// if(this.type===4){ 这里不能加，否则chartData为空渲染有问题
 					let result = await idToEvaluation(this.id)
-					
+					let a = (result.avg.rate_taste+result.avg.rate_speed+result.avg.rate_level)/3
 					let res = {
 						categories: ['合作体验','完成速度','专业水平','活跃程度','平台信誉'],
 						series: [
@@ -189,11 +189,11 @@
 							// data: [90,110,165,195,187,172]
 							// data: [5.0,4.5,5.0,3.9,4.0],
 							
-							data: [5.0,4.5,5.0,3.9,4.0],
-							/*data: [result.avg.rate_taste,
+							//data: [5.0,4.5,5.0,3.9,4.0],
+							data: [result.avg.rate_taste,
 								   result.avg.rate_speed,
 								   result.avg.rate_level,
-								   3.9,4.0]*/
+								   3.9,a]
 						  },
 						  {
 							name: '平均评分',

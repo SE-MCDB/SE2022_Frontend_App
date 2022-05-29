@@ -14,11 +14,20 @@
 		
 		<!-- tab导航 -->
 		<swiper-tab-head 
-		:tabBars="tabBars" 
+		:tabBars="tabBarsExpert" 
 		:tabIndex="tabIndex"
 		@tabtap="tabtap"
 		scrollItemStyle="width:25%;"
-		scrollStyle="border-bottom:0;">
+		scrollStyle="border-bottom:0;"
+		v-if="info.type==4">
+		</swiper-tab-head>
+		<swiper-tab-head
+		:tabBars="tabBarsUser" 
+		:tabIndex="tabIndex"
+		@tabtap="tabtap"
+		scrollItemStyle="width:50%;"
+		scrollStyle="border-bottom:0;"
+		v-else>
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
 		
@@ -165,13 +174,19 @@
 					{ name:'粉丝', num:0 },
 				],
 				tabIndex:0,
-				tabBars:[
+				tabBarsExpert:[
 					{ name:'主页', id:'homepage' },
 					{ name:'评价', id:'rate' },
 					
 					{ name:'成果', id:'masterpiece' },
 					{ name:'动态', id:'dynamic' },
 				],
+				tabBarsUser:[
+					{ name:'主页', id:'homepage' },
+					
+					{ name:'动态', id:'dynamic' },
+				],
+				
 				tablist:[ {},
 					{
 						loadtext:'',
