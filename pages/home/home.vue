@@ -216,7 +216,7 @@
 						this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
 						break
 					case 1:
-						// this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
+						this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
 						break
 					case 2:
 						this.$http.href('../../pages/user-collect/user-collect?uid=' + this.userInfo.id)
