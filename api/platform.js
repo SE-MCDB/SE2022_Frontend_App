@@ -61,25 +61,29 @@ export const getAllNeed =async () => {
 				x.pyear = '暂无详情'
 			}
 			// x.experts = await getMatchedExperts(item.need_id)
-			let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
-			let experts = await axios.get('need/'+x.need_id+'/allexperts', {}, headers)
-			experts = experts.data
-			let experts_new = [];
-			if(experts && experts.length) {
-				for (let i of experts) {
-					let expert = {
-						'expert_id': i.expert_id,
-						'scholar_id': i.scholar_id,
-						'name': i.name,
-						'pic': picUrl + i.icon_url,
-					}
-					if(expert.scholar_id === 'undefined' || expert.scholar_id === null){
-						expert.pyear = '暂无知兔专家id'
-					}
-					experts_new.push(expert);
-				}
+			
+			// let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+			// let experts = await axios.get('need/'+x.need_id+'/allexperts', {}, headers)
+			// experts = experts.data
+			// let experts_new = [];
+			// if(experts && experts.length) {
+			// 	for (let i of experts) {
+			// 		let expert = {
+			// 			'expert_id': i.expert_id,
+			// 			'scholar_id': i.scholar_id,
+			// 			'name': i.name,
+			// 			'pic': picUrl + i.icon_url,
+			// 		}
+			// 		if(expert.scholar_id === 'undefined' || expert.scholar_id === null){
+			// 			expert.pyear = '暂无知兔专家id'
+			// 		}
+			// 		experts_new.push(expert);
+			// 	}
+			// }
+			// x.experts = experts_new;
+			for (var i = 0; i < x.experts.length; i++) {
+				x.experts[i].expert_icon = picUrl + x.experts[i].expert_icon
 			}
-			x.experts = experts_new;
 		}
 		return result
 		
