@@ -191,7 +191,16 @@
 						this.index = i
 						this.setIndex(i)
 						flag = false
-						uni.setNavigationBarTitle({ title:this.chatList[this.msgIndex].username })
+						// uni.setNavigationBarTitle({ title:this.chatList[this.msgIndex].username })
+						
+						if (this.chatList[this.msgIndex].name) {
+							let titlebarName = this.chatList[this.msgIndex].username + '（' + this.chatList[this.msgIndex].name +'）'
+							uni.setNavigationBarTitle({ title: titlebarName, })
+						} else {
+							let titlebarName = this.chatList[this.msgIndex].username 
+							uni.setNavigationBarTitle({ title: titlebarName, })
+						}
+						
 						this.cId = this.chatList[i].id
 						return
 					}
@@ -211,7 +220,14 @@
 					this.setIndex(0)
 					this.index = 0
 					this.addChatList(ans)
-					uni.setNavigationBarTitle({ title:ans.username })
+					// uni.setNavigationBarTitle({ title:ans.username })
+					if (ans.name) {
+						let titlebarName = ans.username + '（' + ans.name +'）'
+						uni.setNavigationBarTitle({ title: titlebarName, })
+					} else {
+						let titlebarName = ans.username 
+						uni.setNavigationBarTitle({ title: titlebarName, })
+					}
 				}
 
 			}else{

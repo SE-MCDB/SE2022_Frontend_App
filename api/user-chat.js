@@ -97,6 +97,7 @@ export const getChat = async (id,userInfo) => {
 				userpic: item.from_user_id==userInfo.id?picUrl+item.to_user_pic:picUrl+item.from_user_pic,
 				username: item.from_user_id==userInfo.id?item.to_user_name:item.from_user_name,
 				time: sendTime,
+				name: item.from_user_id==userInfo.id?item.to_user:item.from_user,
 				message: message,
 				noreadnum: 0,
 				messages: msgList
