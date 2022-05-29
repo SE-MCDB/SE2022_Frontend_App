@@ -238,7 +238,7 @@
 			switch (e.index) {
 				// 右上头像按钮跳转
 				case 0:
-					this.goToUserInfo()
+					this.goToUserInfo(this.chatList[this.msgIndex].fid)
 					break
 			}
 		},
@@ -434,15 +434,13 @@
 				clearInterval(this.timer) //清除计时器
 				this.timer = null //设置为null
 			},
-			goToUserInfo(item){
-				uni.navigateTo({ url:'../../pages/user-space/user-space?uid='+this.chatList[this.msgIndex].fid })
+			goToUserInfo(uid){
+				uni.navigateTo({ url:'../../pages/user-space/user-space?uid=' + uid })
 			},
 			goToNeedDetail(item){
-				
 				uni.navigateTo({ url:'../need-detail/detail?id='+item })
 			},
 			goToOrderDetail(item){
-				
 				uni.navigateTo({ url:'../order-detail/order-detail?id='+item })
 			},
 			// 获取聊天数据

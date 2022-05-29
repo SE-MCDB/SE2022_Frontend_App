@@ -3,14 +3,16 @@
 		
 		<view v-if="item.gstime" class="user-chat-time u-f-ajc">{{item.gstime}}</view>
 		<view class="user-chat-list u-f" :class="{'user-chat-me':item.isme}">
-			<image v-if="!item.isme" :src="item.userpic" @tap="navUserInfo"  mode="widthFix" lazy-load></image>
+			<!-- 点击头像跳转到对方主页 -->
+			<image v-if="!item.isme" :src="item.userpic" @tap="navUserInfo" mode="widthFix" lazy-load></image>
 			<view class="user-chat-list-body">
 				<!-- 文字 -->
 				<text v-if="item.type=='text'">{{item.message}}</text>
 				<!-- 图片 -->
 				<image v-if="item.type=='img'" :src="item.message" mode="widthFix" lazy-load></image>
 			</view>
-			<image v-if="item.isme" :src="item.userpic" mode="widthFix" lazy-load></image>
+			<!-- 点击头像跳转到自己主页 -->
+			<image v-if="item.isme" :src="item.userpic" @tap="navUserInfo" mode="widthFix" lazy-load></image>
 		</view>
 		
 	</view>
@@ -24,7 +26,8 @@
 		},
 		methods:{
 			navUserInfo(){
-				this.$emit("goToUserInfo",this.item)
+				console.log(this.item)
+				this.$emit('goToUserInfo',this.item.uid)
 			}
 		}
 	}
