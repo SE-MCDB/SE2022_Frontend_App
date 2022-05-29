@@ -50,7 +50,13 @@
 										   :border="false" link>	
 							</uni-list-item>
 						</view>
+						<view>
+							<uni-row class="notice">
+								<text class="notice">订单信息可点击需求进行查看，也可点击“+”进入订单管理界面哦~</text>
+							</uni-row>
+						</view>
 					</uni-list>
+					
 					<uni-section title="更多信息" subTitle="更多功能,敬请期待!" type="line">
 					</uni-section>
 					<view>
@@ -364,5 +370,11 @@
 	}
 	.info-text {
 		text-decoration: blink;
+	}
+	.notice {
+		font-size: x-small;
+		font-weight: 100;
+		float: right;
+		margin-top: 20upx;
 	}
 </style>
