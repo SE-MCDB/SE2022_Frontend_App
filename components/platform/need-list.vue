@@ -157,6 +157,23 @@
 			</uni-row>
 		</view>
 	</uni-popup>
+	
+	<uni-popup ref="popup_finished" background-color="#fff">
+		<view class="popup-content">
+			<uni-row>
+				<uni-col class="operation-button">
+					<view @click="deleteneed">
+						<uni-row>
+							<uni-icons type="minus" size="24"></uni-icons>
+						</uni-row>
+						<uni-row>
+							<text>删除</text>
+						</uni-row>
+					</view>
+				</uni-col>
+			</uni-row>
+		</view>
+	</uni-popup>
 	</view>
 </template>
 
@@ -192,6 +209,10 @@
 				default: false,
 			},
 			manage: {
+				type: Boolean,
+				default: false,
+			},
+			manage_finished: {
 				type: Boolean,
 				default: false,
 			}
@@ -231,7 +252,11 @@
 				this.$emit('editneed', this.item)
 			},
 			deleteneed() {
-				this.$refs.popup.close()
+				if(!this.manage_finished) {
+					this.$refs.popup.close()
+				} else {
+					this.$refs.popup_finished.close()
+				}
 				this.$emit('deleteneed', this.item)
 			},
 			endneed() {
@@ -256,7 +281,11 @@
 			},
 			showToast(type) {
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.open(type)
+				if(!this.manage_finished) {
+					this.$refs.popup.open(type)
+				} else {
+					this.$refs.popup_finished.open(type)
+				}
 			}
 		}
 	}

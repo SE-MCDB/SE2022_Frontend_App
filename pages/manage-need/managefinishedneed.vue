@@ -8,7 +8,7 @@
 				<!-- 需求订单统计 -->
 				<view v-if="finisheditems">
 					<view v-for="(item, index) in finisheditems" :key="index">
-						<need-list :item="item" :index="index" @openDetail="openDetail">
+						<need-list :item="item" :index="index" @openDetail="openDetail" :manage="true" :manage_finished="true" @deleteneed="deleteneed">
 						</need-list>
 					</view>
 				</view>

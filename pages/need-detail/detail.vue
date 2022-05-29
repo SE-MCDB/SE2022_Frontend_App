@@ -15,7 +15,8 @@
 					</uni-row>
 					<uni-row :span="14" class="need-info-item">
 						<uni-icons type="gear" size="18"></uni-icons>
-						<text class="need-info-text">关键词：{{item.key_word}}</text>
+						<text class="need-info-text">关键词：</text>
+						<text class="need-info-text-detail">{{item.key_word}}</text>
 					</uni-row>
 				</uni-row>
 			</uni-col>
@@ -320,15 +321,21 @@
 	   -webkit-line-clamp: 2;
 	   white-space: nowrap;
 	}
-	.need-info {
+	/* .need-info {
 		padding-top: 10upx;
-	}
-	.need-info-item {
+	} */
+	/* .need-info-item {
 		height: 50upx;
-	}
+	} */
 	.need-info-text {
 		font-weight: 100;
 		font-size: 20upx;
+	}
+	.need-info-text-detail {
+		font-weight: 100;
+		font-size: 20upx;
+		color: blue;
+		height: 10upx;
 	}
 	.need-header {
 	}
