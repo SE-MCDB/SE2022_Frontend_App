@@ -14,8 +14,9 @@
 			<user-list :item="item" :index="index"></user-list>
 		</block> -->
 		
-		<view class="uni-tab-bar">
-		<swiper class="swiper-box" 
+		<!-- <view class="uni-tab-bar"> -->
+		
+		<!-- <swiper class="swiper-box" 
 		:style="{height:swiperheight+'px'}" 
 		:current="tabIndex"
 		@change="tabChange">
@@ -23,22 +24,47 @@
 				<scroll-view scroll-y class="list" @scrolltolower="loadmore(index)">
 					<template v-if="items.list.length>0">
 						<!-- 图文列表 -->
-						<block v-for="(item,index1) in items.list" :key="index1">
+						<!-- <block v-for="(item,index1) in items.list" :key="index1">
 							<user-list 
 							@attActive="attActive"
 							:item="item" :index="index1"></user-list>
 						</block>
 						<!-- 上拉加载 -->
-						<load-more :loadtext="items.loadtext"></load-more>
+						<!-- load-more :loadtext="items.loadtext"></load-more>
 					</template>
 					<template v-else>
 						<!-- 无内容默认 -->
-						<no-thing></no-thing>
+						<!-- <no-thing></no-thing>
 					</template>
 				</scroll-view>
 			</swiper-item>
-		</swiper>   
-		</view>
+		</swiper> -->
+		
+		<template v-if="tabIndex==0 && newslist[0].list.length>0">
+			<block v-for="(item,index1) in newslist[0].list" :key="index1">
+				<user-list 
+				@attActive="attActive"
+				:item="item" :index="index1"></user-list>
+			</block>
+		</template>
+
+		<template v-if="tabIndex==1 && newslist[1].list.length>0">
+			<block v-for="(item,index1) in newslist[1].list" :key="index1">
+				<user-list 
+				@attActive="attActive"
+				:item="item" :index="index1"></user-list>
+			</block>
+		</template>
+		
+		<template v-if="tabIndex==2 && newslist[2].list.length>0">
+			<block v-for="(item,index1) in newslist[2].list" :key="index1">
+				<user-list 
+				@attActive="attActive"
+				:item="item" :index="index1"></user-list>
+			</block>
+		</template>
+
+		<!-- </view> -->
 	</view>
 </template>
 

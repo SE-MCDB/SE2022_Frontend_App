@@ -161,12 +161,15 @@
 				this.setIndex(parseInt(data.index))
 				this.index = data.index
 				
-				// 增加企业或专家真实姓名@标识
-				let titlebarName = this.chatList[this.msgIndex].username
-				console.log(this.chatList[this.msgIndex])
-				
-				// 设置导航栏标题
-				uni.setNavigationBarTitle({ title: titlebarName, })
+				// 设置导航栏标题：增加企业或专家真实姓名@标识
+				if (this.chatList[this.msgIndex].name) {
+					let titlebarName = this.chatList[this.msgIndex].username + '（' + this.chatList[this.msgIndex].name +'）'
+					uni.setNavigationBarTitle({ title: titlebarName, })
+				} else {
+					let titlebarName = this.chatList[this.msgIndex].username 
+					uni.setNavigationBarTitle({ title: titlebarName, })
+				}
+				// console.log(this.chatList[this.msgIndex])
 				
 				// 设置导航栏颜色
 				uni.setNavigationBarColor({
@@ -188,7 +191,16 @@
 						this.index = i
 						this.setIndex(i)
 						flag = false
-						uni.setNavigationBarTitle({ title:this.chatList[this.msgIndex].username })
+						// uni.setNavigationBarTitle({ title:this.chatList[this.msgIndex].username })
+						
+						if (this.chatList[this.msgIndex].name) {
+							let titlebarName = this.chatList[this.msgIndex].username + '（' + this.chatList[this.msgIndex].name +'）'
+							uni.setNavigationBarTitle({ title: titlebarName, })
+						} else {
+							let titlebarName = this.chatList[this.msgIndex].username 
+							uni.setNavigationBarTitle({ title: titlebarName, })
+						}
+						
 						this.cId = this.chatList[i].id
 						return
 					}
@@ -208,7 +220,14 @@
 					this.setIndex(0)
 					this.index = 0
 					this.addChatList(ans)
-					uni.setNavigationBarTitle({ title:ans.username })
+					// uni.setNavigationBarTitle({ title:ans.username })
+					if (ans.name) {
+						let titlebarName = ans.username + '（' + ans.name +'）'
+						uni.setNavigationBarTitle({ title: titlebarName, })
+					} else {
+						let titlebarName = ans.username 
+						uni.setNavigationBarTitle({ title: titlebarName, })
+					}
 				}
 
 			}else{
@@ -235,7 +254,7 @@
 			switch (e.index) {
 				// 右上头像按钮跳转
 				case 0:
-					this.goToUserInfo()
+					this.goToUserInfo(this.chatList[this.msgIndex].fid)
 					break
 			}
 		},
@@ -431,15 +450,13 @@
 				clearInterval(this.timer) //清除计时器
 				this.timer = null //设置为null
 			},
-			goToUserInfo(item){
-				uni.navigateTo({ url:'../../pages/user-space/user-space?uid='+this.chatList[this.msgIndex].fid })
+			goToUserInfo(uid){
+				uni.navigateTo({ url:'../../pages/user-space/user-space?uid=' + uid })
 			},
 			goToNeedDetail(item){
-				
 				uni.navigateTo({ url:'../need-detail/detail?id='+item })
 			},
 			goToOrderDetail(item){
-				
 				uni.navigateTo({ url:'../order-detail/order-detail?id='+item })
 			},
 			// 获取聊天数据

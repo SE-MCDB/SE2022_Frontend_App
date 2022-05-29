@@ -99,7 +99,7 @@ export const getAllOrder = async uid => {
 
 // 接受某订单
 export const acceptOrder = async (uid,id) => {
-	console.log('getacceptOrder')
+	console.log('acceptOrder')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.post('user/' + uid + '/order/' + id + '/accept',{},headers)
 	
@@ -114,29 +114,25 @@ export const acceptOrder = async (uid,id) => {
 
 // 拒绝某订单
 export const rejectOrder = async (uid,id) => {
-	console.log('getrejectOrder')
+	console.log('rejectOrder')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.post('user/' + uid + '/order/' + id + '/refuse',{},headers)		//为啥不叫reject？？好别扭
 	
-	
-	
-	//todo 是否操作成功？
-	
-	
+	return result
+}
 
+export const abandonOrder = async (uid,id) => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+	let result = await axios.post('user/' + uid + '/order/' + id + '/abandon',{},headers)
+	
 	return result
 }
 
 export const accomplishOrder = async (uid,id) => {
-	console.log('getaccomplishOrder')
+	console.log('accomplishOrder')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
-	let result = await axios.post('user/' + uid + '/order/' + id + '/finish',{},headers)		//为啥不叫reject？？好别扭
-	
+	let result = await axios.post('user/' + uid + '/order/' + id + '/finish',{},headers)
 	console.log(result.error_msg)
-	
-	//todo 是否操作成功？
-	
-	
 
 	return result
 }

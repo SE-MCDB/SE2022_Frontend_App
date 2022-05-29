@@ -26,7 +26,7 @@
 						{{item.description}}
 					</uni-col>
 				</uni-row>
-			</view>
+			</view> 
 			<uni-row>
 				<uni-col :span="16">
 					<uni-row class="location">
@@ -48,12 +48,12 @@
 						</text>
 						<view class="expert-header-view">
 							<view v-for="(expert, index) in item.experts" :key="index">
-								<image :src="expert.pic" mode="widthFix" lazy-load 
+								<image :src="expert.expert_icon" mode="widthFix" lazy-load 
 									class="expert-image" 
-									:title="expert.name"
+									:title="expert.expert_name"
 									@click="seeExpertHome(expert.expert_id)"></image>
 							</view>
-						</view>
+						</view> 
 						
 					</uni-row>
 				</uni-col>

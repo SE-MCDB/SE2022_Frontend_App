@@ -4,7 +4,7 @@
 		<user-space-head 
 			@userActive="userActive"
 			@refreshData="refreshData"
-			:userinfo="info"></user-space-head>、
+			:userinfo="info"></user-space-head>
 		
 		<!-- 数据统计 -->
 		<view class="user-space-data">
@@ -14,11 +14,20 @@
 		
 		<!-- tab导航 -->
 		<swiper-tab-head 
-		:tabBars="tabBars" 
+		:tabBars="tabBarsExpert" 
 		:tabIndex="tabIndex"
 		@tabtap="tabtap"
 		scrollItemStyle="width:25%;"
-		scrollStyle="border-bottom:0;">
+		scrollStyle="border-bottom:0;"
+		v-if="info.type==4">
+		</swiper-tab-head>
+		<swiper-tab-head
+		:tabBars="tabBarsUser" 
+		:tabIndex="tabIndex"
+		@tabtap="tabtap"
+		scrollItemStyle="width:50%;"
+		scrollStyle="border-bottom:0;"
+		v-else>
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
 		
@@ -165,13 +174,19 @@
 					{ name:'粉丝', num:0 },
 				],
 				tabIndex:0,
-				tabBars:[
+				tabBarsExpert:[
 					{ name:'主页', id:'homepage' },
 					{ name:'评价', id:'rate' },
 					
 					{ name:'成果', id:'masterpiece' },
 					{ name:'动态', id:'dynamic' },
 				],
+				tabBarsUser:[
+					{ name:'主页', id:'homepage' },
+					
+					{ name:'动态', id:'dynamic' },
+				],
+				
 				tablist:[ {},
 					{
 						loadtext:'',
@@ -314,6 +329,10 @@
 			},
 			// 黑名单
 			heimingdan(){
+				if(this.info.id === this.userInfo.id){
+					this.$http.toast('无法将自己加入黑名单')
+					return
+				}
 				console.log('tap-黑名单')
 				this.togleShow()
 				uni.showToast({
@@ -323,6 +342,10 @@
 			},
 			// 举报
 			jubao(){
+				if(this.info.id === this.userInfo.id){
+					this.$http.toast('无法举报自己')
+					return
+				}
 				console.log('tap-举报')
 				this.togleShow()
 				uni.showToast({

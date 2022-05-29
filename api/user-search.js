@@ -28,6 +28,7 @@ export const searchUserList = async (data) => {
 				id:item.id,
 				userpic:picUrl+item.userpic,
 				username:item.username,
+				name:item.nickname,
 				isguanzhu:item.is_following,
 				institution:item.institution
 			}

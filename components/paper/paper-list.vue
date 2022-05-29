@@ -2,33 +2,45 @@
 	<view class="paper-list u-f-ac animated fadeIn fast" @tap="opendetail(index)">
 		<image :src="item.userpic" mode="widthFix" lazy-load></image>
 		<view>
-			<view class="u-f-ac u-f-jsb">{{item.username}} <view>{{item.time}}</view></view>
+			<view v-if="item.name != ''">
+				<view class="u-f-ac">
+					<view>{{item.username}}</view>
+					<view style="margin-left: 0.5em;" @click.stop="goToUserInfo(item)">@{{item.name}}</view>
+					<view style="margin-left: auto;">{{item.time}}</view>
+				</view>
+			</view>
+			<view v-else>
+				<view class="u-f-ac">
+					<view>{{item.username}}</view>
+					<view style="margin-left: auto;">{{item.time}}</view>
+				</view>
+			</view>
 			<view class="u-f-ac u-f-jsb"><text class="overflowText">{{item.message}}</text>
-			<template v-if="item.noreadnum>0">
-				<uni-badge :text="item.noreadnum" type="error"></uni-badge>
-			</template>
+				<template v-if="item.noreadnum>0">
+					<uni-badge :text="item.noreadnum" type="error"></uni-badge>
+				</template>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import uniBadge from "../../components/uni-badge/uni-badge.vue";
+	import uniBadge from '../../components/uni-badge/uni-badge.vue'
 	export default {
-		components:{
-			uniBadge
-		},
+		components:{ uniBadge },
 		props:{
 			item:Object,
 			index:Number
 		},
 		methods:{
 			opendetail(index){
-				this.$emit("readMsg", index)
-				uni.navigateTo({
-					url: '../../pages/user-chat/user-chat?index='+index
-				});
-			}
+				this.$emit('readMsg', index)
+				uni.navigateTo({ url: '../../pages/user-chat/user-chat?index='+index })
+			},
+			// 企业与专家 @+姓名 跳转
+			goToUserInfo(item){
+				uni.navigateTo({ url:'../../pages/user-space/user-space?uid=' + item.fid })
+			},
 		}
 	}
 </script>
@@ -56,12 +68,22 @@
 .paper-list>view{
 	flex: 1;
 }
-.paper-list>view>view:first-child{
-	font-size: 35upx;
+
+/* 第一个元素-好友名 */
+.paper-list>view>view>view>view:first-child{
+	font-size: 37upx;
 }
-.paper-list>view>view:first-child>view{
+
+/* 第二个元素-@+企业名 */
+.paper-list>view>view>view>view:nth-child(2){
+	color: #ff9f62;	/* 颜色与企业微信相同 */
+}
+
+/* 最后一个元素-右侧时间 */
+.paper-list>view>view>view>view:last-child{
 	color: #CBCBCB;
 }
+
 .paper-list>view>view:last-child{
 	color: #999999;
 }

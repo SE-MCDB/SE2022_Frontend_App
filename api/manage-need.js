@@ -1,10 +1,25 @@
 import axios from '@/config/requestConfig.js'
+import { picUrl } from './common.js'
 
 export const manageUnfinishedNeed =async id => {
 	console.log('manageUnFinishedNeed')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('user/' + id + '/need/proceeding', {}, headers)
 	result = result.data
+	
+	if(result && result.length){
+		for(let x of result){
+			if(x.description === 'undefined' || x.description === null){
+				x.pyear = '暂无详情'
+			}
+			for (var i = 0; i < x.experts.length; i++) {
+				x.experts[i].expert_icon = picUrl + x.experts[i].expert_icon
+			}
+			console.log(x)
+		}
+		return result		
+	}
+	
 	return result
 }
 
@@ -14,6 +29,22 @@ export const manageFinishedNeed =async id => {
 	
 	let result = await axios.get('user/' + id + '/need/finished', {}, headers)
 	result = result.data
+	
+	console.log(result)
+	
+	if(result && result.length){
+		for(let x of result){
+			if(x.description === 'undefined' || x.description === null){
+				x.pyear = '暂无详情'
+			}
+			for (var i = 0; i < x.experts.length; i++) {
+				x.experts[i].expert_icon = picUrl + x.experts[i].expert_icon
+			}
+
+		}
+		return result		
+	}
+	
 	return result
 }
 
@@ -23,6 +54,20 @@ export const manageUnissuedNeed =async id => {
 	let result = await axios.get('user/' + id + '/need/saved', {}, headers)
 	console.log(result)
 	result = result.data
+	
+	if(result && result.length){
+		for(let x of result){
+			if(x.description === 'undefined' || x.description === null){
+				x.pyear = '暂无详情'
+			}
+			for (var i = 0; i < x.experts.length; i++) {
+				x.experts[i].expert_icon = picUrl + x.experts[i].expert_icon
+			}
+
+		}
+		return result		
+	}
+	
 	// console.log("saved data should be:" + result)
 	return result
 }

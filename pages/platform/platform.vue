@@ -2,8 +2,7 @@
 	<view>
 	<template v-if="userInfo&&userInfo.id&&(userInfo.type=='4'||userInfo.type=='5')">
 		
-		<!--右上角创建需求-->
-		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageorder="manageorder"></platform-create>
+	
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
 		<scroll-view scroll-y class="list">
@@ -77,6 +76,8 @@
 			<!-- 未登录状态 -->
 			
 		</scroll-view>
+		<!--右上角创建需求-->
+		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageorder="manageorder"></platform-create>
 	</template>
 	<template v-else-if="!userInfo.id">
 		<view class="u-f-ajc">

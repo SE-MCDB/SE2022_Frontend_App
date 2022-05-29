@@ -221,6 +221,7 @@
 		acceptOrder,
 		rejectOrder,
 		accomplishOrder,
+		abandonOrder,
 	} from '@/api/platform/order.js'
 	
 	//需要用contact函数
@@ -442,8 +443,11 @@
 						console.log(str)
 						break
 					case '放弃订单':
+						this.curOperation = 'abandon'
+						this.order_id = order_id
+						this.$refs.confirmOperation.open()
 						console.log(str)
-						uni.showToast({ title:'施工中...', duration:500 })
+						// uni.showToast({ title:'施工中...', duration:500 })
 						break
 					case '评价':
 						console.log(str)
@@ -504,11 +508,13 @@
 						uni.showToast({ title:'操作成功！', duration:500 })
 						break
 					case 'abandon':	//放弃订单
-						uni.showToast({ title:'施工中...', duration:500 })
+						await abandonOrder(this.userInfo.id, this.order_id)
+						uni.showToast({ title:'操作成功！', duration:500 })
 						break
 				}
 				// TODO 做一些其他的事情，手动执行 close 才会关闭对话框
 				// ...
+				this.refreshData()
 				this.$refs.confirmOperation.close()
 			},
 			//关闭提示框

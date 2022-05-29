@@ -62,7 +62,8 @@ export const getChatList = async (userInfo) => {
 				time: sendTime,
 				message: message,
 				noreadnum: count,
-				messages: msgList
+				messages: msgList,
+				name: item.from_user_id==userInfo.id?item.to_user:item.from_user
 			}
 		})
 		console.log(chatList)
