@@ -55,11 +55,7 @@
 			this.initData()
 			console.log('Achievement onLoad')
 		},
-		props: {
-			id: {
-				type: Number,
-			}
-		},
+		props: { id: { type: Number, } },
 		data() {
 			return {
 				paperlist:[],	//论文列表
@@ -100,6 +96,10 @@
 				}
 				console.log(this.datalist)
 			},
+			openResultDetail(){
+				// 什么都没有, 未打算做详情页面
+				console.log('点击了成果卡片，但什么也没发生...')
+			}
 		},
 	}
 </script>
