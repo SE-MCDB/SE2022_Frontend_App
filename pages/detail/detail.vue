@@ -1,8 +1,11 @@
 <template>
 	<view class="detail">
-		<detail-info @goToUserInfo="goToUserInfo"
-			@likeOrTread="likeOrTread"
-		   :userInfo="userInfo" @comSubimt="comSubimt" :item="detail" :created_by="created_by"></detail-info>
+		<detail-info :userInfo="userInfo" 
+		   :item="detail"
+		   :created_by="created_by"
+		   @goToUserInfo="goToUserInfo"
+		   @likeOrTread="likeOrTread"
+		   @comSubimt="comSubimt"></detail-info>
 
 		<view class="u-comment-title" :maskState="maskState">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
@@ -91,7 +94,7 @@
 		},
 		onShow(){
 			try {
-				this.initData(this.detail.id)
+				// this.initData(this.detail.id)  此处initData两次会有报错信息
 			} catch (e) {
 			
 			}
@@ -118,6 +121,7 @@
 				uni.setNavigationBarTitle({ title: '详情' })
 				let detail = await getTopicDetail(id)
 				this.detail = detail
+				// console.log(this.detail)
 				this.comment.count = detail.commentNum
 				this.created_by = detail.created_by
 				this.detail.content= graceRichText.format(this.detail.content)

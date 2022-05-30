@@ -1,11 +1,7 @@
-import axios from '@/config/requestConfig.js';
-import {
-	picUrl
-} from './common.js'
-export const  getTopicDetail =async (id) => {
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
+import axios from '@/config/requestConfig.js'
+import { picUrl } from './common.js'
+export const getTopicDetail =async id => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	if (id === undefined) return false
 	let detail = await axios.get('Interpretation/'+ id,{},headers)
 	// if(detail.images==null||detail.images==''){
@@ -13,21 +9,21 @@ export const  getTopicDetail =async (id) => {
 	// }else{
 	// 	detail.images = detail.images.split(",")
 	// }
-	detail.userpic=picUrl+detail.userpic
+	
+	detail.userpic = picUrl + detail.userpic
+	// console.log(detail)
 	return detail
 }
 
-export const  pushHistory = async (data) => {
+export const pushHistory = async data => {
 	// let detail = await axios.post('Interpretation/browsingRecords',data,headers)
 }
 
-export const  getCommentList = async (uid,data) => {
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
+export const getCommentList = async (uid,data) => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('comment',data,headers)
 	let temp=result.comment_list
-	let comments = temp.map((x) => {
+	let comments = temp.map(x => {
 				return {
 					id: x.id,
 					username: x.username,
@@ -52,20 +48,16 @@ export const  getCommentList = async (uid,data) => {
 	})
 	let ans=Object.values(father_comments_map)
 	let length=comments.length
-	return {"ans":ans,"length":length}
+	return { 'ans':ans,'length':length }
 }
-export const  delComment = async (id) => {
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
-	let result = await axios.post("comment/delete",{"id":id},headers)
+export const delComment = async id => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+	let result = await axios.post('comment/delete',{ 'id':id },headers)
 	return result
 }
 
-export const  addComment = async (data) => {
-	let headers = {
-		"Authorization":'Bearer ' + uni.getStorageSync('token')
-	}
-	let result = await axios.post("comment/create",data,headers)
+export const addComment = async data => {
+	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
+	let result = await axios.post('comment/create',data,headers)
 	return result
 }

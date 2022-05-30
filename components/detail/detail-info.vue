@@ -53,10 +53,9 @@
 </template>
 
 <script>
-	import time from "../../common/time.js";
+	import time from '../../common/time.js'
 	export default {
-		components:{
-		},
+		components:{},
 		props:{
 			item:Object,
 			userInfo:Object,
@@ -65,21 +64,21 @@
 		data() {
 			return {
 				isguanzhu: this.item.isguanzhu,
-				list: "list3",
+				list: 'list3',
 				size: 48,
 			}
 		},
 		computed:{
 			createDate(){
-				let data =this.item.created_at? new Date(this.item.created_at).getTime():+new Date;
+				let data =this.item.created_at? new Date(this.item.created_at).getTime():+new Date
 				return time.gettime.sumAge(data)
 			},
 			isme(){
-				return 	this.userInfo.id==this.created_by.id
+				return this.userInfo.id==this.created_by.id
 			}
 		},
 		mounted(){
-			console.log(this.item)
+			// console.log(this.item)
 		},
 		watch:{
 			'item.id':function(){
@@ -88,42 +87,38 @@
 		},
 		methods:{
 			goToUserInfo(item){
-				this.$emit("goToUserInfo",item)
+				this.$emit('goToUserInfo',item)
 			},
 
 			onCollect(){
-				let headers = {
-					"Authorization":'Bearer ' + uni.getStorageSync('token')
-				}
+				let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 
 				}
 				if(this.item.is_favor){
 					this.$http.post('Interpretation/'+this.item.id+'/unfavor',{},headers)
-					this.$http.toast("取消收藏!")
+					this.$http.toast('取消收藏!')
 				}else{
 					this.$http.post('Interpretation/'+this.item.id+'/favor',{},headers)
-					this.$http.toast("收藏成功!")
+					this.$http.toast('收藏成功!')
 				}
 				this.item.is_favor = !this.item.is_favor
 			},
 			guanzhu(){
-				let headers = {
-					"Authorization":'Bearer ' + uni.getStorageSync('token')
-				}
+				let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 
 				}
 				if(this.isguanzhu){
 					this.$http.post('user/'+this.created_by.id+'/unfollow',{},headers)
-					this.isguanzhu=false;
-					this.$http.toast("取消关注!")
+					this.isguanzhu=false
+					this.$http.toast('取消关注!')
 				}else{
 					this.$http.post('user/'+this.created_by.id+'/follow',{},headers)
-					this.isguanzhu=true;
-					this.$http.toast("关注成功!")
+					this.isguanzhu=true
+					this.$http.toast('关注成功!')
 
 				}
 				
@@ -134,7 +129,7 @@
 					return 
 				}
 				
-				this.$emit("comSubimt",this.item)
+				this.$emit('comSubimt',this.item)
 			},
 			async giveLike(){
 				if(!this.userInfo.id){
@@ -143,10 +138,10 @@
 				}
 				if(this.item.is_like){
 					this.item.like_num--
-					await this.$emit("likeOrTread",this.item.id)
+					await this.$emit('likeOrTread',this.item.id)
 				}else{
 					this.item.like_num++
-					await this.$emit("likeOrTread",this.item.id)
+					await this.$emit('likeOrTread',this.item.id)
 				
 				}
 				this.item.is_like = !this.item.is_like
