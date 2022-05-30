@@ -13,21 +13,24 @@
 		<view style="height: 20upx; background: #F4F4F4;"></view>
 		
 		<!-- tab导航 -->
+		<!-- 专家用户Bar -->
 		<swiper-tab-head 
-		:tabBars="tabBarsExpert" 
-		:tabIndex="tabIndex"
-		@tabtap="tabtap"
-		scrollItemStyle="width:25%;"
-		scrollStyle="border-bottom:0;"
-		v-if="info.type==4">
+			:tabBars="tabBarsExpert" 
+			:tabIndex="tabIndex"
+			@tabtap="tabtap"
+			scrollItemStyle="width:25%;"
+			scrollStyle="border-bottom:0;"
+			v-if="info.type==4">
 		</swiper-tab-head>
+		
+		<!-- 普通/企业用户Bar -->
 		<swiper-tab-head
-		:tabBars="tabBarsUser" 
-		:tabIndex="tabIndex"
-		@tabtap="tabtap"
-		scrollItemStyle="width:50%;"
-		scrollStyle="border-bottom:0;"
-		v-else>
+			:tabBars="tabBarsUser" 
+			:tabIndex="tabIndex"
+			@tabtap="tabtap"
+			scrollItemStyle="width:50%;"
+			scrollStyle="border-bottom:0;"
+			v-else>
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
 		
@@ -35,18 +38,13 @@
 		<template v-if="tabIndex==0">
 			<user-space-userinfo 
 				:userinfo="info"
-				:authInfo="userInfo"
-				></user-space-userinfo>
+				:authInfo="userInfo">
+			</user-space-userinfo>
 		</template>
 		
-		<template v-if="tabIndex==1 && info.type==4">
-			<!-- 列表 -->
-			<!-- <view class="topic-list">
-			<block v-for="(list,listindex) in topicList" :key="listindex">
-				<card @gotoTopic="gotoTopic" :cardinfo="list" :index="listindex"></card>
-			</block>
-			</view> -->
-			<userRate :id='info.id'></userRate>
+		<!-- 统一规定第二栏为“动态” -->
+		<template v-if="tabIndex==1">
+			<wordCloud></wordCloud>
 			<!-- <no-permit-see></no-permit-see> -->
 		</template>
 		
@@ -55,17 +53,19 @@
 			<userAchievement :id="info.id"></userAchievement>	
 		</template>
 		
+		<!-- 评价 -->
 		<template v-if="tabIndex==3 && info.type==4">
-			<wordCloud></wordCloud>	
+			<userRate :id='info.id'></userRate>	
 		</template>
 
 		<!-- 右上角，操作菜单 -->
 		<user-space-popup :show="show" 
-		@hide="togleShow"
-		@sixin="sixin"
-		@fenxiang="fenxiang"
-		@heimingdan="heimingdan"
-		@jubao="jubao"></user-space-popup>
+			@hide="togleShow"
+			@sixin="sixin"
+			@fenxiang="fenxiang"
+			@heimingdan="heimingdan"
+			@jubao="jubao">
+		</user-space-popup>
 		
 	</view>
 </template>
@@ -174,16 +174,16 @@
 					{ name:'粉丝', num:0 },
 				],
 				tabIndex:0,
+				// 专家用户Bar
 				tabBarsExpert:[
 					{ name:'主页', id:'homepage' },
-					{ name:'评价', id:'rate' },
-					
-					{ name:'成果', id:'masterpiece' },
 					{ name:'动态', id:'dynamic' },
+					{ name:'成果', id:'masterpiece' },
+					{ name:'评价', id:'rate' },					
 				],
+				// 普通/企业用户Bar
 				tabBarsUser:[
 					{ name:'主页', id:'homepage' },
-					
 					{ name:'动态', id:'dynamic' },
 				],
 				
