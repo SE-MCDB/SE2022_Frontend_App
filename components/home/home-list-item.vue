@@ -4,8 +4,9 @@
 	@tap="clickevent">
 		<view class="u-f-ac">
 			<view v-if="item.icon"
-			class="icon iconfont"
-			:class="['icon-'+item.icon]"></view>
+				class="icon iconfont"
+				:class="['icon-'+item.icon]">
+			</view>
 			{{item.name}}
 		</view>
 		<view class="icon iconfont icon-jinru"></view>
@@ -22,61 +23,57 @@
 		methods:{
 			clickevent(){
 				switch (this.item.clicktype){
-					case "navigateTo":
+					case 'navigateTo':
 						if(this.item.url){ 
-							uni.navigateTo({ url:this.item.url}); 
+							uni.navigateTo({ url:this.item.url }) 
 						}
-
-						break;
-					case "switchTab":
+						break
+					case 'switchTab':
 						if(this.item.url){ 
-							uni.switchTab({url:this.item.url}) 
+							uni.switchTab({ url:this.item.url }) 
 						}
-					
-						break;
-					case "showImage":
+						break
+					case 'showImage':
 						 uni.previewImage({
-							urls: ["../../static/images/shit/dashangimg.jpg"],
+							urls: ['../../static/images/shit/dashangimg.jpg'],
 							longPressActions: {
 								itemList: ['发送给朋友', '保存图片', '收藏'],
 								success: function(data) {
-									console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+									console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片')
 								},
 								fail: function(err) {
-									console.log(err.errMsg);
+									console.log(err.errMsg)
 								}
 							}
-						});
+						})
 						break
-					case "contactme":
+					case 'contactme':
 						 uni.previewImage({
-							urls: ["../../static/images/shit/contactme.jpg"],
+							urls: ['../../static/images/shit/contactme.jpg'],
 							longPressActions: {
 								itemList: ['发送给朋友', '保存图片', '收藏'],
 								success: function(data) {
-									console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片');
+									console.log('选中了第' + (data.tapIndex + 1) + '个按钮,第' + (data.index + 1) + '张图片')
 								},
 								fail: function(err) {
-									console.log(err.errMsg);
+									console.log(err.errMsg)
 								}
 							}
-						});
+						})
 						break
-					case "clear":
-					uni.showModal({
-						title: '提示',
-						content: '是否要清除缓存？',
-						confirmText: '立刻清除',
-						success: res => {
-							if(res.confirm){
-								uni.clearStorage();
-								uni.showToast({
-									title: '清除缓存成功！',
-								});
-							}
-						},
-					});
-						break;
+					case 'clear':
+						uni.showModal({
+							title: '提示',
+							content: '是否要清除缓存？',
+							confirmText: '立刻清除',
+							success: res => {
+								if(res.confirm){
+									uni.clearStorage()
+									uni.showToast({ title: '清除缓存成功！', })
+								}
+							},
+						})
+						break
 				}
 			}
 		}

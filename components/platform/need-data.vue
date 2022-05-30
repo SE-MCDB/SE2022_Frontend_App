@@ -455,7 +455,15 @@
 						break
 					case '再来一单':
 						console.log(str)
-						uni.showToast({ title:'已反馈！', duration:500 })
+						this.contact(item)
+						// uni.showToast({
+						// 	title:'跳转企业中', 
+						// 	duration:1500 ,
+						// 	})
+						// setTimeout(function(){	//延迟跳转
+						// 	uni.hideLoading()
+						// 	this.contact(item)
+						// }, 2000)
 						break
 					
 					case '催促专家':

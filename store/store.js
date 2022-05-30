@@ -28,7 +28,8 @@ const store = new Vuex.Store({
 		selTitle: {},
 		category: {},
 		socket: undefined,
-		$is_open_socket: false
+		$is_open_socket: false,
+		isPlatformSwitchOn: true,	//是否设置导航栏显示“平台”
 	},
 	getters: {
 		currentChatMsgs(state) {
@@ -124,19 +125,19 @@ const store = new Vuex.Store({
 
 			if (!state.$is_open_socket) {
 				let socket = await createSocket(uid)
-				socket.onOpen((res) => {
-					console.log("WebSocket连接正常打开中...vuex！");
-					state.$is_open_socket = true;
+				socket.onOpen(res => {
+					console.log('WebSocket连接正常打开中...vuex！')
+					state.$is_open_socket = true
 					if (state.$is_open_socket) {
-						socket.onMessage(async (res) => {
-							if (res.data === "连接成功") {
-								console.log("连接成功")
+						socket.onMessage(async res => {
+							if (res.data === '连接成功') {
+								console.log('连接成功')
 								return
 							}
-							console.log("收到消息并追加")
+							console.log('收到消息并追加')
 							let data = {}
 							try {
-								data = JSON.parse(res.data);
+								data = JSON.parse(res.data)
 								let flag = false
 								if (Array.isArray(state.chatList)) {
 									state.chatList.forEach((item, index) => {
@@ -157,7 +158,7 @@ const store = new Vuex.Store({
 												isme: data.fromId == state.userInfo.id,
 												uid: data.fromId == state.userInfo.id ? data.toId : data.fromId,
 												userpic: data.fromId == state.userInfo.id ? state.userInfo.authorUrl : item.userpic,
-												type: "text",
+												type: 'text',
 												message: data.message,
 												time: time.gettime.gettime(data.sendTime),
 												gstime: time.gettime.getChatTime(data.sendTime),
@@ -171,20 +172,20 @@ const store = new Vuex.Store({
 								console.log(e)
 							}
 
-						});
+						})
 					}
 				})
 				// 这里仅是事件监听【如果socket关闭了会执行】
 				socket.onClose(() => {
 					state.$is_open_socket = false
-					console.log("已经被关闭了")
+					console.log('已经被关闭了')
 				})
-				socket.onError((e) => {
-					console.log("失败了")
+				socket.onError(e => {
+					console.log('失败了')
 					state.$is_open_socket = false
 					console.log(e)
 				})
-				commit("addSocket", socket)
+				commit('addSocket', socket)
 			}
 
 		}

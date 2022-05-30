@@ -5,15 +5,6 @@
 		<view v-else-if="userInfo.type=='5'" class="tui-page-title">企业信息编辑</view>
 		<view class="tui-form">
 			<view class="tui-view-input">
-			
-<!-- 				<tui-list-cell :hover="false">
-					<view class="thorui-input-item">
-						<view class="thorui-input-title">姓名</view>
-						<input class="thorui-input" placeholder="请输入姓名" placeholder-class="thorui-phcolor" v-model="name" />
-						<icon type="clear" :size="14" v-if="name" @tap="name = ''"></icon>
-					</view>
-				</tui-list-cell> -->
-
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="home" color="#6d7a87" :size="40"></tui-icon>

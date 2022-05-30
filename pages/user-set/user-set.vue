@@ -6,6 +6,14 @@
 			:userInfo="userInfo"
 			:index="index"></home-list-item>
 		</block>
+		
+		<view class="uni-list">
+			<view class="uni-list-cell uni-list-cell-pd ">
+				<view class="uni-list-cell-db">导航栏显示"平台"</view>
+				<switch style="transform:scale(0.85)" checked @change="switchChange"/>
+			</view>
+		</view>
+		
 		<button class="user-set-btn" type="primary" @tap="showActive">退出登陆</button>
 		<my-action-sheet :showActionSheet="showActionSheet" @toggleAction="toggleAction"></my-action-sheet>
 	</view>
@@ -24,12 +32,8 @@
 		data() {
 			return {
 				list:[
-					// { icon:"",name:"账号与安全",clicktype:"navigateTo",url:"../../pages/user-set-repassword/user-set-repassword" },
-					//{ icon:"",name:"绑定邮箱",clicktype:"navigateTo",url:"../../pages/user-set-email/user-set-email" },
-					//{ icon:"",name:"小纸条",clicktype:"",url:"" },
 					{ icon:'',name:'清除缓存',clicktype:'clear',url:'' },
-					// { icon:"",name:"意见反馈",clicktype:"navigateTo",url:"../../pages/user-set-help/user-set-help" },
-					//{ icon:"",name:"关于韩府",clicktype:"navigateTo",url:"../../pages/user-set-about/user-set-about" },
+					// { icon:'', name:'导航栏显示"平台"', clicktype:'switchTab' }
 				],
 				showActionSheet:false,
 				button:[
@@ -64,6 +68,11 @@
 					this.showActionSheet = false
 				}
 			},
+
+			switchChange: function (e) {
+				console.log('switch 发生 change 事件，携带值为', e.detail.value)
+			},
+
 		}
 	}
 </script>
