@@ -154,15 +154,9 @@
 	import { picUrl } from '@/api/common.js'
 	import uniPopupMessage from '@/components/uni-popup-message/uni-popup-message.vue'
 	import uniPopup from '@/components/uni-popup/uni-popup.vue'
-	import {
-		aiRecommend
-	} from '@/api/manage-need.js'
-	import {
-		mapState
-	} from 'vuex'
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	import { aiRecommend } from '@/api/manage-need.js'
+	import { mapState } from 'vuex'
+	import { createContact } from '@/api/need-detail.js'
 	export default {
 		components: {
 			uniCol,
@@ -182,9 +176,7 @@
 				showDescription: false
 			}
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		onLoad(option) {
 			if (option) {
 				try {
@@ -196,7 +188,7 @@
 					console.log(e)
 				}
 			} else {
-				console.log("Error! no data is loaded")
+				console.log('Error! no data is loaded')
 			}
 		},
 		
@@ -225,9 +217,7 @@
 				}
 			},
 			goToExpertInfo(expert) {
-				uni.navigateTo({
-					url:'../user-space/user-space?uid='+ expert.id
-				})
+				uni.navigateTo({ url:'../user-space/user-space?uid='+ expert.id })
 			},
 			// goToNullExpertInfo(expert) {
 			// 	let route_to = encodeURIComponent(JSON.stringify(expert))
@@ -241,11 +231,9 @@
 					expert_id:expert.id,
 					enterprise_id:this.userInfo.id,
 					need_id:this.need.need_id,
-				};
+				}
 				let s =createContact(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+expert.id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+expert.id })
 			},
 			showToast() {
 				this.$refs.popup.open()

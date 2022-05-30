@@ -40,26 +40,22 @@
 </template>
 
 <script>
-	import needList from "@/components/platform/need-list.vue";
+	import needList from '@/components/platform/need-list.vue'
 	import needData from '@/components/platform/need-data.vue'
-	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
-	import myNavBar from "@/components/common/my-nav-bar.vue";
+	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
+	import myNavBar from '@/components/common/my-nav-bar.vue'
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '@/components/list-card/list-card-1.vue'
-	import loadMore from "@/components/common/load-more.vue";
+	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
-	import noThing from "@/components/common/no-thing.vue";
+	import noThing from '@/components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
-	import {
-		mapState
-	} from 'vuex'
-	import {
-		getUserProfile,
-	} from "@/api/home.js"
+	import { mapState } from 'vuex'
+	import { getUserProfile, } from '@/api/home.js'
 	import {
 		manageFinishedNeed,
 		manageUnfinishedNeed,
@@ -68,10 +64,8 @@
 		endNeed,
 		expertRecommend,
 		transformNeed
-	} from "@/api/manage-need.js"
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	} from '@/api/manage-need.js'
+	import { createContact } from '@/api/need-detail.js'
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -86,9 +80,7 @@
 			uniPopup,
 			uniPopupDialog
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				islogin: false,
@@ -112,8 +104,10 @@
 			this.requestData()
 		},
 		
-		onshow() {
-			
+		// 无语子，之前不行是因为写成onshow了
+		// 作用是编辑后及时刷新
+		onShow() {	
+			this.requestData()
 		},
 	
 		onPullDownRefresh() {
@@ -126,8 +120,8 @@
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
 				try {
-						let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
-						this.unfinisheditems = unfinisheditems
+					let unfinisheditems = await manageUnfinishedNeed(this.userInfo.id)
+					this.unfinisheditems = unfinisheditems
 					// console.log(items)
 				} catch (e) {
 					console.log(e)
@@ -135,20 +129,14 @@
 				}
 			},
 			openLogin() {
-				uni.navigateTo({
-					url: '../login/login'
-				});
+				uni.navigateTo({ url: '../login/login' })
 			},
 			openDetail(item) {
-				uni.navigateTo({
-					url: '../need-detail/detail?id=' + item.need_id
-				})
+				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			editneed(item) {
-				console.log("edit-need..................")
-				uni.navigateTo({
-					url: '../edit-need/edit-need?id=' + item.need_id
-				})
+				console.log('edit-need..................')
+				uni.navigateTo({ url: '../edit-need/edit-need?id=' + item.need_id })
 			},
 			deleteneed(item) {
 				this.msgType = 'error'
@@ -165,9 +153,7 @@
 			goToRecommend(msg) {
 				const item = msg[0]
 				let index = msg[1]
-				uni.navigateTo({
-					url:'../recommend/expert-recommend?item=' + encodeURIComponent(JSON.stringify(item))
-				})
+				uni.navigateTo({ url:'../recommend/expert-recommend?item=' + encodeURIComponent(JSON.stringify(item)) })
 			},
 			contact(msg) {
 				console.log(msg[0] + ' ' + msg[1])
@@ -227,35 +213,33 @@
 				console.log('点击关闭')
 			},
 			async onrefresh() {
-				if (this.refreshing) return;
-				this.refreshing = true;
+				if (this.refreshing) return
+				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
+					this.refreshing = false
+					uni.showToast({ title:'已更新',duration:500 })
 				}, 200)
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			hidepopup() {
-				this.show = false;
+				this.show = false
 			},
 			showpopup() {
-				this.show = true;
+				this.show = true
 			},
 			contactExpert(item, expert){
 				let temp={
 					expert_id:expert.expert_id,
 					enterprise_id:this.userInfo.id,
 					need_id:item.need_id,
-				};
+				}
 				let s =createContact(temp)
 				console.log(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+expert.expert_id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+expert.expert_id })
 			},
 		}
 	}

@@ -40,26 +40,22 @@
 </template>
 
 <script>
-	import needList from "@/components/platform/need-list.vue";
+	import needList from '@/components/platform/need-list.vue'
 	import needData from '@/components/platform/need-data.vue'
-	import swiperTabHead from "@/components/index/swiper-tab-head.vue";
-	import myNavBar from "@/components/common/my-nav-bar.vue";
+	import swiperTabHead from '@/components/index/swiper-tab-head.vue'
+	import myNavBar from '@/components/common/my-nav-bar.vue'
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
 	import card from '@/components/list-card/list-card-1.vue'
-	import loadMore from "@/components/common/load-more.vue";
+	import loadMore from '@/components/common/load-more.vue'
 	import time from '@/common/time.js'
-	import noThing from "@/components/common/no-thing.vue";
+	import noThing from '@/components/common/no-thing.vue'
 	import uniSwipeAction from '@/components/uni-swipe-action/uni-swipe-action.vue'
 	import uniSwipeActionItem from '@/components/uni-swipe-action-item/uni-swipe-action-item.vue'
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
-	import {
-		mapState
-	} from 'vuex'
-	import {
-		getUserProfile,
-	} from "@/api/home.js"
+	import { mapState } from 'vuex'
+	import { getUserProfile, } from '@/api/home.js'
 	import {
 		manageFinishedNeed,
 		manageUnfinishedNeed,
@@ -68,10 +64,8 @@
 		endNeed,
 		expertRecommend,
 		transformNeed
-	} from "@/api/manage-need.js"
-	import {
-		createContact
-	} from "@/api/need-detail.js"
+	} from '@/api/manage-need.js'
+	import { createContact } from '@/api/need-detail.js'
 	import Vue from 'vue'
 	export default {
 		components: {
@@ -86,9 +80,7 @@
 			uniPopup,
 			uniPopupDialog
 		},
-		computed: {
-			...mapState(['userInfo'])
-		},
+		computed: { ...mapState(['userInfo']) },
 		data() {
 			return {
 				islogin: false,
@@ -111,33 +103,30 @@
 		onLoad() {
 			console.log(this.userInfo)
 			uni.getSystemInfo({
-				success: (res) => {
+				success: res => {
 					let height = res.windowHeight - uni.upx2px(100)
-					this.swiperheight = height;
+					this.swiperheight = height
 				}
-			});
+			})
 			this.msg = ''
 			this.requestData()
 		},
 		
-		// onShow() {
-		// 	console.log(this.userInfo)
-		// 	console.log("-------------------Requesting")
-		// 	this.requestData()
-		// 	console.log("-------------------Request Success")
-		// },
+		// 无语子，之前不行是因为写成onshow了
+		// 作用是编辑后及时刷新
+		onShow() {	
+			this.requestData()
+		},
 		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
-				uni.navigateTo({
-					url: '../login/login',
-				});
+				uni.navigateTo({ url: '../login/login', })
 			}
 			switch (e.index) {
 				case 0:
-					this.show = true;
-					break;
+					this.show = true
+					break
 			}
 		},
 		
@@ -154,35 +143,29 @@
 				this.finisheditems = finisheditems
 			},
 			openLogin() {
-				uni.navigateTo({
-					url: '../login/login'
-				});
+				uni.navigateTo({ url: '../login/login' })
 			},
 			openDetail(item) {
-				console.log("-----------------------------------openDetail")
-				uni.navigateTo({
-					url: '../need-detail/detail?id=' + item.need_id
-				})
+				console.log('-----------------------------------openDetail')
+				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			editneed(item) {
-				console.log("------------------------------------rewrite need")
-				uni.navigateTo({
-					url: '../edit-need/edit-need?id=' + item.need_id
-				})
+				console.log('------------------------------------rewrite need')
+				uni.navigateTo({ url: '../edit-need/edit-need?id=' + item.need_id })
 			},
 			deleteneed(item) {
 				this.msgType = 'error'
 				this.resolveId = item.need_id
 				this.msg = '确认删除需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to delete need")
+				console.log('------------------------------------ready to delete need')
 			},
 			endneed(item) {
 				this.msgType = 'warn'
 				this.resolveId = item.need_id
 				this.msg = '确认结束需求吗？此操作无法复原'
 				this.$refs.alertDialog.open()
-				console.log("------------------------------------ready to end need")
+				console.log('------------------------------------ready to end need')
 			},
 			goToRecommend(msg) {
 				let item = msg[0]
@@ -260,35 +243,33 @@
 				console.log('点击关闭')
 			},
 			async onrefresh() {
-				if (this.refreshing) return;
-				this.refreshing = true;
+				if (this.refreshing) return
+				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
-					this.refreshing = false;
-					uni.showToast({title:'已更新',duration:500})
+					this.refreshing = false
+					uni.showToast({ title:'已更新',duration:500 })
 				}, 200)
 			},
 			initNavigation(e) {
-				this.opcity = e.opcity;
-				this.top = e.top;
+				this.opcity = e.opcity
+				this.top = e.top
 			},
 			hidepopup() {
-				this.show = false;
+				this.show = false
 			},
 			showpopup() {
-				this.show = true;
+				this.show = true
 			},
 			contactExpert(item, expert){
 				let temp={
 					expert_id:expert.expert_id,
 					enterprise_id:this.userInfo.id,
 					need_id:item.need_id,
-				};
+				}
 				let s =createContact(temp)
 				console.log(temp)
-				uni.navigateTo({
-					url:'../user-chat/user-chat?fid='+expert.expert_id
-				})
+				uni.navigateTo({ url:'../user-chat/user-chat?fid='+expert.expert_id })
 			},
 		}
 	}
