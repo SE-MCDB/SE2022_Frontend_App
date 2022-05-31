@@ -244,6 +244,7 @@
 					this.info.expert_field = data.expert_field
 					this.info.expert_scholarprofile = data.expert_scholarprofile
 					this.info.expert_phone = data.expert_phone
+					this.info.expert_title = data.expert_title
 				}
 				if (this.info.expert_field) {
 					let str = ''
