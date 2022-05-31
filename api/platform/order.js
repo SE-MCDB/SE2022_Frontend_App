@@ -24,7 +24,7 @@ function purifyKeys(item){
 		purified_result.description = 'Lux et veritas'
 	}
 	if(purified_result.time === 'undefined' || purified_result.time === null || purified_result.time === ''){
-		purified_result.time = '今天'
+		purified_result.time = item.create_time
 	}
 	return purified_result
 }
