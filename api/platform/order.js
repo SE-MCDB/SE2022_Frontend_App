@@ -15,7 +15,9 @@ function purifyKeys(item){
 		description: item.need.enterprise_description,	//企业描述
 		headpic: picUrl + item.need.enterprise_pic,		//企业头像url地址
 		exp_id: item.expert_id,							//专家id
-		//exp_name: item.expert_name,					//专家姓名
+		exp_name: item.expert_name,						//专家姓名
+		exp_pic: picUrl + item.expert_pic, 				//专家头像
+		exp_des: item.expert_description,  				//专家描述
 		title: item.need.title,							//需求名称
 		time: item.end_time,							//时间
 		need_id: item.need.need_id
