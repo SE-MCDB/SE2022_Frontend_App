@@ -36,17 +36,22 @@
 							<uni-list-item title="已发布需求管理" 
 										   :border="false" link rightText="点击体验AI推荐"
 										   showBadge="true" badge-text="hot" badgeType="error"
+										   :show-extra-icon="true" :extra-icon="extraIcon_fabu"
 										   >	
 							</uni-list-item>
 						</view>
 						<view @click="manageunissuedneed"> 
 							<uni-list-item title="未发布需求管理" 
-										   :border="false" link >	
+										   :border="false" link 
+										   :show-extra-icon="true" :extra-icon="extraIcon_weifabu"
+										   >	
 							</uni-list-item>
 						</view>
 						<view @click="managefinishedneed">
 							<uni-list-item title="已完成需求管理"
-										   :border="false" link>	
+										   :border="false" link
+										   :show-extra-icon="true" :extra-icon="extraIcon_wancheng"
+										   >	
 							</uni-list-item>
 						</view>
 						<view>
@@ -160,7 +165,22 @@
 					{ name:'进行中', num:0 },
 					{ name:'已完成', num:0 },
 				],
-				
+				// 三个Icon格式
+				extraIcon_fabu: {
+					color: '#27a4da',
+					size: '20',
+					type: 'paperplane-filled'
+				},
+				extraIcon_weifabu: {
+					color: '#27a4da',
+					size: '20',
+					type: 'locked-filled'
+				},
+				extraIcon_wancheng: {
+					color: '#27a4da',
+					size: '20',
+					type: 'flag-filled'
+				},
 			}
 		},
 		
