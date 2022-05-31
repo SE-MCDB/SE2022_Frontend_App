@@ -32,6 +32,11 @@
 			item:Object,
 			index:Number
 		},
+		data() {
+			return {
+				color: this.item.type === 4 ? 'skyblue' : '#ff9f62'
+			}
+		},
 		methods:{
 			opendetail(index){
 				this.$emit('readMsg', index)
