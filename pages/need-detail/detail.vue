@@ -223,16 +223,23 @@
 					}
 				}
 				
-				let result = await needToOrderlist(this.item.need_id)
-				if(result.data[0]>0){
+				// let result = await needToOrderlist(this.item.need_id)
+				let result = this.item.order
+				if(result && result.length){
 					let i = 0
 					let temparray=[]
-					for(i;i<result.data.length;i++){
-						let orderdetail = await getOrderDetail(result.data[i])
-						let expertdetail = await getUserInfo({ 'user_id':orderdetail.expert_id})
-						console.log(orderdetail.expert_id)
-						console.log(expertdetail.userpic)
-						orderdetail.expertPic = picUrl+expertdetail.userpic
+					for(i;i<result.length;i++){
+						// let orderdetail = await getOrderDetail(result[i])
+						// let expertdetail = await getUserInfo({ 'user_id':orderdetail.expert_id})
+						// console.log(orderdetail.expert_id)
+						// console.log(expertdetail.userpic)
+						let orderdetail = {expertPic: result[i].expert_icon,
+											state: result[i].order_state,
+											order_id: result[i].order_id,
+											expert_id: result[i].expert_id,
+											expert_name: result[i].expert_name,
+											enterprise_id: result[i].enterprise_id
+										}
 						if(orderdetail.state===0){
 							orderdetail.state='订单待接受'
 						}
@@ -281,12 +288,12 @@
 				uni.navigateTo({ url:'../user-chat/user-chat?fid='+this.item.enterprise_id })
 			},
 			gotoSpace(orderdetail){
-				console.log(orderdetail.need.enterprise_id)
+				console.log(orderdetail.enterprise_id)
 				console.log(this.userInfo.id)
 				console.log(orderdetail.expert_id)
 				console.log(this.userInfo.id)
 			
-				if(orderdetail.need.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
+				if(orderdetail.enterprise_id === this.userInfo.id || orderdetail.expert_id === this.userInfo.id){
 					uni.navigateTo({ url:'../order-detail/order-detail?id='+orderdetail.order_id })
 				}else{
 					uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })

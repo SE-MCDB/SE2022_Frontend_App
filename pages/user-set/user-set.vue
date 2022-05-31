@@ -7,12 +7,12 @@
 			:index="index"></home-list-item>
 		</block>
 		
-		<view class="uni-list">
+		<!-- <view class="uni-list">
 			<view class="uni-list-cell uni-list-cell-pd ">
 				<view class="uni-list-cell-db">导航栏显示"平台"</view>
 				<switch style="transform:scale(0.85)" checked @change="switchChange"/>
 			</view>
-		</view>
+		</view> -->
 		
 		<button class="user-set-btn" type="primary" @tap="showActive">退出登陆</button>
 		<my-action-sheet :showActionSheet="showActionSheet" @toggleAction="toggleAction"></my-action-sheet>
