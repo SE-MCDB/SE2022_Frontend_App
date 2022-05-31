@@ -7,9 +7,9 @@
 				</block>
 				<load-more :loadtext="loadtext"></load-more>
 			</template>
-			<template v-else-if=" list.length<1">
+			<!-- <template v-else-if=" list.length<1">
 				<no-thing></no-thing>
-			</template>
+			</template> -->
 		</view>
 </template>
 

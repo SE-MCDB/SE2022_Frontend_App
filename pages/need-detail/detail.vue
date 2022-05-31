@@ -18,12 +18,16 @@
 						<text class="need-info-text">关键词：</text>
 						<text class="need-info-text-detail">{{item.key_word}}</text>
 					</uni-row>
+					<uni-row :span="14" class="need-info-item">
+						<uni-icons type="gear" size="18"></uni-icons>
+						<text class="need-info-text">企业信息：</text>
+						<text class="need-info-text-detail">{{item.enterprise_name}}</text>
+					</uni-row>
 				</uni-row>
 			</uni-col>
 		</uni-row>
 		<uni-row class="need-header">
 			<uni-section title="Introduction" subTitle="需求说明" type="line">
-				
 			</uni-section>
 		</uni-row>
 		<uni-row class="need-introduction">
@@ -79,8 +83,11 @@
 		
 		<uni-row class="fix-button">
 			<view v-if="userInfo.type==4&&order.order_id==0">
-				<uni-col :span="8" :offset="16">
-					<button type="primary" @click="contact" class="fix-button-button">立即对接</button>
+				<uni-col :span="8">
+					<button type="primary" @click="goToEnterpriseSpace" class="fix-button-left">企业详情</button>
+				</uni-col>
+				<uni-col :span="8" :offset="8">
+					<button type="primary" @click="contact" class="fix-button-right">立即对接</button>
 				</uni-col>
 			</view>
 		</uni-row>
@@ -152,7 +159,8 @@
 				item: [],
 				orderlist:[],
 				sum:0,
-				detail: {id: 10}
+				detail: {id: 10},
+				sponsor: {},
 			}
 		},
 		onLoad(data) {
@@ -284,6 +292,9 @@
 					uni.navigateTo({ url:'../user-space/user-space?uid='+orderdetail.expert_id })
 				}
 			},
+			goToEnterpriseSpace() {
+				uni.navigateTo({ url:'../user-space/user-space?uid='+this.item.enterprise_id })
+			}
 		}
 	}
 </script>
@@ -365,11 +376,21 @@
 		background-color: white;
 		position: fixed;
 		bottom: 10upx;
-		right: 10upx;
+		/* right: 10upx; */
 		width: 100%;
 	}
-	.fix-button-button {
+	.fix-button-left {
 		margin: 10upx;
 		font-size: 20upx;
+		/* float: left; */
+		left: 10upx;
+		background-color: orange;
+		/* float: left; */
+	}
+	.fix-button-right {
+		margin: 10upx;
+		font-size: 20upx;
+		right : 10upx;
+		/* float: right; */
 	}
 </style>

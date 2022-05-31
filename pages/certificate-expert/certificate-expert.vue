@@ -17,7 +17,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="people" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="name" placeholder="请输入真实姓名" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputName" />
+						<input :require="true" :value="name" placeholder="请输入真实姓名" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputName" />
 						<view class="tui-icon-close" v-show="name" @tap="clearInput(1)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -26,7 +26,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="card" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="ID_num" placeholder="请输入身份证" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputID_num" />
+						<input :require="true" :value="ID_num" placeholder="请输入身份证" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputID_num" />
 						<view class="tui-icon-close" v-show="ID_num" @tap="clearInput(2)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -35,7 +35,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="mobile" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="phone" placeholder="请输入电话号码" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
+						<input :require="true" :value="phone" placeholder="请输入电话号码" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
 						<view class="tui-icon-close" v-show="phone" @tap="clearInput(3)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -43,7 +43,7 @@
 				</tui-list-cell>
 				<tui-list-cell :hover="false">
 					<view>
-						<view class="thorui-input-title">擅长领域</view>
+						<view class="thorui-input-title" :require="true">擅长领域</view>
 						<checkbox-group @change="getSelectedInfo">
 							<label v-for="(item,index) in checkboxItems" :key="index">
 									<view class="thorui-align__center">
@@ -90,7 +90,7 @@
 				<tui-list-cell :hover="false">
 					<view>
 						<view class="thorui-input-title">个人简介</view>
-						<textarea placeholder="请输入个人简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputScholar_Profile" :value="scholar_profile"></textarea>
+						<textarea :require="true" placeholder="请输入个人简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputScholar_Profile" :value="scholar_profile"></textarea>
 						<view class="tui-icon-close" v-show="scholar_profile" @tap="clearInput(7)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>

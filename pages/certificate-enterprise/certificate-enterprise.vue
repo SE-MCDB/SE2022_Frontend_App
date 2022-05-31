@@ -17,7 +17,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="location" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="address" placeholder="请输入企业地址"  placeholder-class="tui-phcolor" type="text"
+						<input :require="true" :value="address" placeholder="请输入企业地址"  placeholder-class="tui-phcolor" type="text"
 						 maxlength="36" @input="inputAddress" />
 						<view class="tui-icon-close" v-show="address" @tap="clearInput(2)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
@@ -27,7 +27,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="explore" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="website" placeholder="请输入企业网站" placeholder-class="tui-phcolor" type="text"
+						<input :require="true" :value="website" placeholder="请输入企业网站" placeholder-class="tui-phcolor" type="text"
 						 maxlength="36" @input="inputWebsite" />
 						<view class="tui-icon-close" v-show="website" @tap="clearInput(3)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
@@ -38,7 +38,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="mobile" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="phone" placeholder="请输入联系电话" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
+						<input :require="true" :value="phone" placeholder="请输入联系电话" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPhone" />
 						<view class="tui-icon-close" v-show="phone" @tap="clearInput(5)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -47,7 +47,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="people" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="legal_representative" placeholder="请输入法定代表人" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputLegalRepresentative" />
+						<input :require="true" :value="legal_representative" placeholder="请输入法定代表人" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputLegalRepresentative" />
 						<view class="tui-icon-close" v-show="legal_representative" @tap="clearInput(6)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -56,7 +56,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="wallet" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="register_capital" placeholder="请输入注册资本" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputRegisterCapital" />
+						<input :require="true" :value="register_capital" placeholder="请输入注册资本" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputRegisterCapital" />
 						<view class="tui-icon-close" v-show="register_capital" @tap="clearInput(7)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -65,7 +65,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="shop" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="field" placeholder="请输入主营业务" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputField" />
+						<input :require="true" :value="field" placeholder="请输入主营业务" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputField" />
 						<view class="tui-icon-close" v-show="field" @tap="clearInput(8)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -74,7 +74,7 @@
 				<tui-list-cell :hover="false">
 					<view>
 						<view class="thorui-input-title">企业简介</view>
-						<textarea placeholder="请输入企业简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputInstruction" :value="instruction"></textarea>
+						<textarea :require="true" placeholder="请输入企业简介" placeholder-class="thorui-phcolor" maxlength="512" @input="inputInstruction" :value="instruction"></textarea>
 						<view class="tui-icon-close" v-show="instruction" @tap="clearInput(4)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
