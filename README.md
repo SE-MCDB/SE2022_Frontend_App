@@ -2,12 +2,17 @@
 
 <div align="center">
 
-[![](https://img.shields.io/badge/frontend-Vue.js-7B8ED0)](https://vuejs.org/) [![](https://img.shields.io/badge/framework-uniapp-4E9645)](https://uniapp.dcloud.net.cn/) [![](https://img.shields.io/badge/license-MIT-9cf)](./LICENSE)
+[![](https://img.shields.io/badge/Frontend-Vue.js-7B8ED0)](https://vuejs.org/) [![](https://img.shields.io/badge/Framework-uniapp-4E9645)](https://uniapp.dcloud.net.cn/) [![](https://img.shields.io/badge/License-MIT-9cf)](./LICENSE)
+</div>
+
+<div align="center">
+
+  ![2](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D) 
 </div>
 
 ## Description
 
-This is a App Frontend code of the `PaperDaily` project based on [`uni-app`](https://uniapp.dcloud.io/) & [`vue.js`](https://vuejs.org/).
+This is the app frontend code of the `PaperDaily` project based on [`uni-app`](https://uniapp.dcloud.io/) & [`vue.js`](https://vuejs.org/). 
 
 ## Quick Start
 
