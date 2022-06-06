@@ -2,12 +2,12 @@
 
 <div align="center">
 
-[![](https://img.shields.io/badge/Frontend-Vue.js-7B8ED0)](https://vuejs.org/) [![](https://img.shields.io/badge/Framework-uniapp-4E9645)](https://uniapp.dcloud.net.cn/) [![](https://img.shields.io/badge/License-MIT-9cf)](./LICENSE)
+[![](https://img.shields.io/badge/Framework-uniapp-4E9645)](https://uniapp.dcloud.net.cn/) [![](https://img.shields.io/badge/License-MIT-9cf)](./LICENSE)
 </div>
 
 <div align="center">
 
-  ![2](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D) 
+  [![](https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D)](https://vuejs.org) 
 </div>
 
 ## Description
