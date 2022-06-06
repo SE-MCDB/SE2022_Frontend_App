@@ -9,7 +9,7 @@
 
 This is a App Frontend code of the `PaperDaily` project based on [`uni-app`](https://uniapp.dcloud.io/) & [`vue.js`](https://vuejs.org/).
 
-## QuickStart
+## Quick Start
 
 See in: https://uniapp.dcloud.io/quickstart-hx.html
 
@@ -54,6 +54,12 @@ npm run build:h5
 ## Reference
 
 [HFB APP](https://github.com/CNLHB/ssk-hfb)
+
+## Contribution
+
+<a href="https://github.com/se-mcdb/SE2022_Frontend_App/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=se-mcdb/SE2022_Frontend_App&columns=34&max=500" width="175" />
+</a>
 
 ## License
 
