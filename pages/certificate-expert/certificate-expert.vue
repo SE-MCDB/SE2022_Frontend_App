@@ -49,7 +49,8 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="strategy" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="paper" placeholder="请输入一篇发表的论文全称(知兔可查)" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPaper" />
+						<input :value="paper" placeholder="请输入一篇发表的论文全称(知兔可查)" 
+								placeholder-class="tui-phcolor" type="text" maxlength="200" @input="inputPaper" />
 						<view class="tui-icon-close" v-show="paper" @tap="clearInput(4)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -58,7 +59,8 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="strategy" color="#6d7a87" :size="40"></tui-icon>
-						<input :value="patent" placeholder="请输入一篇发表的专刊全称(知兔可查)" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputPatent" />
+						<input :value="patent" placeholder="请输入一篇发表的专刊全称(知兔可查)" 
+								placeholder-class="tui-phcolor" type="text" maxlength="200" @input="inputPatent" />
 						<view class="tui-icon-close" v-show="patent" @tap="clearInput(5)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
