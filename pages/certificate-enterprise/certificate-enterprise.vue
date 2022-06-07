@@ -139,6 +139,7 @@
 				field: '',
 				business_license: '',
 				legal_person_ID: '',
+				accepted: false, 	// 是否同意用户协议
 			}
 		},
 		computed:{
@@ -146,7 +147,8 @@
 				let bool = true
 				if (this.userID && this.name && this.address && this.website &&
 					this.instruction && this.phone && this.legal_representative &&
-					this.register_capital && this.field && this.business_license && this.legal_person_ID) {
+					this.register_capital && this.field && this.business_license && 
+					this.legal_person_ID && this.accepted) {
 					bool = false
 				}
 				return bool
@@ -331,7 +333,7 @@
 			},
 			checkboxChange(e){
 				this.accepted = !this.accepted
-				console.log('改变！')
+				// console.log('改变！')
 			}
 		}
 	}
