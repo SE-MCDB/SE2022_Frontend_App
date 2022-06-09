@@ -186,6 +186,7 @@
 		
 		onLoad() {
 			// console.log(this.userInfo.enterprise_name)
+			//this.tabIndex=1
 			if (this.userInfo.type === 4) {
 				this.tabBars[0].name = '订单'
 			} else {
@@ -204,7 +205,9 @@
 		},
 		
 		onShow() {
+			
 			if (this.userInfo.type === 4) {
+				this.tabIndex=1
 				this.tabBars[0].name = '订单'
 			} else {
 				this.tabBars[0].name = '我的'

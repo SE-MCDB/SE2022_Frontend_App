@@ -306,10 +306,10 @@
 			this.refreshData()
 		},
 		beforeMount(){
-			this.refreshData()
+			//this.refreshData()
 		},
 		mounted(){
-			this.refreshData()			
+			//this.refreshData()			
 		},
 		beforeUpdate(){
 			
@@ -420,6 +420,7 @@
 					case '联系专家':
 						console.log(str)
 						this.contact(item)
+						//this.refreshData()
 						break
 					case '帮助':
 						uni.navigateTo({ url:'../feedback/feedback' })
