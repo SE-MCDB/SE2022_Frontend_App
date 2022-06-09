@@ -306,10 +306,10 @@
 			this.refreshData()
 		},
 		beforeMount(){
-			
+			this.refreshData()
 		},
 		mounted(){
-						
+			this.refreshData()			
 		},
 		beforeUpdate(){
 			
