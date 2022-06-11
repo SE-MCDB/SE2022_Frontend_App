@@ -78,25 +78,9 @@
 		computed: { ...mapState(['userInfo']) },
 		onShow() {
 			console.log(this.userInfo.email)
-			if (this.userInfo.id) {
-				
-				this.homeinfo.userpic = this.userInfo.userpic
-				this.homeinfo.username = this.userInfo.username
-				this.homeinfo.email = this.userInfo.email
-				this.homeinfo.type = this.userInfo.type
-				
-				if (!this.islogin) {
-					this.initDat()
-				}
-			} else {
-				this.homedata[0].num = 0
-				this.homedata[1].num = 0
-				this.homedata[2].num = 0
-				this.islogin = false
-			}
+			this.initDat()
 		},
 		onLoad(){
-			
 			
 		},
 		onReady() {
@@ -176,7 +160,8 @@
 					color: '#ffb204',
 					size: '22',
 					type: 'help'
-				}
+				},
+				showSuccess: false
 			}
 		},
 		// 监听下拉刷新

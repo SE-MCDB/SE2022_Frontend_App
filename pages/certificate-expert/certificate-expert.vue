@@ -382,9 +382,18 @@
 						'scholar_profile': this.scholar_profile
 					},
 					success: uploadFileRes => {
+						uni.showToast({
+							success: '',
+							title: '申请成功'
+						})
+						// uni.$emit('certificateSuccess')
+						setTimeout(function () {
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 1000)
 						console.log(uploadFileRes.data)
 						console.log('认证申请已发送')
-						this.back()
 					},
 					fail: err => {
 						console.log(err)

@@ -56,7 +56,7 @@
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
 						<tui-icon name="wallet" color="#6d7a87" :size="40"></tui-icon>
-						<input :require="true" :value="register_capital" placeholder="请输入注册资本(必填)" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputRegisterCapital" />
+						<input :require="true" :value="register_capital" placeholder="请输入注册资本(必填)" placeholder-class="tui-phcolor" type="number" maxlength="36" @input="inputRegisterCapital" />
 						<view class="tui-icon-close" v-show="register_capital" @tap="clearInput(7)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
@@ -108,6 +108,14 @@
 				<tui-button @tap="certificate" :disabledGray="true" :disabled="disabled" :shadow="true" shape="circle">提交审核</tui-button>
 			</view>
 		</view>
+		
+		
+		
+		<uni-popup ref="popup" type="message">
+			<uni-popup-message type="warning" message="请您仔细按照提示信息修改,或者将问题反馈给我们" :duration="1000"></uni-popup-message>
+		</uni-popup>
+		
+		
 	</view>
 	
 </template>
@@ -267,11 +275,18 @@
 			// })
 			// }
 			validate() {
-				let rules = [{
+				let rules = [
+				{
 					name: 'phone',
 					rule: ['isMobile'],
 					msg: ['请输入正确手机号']
-				}]
+				},
+				{
+					name: 'register_capital',
+					rule: ['isNumber'],
+					msg: ['请输入数字']
+				}
+				]
 				let formData = {
 					id: this.userID,
 					name: this.name,
@@ -321,11 +336,27 @@
 						'field': this.field,
 					},
 					success: uploadFileRes => {
+						uni.showToast({
+							success: '',
+							title: '申请成功'
+						})
+						// uni.$emit('certificateSuccess')
+						setTimeout(function () {
+							uni.navigateBack({
+								delta: 1
+							})
+						}, 1000)
 						console.log(uploadFileRes.data)
 						console.log('认证申请已发送')
-						this.back()
 					},
 					fail: err => {
+						uni.showToast({
+							fail: '',
+							title: '申请失败',
+							duration: 1000
+						}).then(
+							this.$refs.popup.open()
+						)
 						console.log('认证失败')
 					}
 				})

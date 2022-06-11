@@ -26,8 +26,8 @@
 						<uni-datetime-picker type="datetime" v-model="end_time" @change="changeLogEnd" />
 					</view>
 				</uni-section>
-				<uni-section title="关键词" subTitle="请为您的需求添加几个关键词, 以英文分号分开" type="line" padding>
-					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词, 以英文分号分开" @input="inputKeyword"></uni-easyinput>
+				<uni-section title="关键词" subTitle="推荐您输入英文关键词, 并以英文分号分开" type="line" padding>
+					<uni-easyinput v-model="key_word" placeholder="请输入关键词" @input="inputKeyword"></uni-easyinput>
 				</uni-section>
 				<uni-section title="领域" subTitle="请为您的需求确定一个领域方向" type="line" padding>
 					<view class="uni-list">
