@@ -113,18 +113,24 @@
 					password: this.password,
 					code: this.code,
 				})
-				if (data.status === 400) {
+				if (data.code === 400) {
 					uni.showToast({
 						title: '用户不存在',
 						icon: 'none'
 					})
 					return
+				} else if (data.code === 402) {
+					uni.showToast({
+						title: '验证码错误',
+						icon: 'none'
+					})
+				} else {
+					uni.showToast({
+						title: '密码修改成功',
+						icon:'none'
+					})
+					uni.navigateBack()
 				}
-				uni.showToast({
-					title: '密码修改成功',
-					icon:'none'
-				})
-				uni.navigateBack()
 			}
 				
 		}

@@ -68,15 +68,17 @@
 		
 		<uni-row class="need-contributors">
 			<uni-list>
-				<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail)">
-					<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
-					</uni-list-item>
-				</view>
 				<view v-if="orderlist.length === 0" class="load-text">
 					<load-more loadtext="暂时没有订单信息~"></load-more>
 				</view>
-				<view v-else class="load-text">
-					<load-more loadtext="没有更多信息了~"></load-more>
+				<view v-else>
+					<view v-for="(orderdetail,index) in orderlist" :key="index" @click="gotoSpace(orderdetail)">
+						<uni-list-item :thumb="orderdetail.expertPic" :title="orderdetail.expert_name" :rightText="orderdetail.state" >
+						</uni-list-item>
+					</view>
+					<view class="load-text">
+						<load-more loadtext="没有更多信息了~"></load-more>
+					</view>
 				</view>
 			</uni-list>
 		</uni-row>
@@ -373,7 +375,8 @@
 	}
 	.need-contributors {
 		margin-bottom: 15%;
-		display: flex;
+		/* display: flex; */
+		z-index: 1;
 	}
 	.load-text {
 		bottom: 30upx;
@@ -382,21 +385,23 @@
 	.fix-button {
 		background-color: white;
 		position: fixed;
-		bottom: 10upx;
+		bottom: 0upx;
 		/* right: 10upx; */
 		width: 100%;
+		height: 120upx;
+		z-index: 2;
 	}
 	.fix-button-left {
-		margin: 10upx;
-		font-size: 20upx;
+		margin: 25upx;
+		font-size: 30upx;
 		/* float: left; */
 		left: 10upx;
 		background-color: orange;
 		/* float: left; */
 	}
 	.fix-button-right {
-		margin: 10upx;
-		font-size: 20upx;
+		margin: 25upx;
+		font-size: 30upx;
 		right : 10upx;
 		/* float: right; */
 	}
