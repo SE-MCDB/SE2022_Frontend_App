@@ -14,20 +14,6 @@
 				</view>
 				<view v-else>
 					<homeInfo :homeinfo="homeinfo"></homeInfo>
-						<uni-row>
-							<uni-col :span="8" :offset="4">
-								<view class="info" @click="naviToMyevaluations">
-								<uni-icons type="edit" size="20"></uni-icons>
-								<text class="info-text">最近评价</text>
-								</view>
-							</uni-col>
-							<uni-col :span="8">
-								<view class="info" @click="naviToMyfeedbacks">
-								<uni-icons type="edit" size="20"></uni-icons>
-								<text class="info-text">我的反馈</text>
-								</view>
-							</uni-col>
-						</uni-row>
 					<!-- </view> -->
 					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">	
 					</uni-section>

@@ -8,9 +8,9 @@ export const addneed = async (data) => {
 	}
 	let result = await axios.post('need', data, headers)
 	// console.log(result)
-	if (result&&result.code) {
-		console.log(result.error_msg);
-	}
+	// if (result&&result.code) {
+	// 	console.log(result.error_msg);
+	// }
 	return result
 }
 

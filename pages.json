@@ -607,8 +607,15 @@
                 "enablePullDownRefresh": false
             }
             
-        }
-        ,{
+        },
+		{
+			"path":"pages/feedback/feedback_return",
+			"style":
+			{
+				"navigationBarTitleText":"反馈信息",
+				"enablePullDownRefresh": false
+			}
+		},{
             "path" : "pages/aboutus/aboutus",
             "style" :                                                                                    
             {
@@ -649,11 +656,19 @@
             "path" : "pages/user-space/wordCloud",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "反馈查收",
                 "enablePullDownRefresh": false
             }
             
-        }
+        },
+		{
+			"path":"pages/common_question/common_question",
+			"style":
+			{
+				"navigationBarTitleText":"常见问题",
+				"enablePullDownRefresh": false
+			}
+		}
     ],
 	"permission": {
 	    "scope.userLocation": {

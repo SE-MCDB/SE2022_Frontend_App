@@ -24,14 +24,21 @@
 			
 			<uni-section title="探索" type="circle">
 				<uni-list :border="false">
-					<uni-list-item v-if='userInfo.type==4' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近收到的评价" link @click="clickRate" />
-					<uni-list-item v-else-if='userInfo.type==5' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近评价" link @click="clickRate" />
+					<uni-list-item class="explore" v-if='userInfo.type==4' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近收到的评价" link @click="clickRate" />
+					<uni-list-item class="explore" v-else-if='userInfo.type==5' :border="false" :show-extra-icon="true" clickable :extra-icon="rateIcon" title="最近评价" link @click="clickRate" />
 					
-					<uni-list-item :border="false" :show-extra-icon="true" clickable link :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享首单补贴" @click="clickLink"/>
+					<uni-list-item class="explore" :border="false" :show-extra-icon="true" clickable link :extra-icon="inviteIcon" title="邀请好友享福利" rightText="立享首单补贴" @click="clickLink"/>
 					
-					<uni-list-item :border="false" :show-extra-icon="true" clickable :extra-icon="feedbackIcon" title="帮助与反馈" link to="/pages/feedback/feedback" @click="onClick"/>
+					<uni-list-item class="explore" :border="false" :show-extra-icon="true" clickable :extra-icon="feedbackIcon" title="帮助与反馈" link to="/pages/feedback/feedback" @click="onClick"/>
 					
-					<uni-list-item :border="false" :show-extra-icon="true" clickable :extra-icon="aboutIcon" title="关于" link to="/pages/aboutus/aboutus" @click="onClick" />
+					<uni-list-item class="explore" :border="false" :show-extra-icon="true" clickable :extra-icon="myFeedbackIcon" title="反馈查收" 
+					rightText="查看反馈信息" link to="/pages/feedback/feedback_return" @click="onClick" />
+						
+					<uni-list-item class="explore" :border="false" :show-extra-icon="true" clickable :extra-icon="questionIcon" title="常见问题" 
+					rightText="常见问题解答" link to="/pages/common_question/common_question" @click="onClick" />
+					
+					<uni-list-item class="explore" :border="false" :show-extra-icon="true" clickable :extra-icon="aboutIcon" title="关于" link to="/pages/aboutus/aboutus" @click="onClick" />
+					
 					
 				</uni-list>
 			</uni-section>
@@ -143,12 +150,12 @@
 				inviteIcon: {
 					color: '#ffb204',
 					size: '22',
-					type: 'gift-filled'
+					type: 'gift'
 				},
 				feedbackIcon: {
 					color: '#ffb204',
 					size: '22',
-					type: 'help-filled'
+					type: 'paperplane'
 				},
 				aboutIcon: {
 					color: '#ffb204',
@@ -160,6 +167,16 @@
 					size: '22',
 					type: 'chat'
 				},
+				myFeedbackIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'redo'
+				},
+				questionIcon: {
+					color: '#ffb204',
+					size: '22',
+					type: 'help'
+				}
 			}
 		},
 		// 监听下拉刷新
@@ -257,5 +274,8 @@
 	}
 	.guanggao{
 		width: 100%;
+	}
+	.explore {
+		height: 110upx;
 	}
 </style>

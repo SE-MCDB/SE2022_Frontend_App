@@ -7,6 +7,6 @@ export const  editneed =async (company_id, need_id, data) => {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.post('user/' + company_id + "/need/" + need_id + "/edit", data, headers)
-	console.log("edit result:" + result)
+	console.log("edit result:" + result.code + " " + result)
 	return result
 }
