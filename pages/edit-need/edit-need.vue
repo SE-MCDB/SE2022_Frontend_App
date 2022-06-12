@@ -16,7 +16,7 @@
 				<uni-section title="需求经费" subTitle="修改您的需求价格 ( 单位: 万元 ) " type="line" padding>
 					<uni-easyinput type="digit" v-model="money" placeholder="单位:万元" @input="inputMoney"></uni-easyinput>
 				</uni-section>
-				<uni-section title="关键词" subTitle="修改您的关键词(英文), 请注意使用英文分号隔开" type="line" padding>
+				<uni-section title="关键词" subTitle="请将关键词控制在3个以内" type="line" padding>
 					<uni-easyinput v-model="key_word" placeholder="请输入一些关键词,以英文分号分开" @input="inputKeyword"></uni-easyinput>
 				</uni-section>
 				<uni-section title="领域" subTitle="修改您的需求范畴" type="line" padding>

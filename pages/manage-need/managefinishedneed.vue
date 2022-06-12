@@ -3,19 +3,16 @@
 		<template v-if="userInfo&&userInfo.id">
 			
 			<!--导航栏-->
-			<scroll-view
-			 scroll-y class="list">
 				<!-- 需求订单统计 -->
-				<view v-if="finisheditems">
-					<view v-for="(item, index) in finisheditems" :key="index">
-						<need-list :item="item" :index="index" @openDetail="openDetail" :manage="true" :manage_finished="true" @deleteneed="deleteneed">
-						</need-list>
-					</view>
+			<view v-if="finisheditems">
+				<view v-for="(item, index) in finisheditems" :key="index">
+					<need-list :item="item" :index="index" @openDetail="openDetail" :manage="true" :manage_finished="true" @deleteneed="deleteneed">
+					</need-list>
 				</view>
-				<view v-else>
-					<no-thing></no-thing>
-				</view>
-			</scroll-view>
+			</view>
+			<view v-else>
+				<no-thing></no-thing>
+			</view>
 			
 			<view>
 				<!-- 提示窗示例 -->

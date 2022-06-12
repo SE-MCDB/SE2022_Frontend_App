@@ -2,20 +2,18 @@
 	<view>
 		<template v-if="userInfo&&userInfo.id">
 			<!--导航栏-->
-			 <scroll-view scroll-y class="list">
 				<!--搜索框-->
-				<view v-if="unfinisheditems.length">
-					<view v-for="(item, index) in unfinisheditems" :key="index">
-						<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 1" :expertList="resolveIndex === index && tabIndex === 1 ? expertList : []"
-						@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="1" :manage="true" @contact="contact(arguments)"
-						@editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
-						</need-list>
-					</view>
+			<view v-if="unfinisheditems.length">
+				<view v-for="(item, index) in unfinisheditems" :key="index">
+					<need-list :item="item" :index="index" :showExpert="resolveIndex === index && tabIndex === 1" :expertList="resolveIndex === index && tabIndex === 1 ? expertList : []"
+					@goToRecommend="goToRecommend(arguments)" @openDetail="openDetail" :edit="1" :manage="true" @contact="contact(arguments)"
+					@editneed="editneed" @deleteneed="deleteneed" @endneed="endneed">
+					</need-list>
 				</view>
-				<view v-else>
-					<no-thing></no-thing>
-				</view>
-			</scroll-view>
+			</view>
+			<view v-else>
+				<no-thing></no-thing>
+			</view>
 			
 			<view>
 				<!-- 提示窗示例 -->

@@ -1,11 +1,7 @@
 <template>
 	<view>
 		<template v-if="userInfo&&userInfo.id">
-			
 			<!--导航栏-->
-			<scroll-view
-			 scroll-y class="list">
-				<!--搜索框-->
 				<view v-if="unissueditems.length">
 					<view v-for="(item, index) in unissueditems" :key="index">
 						<need-list :item="item" :index="index" :showExpert="false" :expertList="[]"
@@ -17,8 +13,6 @@
 				<view v-else>
 					<no-thing></no-thing>
 				</view>
-			</scroll-view>
-			
 			<view>
 				<!-- 提示窗示例 -->
 				<uni-popup ref="alertDialog" type="dialog">

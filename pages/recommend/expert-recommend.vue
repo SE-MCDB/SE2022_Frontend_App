@@ -6,10 +6,8 @@
 				<uni-col :span="9" class="image">
 					<image src="../../static/bgimg/need_contracted.jpg" mode="widthFix" lazy-load class="image-image"></image>
 				</uni-col>
-				<uni-col :span="14" :offset="1" class="title-info">
-					<uni-row class="need-title">
-						<text class="need-title">{{need.title}}</text>
-					</uni-row>
+				<uni-col :span="14" :offset="1">
+					<text class="need-title">{{need.title}}</text>
 					<uni-row class="need-info">
 						<uni-row :span="14" class="need-info-item">
 							<uni-icons type="gear" size="18"></uni-icons>
@@ -17,7 +15,11 @@
 						</uni-row>
 						<uni-row :span="14" class="need-info-item">
 							<uni-icons type="gear" size="18"></uni-icons>
-							<text class="need-info-text">关键词：{{need.key_word}}</text>
+							<text class="need-info-text">关键词：
+								<view v-for="(keyword, index) in part_keywords" :key="index" class="keywords-tag">
+									<uni-tag v-bind:text="keyword" type="royal" style="margin-left: 10upx; text-align: center; word-break: keep-all;"></uni-tag>
+								</view>
+							</text>
 						</uni-row>
 					</uni-row>
 				</uni-col>
@@ -25,59 +27,29 @@
 		</view>
 			<!-- 这里主要是标题 -->
 		<view class="Recommend-title">
-			<uni-section title="推荐结果" subTitle="可直接联系对接~" type="line">
+			<uni-section title="推荐结果" subTitle="可直接联系对接~" type="circle">
 			</uni-section>
 		</view>
 			<!-- 这里增加对于专家的补充 -->
 		<view class="Recommend">
 			<view v-for="(expert, index) in expertRegister">
-				<view class="expert-info">
-					<view>
-					<uni-row :span="24">
-						<uni-col :span="3">
-							<image :src="expert.userpic" mode="widthFix" lazy-load class="expert-image" @click="goToExpertInfo(expert)"></image>
-						</uni-col>
-						<uni-col :span="13">
-							<uni-row>
-								<uni-col>
-									<text class="expert-name" @click="goToExpertInfo(expert)">
-										{{expert.expert_name}}
-									</text>
-								</uni-col>
-							</uni-row>
-							<uni-row>
-								<uni-col>
-									<text style="color:blue" class="expert-phone" v-if="expert.phone" @click="goToExpertInfo(expert)">
-										{{expert.phone}}
-									</text>
-									<text style="color:blue" class="expert-phone" v-else @click="goToExpertInfo(expert)">
-										{{expert.email}}
-									</text>
-								</uni-col>
-							</uni-row>
-							<!-- <uni-row v-show="">
-								<text class="expert-description">
-									{{expert.profile}}
-								</text>
-							</uni-row> -->
-							<uni-row>
-								<text class="expert-organization" @click="goToExpertInfo(expert)">
-									{{expert.expert_organization}}
-								</text>
-							</uni-row>
-						</uni-col>
-						<uni-col :span="8">
-							<button type="primary" @click="contact(expert)" class="expert-button">联系专家</button>
-						</uni-col>
-					</uni-row>
-					
+				<uni-card :title="expert.expert_name" :sub-title="expert.email" :extra="expert.expert_organization" :thumbnail="expert.userpic" @click="goToExpertInfo(expert)">
+					<text class="uni-body">{{expert.profile}}</text>
+					<uni-list>
+						<uni-list-item title="匹配信息" showArrow ></uni-list-item>
+						<uni-list-item title="查看评价" showArrow></uni-list-item>
+					</uni-list>
+					<view slot="actions" class="card-actions no-border">
+						<view class="card-actions-item" @click="contact(expert)">
+							<button type="primary" class="card-actions-item-text">立即对接</button>
+						</view>
 					</view>
-				</view>
+				</uni-card>
 			</view>
 		</view>
 		
 		<view class="Recommend-title">
-			<uni-section title="其他推荐" subTitle="其他推荐结果,请自行联系~" type="line">
+			<uni-section title="其他推荐" subTitle="其他推荐结果,请自行联系~" type="circle">
 			</uni-section>
 		</view>
 		
@@ -85,56 +57,20 @@
 			<uni-row class="need-introduction">
 				<uni-col :span="23" :offset="1">
 					<uni-icons type="gear" size="18"></uni-icons>
-					<text class="need-introduction-text">关键词：{{need.key_word}}</text>
+					<text class="need-introduction-text">关键词：
+						<view v-for="(keyword, index) in keywords" :key="index" class="keywords-tag">
+							<uni-tag v-bind:text="keyword" type="royal" 
+							style="margin-left: 10upx; overflow:hidden; text-overflow:ellipsis; white-space:no-wrap;"></uni-tag>
+						</view>
+					</text>
 				</uni-col>
 			</uni-row>
 		</view>
 		<view v-for="(expert, index) in expertOther">
-			<view class="expert-info" @click="showToast">
-				<uni-row :span="24">
-					<uni-col :span="3">
-						<image :src="expert.userpic" mode="widthFix" lazy-load class="expert-null-image"></image>
-					</uni-col>
-					<uni-col :span="21">
-						<uni-row>
-							<uni-col>
-								<text class="expert-name">
-									{{expert.expert_name}}
-								</text>
-								<text class="expert-null-organization">
-									{{expert.expert_organization}}
-								</text>
-							</uni-col>
-						</uni-row>
-						<uni-row>
-							<text class="expert-title-head">
-								匹配论文：
-							</text>
-							<text class="expert-title">{{expert.title}}</text>
-						</uni-row>
-						<!-- <uni-row>
-							<uni-col>
-								<text style="color:blue" class="expert-phone" v-if="expert.phone" @click="goToExpertInfo(expert)">
-									{{expert.expert_phone}}
-								</text>
-								<text style="color:blue" class="expert-phone" v-else @click="goToExpertInfo(expert)">
-									{{expert.expert_email}}
-								</text>
-							</uni-col>
-						</uni-row> -->
-						<!-- <uni-row>
-							<text class="expert-organization">
-								{{expert.expert_organization}}
-							</text>
-						</uni-row> -->
-						<!-- <uni-row v-show="">
-							<text class="expert-description">
-								{{expert.profile}}
-							</text>
-						</uni-row> -->
-					</uni-col>
-				</uni-row>
-			</view>
+			<uni-card :title="expert.expert_name" :extra="expert.expert_organization" @click="showToast">
+				<text class="expert-title-head">匹配论文信息:</text>
+				<text class="expert-title">{{expert.title}}</text>
+			</uni-card>
 		</view>
 		
 		<view>
@@ -176,7 +112,23 @@
 				showDescription: false
 			}
 		},
-		computed: { ...mapState(['userInfo']) },
+		computed: { 
+			keywords: function () {
+				let words = this.need.key_word
+				let word_list = words.split(';')
+				word_list.sort(function(a, b) {
+					return a.length - b.length
+				})
+				return word_list
+			},
+			part_keywords: function() {
+				if (this.keywords) {
+					return this.keywords.length <= 2 ? this.keywords : this.keywords.slice(0, 2) 
+				}
+			},
+			...mapState(['userInfo']) 
+			
+		},
 		onLoad(option) {
 			if (option) {
 				try {
@@ -219,13 +171,6 @@
 			goToExpertInfo(expert) {
 				uni.navigateTo({ url:'../user-space/user-space?uid='+ expert.id })
 			},
-			// goToNullExpertInfo(expert) {
-			// 	let route_to = encodeURIComponent(JSON.stringify(expert))
-			// 	console.log(route_to)
-			// 	uni.navigateTo({
-			// 		url:'../user-space/user-space-null?expert='+ route_to 
-			// 	})
-			// },
 			contact(expert) {
 				let temp={
 					expert_id:expert.id,
@@ -234,6 +179,7 @@
 				}
 				let s =createContact(temp)
 				uni.navigateTo({ url:'../user-chat/user-chat?fid='+expert.id })
+				event.stopPropagation()
 			},
 			showToast() {
 				this.$refs.popup.open()
@@ -252,40 +198,26 @@
 		margin: 10upx;
 		background-color: white;
 		border: solid #F5FFF0 2upx;
-		height: 17%;
+		height: 24%;
 	}
 	.image-image {
 		padding-top: 5%;
 		width:100%;
 	}
-	.title-info {
-		
+	.keywords-tag {
+		display: inline;
 	}
 	.need-title {
-		font-size: 35upx;
-		font-weight: bold;
+		text-overflow: ellipsis;
+		text-wrap: none;
 		color: skyblue;
-		overflow: hidden;
-		width: 400rpx !important;
-	    overflow: unset;
-	    word-break: break-all;
-	    text-overflow: ellipsis;
-	    display: -webkit-box;
-	   -webkit-box-orient: horizontal;
-	   -webkit-line-clamp: 2;
-	   white-space: nowrap;
-	}
-	.need-info {
-		padding-top: 10upx;
+		font-weight: bold;
 	}
 	.need-info-item {
-		height: 50upx;
-	}
-	.need-info-text {
+		height: auto;
 		font-weight: 100;
 		font-size: 20upx;
 	}
-	
 	.need-introduction {
 		max-height: 150upx;
 		opacity: 0.8;
@@ -293,11 +225,6 @@
 		margin-top: 10upx;
 	}
 	
-	/* .expert-title {
-		font-weight: solid;
-		font-size: large;
-		color: blue;
-	} */
 	.expert-title-head {
 		font-weight: 100;
 		font-size: small;

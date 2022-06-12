@@ -228,7 +228,8 @@
 	.uni-tag-text {
 		color: #fff;
 		font-size: 14px;
-
+		text-overflow: ellipsis;
+		text-wrap: none;
 		&--primary {
 			color: $uni-primary;
 		}
