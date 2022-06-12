@@ -30,7 +30,10 @@
 					<!-- <text>暂无数据</text> -->
 				</view>
 				<view v-else>
-					
+					<uni-card v-for='(feed,index) in feeds1' :key="index"
+							  :is-shadow='false' :title="feed.abc" 
+							  :extra="feed.abc" :sub-title="feed.abc">
+					</uni-card>
 				</view>
 			</uni-section>
 			
@@ -61,7 +64,10 @@
 		data() {
 			return {
 				feeds0:[
-					{ abc:1, },
+					{ 
+					abc:1, 
+					
+					},
 				],
 				feeds1:[
 					
