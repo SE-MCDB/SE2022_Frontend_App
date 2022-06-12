@@ -72,7 +72,7 @@
 						</view>
 						<block slot="right">
 							<view class="right-head">
-								<text @click="searchNeed">搜索</text>
+								<text @click="searchNeed" class="nav-bar-text-right">搜索</text>
 							</view>
 						</block>
 					</uni-nav-bar>
@@ -498,18 +498,29 @@
 		}
 	
 		.left-head {
-			margin-left: 20upx;
-			padding-left: 0;
-			padding-top: 20upx;
+
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			width: 160rpx;
+			margin-left: 4px;
 		}
 		.uni-nav-bar-text {
-			font-size: 12upx;
+			font-size: 20upx;
+			padding-left: 0upx;
 			text-decoration: underline;
 		}
 		.right-head {
-			padding-left: 0;
-			padding-top: 20upx;
-			font-size: 12upx;
+			flex-direction: row;
+			align-items: center;
+			justify-content: flex-start;
+			width: 160rpx;
+			margin-left: 4px;
+		}
+		.nav-bar-text-right {
+			padding-left: 0upx;
+			font-size: 20upx;
+			
 		}
 		
 		.input-view {
