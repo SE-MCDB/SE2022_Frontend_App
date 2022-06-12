@@ -16,7 +16,20 @@
 					<!-- <text>暂无数据</text> -->
 				</view>
 				<view v-else>
-					
+					<uni-card v-for='(feed,index) in feeds0' :key="index"
+							  :is-shadow='false' :title="feed.name" 
+							  :extra="feed.datatime" :sub-title="feed.email">
+						
+						<uni-list>
+							<uni-list-item title="反馈内容" :note="feed.description" :border="false">
+								
+							</uni-list-item>
+							<uni-list-item title="回复内容" :note="feed.message" :border="false">
+								
+							</uni-list-item>
+						</uni-list>
+						
+					</uni-card>
 				</view>
 			</uni-section>
 			
@@ -31,8 +44,14 @@
 				</view>
 				<view v-else>
 					<uni-card v-for='(feed,index) in feeds1' :key="index"
-							  :is-shadow='false' :title="feed.abc" 
-							  :extra="feed.abc" :sub-title="feed.abc">
+							  :is-shadow='false' :title="feed.name" 
+							  :extra="feed.datatime" :sub-title="feed.email">
+						<uni-list>
+							<uni-list-item title="反馈内容" :note="feed.description" :border="false" :extraIcon="extraIcon1">
+								
+							</uni-list-item>
+							
+						</uni-list>
 					</uni-card>
 				</view>
 			</uni-section>
@@ -49,6 +68,7 @@
 	import homeData from '../../components/home/home-data.vue'
 	import { getUserInfo } from '@/api/user-space.js'
 	import swiperTabHead from '../../components/index/swiper-tab-head.vue'
+	import {getReplied,getUnreplied} from '@/api/feedback.js'
 	
 	export default {
 		components:{
@@ -58,16 +78,13 @@
 		onLoad(){
 			
 		},
-		onShow(){
-			
+		async onShow(){
+			this.init()
 		},
 		data() {
 			return {
 				feeds0:[
-					{ 
-					abc:1, 
 					
-					},
 				],
 				feeds1:[
 					
@@ -78,11 +95,26 @@
 					{ name:'未回复', id:'dynamic' },
 									
 				],
+				extraIcon1: {
+					color: '#4cd964',
+					size: '30',
+					type: 'paperplane-filled'
+				},
+				extraIcon2: {
+					color: '#4cd964',
+					size: '22',
+					type: 'redo-filled'
+				},
 			}
 		},
 		methods: {
 			async init(){
-				
+				let id = this.userInfo.id
+				let replied = await getReplied(id)
+				let unreplied = await getUnreplied(id)
+				this.feeds0 = replied.data
+				this.feeds1 = unreplied.data
+				console.log(this.feeds1[0])
 			},
 			tabtap(index){
 				this.tabIndex=index
