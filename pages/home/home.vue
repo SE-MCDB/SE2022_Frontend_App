@@ -84,7 +84,7 @@
 			
 		},
 		onReady() {
-			this.initDat()
+			//this.initDat()
 		},
 		created() {
 
@@ -108,7 +108,7 @@
 		},
 		data() {
 			return {
-				rateUrl:"",
+				rateUrl:'',
 				islogin: false,
 				homeinfo: {
 					userpic: this.userInfo ? this.userInfo.userpic : '',
@@ -131,35 +131,36 @@
 						num: 0
 					},
 				],
-				inviteIcon: {
-					color: '#ffb204',
+				//此处使用配色方案:https://coolors.co/palette/ff595e-ffca3a-8ac926-1982c4-6a4c93
+				rateIcon: {
+					color: '#ff595e',
 					size: '22',
-					type: 'gift'
+					type: 'chat-filled'
+				},
+				inviteIcon: {
+					color: '#ffca3a',
+					size: '22',
+					type: 'gift-filled'
 				},
 				feedbackIcon: {
-					color: '#ffb204',
+					color: '#8ac926',
 					size: '22',
-					type: 'paperplane'
-				},
-				aboutIcon: {
-					color: '#ffb204',
-					size: '22',
-					type: 'gear'
-				},
-				rateIcon: {
-					color: '#ffb204',
-					size: '22',
-					type: 'chat'
+					type: 'paperplane-filled'
 				},
 				myFeedbackIcon: {
-					color: '#ffb204',
+					color: '#1982c4',
 					size: '22',
-					type: 'redo'
+					type: 'redo-filled'
 				},
 				questionIcon: {
-					color: '#ffb204',
+					color: '#6a4c93',
 					size: '22',
-					type: 'help'
+					type: 'help-filled'
+				},
+				aboutIcon: {
+					color: '#242423',
+					size: '22',
+					type: 'gear-filled'
 				},
 				showSuccess: false
 			}
@@ -190,16 +191,19 @@
 				uni.navigateTo({ url: '../certificate-expert/certificate-expert?uid=' + this.userInfo.id })
 			},
 			async initDat() {
+				//console.log(this.homeinfo.userpic)
 				if (this.userInfo && this.userInfo.id) {
 					let userProfile = await getUserProfile()
 					
 					let temp = this.userInfo
 					temp.type = userProfile.type
 					this.setUserInfo(temp)
-					// console.log(this.userInfo.type)
+					//console.log(userProfile.userpic)
+					this.homeinfo.username=userProfile.username
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
 					this.homeinfo.total_collect = userProfile.total_mycollect
+					this.homeinfo.userpic = picUrl+userProfile.userpic
 					this.homeinfo.email = userProfile.email
 					this.homeinfo.type = userProfile.type
 					this.homedata[0].num = userProfile.total_post
@@ -207,6 +211,7 @@
 					this.homedata[2].num = userProfile.total_mycollect
 					this.islogin = true
 					this.rateUrl='/pages/my-evaluations/my-evaluations?id='+this.userInfo.id
+					//console.log(this.homeinfo.userpic)
 				}
 			},
 			print(){
