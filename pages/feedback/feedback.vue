@@ -15,7 +15,7 @@
 						<uni-data-checkbox v-model="baseFormData.sex" :localdata="sexs" />
 					</uni-forms-item>
 					<uni-forms-item label="问题类型" required name="qtype">
-						<uni-data-checkbox v-model="baseFormData.qtype" multiple :localdata="qtypes" />
+						<uni-data-checkbox v-model="baseFormData.qtype" :localdata="qtypes" />
 					</uni-forms-item>
 					<uni-forms-item label="问题描述" required name="description">
 						<uni-easyinput type="textarea" v-model="baseFormData.description" placeholder="为更快解决您的问题,请您尽可能详细地描述您的问题" />
@@ -45,7 +45,7 @@
 					name: '',
 					email: '',
 					sex: '',
-					qtype: [0],		//默认选择第几项,空表示不选
+					qtype: '',		//默认选择第几项,空表示不选
 					description: '',
 					datetime: Date(),
 					id:0,
@@ -99,17 +99,17 @@
 							errorMessage: '邮箱格式不正确'
 						}]
 					},
+					sex: {
+						rules:[{
+							required: true,
+							errorMessage: '性别不能为空'
+						}]
+					},
 					qtype: {
-						rules: [{ format: 'array' },
-							{
-								validateFunction: function(rule, value, data, callback) {
-									if (value.length < 1) {
-										callback('请至少勾选一个问题类型')
-									}
-									return true
-								}
-							}
-						]
+						rules: [{
+							required: true,
+							errorMessage: '问题类型不能为空'
+							}]
 					},
 					description: {
 						rules: [{
