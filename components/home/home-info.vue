@@ -34,7 +34,7 @@
 		</template>
 		<template v-else-if="homeinfo.type=='4'">
 		<view class="home-info u-f-ac animated fadeIn fast" @tap="openExpertCertificate">
-			专家详情编辑
+			详情编辑
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
 		</template>
@@ -42,28 +42,19 @@
 	
 </template>
 
-	
 
 <script>
 	export default {
-		props:{
-			homeinfo:Object
-		},
+		props:{ homeinfo:Object },
 		methods:{
 			goToSpace(){
-				uni.navigateTo({
-					url: '../user-set-userinfo/user-set-userinfo',
-				});
+				uni.navigateTo({ url: '../user-set-userinfo/user-set-userinfo', })
 			},
 			openEnterpriseCertificate() {
-				uni.navigateTo({
-					url: '../certificate-enterprise/certificate-enterprise',
-				});
+				uni.navigateTo({ url: '../certificate-enterprise/certificate-enterprise', })
 			},
 			openExpertCertificate(){
-				uni.navigateTo({
-					url: '../certificate-expert/certificate-expert',
-				});
+				uni.navigateTo({ url: '../certificate-expert/certificate-expert', })
 			},
 		}
 	}

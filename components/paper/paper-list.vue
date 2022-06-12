@@ -9,7 +9,7 @@
 					<view style="margin-left: 0.5em;" @click.stop="goToUserInfo(item)">@{{item.name}}</view>
 					<view style="margin-left: auto;">{{item.time}}</view>
 				</view>
-				<view v-else-if="this.item.type != 0" class="enterprise-name-style u-f-ac">
+				<view v-else-if="this.item.type != 5" class="enterprise-name-style u-f-ac">
 					<view>{{item.username}}</view>
 					<view style="margin-left: 0.5em;" @click.stop="goToUserInfo(item)">@{{item.name}}</view>
 					<view style="margin-left: auto;">{{item.time}}</view>
