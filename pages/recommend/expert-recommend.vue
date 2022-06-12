@@ -34,14 +34,28 @@
 		<view class="Recommend">
 			<view v-for="(expert, index) in expertRegister">
 				<uni-card :title="expert.expert_name" :sub-title="expert.email" :extra="expert.expert_organization" :thumbnail="expert.userpic" @click="goToExpertInfo(expert)">
-					<text class="uni-body">{{expert.profile}}</text>
-					<uni-list>
-						<uni-list-item title="匹配信息" showArrow ></uni-list-item>
-						<uni-list-item title="查看评价" showArrow></uni-list-item>
-					</uni-list>
+					<view>
+						<text class="expert-title-head">匹配论文信息: </text>
+						<text class="expert-title" style="color: #000080; margin-left: 30upx;">{{expert.title}}</text>
+					</view>
+					<view>
+						<text class="expert-title-head">专家评价信息：</text>
+					</view>
+					<view>
+						<text>合作体验</text>
+						<uni-rate :readonly="true" :value="expert.comment[0]" />
+						<text>完成速度</text>
+						<uni-rate :readonly="true" :value="expert.comment[1]" />
+						<text>专业水平</text>
+						<uni-rate :readonly="true" :value="expert.comment[2]" />
+					</view>
+					<!-- <uni-list> -->
+						<!-- <uni-list-item title="匹配信息" showArrow clickable @click="goToExpertInfo(expert)"></uni-list-item> -->
+						<!-- <uni-list-item title="查看评价" showArrow clickable @click=""></uni-list-item> -->
+					<!-- </uni-list> -->
 					<view slot="actions" class="card-actions no-border">
 						<view class="card-actions-item" @click="contact(expert)">
-							<button type="primary" class="card-actions-item-text">立即对接</button>
+							<button type="primary" class="expert-button">立即对接</button>
 						</view>
 					</view>
 				</uni-card>
@@ -116,6 +130,9 @@
 			keywords: function () {
 				let words = this.need.key_word
 				let word_list = words.split(';')
+				console.log("word_list")
+				console.log(word_list.length)
+				console.log(word_list[0])
 				word_list.sort(function(a, b) {
 					return a.length - b.length
 				})
@@ -123,7 +140,7 @@
 			},
 			part_keywords: function() {
 				if (this.keywords) {
-					return this.keywords.length <= 2 ? this.keywords : this.keywords.slice(0, 2) 
+					return this.keywords.slice(0, 2) 
 				}
 			},
 			...mapState(['userInfo']) 
@@ -170,6 +187,7 @@
 			},
 			goToExpertInfo(expert) {
 				uni.navigateTo({ url:'../user-space/user-space?uid='+ expert.id })
+				event.stopPropagation()
 			},
 			contact(expert) {
 				let temp={

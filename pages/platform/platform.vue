@@ -14,7 +14,6 @@
 				</view>
 				<view v-else>
 					<homeInfo :homeinfo="homeinfo"></homeInfo>
-					<!-- </view> -->
 					<uni-section title="需求管理" subTitle="对您的需求进行管理" type="line">	
 					</uni-section>
 					<uni-list>
@@ -56,11 +55,45 @@
 			</view>
 		 
 			<!--需求平台-发现-->
-			<view v-else-if="tabIndex == 1 ">
-				<myNavBarNeed v-if = "tabIndex == 1" @signIn="signIn"></myNavBarNeed>
-				<view v-for="(item, index) in items" :key="index">
-					<need-list :item="item" :index="index" @openDetail="openDetail">
-					</need-list>
+			<view v-else-if="tabIndex == 1">
+				<view class="box-bg">
+					<uni-nav-bar>
+						<block slot="left">
+							<view class="left-head">
+								<view>
+									<text class="uni-nav-bar-text" @click="showNeedType">{{field_items[field]}}</text>
+								</view>
+							</view>
+						</block>
+						<view class="input-view">
+							<uni-icons class="input-uni-icon" type="search" size="18" color="#999" />
+							<input confirm-type="search" class="nav-bar-input" type="text" placeholder="输入搜索关键词" v-model="inputText"
+								@confirm="searchNeed" />
+						</view>
+						<block slot="right">
+							<view class="right-head">
+								<text @click="searchNeed">搜索</text>
+							</view>
+						</block>
+					</uni-nav-bar>
+				</view>
+				<uni-popup ref="popup" background-color="#fff">
+					<uni-list>
+						<uni-list-item v-for="(item, index) in field_items" 
+						:key="item" :title="item" @click="changeNeedType(index)" clickable></uni-list-item>
+					</uni-list>
+				</uni-popup>
+				<view v-if="items_show">
+					<view v-for="(item, index) in items_classified" :key="index">
+						<need-list :item="item" :index="index" @openDetail="openDetail">
+						</need-list>
+					</view>
+				</view>
+				<view v-else-if="items_classified.length === 0">
+					<load-more loadtext="没有更多数据了"></load-more>
+				</view>
+				<view v-else>
+					<load-more loadtext="没有更多数据了"></load-more>
 				</view>
 			</view>
 			
@@ -102,6 +135,7 @@
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniRow from '@/components/uni-row/components/uni-row/uni-row.vue'
 	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
+	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import {
 		getAllNeed,
 		postNewNeed
@@ -109,6 +143,11 @@
 	import { mapState } from 'vuex'
 	import { getUserProfile, } from '@/api/home.js'
 	import Vue from 'vue'
+	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import uniDataSelect from "@/components/uni-data-select/components/uni-data-select/uni-data-select.vue"
+	import {
+		searchNeedList
+	} from '@/api/search.js'
 	export default {
 		components: {
 			needList,
@@ -121,9 +160,57 @@
 			card,
 			uniCol,
 			uniRow,
-			platformCreate
+			platformCreate,
+			uniNavBar,
+			uniDataSelect,
+			uniPopup
 		},
-		computed: { ...mapState(['userInfo']) },
+		computed: { 
+			items_classified:  {
+				get: 	function() {
+							if(this.field != this.field_items.length) {
+								let val = []
+								for(let item of this.items) {
+									if(item.field === this.field) {
+										val.push(item)
+									}
+								}
+								return val.length === 0 ? this.items : val
+							} else {
+								return this.items
+							}
+						},
+				set:    function(newValue) {
+							if (newValue.length === 0) {
+								this.items_show = false
+							} else {
+								this.items_show = true
+							}
+						}
+			},
+			...mapState(['userInfo']) 
+		},
+		
+		watch: {
+			field: function(newValue) {
+				let that = this
+				var f = function(that) {
+					if(newValue != that.field_items.length - 2) {
+						let val = []
+						for(let item of that.items) {
+							if(item.field === newValue) {
+								val.push(item)
+							}
+						}
+						console.log(val.length)
+						that.items_classified = val
+					} else {
+						that.items_classified = that.items
+					}
+				}
+				f(that)
+			}
+		},
 		data() {
 			return {
 				swiperheight: 500,
@@ -131,6 +218,9 @@
 				tabIndex: 0,
 				shoNo: false,
 				items: [],
+				items_show:true,
+				field: 0,
+				inputText: '',
 				show: false,
 				refreshing: false,
 				homeinfo: () => {},
@@ -167,6 +257,9 @@
 					size: '20',
 					type: 'flag-filled'
 				},
+				field_items: [
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他', 'ALL', "Test"
+				],
 			}
 		},
 		
@@ -224,13 +317,8 @@
 					if(this.tabIndex === 1){
 						let items = await getAllNeed()
 						this.items = items
-						// for(let i of this.items) {
-						// 	console.log(i.experts)
-						// }
 					}
-					// console.log(items)
 				} catch (e) {
-					
 					console.log(e)
 					return
 				}
@@ -244,12 +332,10 @@
 				uni.navigateTo({ url: '../need-detail/detail?id=' + item.need_id })
 			},
 			openOrderDetail(order_id) {
-				console.log('openOrderDetail')
 				uni.navigateTo({ url: '../order-detail/order-detail?id=' + order_id })
 			},
 			async onrefresh() {
 				if (this.refreshing) return
-				console.log('here is refreshing!!!')
 				this.refreshing = true
 				await this.requestData()
 				setTimeout(() => {
@@ -296,6 +382,23 @@
 				uni.navigateTo({ url:'../manage-need/manageunissuedneed' })
 				// this.hidepopup()
 			},
+			async searchNeed() {
+				if (this.inputText) {
+					let data = await searchNeedList(this.inputText)
+					this.items = data
+				} else {
+					this.onrefresh()
+				}
+			},
+			showNeedType() {
+				this.$refs.popup.open('bottom')
+			},
+			
+			changeNeedType(value) {
+				this.$refs.popup.close()
+				this.field = value
+				console.log(this.field)
+			},
 			
 			async mounted() {
 				this.initDat()
@@ -320,9 +423,9 @@
 					this.islogin = true
 				}
 			},
-			async signIn(){
-				this.$http.href('@/pages/search-need/search-need')
-			},
+			// async signIn(){
+			// 	this.$http.href('@/pages/search-need/search-need')
+			// },
 			//跳转到各种类订单list
 			goToNeedInfo(index) {
 				console.log(index)
@@ -387,4 +490,54 @@
 		float: right;
 		margin-top: 20upx;
 	}
+	$nav-height: 30px;
+	
+		.box-bg {
+			background-color: #F5F5F5;
+			padding: 5px 0;
+		}
+	
+		.left-head {
+			margin-left: 20upx;
+			padding-left: 0;
+			padding-top: 20upx;
+		}
+		.uni-nav-bar-text {
+			font-size: 12upx;
+			text-decoration: underline;
+		}
+		.right-head {
+			padding-left: 0;
+			padding-top: 20upx;
+			font-size: 12upx;
+		}
+		
+		.input-view {
+			/* #ifndef APP-PLUS-NVUE */
+			display: flex;
+			/* #endif */
+			flex-direction: row;
+			background-color: #f8f8f8;
+			height: $nav-height;
+			border-radius: 15px;
+			padding: 0 15px;
+			flex-wrap: nowrap;
+			margin: 7px 0;
+			line-height: $nav-height;
+		}
+	
+		.input-uni-icon {
+			line-height: $nav-height;
+		}
+	
+		.nav-bar-input {
+			height: $nav-height;
+			line-height: $nav-height;
+			/* #ifdef APP-PLUS-NVUE */
+			/* #endif */
+			padding-top: 15upx;
+			padding-left: 5upx;
+			font-size: 12px;
+			background-color: #f8f8f8;
+		}
 </style>
