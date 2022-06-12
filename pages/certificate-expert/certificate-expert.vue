@@ -284,7 +284,7 @@
 				this.selectedItems = e.detail.value
 			},
 			checkID() {
-				if (this.scholar_ID.length !== 18) {
+				if (this.scholar_ID.length != 18) {
 					return true
 				} else {
 					return false

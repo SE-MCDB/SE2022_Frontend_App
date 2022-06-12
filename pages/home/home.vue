@@ -84,7 +84,7 @@
 			
 		},
 		onReady() {
-			this.initDat()
+			//this.initDat()
 		},
 		created() {
 
@@ -191,16 +191,19 @@
 				uni.navigateTo({ url: '../certificate-expert/certificate-expert?uid=' + this.userInfo.id })
 			},
 			async initDat() {
+				//console.log(this.homeinfo.userpic)
 				if (this.userInfo && this.userInfo.id) {
 					let userProfile = await getUserProfile()
 					
 					let temp = this.userInfo
 					temp.type = userProfile.type
 					this.setUserInfo(temp)
-					// console.log(this.userInfo.type)
+					//console.log(userProfile.userpic)
+					this.homeinfo.username=userProfile.username
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
 					this.homeinfo.total_collect = userProfile.total_mycollect
+					this.homeinfo.userpic = picUrl+userProfile.userpic
 					this.homeinfo.email = userProfile.email
 					this.homeinfo.type = userProfile.type
 					this.homedata[0].num = userProfile.total_post
@@ -208,6 +211,7 @@
 					this.homedata[2].num = userProfile.total_mycollect
 					this.islogin = true
 					this.rateUrl='/pages/my-evaluations/my-evaluations?id='+this.userInfo.id
+					//console.log(this.homeinfo.userpic)
 				}
 			},
 			print(){
