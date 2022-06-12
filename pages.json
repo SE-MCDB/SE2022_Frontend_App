@@ -41,7 +41,7 @@
 					"scrollIndicator": "none",
 					"bounce": "none",
 					"titleNView": {
-						"titleSize":"32upx"
+						"titleSize":"36upx"
 						// "buttons": [
 						// 	// 右边
 						// 	{
@@ -66,14 +66,14 @@
 				"navigationBarTitleText": "消息",
 				"app-plus": {
 					"titleNView": {
-						"titleSize":"32upx",
+						"titleSize":"36upx",
 						"buttons": [
 							// 左边
 							{
 								"color": "#000000",
 								"colorPressed": "#BBBBBB",
 								"float": "left",
-								"fontSize": "44upx",
+								"fontSize": "60upx",
 								"fontSrc": "/static/font/icon.ttf",
 								"text": "\ue845"
 							},
@@ -82,7 +82,7 @@
 								"color": "#000000",
 								"colorPressed": "#BBBBBB",
 								"float": "right",
-								"fontSize": "44upx",
+								"fontSize": "60upx",
 								"fontSrc": "/static/font/icon.ttf",
 								"text": "\ue684"
 							}
@@ -99,7 +99,7 @@
 					"scrollIndicator": "none",
 					"bounce": "none",
 					"titleNView": {
-						"titleSize":"32upx",
+						"titleSize":"36upx",
 						"buttons": [{
 							"type": "menu",
 							"fontSize":"44upx"
@@ -290,7 +290,7 @@
 				"navigationBarTitleText": "设置",
 				"app-plus":{
 					"titleNView":{
-						"titleSize":"32upx"
+						"titleSize":"36upx"
 					}
 				}
 			}

@@ -2,13 +2,20 @@
 	<view class="paper-list u-f-ac animated fadeIn fast" @tap="opendetail(index)">
 		<image :src="item.userpic" mode="widthFix" lazy-load></image>
 		<view>
+			<!-- 专家/企业标识 -->
 			<view v-if="item.name != ''">
-				<view class="u-f-ac">
+				<view v-if="this.item.type == 4" class="expert-name-style u-f-ac">
+					<view>{{item.username}}</view>
+					<view style="margin-left: 0.5em;" @click.stop="goToUserInfo(item)">@{{item.name}}</view>
+					<view style="margin-left: auto;">{{item.time}}</view>
+				</view>
+				<view v-else-if="this.item.type != 0" class="enterprise-name-style u-f-ac">
 					<view>{{item.username}}</view>
 					<view style="margin-left: 0.5em;" @click.stop="goToUserInfo(item)">@{{item.name}}</view>
 					<view style="margin-left: auto;">{{item.time}}</view>
 				</view>
 			</view>
+			<!-- 普通用户无标识 -->
 			<view v-else>
 				<view class="u-f-ac">
 					<view>{{item.username}}</view>
@@ -33,9 +40,7 @@
 			index:Number
 		},
 		data() {
-			return {
-				color: this.item.type === 4 ? 'skyblue' : '#ff9f62'
-			}
+			return { color: this.item.type === 4 ? 'skyblue' : '#ff9f62' }
 		},
 		methods:{
 			opendetail(index){
@@ -79,9 +84,11 @@
 	font-size: 37upx;
 }
 
-/* 第二个元素-@+企业名 */
+/* 第二个元素-@+企业名 */ 
 .paper-list>view>view>view>view:nth-child(2){
-	color: #ff9f62;	/* 颜色与企业微信相同 */
+	/* color: #ff9f62;	/* 颜色与企业微信相同 */ 
+	/* 橘色颜色与企业微信相同 */
+	/* color: this.item.type == 4 ? #00aaff : #ff9f62; */
 }
 
 /* 最后一个元素-右侧时间 */
@@ -92,4 +99,16 @@
 .paper-list>view>view:last-child{
 	color: #999999;
 }
+
+/* 第二个元素-@+专家名 */
+.expert-name-style>view:nth-child(2) {
+	/* 橘色颜色与企业微信相同 */
+	color: #ff9f62;
+}
+
+/* 第二个元素-@+企业名 */
+.enterprise-name-style>view:nth-child(2) {
+	color: #00aaff;
+}
+
 </style>
