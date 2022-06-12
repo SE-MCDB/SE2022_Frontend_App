@@ -21,7 +21,7 @@
 						<uni-easyinput type="textarea" v-model="baseFormData.description" placeholder="为更快解决您的问题,请您尽可能详细地描述您的问题" />
 					</uni-forms-item>
 					<uni-forms-item label="当前时间">
-						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="baseFormData.datetime"/>
+						<uni-datetime-picker type="datetime" return-type="timestamp" v-model="baseFormData.datetime" :disabled="true"/>
 					</uni-forms-item>
 				</uni-forms>
 				<button type="primary" @click="submit('baseForm')">提交</button>
@@ -37,7 +37,7 @@
 	import uploadID from '@/components/uploadImages/uploadID.vue'
 	
 	export default {
-		computed:{ ...mapState(['userInfo']), },
+		computed:{ ...mapState(['userInfo']) },
 		data() {
 			return {
 				// 基础表单数据
@@ -48,6 +48,7 @@
 					qtype: [0],		//默认选择第几项,空表示不选
 					description: '',
 					datetime: Date(),
+					id:0,
 				},
 				// 单选数据源
 				sexs: [{
@@ -119,11 +120,15 @@
 				},
 			}
 		},
-		computed: {},
+		
 		onLoad() {},
 		onReady() {
 			// 设置自定义表单校验规则，必须在节点渲染完毕后执行
 			this.$refs.baseForm.setRules(this.myRules)
+			
+		},
+		onShow(){
+			this.baseFormData.id=this.userInfo.id
 		},
 		methods: {
 			onClickItem(e) {
@@ -133,6 +138,9 @@
 			
 			submit(ref) {
 				console.log("11111")
+				//this.baseFormData.id=this.userInfo.id
+				console.log(this.baseFormData.id)
+				
 				this.$refs[ref].validate().then(res => {
 					var submitFormData = this.baseFormData
 					//submitFormData['id'] = this.userInfo.id
@@ -150,6 +158,7 @@
 				}).catch(err => {
 					console.log('err', err)
 				})
+				
 			},
 		}
 	}
