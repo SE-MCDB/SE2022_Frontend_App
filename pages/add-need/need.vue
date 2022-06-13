@@ -235,6 +235,7 @@
 				return mPattern.test(key_word)
 			},
 			async submit() {
+				console.log("start_submit")
 				let data = {
 					'company_id': this.company_id,
 					'title': this.title,
@@ -247,18 +248,21 @@
 					'address': this.address,
 					'state': this.state,
 					'emergency': this.emergency,
-					'predict': this.predict,
-					'real': this.real
 				}
 				let validate_answer = this.validate(data)
 				if (validate_answer) {
+					console.log("validate_success!")
 					let result = await addneed(data)
 					if (result&&result.code) {
+						console.log("submit_fail!!")
 						this.$http.toast('需求创建失败！')
 					} else {
+						console.log("submit_success!")
 						this.$http.toast('需求创建成功！')
 						this.back()
 					}
+				} else {
+					this.$http.toast('需求创建失败！')
 				}
 			},
 			reset: function(e) {
@@ -272,8 +276,6 @@
 				this.address = '',
 				this.state = 0,
 				this.emergency = '',
-				this.predict = '',
-				this.real = 0,
 				this.index = 0
 			},
 			async saveNeed() {
@@ -289,8 +291,6 @@
 					'address': this.address,
 					'state': 2,
 					'emergency': this.emergency,
-					'predict': this.predict,
-					'real': this.real
 				}
 				let validate_answer = this.validate(data)
 				if (validate_answer) {

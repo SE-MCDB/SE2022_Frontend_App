@@ -147,8 +147,6 @@
 				this.field = data.field
 				this.address = data.address
 				this.emergency = data.emergency
-				this.predict = data.predict
-				this.real = data.real
 				this.index = this.field
 			},
 			// 修改完，返回...
@@ -240,9 +238,9 @@
 					'key_word': this.key_word,
 					'field': this.field,
 					'address': this.address,
-					// "state": this.state,
+					'state': this.state,
 					'emergency': this.emergency,
-					'predict': this.predict,
+					// 'predict': this.predict,
 					// "real": this.real
 				}
 				let company_id = this.company_id
