@@ -688,6 +688,7 @@
 		"backgroundColor": "#FFFFFF"
 
 	},
+	// 配色方案：https://www.colorhunt.co/palette/f7fd04f9b208f98404fc5404
 	"tabBar": {
 		"color": "#B5B5B5",
 		"selectedColor": "#FEE42B",

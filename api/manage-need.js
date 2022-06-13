@@ -105,11 +105,14 @@ export const transformNeed =async (uid, id) => {
 }
 
 export const aiRecommend =async id => {
+	axios.setLoading(false)	// 有自定义动画，不使用默认动画
+	
 	console.log('aiRecommend')
 	let headers = { 'Authorization':'Bearer ' + uni.getStorageSync('token') }
 	let result = await axios.get('ai/recommend/' + id, {}, headers)
 	if (result && result.code) {
 		console.log('error!')
 	}
+	axios.setLoading(true)
 	return result
 } 
