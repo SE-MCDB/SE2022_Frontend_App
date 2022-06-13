@@ -219,7 +219,7 @@
 				shoNo: false,
 				items: [],
 				items_show:true,
-				field: 0,
+				field: 9,
 				inputText: '',
 				show: false,
 				refreshing: false,
