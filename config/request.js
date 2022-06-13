@@ -1,3 +1,4 @@
+
 export default class request {
 	constructor(options) {
 		//请求公共地址
@@ -8,7 +9,6 @@ export default class request {
 		this.headers = options.headers || {};
 		this.websocketUrl = options.websocket
 		this.loading = true;
-
 	}
 	setLoading(boo) {
 		this.loading = boo
@@ -75,7 +75,7 @@ export default class request {
 		let h = Object.assign({ ...this.headers
 		}, options)
 		return new Promise((resolve, reject) => {
-			if (this.loading) {
+			if (this.loading) {		// 可以特定js中用setLoading(false)来关闭
 				uni.showLoading({
 					title: '加载中'
 				});

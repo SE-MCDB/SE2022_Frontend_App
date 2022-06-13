@@ -63,7 +63,8 @@ export const getChatList = async (userInfo) => {
 				message: message,
 				noreadnum: count,
 				messages: msgList,
-				name: item.from_user_id==userInfo.id?item.to_user:item.from_user
+				name: item.from_user_id==userInfo.id ? item.to_user:item.from_user,		//列表中名字的判断
+				type: item.from_user_id==userInfo.id ? item.to_user.type:item.from_user.type,	//列表中名字的判断，暂时无用
 			}
 		})
 		console.log(chatList)

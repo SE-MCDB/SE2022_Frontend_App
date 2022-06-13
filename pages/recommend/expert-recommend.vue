@@ -94,6 +94,9 @@
 		<uni-popup ref="popup" type="message">
 			<uni-popup-message type="error" message="该专家用户暂未入驻,请企业自行联系~" :duration="2000"></uni-popup-message>
 		</uni-popup>
+		
+		<!-- 推荐时的加载动画 -->
+		<w-loading text="智能推荐中.." mask="true" click="true" ref="loading"></w-loading>
 	</view>
 </template>
 
@@ -107,6 +110,7 @@
 	import { aiRecommend } from '@/api/manage-need.js'
 	import { mapState } from 'vuex'
 	import { createContact } from '@/api/need-detail.js'
+	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
 	export default {
 		components: {
 			uniCol,
@@ -130,7 +134,7 @@
 			keywords: function () {
 				let words = this.need.key_word
 				let word_list = words.split(';')
-				console.log("word_list")
+				console.log('word_list')
 				console.log(word_list.length)
 				console.log(word_list[0])
 				word_list.sort(function(a, b) {
@@ -161,6 +165,11 @@
 			}
 		},
 		
+		onReady(){
+			// 打开动画钩子
+			this.$refs.loading.open()
+		},
+		
 		methods: {
 			async initExperts(id) {
 				let experts = await aiRecommend(id)
@@ -175,6 +184,8 @@
 					}
 				}
 				this.validate()
+				// 关闭动画钩子
+				this.$refs.loading.close()
 			},
 			validate() {
 				console.log(this.expertRegister.length)

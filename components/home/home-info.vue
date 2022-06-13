@@ -28,13 +28,13 @@
 		<view class="icon iconfont icon-jinru"></view>
 		<template v-if="homeinfo.type=='5'">
 		<view class="home-info u-f-ac animated fadeIn fast" @tap="openEnterpriseCertificate">
-			企业详情编辑
+			编辑详情
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
 		</template>
 		<template v-else-if="homeinfo.type=='4'">
 		<view class="home-info u-f-ac animated fadeIn fast" @tap="openExpertCertificate">
-			详情编辑
+			编辑详情
 			<view class="icon iconfont icon-jinru"></view>
 		</view>
 		</template>
