@@ -209,6 +209,9 @@
 			gotospace(){
 				uni.navigateTo({ url: '../user-space/user-space?uid=' + this.id })
 			},
+			gotospace1(id){
+				uni.navigateTo({ url: '../user-space/user-space?uid=' + id })
+			},
 		}
 	}
 </script>
