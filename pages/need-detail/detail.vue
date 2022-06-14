@@ -10,7 +10,7 @@
 				</uni-row>
 				<uni-row class="need-info">
 					<uni-row :span="14" class="need-info-item">
-						<uni-icons type="gear" size="18"></uni-icons>
+						<uni-icons type="fire" size="18"></uni-icons>
 						<text class="need-info-text">领域：{{field_items[item.field]}}</text>
 					</uni-row>
 					<uni-row :span="14" class="need-info-item">
@@ -19,7 +19,7 @@
 						<text class="need-info-text-detail">{{item.key_word}}</text>
 					</uni-row>
 					<uni-row :span="14" class="need-info-item">
-						<uni-icons type="gear" size="18"></uni-icons>
+						<uni-icons type="home" size="18"></uni-icons>
 						<text class="need-info-text">企业信息：</text>
 						<text class="need-info-text-detail">{{item.enterprise_name}}</text>
 					</uni-row>
@@ -122,7 +122,7 @@
 	import uniCollapse from '@/components/uni-collapse/uni-collapse.vue'
 	import { picUrl } from '@/api/common.js'
 	// import { getUserProfile } from '@/api/home.js'
-	import {getUserInfo} from '@/api/user-space.js'
+	import { getUserInfo } from '@/api/user-space.js'
 	var graceRichText = require('../../components/common/richText.js')
 	export default {
 		components: {
@@ -161,7 +161,7 @@
 				item: [],
 				orderlist:[],
 				sum:0,
-				detail: {id: 10},
+				detail: { id: 10 },
 				sponsor: {},
 			}
 		},
@@ -189,11 +189,11 @@
 			//初始化数据
 			async initData(id) {
 				if (!id) {
-					console.log("error!")
+					console.log('error!')
 					return 
 				}
 				uni.setNavigationBarTitle({ title: '需求详情' })
-				console.log("the id is " + id)
+				console.log('the id is ' + id)
 				let detail = await getNeedDetail(id)
 				this.item = detail
 				this.detail.id = detail.need_id
@@ -235,7 +235,8 @@
 						// let expertdetail = await getUserInfo({ 'user_id':orderdetail.expert_id})
 						// console.log(orderdetail.expert_id)
 						// console.log(expertdetail.userpic)
-						let orderdetail = {expertPic: result[i].expert_icon,
+						let orderdetail = {
+expertPic: result[i].expert_icon,
 											state: result[i].order_state,
 											order_id: result[i].order_id,
 											expert_id: result[i].expert_id,

@@ -1,83 +1,87 @@
 <template>
-	<view class="my-evaluations" v-if='this.flag==1'>
-		<view v-if='this.type==4'>
-			<uni-section subTitle="" title="专家信息" type="circle" >
-				<uni-list>
-					<uni-list-item link clickable :thumb="rateList[0].expert.expert_icon" :title="rateList[0].expert.expert_name" @click="gotospace()">
-					</uni-list-item>
-				</uni-list>
-			</uni-section>
-			<uni-section subTitle="" title="专家评分" type="circle" >
-				<home-data :homedata="ratedata"></home-data>
-				<view class="charts-box">
-				    <qiun-data-charts 
-						type="radar"
-						:opts="opts"
-						:chartData="chartData"
-				    />
-				  </view>
-			</uni-section>
-		</view>
-		<uni-section subTitle="显示最近的评价" title="全部评价" type="line" >
-			<!-- 企业发布的评价 -->
-			<view v-if="this.type==5">
-			<uni-card v-for='(eva,index) in rateList' :key="index" 
-					  :is-shadow='false' :title="eva.expert.expert_name" 
-					  :extra="eva.rate.datetime" :sub-title="eva.order.order_name" 
-					  :thumbnail='eva.expert.expert_icon'>
-				<uni-collapse v-model="value">
-					<uni-collapse-item :show-animation="true" title="评价详情">
-					<view>
-						<uni-forms-item label="合作体验">
-							<uni-rate  :value="eva.rate.rate_taste" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="完成速度">
-							<uni-rate  :value="eva.rate.rate_speed" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="专业水准">
-							<uni-rate  :value="eva.rate.rate_level" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="具体评价">
-							<text class='uni-body' v-if='eva.rate.description'>{{eva.rate.description}}</text>
-							<text class='uni-body' v-else>无</text>
-						</uni-forms-item>
-					</view>
-					</uni-collapse-item>
-				</uni-collapse>
-			</uni-card>
+	<view>
+		<view class="my-evaluations" v-if='this.flag==1'>
+			<view v-if='this.type==4'>
+				<uni-section subTitle="" title="专家信息" type="circle" >
+					<uni-list>
+						<uni-list-item link clickable :thumb="rateList[0].expert.expert_icon" :title="rateList[0].expert.expert_name" @click="gotospace()">
+						</uni-list-item>
+					</uni-list>
+				</uni-section>
+				<uni-section subTitle="" title="专家评分" type="circle" >
+					<home-data :homedata="ratedata"></home-data>
+					<view class="charts-box">
+						<qiun-data-charts 
+							type="radar"
+							:opts="opts"
+							:chartData="chartData"
+						/>
+					  </view>
+				</uni-section>
 			</view>
+			<uni-section subTitle="显示最近的评价" title="全部评价" type="line" >
+				<!-- 企业发布的评价 -->
+				<view v-if="this.type==5">
+				<uni-card v-for='(eva,index) in rateList' :key="index" 
+						  :is-shadow='false' :title="eva.expert.expert_name" 
+						  :extra="eva.rate.datetime" :sub-title="eva.order.order_name" 
+						  :thumbnail='eva.expert.expert_icon'>
+					<uni-collapse v-model="value">
+						<uni-collapse-item :show-animation="true" title="评价详情">
+						<view>
+							<uni-forms-item label="合作体验">
+								<uni-rate  :value="eva.rate.rate_taste" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="完成速度">
+								<uni-rate  :value="eva.rate.rate_speed" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="专业水准">
+								<uni-rate  :value="eva.rate.rate_level" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="具体评价">
+								<text class='uni-body' v-if='eva.rate.description'>{{eva.rate.description}}</text>
+								<text class='uni-body' v-else>无</text>
+							</uni-forms-item>
+						</view>
+						</uni-collapse-item>
+					</uni-collapse>
+				</uni-card>
+				</view>
+				
+				<!-- 专家收到的评价 -->
+				<view v-else-if="this.type==4">
+				<uni-card v-for='(eva,index) in rateList' :key="index" :is-shadow='false' :title="eva.enterprise.enterprise_name" :extra="eva.rate.datetime" :sub-title="eva.order.order_name" :thumbnail='eva.enterprise.enterprise_icon'>
+					<uni-collapse v-model="value">
+						<uni-collapse-item :show-animation="true" title="评价详情">
+						<view>
+							<uni-forms-item label="合作体验">
+								<uni-rate  :value="eva.rate.rate_taste" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="完成速度">
+								<uni-rate  :value="eva.rate.rate_speed" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="专业水准">
+								<uni-rate  :value="eva.rate.rate_level" :readonly="true" :is-fill="false"/>
+							</uni-forms-item>
+							<uni-forms-item label="具体评价">
+								<text class='uni-body' v-if='eva.rate.description'>{{eva.rate.description}}</text>
+								<text class='uni-body' v-else>无</text>
+							</uni-forms-item>
+						</view>
+						</uni-collapse-item>
+					</uni-collapse>
+				</uni-card>
+				</view>
+			</uni-section>
 			
-			<!-- 专家收到的评价 -->
-			<view v-else-if="this.type==4">
-			<uni-card v-for='(eva,index) in rateList' :key="index" :is-shadow='false' :title="eva.enterprise.enterprise_name" :extra="eva.rate.datetime" :sub-title="eva.order.order_name" :thumbnail='eva.enterprise.enterprise_icon'>
-				<uni-collapse v-model="value">
-					<uni-collapse-item :show-animation="true" title="评价详情">
-					<view>
-						<uni-forms-item label="合作体验">
-							<uni-rate  :value="eva.rate.rate_taste" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="完成速度">
-							<uni-rate  :value="eva.rate.rate_speed" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="专业水准">
-							<uni-rate  :value="eva.rate.rate_level" :readonly="true" :is-fill="false"/>
-						</uni-forms-item>
-						<uni-forms-item label="具体评价">
-							<text class='uni-body' v-if='eva.rate.description'>{{eva.rate.description}}</text>
-							<text class='uni-body' v-else>无</text>
-						</uni-forms-item>
-					</view>
-					</uni-collapse-item>
-				</uni-collapse>
-			</uni-card>
-			</view>
-		</uni-section>
+		</view>
+		<view class="mystyle u-f-ajc animated fadeIn" v-else>
+			<image src="/static/images/toast/no-data-03.jpg" 
+				mode="widthFix"></image>
+		</view>
 		
-	</view>
-	<view class="mystyle u-f-ajc animated fadeIn" v-else>
-		<image src="/static/images/toast/no-data-03.jpg" 
-			mode="widthFix"></image>
-		<!-- <text>暂无数据</text> -->
+		<!-- 数据加载时动画 -->
+		<!-- <w-loading text="加载中.." mask="true" click="true" ref="loading"></w-loading> -->
 	</view>
 </template>
 
@@ -87,6 +91,8 @@
 	import{ picUrl, } from '@/api/common.js'
 	import homeData from '../../components/home/home-data.vue'
 	import { getUserInfo } from '@/api/user-space.js'
+	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
+	
 	export default {
 		components: { homeData, },
 		
@@ -141,6 +147,9 @@
 			this.init()
 			// this.getChartData()	//放此处会加载不出来
 		},
+		onReady(){
+			// this.$refs.loading.open()	// 打开动画钩子
+		},
 		async mounted(){
 			this.getChartData()
 		},
@@ -157,7 +166,7 @@
 
 					if(result && result.code){
 						console.log('error')
-					}else if(this.type==4 ||(this.type==5 && this.id==this.userInfo.id)){
+					}else if(this.type===4 ||(this.type===5 && this.id===this.userInfo.id)){
 						this.flag = result.flag
 						this.rateList = result.data
 						//console.log(result.rate[0])
@@ -171,10 +180,11 @@
 						this.flag = result.flag
 						this.rateList = result.data
 					}
-					if(this.type==5 && this.id!=this.userInfo.id){
+					if(this.type===5 && this.id!==this.userInfo.id){
 						this.flag=0
 					}
 				}
+				// this.$refs.loading.close()	// 关闭动画钩子
 			},
 			async getChartData() {
 				//模拟服务器返回数据，如果数据格式和标准格式不同，需自行按下面的格式拼接

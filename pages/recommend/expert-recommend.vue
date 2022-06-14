@@ -111,6 +111,7 @@
 	import { mapState } from 'vuex'
 	import { createContact } from '@/api/need-detail.js'
 	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
+	
 	export default {
 		components: {
 			uniCol,
@@ -166,8 +167,7 @@
 		},
 		
 		onReady(){
-			// 打开动画钩子
-			this.$refs.loading.open()
+			this.$refs.loading.open()	// 打开动画钩子
 		},
 		
 		methods: {
@@ -184,8 +184,8 @@
 					}
 				}
 				this.validate()
-				// 关闭动画钩子
-				this.$refs.loading.close()
+				
+				this.$refs.loading.close()	// 关闭动画钩子
 			},
 			validate() {
 				console.log(this.expertRegister.length)
