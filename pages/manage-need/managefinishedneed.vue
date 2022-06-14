@@ -33,6 +33,8 @@
 				</view>
 			</view>
 		</template>
+		
+		<w-loading text="搬运数据中.." mask="true" click="true" ref="loading"></w-loading>
 	</view>
 </template>
 
@@ -51,6 +53,7 @@
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
+	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
 	import { mapState } from 'vuex'
 	import { getUserProfile, } from '@/api/home.js'
 	import {
@@ -75,7 +78,8 @@
 			card,
 			platformCreate,
 			uniPopup,
-			uniPopupDialog
+			uniPopupDialog,
+			wLoading
 		},
 		computed: { ...mapState(['userInfo']) },
 		data() {
@@ -115,6 +119,10 @@
 			this.requestData()
 		},
 		
+		onReady() {
+			this.$refs.loading.open()
+		},
+		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
@@ -138,6 +146,10 @@
 			async requestData(GoPage, Gotype) {
 				let finisheditems = await manageFinishedNeed(this.userInfo.id)
 				this.finisheditems = finisheditems
+				let that = this
+				setTimeout(function() {
+						that.$refs.loading.close()
+				}, 500)
 			},
 			openLogin() {
 				uni.navigateTo({ url: '../login/login' })
@@ -242,11 +254,12 @@
 			async onrefresh() {
 				if (this.refreshing) return
 				this.refreshing = true
+				this.$refs.loading.open()
 				await this.requestData()
-				setTimeout(() => {
-					this.refreshing = false
-					uni.showToast({ title:'已更新',duration:500 })
-				}, 200)
+				// setTimeout(() => {
+				// 	this.refreshing = false
+				// 	uni.showToast({ title:'已更新',duration:500 })
+				// }, 200)
 			},
 			initNavigation(e) {
 				this.opcity = e.opcity

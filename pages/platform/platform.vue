@@ -5,8 +5,6 @@
 	
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>
-		<scroll-view scroll-y class="list">
-			<!-- 需求平台-我的 -->
 			<view v-if="tabIndex == 0">
 				<view v-if="userInfo.type=='4'">
 					<need-data :needdata="needdata" :userInfo="userInfo" @goToExplore="goToExplore" @goToNeedInfo="goToNeedInfo" @openOrderDetail="openOrderDetail">
@@ -99,7 +97,6 @@
 			
 			<!-- 未登录状态 -->
 			
-		</scroll-view>
 		<!--右上角创建需求-->
 		<platform-create v-if="userInfo.type=='5'" :show="show" @hide="hidepopup" @addneed="addneed" @manageorder="manageorder"></platform-create>
 	</template>
@@ -117,6 +114,8 @@
 			请先进行企业或专家认证
 		</view>
 	</template>
+	
+	<w-loading text="搬运数据中.." mask="true" click="true" ref="loading"></w-loading>
 	</view>
 </template>
 
@@ -136,6 +135,7 @@
 	import uniRow from '@/components/uni-row/components/uni-row/uni-row.vue'
 	import uniCol from '@/components/uni-row/components/uni-col/uni-col.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
+	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
 	import {
 		getAllNeed,
 		postNewNeed
@@ -163,7 +163,8 @@
 			platformCreate,
 			uniNavBar,
 			uniDataSelect,
-			uniPopup
+			uniPopup,
+			wLoading
 		},
 		computed: { 
 			items_classified:  {
@@ -297,6 +298,16 @@
 			}
 		},
 		
+		onReady() {
+			if(this.tabIndex === 1) {
+				this.$refs.loading.open()
+			}
+			// let that = this
+			// setTimeout(function() {
+			// 	that.$refs.loading.close()
+			// }, 500)
+		},
+		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
@@ -315,7 +326,12 @@
 				let type = this.tabBars[this.tabIndex].id
 				try {
 					if(this.tabIndex === 1){
+						this.$refs.loading.open()
+						let that = this
 						let items = await getAllNeed()
+						setTimeout(function() {
+							that.$refs.loading.close()
+						}, 500)
 						this.items = items
 					}
 				} catch (e) {
@@ -337,11 +353,8 @@
 			async onrefresh() {
 				if (this.refreshing) return
 				this.refreshing = true
+				// this.$refs.loading.open()
 				await this.requestData()
-				setTimeout(() => {
-					this.refreshing = false
-					uni.showToast({ title:'已更新',duration:500 })
-				}, 200)
 			},
 			tabtap(index) {
 				this.tabIndex = index

@@ -32,6 +32,7 @@
 				</view>
 			</view>
 		</template>
+		<w-loading text="搬运数据中.." mask="true" click="true" ref="loading"></w-loading>
 	</view>
 </template>
 
@@ -50,6 +51,7 @@
 	import platformCreate from '@/components/platform/platform-create.vue'
 	import uniPopup from '@/components/uni_popup_modules/uni-popup/components/uni-popup/uni-popup.vue'
 	import uniPopupDialog from '@/components/uni_popup_modules/uni-popup/components/uni-popup-dialog/uni-popup-dialog.vue'
+	import wLoading from '@/components/w-loading/w-loading.vue'	// 加载动画
 	import { mapState } from 'vuex'
 	import { getUserProfile, } from '@/api/home.js'
 	import {
@@ -74,7 +76,8 @@
 			card,
 			platformCreate,
 			uniPopup,
-			uniPopupDialog
+			uniPopupDialog,
+			wLoading
 		},
 		computed: { ...mapState(['userInfo']) },
 		data() {
@@ -103,6 +106,10 @@
 			this.requestData()
 		},
 		
+		onReady() {
+			this.$refs.loading.open()
+		},
+		
 		onPullDownRefresh() {
 			this.onrefresh()
 			uni.stopPullDownRefresh()
@@ -121,6 +128,10 @@
 					console.log(e)
 					return
 				}
+				let that = this
+				setTimeout(function() {
+						that.$refs.loading.close()
+				}, 500)
 			},
 			openLogin() {
 				uni.navigateTo({ url: '../login/login' })
@@ -204,11 +215,12 @@
 			onrefresh() {
 				if (this.refreshing) return
 				this.refreshing = true
+				this.$refs.loading.open()
 				this.requestData()
-				setTimeout(() => {
-					this.refreshing = false
-					uni.showToast({ title:'已更新',duration:500 })
-				}, 200)
+				// setTimeout(() => {
+				// 	this.refreshing = false
+				// 	uni.showToast({ title:'已更新',duration:500 })
+				// }, 200)
 			},
 			initNavigation(e) {
 				this.opcity = e.opcity
