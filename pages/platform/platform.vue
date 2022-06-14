@@ -65,8 +65,7 @@
 						</block>
 						<view class="input-view">
 							<uni-icons class="input-uni-icon" type="search" size="18" color="#999" />
-							<input confirm-type="search" class="nav-bar-input" type="text" placeholder="输入搜索关键词" v-model="inputText"
-								@confirm="searchNeed" />
+							<input class="nav-bar-input" placeholder="输入搜索关键词" v-model="inputText"/>
 						</view>
 						<block slot="right">
 							<view class="right-head">
@@ -217,6 +216,7 @@
 				swiperheight: 500,
 				islogin: false,
 				tabIndex: 0,
+				needRefresh: true,
 				shoNo: false,
 				items: [],
 				items_show:true,
@@ -298,16 +298,6 @@
 			}
 		},
 		
-		onReady() {
-			if(this.tabIndex === 1) {
-				this.$refs.loading.open()
-			}
-			// let that = this
-			// setTimeout(function() {
-			// 	that.$refs.loading.close()
-			// }, 500)
-		},
-		
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
 			if (!this.userInfo.id) {
@@ -323,15 +313,19 @@
 		methods: {
 			//获取需求数据
 			async requestData(GoPage, Gotype) {
+				
 				let type = this.tabBars[this.tabIndex].id
 				try {
 					if(this.tabIndex === 1){
-						this.$refs.loading.open()
+						if (this.needRefresh) {
+							// this.$refs.loading.open()
+						}
 						let that = this
 						let items = await getAllNeed()
-						setTimeout(function() {
-							that.$refs.loading.close()
-						}, 500)
+						// setTimeout(function() {
+						// 	that.$refs.loading.close()
+						// 	that.needRefresh = false
+						// }, 500)
 						this.items = items
 					}
 				} catch (e) {
@@ -396,12 +390,26 @@
 				// this.hidepopup()
 			},
 			async searchNeed() {
+				this.needRefresh = true
 				if (this.inputText) {
+					console.log(this.inputText)
 					let data = await searchNeedList(this.inputText)
 					this.items = data
+					// this.$refs.loading.open()
+					// let that = this
+					// setTimeout(function() {
+					// 	that.$refs.loading.close()
+					// }, 500)
 				} else {
-					this.onrefresh()
+					this.requestData()
+					// this.$refs.loading.open()
+					// let that = this
+					// setTimeout(function() {
+					// 	that.$refs.loading.close()
+					// }, 500)
 				}
+				let that = this
+				that.needRefresh = false
 			},
 			showNeedType() {
 				this.$refs.popup.open('bottom')
@@ -410,6 +418,8 @@
 			changeNeedType(value) {
 				this.$refs.popup.close()
 				this.field = value
+				this.needRefresh = true
+				this.requestData()
 				console.log(this.field)
 			},
 			

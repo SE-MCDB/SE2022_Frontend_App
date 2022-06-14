@@ -120,7 +120,7 @@
 		},
 		
 		onReady() {
-			this.$refs.loading.open()
+			// this.$refs.loading.open()
 		},
 		
 		// 监听导航按钮点击事件
@@ -147,9 +147,9 @@
 				let finisheditems = await manageFinishedNeed(this.userInfo.id)
 				this.finisheditems = finisheditems
 				let that = this
-				setTimeout(function() {
-						that.$refs.loading.close()
-				}, 500)
+				// setTimeout(function() {
+				// 		that.$refs.loading.close()
+				// }, 500)
 			},
 			openLogin() {
 				uni.navigateTo({ url: '../login/login' })
@@ -254,7 +254,7 @@
 			async onrefresh() {
 				if (this.refreshing) return
 				this.refreshing = true
-				this.$refs.loading.open()
+				// this.$refs.loading.open()
 				await this.requestData()
 				// setTimeout(() => {
 				// 	this.refreshing = false

@@ -107,7 +107,7 @@
 		},
 		
 		onReady() {
-			this.$refs.loading.open()
+			// this.$refs.loading.open()
 		},
 		
 		onPullDownRefresh() {
@@ -128,10 +128,10 @@
 					console.log(e)
 					return
 				}
-				let that = this
-				setTimeout(function() {
-						that.$refs.loading.close()
-				}, 500)
+				// let that = this
+				// setTimeout(function() {
+				// 		that.$refs.loading.close()
+				// }, 500)
 			},
 			openLogin() {
 				uni.navigateTo({ url: '../login/login' })
@@ -215,7 +215,7 @@
 			onrefresh() {
 				if (this.refreshing) return
 				this.refreshing = true
-				this.$refs.loading.open()
+				// this.$refs.loading.open()
 				this.requestData()
 				// setTimeout(() => {
 				// 	this.refreshing = false
