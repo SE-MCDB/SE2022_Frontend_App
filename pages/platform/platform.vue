@@ -517,6 +517,7 @@
 			justify-content: flex-start;
 			width: 160rpx;
 			margin-left: 4px;
+			padding-top: 18upx;
 		}
 		.uni-nav-bar-text {
 			font-size: 20upx;
@@ -529,6 +530,7 @@
 			justify-content: flex-start;
 			width: 160rpx;
 			margin-left: 4px;
+			padding-top: 18upx;
 		}
 		.nav-bar-text-right {
 			padding-left: 0upx;
