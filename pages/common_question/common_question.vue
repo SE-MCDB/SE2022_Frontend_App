@@ -56,7 +56,7 @@
 			</view>
 		</uni-section>
 		
-		<uni-section title="企业端" subTitle="企业端常见问题" type="line">
+		<uni-section title="专家端" subTitle="专家端常见问题" type="line">
 			<load-more loadtext="正在整理中---"></load-more>
 		</uni-section>
 	</view>
