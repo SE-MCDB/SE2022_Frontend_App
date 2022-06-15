@@ -74,12 +74,15 @@
 						</block>
 					</uni-nav-bar>
 				</view>
+				
+				<!-- 筛选下拉框 -->
 				<uni-popup ref="popup" background-color="#fff">
 					<uni-list>
 						<uni-list-item v-for="(item, index) in field_items" 
 						:key="item" :title="item" @click="changeNeedType(index)" clickable></uni-list-item>
 					</uni-list>
 				</uni-popup>
+				
 				<view v-if="items_show">
 					<view v-for="(item, index) in items_classified" :key="index">
 						<need-list :item="item" :index="index" @openDetail="openDetail">
@@ -142,11 +145,9 @@
 	import { mapState } from 'vuex'
 	import { getUserProfile, } from '@/api/home.js'
 	import Vue from 'vue'
-	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
-	import uniDataSelect from "@/components/uni-data-select/components/uni-data-select/uni-data-select.vue"
-	import {
-		searchNeedList
-	} from '@/api/search.js'
+	import uniNavBar from '@/components/uni-nav-bar/uni-nav-bar.vue'
+	import uniDataSelect from '@/components/uni-data-select/components/uni-data-select/uni-data-select.vue'
+	import { searchNeedList } from '@/api/search.js'
 	export default {
 		components: {
 			needList,
@@ -168,7 +169,7 @@
 		computed: { 
 			items_classified:  {
 				get: 	function() {
-							if(this.field != this.field_items.length) {
+							if(this.field !== this.field_items.length) {
 								let val = []
 								for(let item of this.items) {
 									if(item.field === this.field) {
@@ -191,11 +192,12 @@
 			...mapState(['userInfo']) 
 		},
 		
+		
 		watch: {
 			field: function(newValue) {
 				let that = this
 				var f = function(that) {
-					if(newValue != that.field_items.length - 2) {
+					if(newValue !== that.field_items.length - 2) {
 						let val = []
 						for(let item of that.items) {
 							if(item.field === newValue) {
@@ -259,7 +261,7 @@
 					type: 'flag-filled'
 				},
 				field_items: [
-					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他', 'ALL', "Test"
+					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他', 'ALL', 'Test'
 				],
 			}
 		},
@@ -446,9 +448,7 @@
 					this.islogin = true
 				}
 			},
-			// async signIn(){
-			// 	this.$http.href('@/pages/search-need/search-need')
-			// },
+
 			//跳转到各种类订单list
 			goToNeedInfo(index) {
 				console.log(index)
@@ -483,97 +483,96 @@
 	}
 </script>
 
-<style>
-	/* 隐藏scroll-view滚动条 */
-	::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-		color: transparent;
-	}
-	/* need数据的style样式 */
-	.need-statistic-data{
-		background: #FFFFFF;
-		position: relative;
-		z-index: 10;
-		border-top-left-radius: 20upx;
-		border-top-right-radius: 20upx;
-		margin-top: -15upx;
-	}
-	.info {
-		height:80upx;
-		text-align: center;
-		box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
-	}
-	.info-text {
-		text-decoration: blink;
-	}
-	.notice {
-		font-size: x-small;
-		font-weight: 100;
-		float: right;
-		margin-top: 20upx;
-	}
-	$nav-height: 30px;
-	
-		.box-bg {
-			background-color: #F5F5F5;
-			padding: 5px 0;
-		}
-	
-		.left-head {
+<style>	/* 什么破玩意？？加lang="scss"会让搜索框文字错位 */
+/* 隐藏scroll-view滚动条 */
+::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+	color: transparent;
+}
+/* need数据的style样式 */
+.need-statistic-data{
+	background: #FFFFFF;
+	position: relative;
+	z-index: 10;
+	border-top-left-radius: 20upx;
+	border-top-right-radius: 20upx;
+	margin-top: -15upx;
+}
+.info {
+	height:80upx;
+	text-align: center;
+	box-shadow: 0 0 1upx rgba(0, 0, 0, .12), 1upx 0 0 rgba(0, 0, 0, .04)
+}
+.info-text {
+	text-decoration: blink;
+}
+.notice {
+	font-size: x-small;
+	font-weight: 100;
+	float: right;
+	margin-top: 20upx;
+}
+$nav-height: 30px;
 
-			flex-direction: row;
-			align-items: center;
-			justify-content: flex-start;
-			width: 160rpx;
-			margin-left: 4px;
-			padding-top: 18upx;
-		}
-		.uni-nav-bar-text {
-			font-size: 20upx;
-			padding-left: 0upx;
-			text-decoration: underline;
-		}
-		.right-head {
-			flex-direction: row;
-			align-items: center;
-			justify-content: flex-start;
-			width: 160rpx;
-			margin-left: 4px;
-			padding-top: 18upx;
-		}
-		.nav-bar-text-right {
-			padding-left: 0upx;
-			font-size: 20upx;
-			
-		}
-		
-		.input-view {
-			/* #ifndef APP-PLUS-NVUE */
-			display: flex;
-			/* #endif */
-			flex-direction: row;
-			background-color: #f8f8f8;
-			height: $nav-height;
-			border-radius: 15px;
-			padding: 0 15px;
-			flex-wrap: nowrap;
-			margin: 7px 0;
-			line-height: $nav-height;
-		}
-	
-		.input-uni-icon {
-			line-height: $nav-height;
-		}
-	
-		.nav-bar-input {
-			height: $nav-height;
-			line-height: $nav-height;
-			/* #ifdef APP-PLUS-NVUE */
-			/* #endif */
-			padding-top: 15upx;
-			padding-left: 5upx;
-			font-size: 12px;
-			background-color: #f8f8f8;
-		}
+.box-bg {
+	background-color: #F5F5F5;
+	padding: 5px 0;
+}
+
+.left-head {
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	width: 160rpx;
+	margin-left: 4px;
+	padding-top: 18upx;
+}
+.uni-nav-bar-text {
+	font-size: 20upx;
+	padding-left: 0upx;
+	text-decoration: underline;
+}
+.right-head {
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	width: 160rpx;
+	margin-left: 4px;
+	padding-top: 18upx;
+}
+.nav-bar-text-right {
+	padding-left: 0upx;
+	font-size: 20upx;
+}
+
+.input-view {
+	/* #ifndef APP-PLUS-NVUE */
+	display: flex;
+	/* #endif */
+	flex-direction: row;
+	background-color: #f8f8f8;
+	height: $nav-height;
+	border-radius: 15px;
+	padding: 0 15px;
+	flex-wrap: nowrap;
+	margin: 7px 0;
+	line-height: $nav-height;
+}
+
+.input-uni-icon {
+	line-height: $nav-height;
+}
+
+.nav-bar-input {
+	height: $nav-height;
+	line-height: $nav-height;
+	/* #ifdef APP-PLUS-NVUE */
+	/* #endif */
+	padding-top: 15upx;
+	padding-left: 5upx;
+	font-size: 12px;
+	background-color: #f8f8f8;
+}
+
 </style>

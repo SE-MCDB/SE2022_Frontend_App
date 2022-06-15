@@ -1,6 +1,6 @@
 <template>
 	<view>
-			<!-- 这里主要添加前面关于需求的描述信息补充 -->
+		<!-- 这里主要添加前面关于需求的描述信息补充 -->
 		<view>
 			<uni-row class="header">
 				<uni-col :span="9" class="image">
@@ -25,12 +25,18 @@
 				</uni-col>
 			</uni-row>
 		</view>
-			<!-- 这里主要是标题 -->
+		
+		<!-- 这里主要是标题 -->
 		<view class="Recommend-title">
-			<uni-section title="推荐结果" subTitle="可直接联系对接~" type="circle">
+			<uni-section class="recommend-section" title="推荐结果" subTitle="可直接联系对接~" type="circle">
 			</uni-section>
+			<button class="recommend-change" style="color:#590696" size="mini" @click="changeAiRecommend">
+				<uni-icons type="refresh-filled" style="color:#590696" size="18"></uni-icons>
+				换一换
+			</button>
 		</view>
-			<!-- 这里增加对于专家的补充 -->
+		
+		<!-- 这里增加对于专家的补充 -->
 		<view class="Recommend">
 			<view v-for="(expert, index) in expertRegister">
 				<uni-card :title="expert.expert_name" :sub-title="expert.email" :extra="expert.expert_organization" :thumbnail="expert.userpic" @click="goToExpertInfo(expert)">
@@ -65,6 +71,7 @@
 		<view class="Recommend-title">
 			<uni-section title="其他推荐" subTitle="其他推荐结果,请自行联系~" type="circle">
 			</uni-section>
+			
 		</view>
 		
 		<view>
@@ -128,7 +135,9 @@
 				field_items: [
 					'信息技术', '装备制造', '新材料', '新能源', '节能环保', '生物医药', '科学创意', '检验检测', '其他'
 				],
-				showDescription: false
+				showDescription: false,
+				refCount: 0,	// 刷新次数计数
+				curNeedId: '',	// 当前需求id
 			}
 		},
 		computed: { 
@@ -158,6 +167,8 @@
 					let object = options
 					this.need = object
 					this.initExperts(object.need_id)
+					this.curNeedId = object.need_id	// 记录当前需求id
+					
 				} catch(e) {
 					console.log(e)
 				}
@@ -212,7 +223,32 @@
 			},
 			showToast() {
 				this.$refs.popup.open()
-			}
+			},
+			// 更换一批推荐结果
+			changeAiRecommend() {
+				console.log(this.refCount)
+				this.refCount += 1
+				this.refreshExperts(this.curNeedId)
+			},
+			// 依据refCount更新推荐结果
+			async refreshExperts(id) {
+				this.$refs.loading.open()	// 开启动画钩子
+				
+				let experts = await aiRecommend(id)
+				if (experts) {
+					this.expertRegister = experts.register 
+					this.expertOther = experts.other
+					if (experts.register.length >= 5) {
+						this.expertRegister = experts.register.slice(0, 4)
+					} 
+					if (experts.other.length >= 5) {
+						this.expertOther = experts.other.slice(0, 4)
+					}
+				}
+				this.validate()
+				
+				this.$refs.loading.close()	// 关闭动画钩子
+			},
 		}
 	}
 </script>
@@ -295,4 +331,16 @@
 	.expert-organization {
 		color: skyblue;
 	}
+
+.recommend-section {
+	display: inline-flex;
+}
+
+/* 换一换推荐结果按钮 */
+.recommend-change {
+	display: inline-flex;
+	/* margin-left: auto; */
+	justify-content: end;
+}
+
 </style>
