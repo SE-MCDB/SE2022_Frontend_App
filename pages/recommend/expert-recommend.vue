@@ -71,7 +71,6 @@
 		<view class="Recommend-title">
 			<uni-section title="其他推荐" subTitle="其他推荐结果,请自行联系~" type="circle">
 			</uni-section>
-			
 		</view>
 		
 		<view>
@@ -94,8 +93,15 @@
 			</uni-card>
 		</view>
 		
+		<uni-section title="自主搜索" subTitle="没有满意的结果?" type="circle">
+			<button type="primary" @click="goToUserSearch">
+				<uni-icons type="search" size="20" color="#ffffff"></uni-icons>
+				搜索专家
+			</button>
+		</uni-section>
+		
 		<view>
-			<load-more loadtext="没有更多数据了"></load-more>
+			<load-more loadtext="~~到底了~~"></load-more>
 		</view>
 		
 		<uni-popup ref="popup" type="message">
@@ -249,6 +255,11 @@
 				
 				this.$refs.loading.close()	// 关闭动画钩子
 			},
+			// 自己去搜专家
+			goToUserSearch() {
+				console.log('Click!')
+				uni.navigateTo({ url: '../user-search/user-search' })
+			}
 		}
 	}
 </script>

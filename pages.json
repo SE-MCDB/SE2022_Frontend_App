@@ -393,7 +393,7 @@
 							"align": "center",
 							"backgroundColor": "#F7F7F7",
 							"borderRadius": "8upx",
-							"placeholder": "搜索朋友",
+							"placeholder": "搜索用户",
 							"placeholderColor": "#CCCCCC",
 							"disabled": false
 						},

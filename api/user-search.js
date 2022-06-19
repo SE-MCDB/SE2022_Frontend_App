@@ -15,14 +15,14 @@ export const userAtt = async (data) => {
 	return result
 }
 
+// 用户搜索
 export const searchUserList = async (data) => {
 	let headers = {
 		"Authorization":'Bearer ' + uni.getStorageSync('token')
 	}
 	let result = await axios.get('user/search/roll?key='+ data,{},headers)
-	console.log("begin:")
-	console.log(result)
-	if(result&&result.length){
+	
+	if(result && result.length){
 		result = result.map((item)=>{
 			return {
 				id:item.id,

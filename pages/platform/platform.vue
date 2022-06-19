@@ -1,7 +1,6 @@
 <template>
 	<view>
 	<template v-if="userInfo&&userInfo.id&&(userInfo.type=='4'||userInfo.type=='5')">
-		
 	
 		<!--(我的-发现)导航栏-->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap" scrollItemStyle="width:50%;"></swiper-tab-head>

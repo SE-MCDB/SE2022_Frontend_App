@@ -20,11 +20,9 @@
 			return {
 				issearch: false,
 				loadtext: '',
-				list: [
-						],
+				list: [],
 				searchtext: '',
 				page: 0,
-		
 			}
 		},
 		// 监听原生标题导航按钮点击事件(取消按钮)
