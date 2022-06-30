@@ -166,7 +166,7 @@
 
 					if(result && result.code){
 						console.log('error')
-					}else if(this.type===4 ||(this.type===5 && this.id===this.userInfo.id)){
+					}else if(this.type==4 ||(this.type==5 && this.id==this.userInfo.id)){
 						this.flag = result.flag
 						this.rateList = result.data
 						//console.log(result.rate[0])
@@ -180,7 +180,7 @@
 						this.flag = result.flag
 						this.rateList = result.data
 					}
-					if(this.type===5 && this.id!==this.userInfo.id){
+					if(this.type==5 && this.id!=this.userInfo.id){
 						this.flag=0
 					}
 				}
